@@ -189,6 +189,24 @@ digits. Every kind of run before plays as it did, to the last weight. How
 fast each way goes on the card is measured when it is free
 (`experiments/commands/teacher-calls.sh`).
 
+Measured on the CUDA machine that night, once the run was done, at
+`7e568fbf`: 12 updates of this copy in each way, the seconds of an update
+after its first.
+
+| The teachers' games | Seconds an update | The teachers' calls | Their seconds |
+| --- | --- | --- | --- |
+| As begun, 16 slots, all together | 24.1 | 3,285 | 9.4 |
+| An update's duels at once, 26 slots | 23.7 | 3,206 | 9.2 |
+| In two groups | 24.2 | 3,840 | 11.1 |
+| From CUDA graphs, up to 260 decisions | 18.6 | 3,206 | 4.3 |
+| In two groups, from graphs up to 130 | 17.7 | 3,840 | 4.8 |
+
+The graphs halve the teachers' time; two groups alone only make more calls,
+and an update's duels at once change little. The training pass asking the
+teachers no more made 24.1 seconds of the run's 26. With graphs and groups a
+copy of 480 updates takes about 2.4 hours where this one took 3.5. Decided on
+2026-10-25: the next copy names both.
+
 ## Results (2026-10-24)
 
 The copy ran on the CUDA machine from 15:08 to 18:36 and `cross` to 22:16,

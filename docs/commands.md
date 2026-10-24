@@ -452,7 +452,11 @@ may read the board another way than the learner
   Either gives the teachers other batches, and a first choice between two
   answers that score the same to their last digits, two copies of a card,
   can then go the other way: the games are the teachers' still, and not
-  those of a run that names neither.
+  those of a run that names neither. On the CUDA machine graphs halve the
+  teachers' time: a copy of two teachers with their mirror games takes 17.7
+  seconds an update with `--pool-slots 26 --pool-groups 2 --inference-graphs
+  130`, 24.1 with neither (experiments/commands/teacher-calls.sh, measured
+  on 2026-10-24).
 
 ### Imitating recorded duels
 

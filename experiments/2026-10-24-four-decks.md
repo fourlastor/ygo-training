@@ -77,7 +77,18 @@ their mirrors imitated as in specialist distillation, then the twelve
 pairings against each other. Its design and readings are fixed before it is
 built, with what the champions and the speed of the copy say
 (`experiments/commands/teacher-calls.sh`, measured on the CUDA machine the
-same night).
+same night). Decided on 2026-10-25, from that measurement: its copy plays
+the teachers' games in two groups and from CUDA graphs, 17.7 seconds an
+update against 24.1 without (an update's duels at once, 26 slots; graphs up
+to 130 decisions).
+
+Its pairings, decided on 2026-10-25 before its design is fixed: two arms of
+as many games, one with every pairing as often as any other, mirrors kept
+in, and one with the games given to each pairing by how far it is behind,
+measured against `all71` playing the other deck every so many updates, with
+a floor so that no pairing goes unplayed. Specialist distillation's mirrors
+faded in a phase that played none, and a pairing's gains slow as it nears
+its level: a mirror is a pairing as any other in what it needs.
 
 ## Beside it: luna's queue
 
