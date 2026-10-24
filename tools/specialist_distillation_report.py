@@ -17,6 +17,9 @@ in the learner's seat and then the second.
   `all71` in each mirror, STEM its updates (320, 400 and 480);
 - `teacher-blackwing/` and `teacher-cyber/`: the copy against each deck's
   teacher in its mirror, head to head;
+- `taught-curve-blackwing/` and `taught-curve-cyber/`: the copy's
+  checkpoints before its last three against `all71` in each mirror, beside
+  the readings;
 - `cross/`: the copy's last checkpoint (STEM 0) and those of `cross`, STEM
   its updates of PPO, playing either deck against `all71` playing the
   other; `cross-blackwing/` and `cross-cyber/`: `cross` against `all71` in
@@ -210,6 +213,23 @@ def report(directory: Path, both: Path, cyber_champion: Path) -> dict[str, Any]:
             )
         along[deck] = points
     result["beside"]["each mirror along cross"] = along
+    copied = {}
+    for deck, part, _, _ in DECKS:
+        points = []
+        for folder in (directory / f"taught-curve-{part}", directory / f"taught-{part}"):
+            if not folder.is_dir():
+                continue
+            for point in stems(folder):
+                found = shares(folder / str(point))
+                points.append(
+                    {
+                        "updates": point,
+                        **told(found),
+                        "over its teacher": paired(found, teachers[part]),
+                    }
+                )
+        copied[deck] = sorted(points, key=lambda point: point["updates"])
+    result["beside"]["the copy along its updates"] = copied
     champions = {
         "Blackwing alone": summed(spent(both, "blackwing-copy"), spent(both, "blackwing")),
         "cyber-old": summed(
@@ -299,6 +319,13 @@ def shown(result: dict[str, Any]) -> str:
             f"  The copy against its {deck} teacher head to head: {head['share']:.1%} ± "
             f"{head['error']:.1%}"
         )
+    for deck, points in result["beside"]["the copy along its updates"].items():
+        told_ = ", ".join(
+            f"{point['updates']}: {point['share']:.1%} "
+            f"({100 * point['over its teacher']['gap']:+.1f})"
+            for point in points
+        )
+        lines.append(f"  The copy along its updates, the {deck} mirror, over its teacher: {told_}")
     for deck, points in result["beside"]["each mirror along cross"].items():
         told_ = ", ".join(
             f"{point['updates']}: {point['share']:.1%} "

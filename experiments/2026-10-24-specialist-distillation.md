@@ -130,6 +130,10 @@ the two curves at as many games of the two decks against each other; each
 mirror against `all71` along `cross`, which plays none; the copy head to
 head against each teacher; the hours of each part, and of the whole way
 (the two champions, the copy and `cross`) beside the network of both's 6.6.
+Added on 2026-10-24, after the run began and before anything was measured:
+the copy's checkpoints before its last three, after 80, 160 and 240
+updates, against `all71` in each mirror over its teacher, for how far into
+the copy its strength comes, which tells how long a copy needs to be.
 
 ## The build (2026-10-24)
 

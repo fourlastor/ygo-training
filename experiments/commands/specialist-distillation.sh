@@ -32,7 +32,10 @@
 # against all71 in each mirror and head to head against each teacher in its
 # mirror; the copy's last checkpoint and each of cross's against all71 in
 # Blackwing against Cyber; each of cross's against all71 in each mirror; the
-# runs' metrics; then the report (tools/specialist_distillation_report.py).
+# copy's checkpoints before its last three against all71 in each mirror,
+# beside the readings; the runs' metrics; then the report
+# (tools/specialist_distillation_report.py). What is measured already is not
+# played again.
 #
 # About 4.5 to 5 hours on the CUDA machine by reckoning.
 #   bash experiments/commands/specialist-distillation.sh
@@ -215,6 +218,14 @@ if [[ " $PARTS " == *" measure "* ]]; then
     pair "$OUT/cross" "$point" "$crossed" "$NETWORK" "$CROSS"
     pair "$OUT/cross-blackwing" "$point" "$crossed" "$NETWORK" "$BLACKWING_MIRROR"
     pair "$OUT/cross-cyber" "$point" "$crossed" "$NETWORK" "$CYBER_MIRROR"
+  done
+  # Beside the readings, without a mark (added on 2026-10-24, before anything
+  # was measured): the copy's checkpoints before its last three, for how far
+  # into the copy its strength in each mirror comes.
+  for ((point = COPY_STEP; point < COPY - 2 * COPY_STEP; point += COPY_STEP)); do
+    taught=$(checkpoint "$RUNS/taught" 0 "$point")
+    pair "$OUT/taught-curve-blackwing" "$point" "$taught" "$NETWORK" "$BLACKWING_MIRROR"
+    pair "$OUT/taught-curve-cyber" "$point" "$taught" "$NETWORK" "$CYBER_MIRROR"
   done
   for name in taught cross; do
     cp "$RUNS/$name/metrics.jsonl" "$OUT/$name.metrics.jsonl"

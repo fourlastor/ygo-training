@@ -58,6 +58,9 @@ def measured(
     at 50%, and the two curves in Blackwing against Cyber, the network of
     both's last three at 64%."""
     directory, both, cyber = tmp_path / "ours", tmp_path / "both", tmp_path / "cyber"
+    for point, share in ((80, 40), (160, 46), (240, 49)):
+        pair(directory / "taught-curve-blackwing" / str(point), share)
+        pair(directory / "taught-curve-cyber" / str(point), share + 1)
     for point in (320, 400, 480):
         pair(directory / "taught-blackwing" / str(point), copy[0])
         pair(directory / "taught-cyber" / str(point), copy[1])
@@ -145,6 +148,24 @@ def test_each_mirror_along_the_cross_pairings_is_told_over_its_teacher(tmp_path:
     along = tool.report(*measured(tmp_path))["beside"]["each mirror along cross"]
     assert [point["updates"] for point in along["Blackwing"]] == list(range(240, 1441, 240))
     assert along["Cyber"][0]["over its teacher"]["gap"] == pytest.approx(0.01)
+
+
+def test_the_copy_along_its_updates_beside_the_readings(tmp_path: Path) -> None:
+    result = tool.report(*measured(tmp_path, copy=(52, 50)))
+    along = result["beside"]["the copy along its updates"]
+    assert [point["updates"] for point in along["Blackwing"]] == list(range(80, 481, 80))
+    assert [round(point["share"], 2) for point in along["Blackwing"]] == [
+        0.4,
+        0.46,
+        0.49,
+        0.52,
+        0.52,
+        0.52,
+    ]
+    assert along["Cyber"][0]["over its teacher"]["gap"] == pytest.approx(-0.09)
+    # The first reading is of the last three alone.
+    assert result["mirrors"]["Blackwing"]["copy"] == pytest.approx(0.52)
+    assert "The copy along its updates, the Cyber mirror" in tool.shown(result)
 
 
 def test_the_games_played_again_end_as_those_measured_before(tmp_path: Path) -> None:
