@@ -11,7 +11,7 @@ recipe and this one, this was taken first: it bears on making champions
 apart, on many machines at once, and needs no new champion. **The design
 and the readings were fixed before anything was built.**
 
-**Last updated:** 2026-10-24 (opened; the yardstick measured)
+**Last updated:** 2026-10-24 (built, and begun on the CUDA machine at 15:08)
 
 A single-deck champion is a champion of its mirror alone: against a deck it
 never played it is well under a network that played the pairing against
@@ -151,3 +151,19 @@ head against each teacher; the hours of each part, and of the whole way
   `tools/specialist_distillation_report.py`, held by
   `tests/test_specialist_distillation_report.py`; tried small on the
   development machine's processor, every part, to the report.
+
+## The run
+
+Begun on the CUDA machine on 2026-10-24 at 15:08, at `a2c59c0b` with the
+submodules at their pins, nothing else running there, from the repository
+root:
+
+```sh
+bash experiments/commands/specialist-distillation.sh
+```
+
+Into `runs/specialist-distillation` and `analysis/specialist-distillation`.
+An update of the copy takes about 26 seconds, not the 7 or so reckoned: each
+mirror game is imitated from both seats, about 100,000 decisions an update,
+and both teachers are asked at them. The copy takes about 3.5 hours, the
+whole run about 7.
