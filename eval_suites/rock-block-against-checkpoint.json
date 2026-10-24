@@ -1,0 +1,13 @@
+{
+  "name": "rock-block-against-checkpoint",
+  "primary": "rock-block-vs-checkpoint",
+  "cases": [
+    {
+      "name": "rock-block-vs-checkpoint",
+      "learner": "rock-block",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

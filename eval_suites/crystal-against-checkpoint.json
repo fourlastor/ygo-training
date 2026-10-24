@@ -1,0 +1,13 @@
+{
+  "name": "crystal-against-checkpoint",
+  "primary": "crystal-vs-checkpoint",
+  "cases": [
+    {
+      "name": "crystal-vs-checkpoint",
+      "learner": "crystal",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

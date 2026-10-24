@@ -1,0 +1,13 @@
+{
+  "name": "burn-against-checkpoint",
+  "primary": "burn-vs-checkpoint",
+  "cases": [
+    {
+      "name": "burn-vs-checkpoint",
+      "learner": "burn",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

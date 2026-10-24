@@ -1,0 +1,13 @@
+{
+  "name": "spellcaster-against-checkpoint",
+  "primary": "spellcaster-vs-checkpoint",
+  "cases": [
+    {
+      "name": "spellcaster-vs-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

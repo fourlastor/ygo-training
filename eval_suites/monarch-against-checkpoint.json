@@ -1,0 +1,13 @@
+{
+  "name": "monarch-against-checkpoint",
+  "primary": "monarch-vs-checkpoint",
+  "cases": [
+    {
+      "name": "monarch-vs-checkpoint",
+      "learner": "monarch",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "gladiator-against-checkpoint",
+  "primary": "gladiator-vs-checkpoint",
+  "cases": [
+    {
+      "name": "gladiator-vs-checkpoint",
+      "learner": "gladiator",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

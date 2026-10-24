@@ -1,0 +1,13 @@
+{
+  "name": "dragunity-against-checkpoint",
+  "primary": "dragunity-vs-checkpoint",
+  "cases": [
+    {
+      "name": "dragunity-vs-checkpoint",
+      "learner": "dragunity",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

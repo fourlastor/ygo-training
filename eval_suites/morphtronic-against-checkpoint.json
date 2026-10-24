@@ -1,0 +1,13 @@
+{
+  "name": "morphtronic-against-checkpoint",
+  "primary": "morphtronic-vs-checkpoint",
+  "cases": [
+    {
+      "name": "morphtronic-vs-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

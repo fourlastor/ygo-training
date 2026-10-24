@@ -1,0 +1,13 @@
+{
+  "name": "gishki-against-checkpoint",
+  "primary": "gishki-vs-checkpoint",
+  "cases": [
+    {
+      "name": "gishki-vs-checkpoint",
+      "learner": "gishki",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}
