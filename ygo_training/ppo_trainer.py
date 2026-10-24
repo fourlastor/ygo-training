@@ -137,6 +137,18 @@ class PpoTrainer(Trainer):
             self.teacher_description = (
                 described[config.learner_deck] if config.imitation_teacher else described
             )
+        # The teachers' calls answered from CUDA graphs, and their duels taken
+        # forward by the pool's groups, where the run names its graphs and its
+        # groups: a copy keeps its earlier calls otherwise, as the teachers'
+        # first choices can then go another way where two answers score the
+        # same to their last digits.
+        self.teacher_graphs: dict[str, Graphs] = {}
+        if self.teachers and config.inference_graphs:
+            self.teacher_graphs = {
+                deck: Graphs(teacher, self.device, largest=config.inference_graphs)
+                for deck, teacher in self.teachers.items()
+            }
+        self._teacher_graphs_failure_told = False
         # The checkpoint held as it is for the other seat, when one is named:
         # in duels of an update and in the cases of a suite that ask for it.
         self.held: PolicyValueNet | None = None
@@ -449,14 +461,30 @@ class PpoTrainer(Trainer):
         pool until the next update's."""
         duels = self._pool()
         duels.forget()
-        return taught_games(
+        for graphs in self.teacher_graphs.values():
+            graphs.begin_update()
+        played = taught_games(
             duels,
             self.teachers,
             self.device,
             learner=self.config.learner_deck,
             games=games,
             limit=self.config.limit,
+            groups_over=self.calls.groups_over,
+            grouped=self.config.pool_groups is not None,
+            graphs=self.teacher_graphs,
         )
+        failed = [graphs.failed for graphs in self.teacher_graphs.values() if graphs.failed]
+        if self.teacher_graphs:
+            played[1]["pool_graph_failed"] = float(bool(failed))
+            if failed and not self._teacher_graphs_failure_told:
+                self._teacher_graphs_failure_told = True
+                print(
+                    f"A teacher's calls are answered as they are from here: {failed[0]}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+        return played
 
     def _learner_games(
         self,

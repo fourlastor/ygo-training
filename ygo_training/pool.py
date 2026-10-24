@@ -658,6 +658,28 @@ def sampled_games(
             taken.append(step)
         return chosen
 
+    left = _played(pool, answered, noted, asked, groups_over)
+    if left:
+        raise DuelError(f"{left} duels neither ended nor asked")
+    return _trajectories(learner, games, steps, ended), asked
+
+
+def _played(
+    pool: DuelPool,
+    answered: Callable[[Round], Any],
+    noted: Callable[[Round], Round],
+    asked: dict[str, float],
+    groups_over: int,
+    grouped: bool = True,
+) -> int:
+    """Every duel of ``pool`` taken to its end, the decisions of each round
+    answered by ``answered`` and each round told to ``noted``: how many are
+    left when none asks any more.  A pool of several groups is taken forward
+    a group at a time, the engines of one running while another's decisions
+    are answered, until the groups' last rounds hold ``groups_over``
+    decisions or fewer between them (see :func:`sampled_games`); all of them
+    together, as one group, where not ``grouped``."""
+
     def together(answers: Any) -> int:
         """Every duel taken forward a round at a time, to the last: how many
         are left when none asks any more."""
@@ -701,10 +723,7 @@ def sampled_games(
         asked["pool_grouped_batches"] = asked["batches"]
         return left
 
-    left = together(()) if pool.groups == 1 else in_turn()
-    if left:
-        raise DuelError(f"{left} duels neither ended nor asked")
-    return _trajectories(learner, games, steps, ended), asked
+    return together(()) if pool.groups == 1 or not grouped else in_turn()
 
 
 class Locked:
@@ -1297,6 +1316,9 @@ def taught_games(
     learner: str,
     games: list[dict[str, Any]],
     limit: int,
+    groups_over: int = 0,
+    grouped: bool = True,
+    graphs: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, float]]:
     """The listed games (``schedules.rollout_games``) with a teacher, a
     network, in the learner's seat, the one of the deck it plays there
@@ -1306,6 +1328,14 @@ def taught_games(
     :func:`sampled_games` tells it.  Against ``self`` the teacher of the
     other seat's deck plays that seat too, and the steps of the game are
     those of both.
+
+    Where ``grouped``, a pool of several groups is taken forward a group at
+    a time, the engines of one running while the teachers answer another's
+    decisions, as :func:`sampled_games` takes it, to ``groups_over``; and a
+    teacher with ``graphs`` (``graphs.Graphs``, by deck) answers the calls
+    they take from them.  Either gives the teachers other batches, and a
+    first choice between two answers that score the same to their last
+    digits can go the other way.
 
     A step is labelled with the teacher's answer, as a step of the pilot's
     game is with the pilot's.  The deck's pilot is asked alongside, and its
@@ -1321,18 +1351,22 @@ def taught_games(
     ended: dict[int, dict[str, Any]] = {}
     asked = {"prompts": 0.0, "batches": 0.0, "max_batch": 0.0, "inference_seconds": 0.0}
     asked.update({f"pool_{part}_seconds": 0.0 for part in ("threads", "batch", "copy")})
-    answers: Any = ()
-    while True:
-        round_ = pool.step(answers)
+    graphs = graphs or {}
+    if graphs:
+        asked["pool_graph_batches"] = 0.0
+
+    def noted(round_: Round) -> Round:
+        """What a round took and which duels ended in it."""
         for part, seconds in round_.seconds.items():
-            asked[f"pool_{part}_seconds"] += seconds
+            asked[f"pool_{part}_seconds"] = asked.get(f"pool_{part}_seconds", 0.0) + seconds
         for over in round_.finished:
             ended[int(over["duel"]) - first] = over
+        return round_
+
+    def answered(round_: Round) -> Any:
+        """The teachers' answers to a round's decisions, and their steps
+        kept."""
         count = len(round_)
-        if not count:
-            if round_.in_flight:
-                raise DuelError(f"{round_.in_flight} duels neither ended nor asked")
-            break
         started = time.perf_counter()
         decks = np.asarray(
             _seat_decks(games, (round_.duel - first).tolist(), round_.player.tolist(), learner)
@@ -1344,16 +1378,22 @@ def taught_games(
             rows = np.flatnonzero(decks == deck)
             asked["batches"] += 1
             asked["max_batch"] = max(asked["max_batch"], float(len(rows)))
-            if len(rows) < count:
-                chosen[rows] = _first_choices(teachers[deck], round_.arrays, rows, device)
-                continue
             # A round of one deck's decisions is given whole.
-            tensor = {
-                name: torch.from_numpy(array).to(device) for name, array in round_.arrays.items()
-            }
-            with torch.no_grad():
-                logits, _ = teachers[deck](tensor)
-                chosen = logits.argmax(-1).cpu().numpy()
+            given = (
+                round_.arrays
+                if len(rows) == count
+                else {name: array[rows] for name, array in round_.arrays.items()}
+            )
+            # From a graph of fixed sizes where the call is one of those: the
+            # answer is read before the next call, which is written over it.
+            made = graphs[deck].answer(given) if deck in graphs else None
+            if made is None:
+                tensor = {name: torch.from_numpy(array).to(device) for name, array in given.items()}
+                with torch.no_grad():
+                    made = teachers[deck](tensor)
+            else:
+                asked["pool_graph_batches"] += 1
+            chosen[rows] = made[0].argmax(-1).cpu().numpy()
         asked["inference_seconds"] += time.perf_counter() - started
         asked["prompts"] += count
         for duel, row, answer, player, transaction, label in zip(
@@ -1376,7 +1416,11 @@ def taught_games(
             if label >= 0:
                 step["pilot_chosen"] = label
             steps[duel - first].append(step)
-        answers = chosen
+        return chosen
+
+    left = _played(pool, answered, noted, asked, groups_over, grouped)
+    if left:
+        raise DuelError(f"{left} duels neither ended nor asked")
     return _trajectories(learner, games, steps, ended), asked
 
 

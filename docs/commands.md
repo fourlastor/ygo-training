@@ -284,8 +284,11 @@ uv run python -m ygo_training train --device cuda --run runs/itself \
 - `--self-play-pairs mirrors`: such a learner plays its duels against
   itself with one deck in both seats, every deck as often as any other,
   so each deck has its mirror and never meets another of its decks
-  (experiments/2026-10-24-two-decks.md). `all`, the default, is every
-  pair as above. The duels against the pilots are the same either way.
+  (experiments/2026-10-24-two-decks.md). `cross`: two different decks
+  alone, every ordered pair as often as any other, so no deck meets itself
+  (experiments/2026-10-24-specialist-distillation.md). `all`, the default,
+  is every pair as above. The duels against the pilots are the same either
+  way.
 - `--opponent-checkpoint CHECKPOINT --opponent-checkpoint-duels N`: in `N`
   of an update's duels the other seat is a checkpoint held as it is. It
   plays the learner's deck and takes its first choice at every decision, as
@@ -432,6 +435,24 @@ may read the board another way than the learner
   teacher's, in the games it is imitated in.
 - `run.json` names the teacher by its path, its updates and a fingerprint
   of its parameters, and a run is not continued with another.
+- A learner of several decks has a teacher for each of them,
+  `--imitation-teacher DECK=CHECKPOINT` once for each deck: each deck's
+  seats are played by its own teacher, and each is asked again at the
+  decisions of its deck in the update. `run.json` names them by deck.
+- With `--self-play-duels N`, `N` of an update's duels are a teacher against
+  itself: it plays both seats, and both are imitated
+  (`--self-play-pairs mirrors` for each deck's own teacher in its mirror).
+- What the teachers give every answer is asked again in the training pass
+  for `distribution` alone; for `choice` the answers are the ones the games
+  played, and the teachers are asked once, before the update, for what it
+  reports of them.
+- A copy keeps its earlier calls: the teachers' duels go forward by the
+  pool's groups only where the run names `--pool-groups`, and their calls
+  are answered from CUDA graphs only where it names `--inference-graphs`.
+  Either gives the teachers other batches, and a first choice between two
+  answers that score the same to their last digits, two copies of a card,
+  can then go the other way: the games are the teachers' still, and not
+  those of a run that names neither.
 
 ### Imitating recorded duels
 

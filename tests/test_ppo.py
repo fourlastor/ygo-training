@@ -1096,6 +1096,19 @@ def test_a_network_is_imitated_by_its_choice_or_by_its_distribution(targets):
     assert not teacher.training
 
 
+@pytest.mark.parametrize(("targets", "asked"), [("choice", 1), ("distribution", 2)])
+def test_the_training_pass_asks_the_teacher_only_for_its_distribution(targets, asked):
+    """What the teacher gives the answers is measured before the update and
+    is the target of a distribution: a choice is the one the game played,
+    and the teacher is not asked again for it."""
+    _, teacher, optimizer, game, _ = _taught_by_a_network(targets)
+    calls = []
+    teacher.register_forward_hook(lambda *_: calls.append(1))
+    optimizer.imitation_update(game)
+    # One minibatch: once to measure, and once more to learn its distribution.
+    assert len(calls) == asked
+
+
 def test_each_deck_is_set_against_its_own_teacher():
     """A game with a network in both seats, a deck in each: each seat's
     decisions are set against the teacher of its deck, by what it gives

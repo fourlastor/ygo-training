@@ -589,13 +589,16 @@ class PpoOptimizer:
         soft = bool(teachers) and self.config.imitation_teacher_targets == "distribution"
 
         def forward(
-            chunk: list[dict[str, Any]], places: list[int]
+            chunk: list[dict[str, Any]], places: list[int], asked: bool = True
         ) -> tuple[torch.Tensor, torch.Tensor, Any, Any]:
             if teachers:
-                # One batch for the networks.
+                # One batch for the networks: the teachers' where what they
+                # give the answers is asked for.
                 given = self._input(chunk)
-                with torch.no_grad():
-                    taught = self._taught(given, [decks[place] for place in places])
+                taught = None
+                if asked:
+                    with torch.no_grad():
+                        taught = self._taught(given, [decks[place] for place in places])
                 logits, values, _ = self.model.evaluate(given, detach_value=detach_value)
                 return logits, values, None, taught
             if with_leads or detach_value:
@@ -662,7 +665,9 @@ class PpoOptimizer:
                 self.config.minibatch,
             ):
                 chunk = [samples[index] for index in indices]
-                logits, values, leads, taught = forward(chunk, indices)
+                # What the teachers give the answers is the target of a
+                # distribution alone: a choice is the one the game played.
+                logits, values, leads, taught = forward(chunk, indices, asked=soft)
                 if soft:
                     loss = self._by_transaction(self._teacher_cross_entropy(logits, taught), chunk)
                 else:

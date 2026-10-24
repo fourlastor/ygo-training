@@ -167,3 +167,18 @@ An update of the copy takes about 26 seconds, not the 7 or so reckoned: each
 mirror game is imitated from both seats, about 100,000 decisions an update,
 and both teachers are asked at them. The copy takes about 3.5 hours, the
 whole run about 7.
+
+### The copy's speed (2026-10-24)
+
+Of an update's 26 seconds, 15 are its games, 9.3 of them the teachers
+answering in some 3,300 calls of 29 decisions on average, and 10 the
+update, 3.8 of them the teachers asked again: once to measure them, and
+once more in the training pass, where for `choice` their answers are not
+used (some 15 minutes of the copy). Built that afternoon for later runs,
+not in this one: the training pass asks the teachers for `distribution`
+alone, which changes no result; and the teachers' games go by the pool's
+groups and from CUDA graphs where a run names them, which can change a
+first choice between two answers that score the same to their last
+digits. Every kind of run before plays as it did, to the last weight. How
+fast each way goes on the card is measured when it is free
+(`experiments/commands/teacher-calls.sh`).

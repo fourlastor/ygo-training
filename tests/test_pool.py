@@ -713,6 +713,85 @@ def test_each_deck_of_a_learner_of_several_is_played_by_its_own_teacher(tmp_path
         assert set(metrics["imitation_model_teacher_agreement_by_deck"]) == set(decks)
 
 
+def test_the_teachers_games_go_by_groups_and_graphs_where_the_run_names_them(tmp_path):
+    """Where the run names its groups the teachers' duels go forward a group
+    at a time, and where it names its graphs their calls are answered from
+    them: teachers sure of their answers play the same games here either way,
+    as two answers that score the same to their last digits, two copies of a
+    card, are not met in them. A run that names neither takes every duel
+    together, whatever its pool's groups."""
+    import torch
+
+    from ygo_training.checkpoints import save
+    from ygo_training.model import PolicyValueNet
+
+    torch.set_num_threads(2)
+
+    def sure(seed: int) -> str:
+        """A network as it is first drawn, its scores made far apart: no two
+        answers score the same to their last digits."""
+        torch.manual_seed(seed)
+        model = PolicyValueNet()
+        with torch.no_grad():
+            model.score[-1].weight.mul_(150)
+        path = tmp_path / f"sure-{seed}" / "model-00006.pt"
+        save(path, model, torch.optim.Adam(model.parameters()), 7, {})
+        return str(path)
+
+    teachers = {"blackwing": sure(5), "monarch": sure(6)}
+
+    def config(**more) -> TrainerConfig:
+        return TrainerConfig(
+            workers=2,
+            duels=8,
+            device="cpu",
+            seed=71,
+            learner_decks=["blackwing", "monarch"],
+            opponent_decks=["heroes", "burn"],
+            pool_threads=2,
+            pool_slots=4,
+            ppo_epochs=1,
+            minibatch=64,
+            imitation_only_updates=1,
+            imitation_value_weight=0.5,
+            imitation_value_positions=4,
+            self_play_duels=4,
+            self_play_pairs="mirrors",
+            imitation_teachers=teachers,
+            **more,
+        )
+
+    with (
+        PpoTrainer(ROOT, config()) as plain,
+        PpoTrainer(ROOT, config(pool_groups=2)) as grouped,
+        PpoTrainer(ROOT, config(inference_graphs=8)) as graphed,
+    ):
+        assert plain.teacher_graphs == {}
+        assert set(graphed.teacher_graphs) == {"blackwing", "monarch"}
+        ours, asked = plain.collect()
+        halves, in_turn = grouped.collect()
+        replayed, answered = graphed.collect()
+        assert told(halves) == told(ours) == told(replayed)
+        assert "pool_grouped_batches" not in asked and "pool_graph_batches" not in asked
+        assert in_turn["pool_grouped_batches"] > 0
+        assert in_turn["inference_batches"] > asked["inference_batches"]
+        assert answered["pool_graph_batches"] > 0 and answered["pool_graph_failed"] == 0.0
+        # A pool of two groups whose run does not name them: all together.
+        games = rollout_games(13 * 1024, 2, [OPPONENTS[game % 5] for game in range(4)])
+        with DuelPool(ROOT, threads=1, slots=2, groups=2) as pool:
+            taught = {"blackwing": plain.teachers["blackwing"]}
+            together, how = taught_games(
+                pool, taught, "cpu", learner="blackwing", games=games, limit=4096, grouped=False
+            )
+            assert "pool_grouped_batches" not in how
+            pool.forget()
+            by_groups, how = taught_games(
+                pool, taught, "cpu", learner="blackwing", games=games, limit=4096
+            )
+            assert how["pool_grouped_batches"] > 0
+            assert deals(by_groups) == deals(together)
+
+
 def test_a_teacher_may_read_the_board_another_way_than_its_learner(tmp_path):
     import torch
 
