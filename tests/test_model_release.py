@@ -70,3 +70,56 @@ def test_a_checkpoint_without_its_weights_is_refused(tmp_path):
     torch.save(payload, checkpoint)
     with pytest.raises(SystemExit, match="holds no metadata"):
         tool.release("tiny-net", checkpoint, tmp_path / "release", vectors)
+
+
+def test_a_release_is_published_with_its_files_titled_and_described_by_its_card(
+    tmp_path, monkeypatch
+):
+    files = [tmp_path / "tiny-net.pt", tmp_path / "SHA256SUMS"]
+    card = "# tiny-net: a network\n\nA network\nof one deck ([its record](../experiments/r.md)).\n"
+    ran = []
+
+    def recorded(argv, **_):
+        notes = Path(argv[argv.index("--notes-file") + 1]).read_text(encoding="utf8")
+        ran.append((argv, notes))
+
+    monkeypatch.setattr(tool.subprocess, "run", recorded)
+    tool.publish("tiny-net", files, card, "abc123", "owner/repo")
+
+    ((argv, notes),) = ran
+    assert argv[:6] == ["gh", "release", "create", "model/tiny-net", str(files[0]), str(files[1])]
+    told = argv[6:]
+    assert told[:6] == [
+        "--repo",
+        "owner/repo",
+        "--target",
+        "abc123",
+        "--title",
+        "tiny-net: a network",
+    ]
+    assert notes == (
+        "A network of one deck "
+        "([its record](https://github.com/owner/repo/blob/abc123/experiments/r.md)).\n"
+    )
+
+
+@pytest.mark.parametrize(
+    ("url", "repository"),
+    [
+        ("git@github.com:fourlastor/ygo-training.git", "fourlastor/ygo-training"),
+        ("https://github.com/fourlastor/ygo-training", "fourlastor/ygo-training"),
+        ("ssh://git@github.com/fourlastor/ygo-training.git", "fourlastor/ygo-training"),
+    ],
+)
+def test_the_repository_is_origins(url, repository):
+    assert tool.repository_of(url) == repository
+
+
+def test_a_remote_not_on_github_is_refused():
+    with pytest.raises(SystemExit, match="no repository of GitHub"):
+        tool.repository_of("daniele@luna:/home/daniele/ygo-training/ygo")
+
+
+def test_a_network_without_a_card_is_not_published():
+    with pytest.raises(SystemExit, match="No card at"):
+        tool.publishing("no-such-network", "HEAD")
