@@ -1,0 +1,17 @@
+# The worker of luna's queue of tasks (docs/luna-queue.md): it takes the
+# oldest task of high priority before any of low, and runs it in luna's
+# checkout at its commit (tools/queue/luna_queue.py, put in place beside it).
+# A user service that starts with luna, linger being on; stopping it stops
+# the task running, with everything the task started.
+[Unit]
+Description=The worker of luna's queue of tasks
+
+[Service]
+WorkingDirectory=%h/ygo-training/queue
+Environment=PATH=%h/.local/bin:%h/.cargo/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=%h/ygo-training/queue/venv/bin/rq worker --url redis://127.0.0.1:6379/0 --path %h/ygo-training/queue high low
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

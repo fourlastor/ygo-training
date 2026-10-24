@@ -1,0 +1,26 @@
+# Luna's queue of tasks (docs/luna-queue.md): Redis, which holds it, and RQ's
+# dashboard, which shows it. Both come back with Docker after a restart, the
+# queue with them; the tasks themselves run on the host, by the worker of
+# tools/queue/ygo-queue-worker.service. Both are reached from luna alone: the
+# dashboard from elsewhere through ssh (ssh -L 9181:127.0.0.1:9181 luna).
+name: ygo-queue
+services:
+  redis:
+    image: redis:7.4.11-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis:/data
+    restart: unless-stopped
+  dashboard:
+    image: cjlapao/rq-dashboard:0.9.0
+    environment:
+      RQ_DASHBOARD_REDIS_URL: redis://redis:6379/0
+    ports:
+      - "127.0.0.1:9181:9181"
+    depends_on:
+      - redis
+    restart: unless-stopped
+volumes:
+  redis:

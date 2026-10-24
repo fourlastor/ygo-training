@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Luna's queue from the command line (docs/luna-queue.md), where
+# tools/queue/deploy.sh put it: ssh luna ygo-training/queue/luna-queue list
+here=$(cd "$(dirname "$0")" && pwd)
+exec "$here/venv/bin/python" "$here/luna_queue.py" "$@"
