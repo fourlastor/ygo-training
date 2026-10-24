@@ -39,6 +39,8 @@ These are flavour names, not CLI identifiers or experiment terminology.
 - [docs/architecture.md](docs/architecture.md): how the pieces fit, and what
   the network is shown.
 - [docs/gpu-machine.md](docs/gpu-machine.md): setting up the training machine.
+- [models/](models/): the networks released, a card each, and how a release
+  is made.
 - [EXPERIMENT_LOG.md](EXPERIMENT_LOG.md): the research state. Read it, and the
   single active record under [experiments/](experiments/), before starting or
   resuming a run.

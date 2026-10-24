@@ -23,5 +23,7 @@ edopro-logs/
 
 # What tools/benchmark.sh installs and writes.
 /benchmark/
+# The files of a network's release (tools/model_release.py).
+/release/
 # A local agent's own settings.
 /.codex/

@@ -1,0 +1,54 @@
+# Drafts the release of a trained network: the tag model/NAME on the commit
+# whose code plays it, titled and described by its card (models/NAME.md),
+# the card's links into the repository pinned to that commit. The files to
+# attach are written by tools/model_release.py (models/README.md); attach
+# them to the draft and publish it by hand.
+name: Model release
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: The network's name, as its card under models/ (the tag is model/NAME)
+        required: true
+        type: string
+      ref:
+        description: The commit the tag points at, whose code plays the network
+        required: false
+        default: main
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Draft the release from the card
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MODEL: ${{ inputs.model }}
+        run: |
+          set -euo pipefail
+          if ! [[ "$MODEL" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+            echo "A network's name is lowercase words joined by dashes, not $MODEL" >&2
+            exit 1
+          fi
+          card="models/$MODEL.md"
+          if [ ! -f "$card" ]; then
+            echo "No card at $card" >&2
+            exit 1
+          fi
+          commit=$(git rev-parse HEAD)
+          title=$(sed -n '1s/^# //p' "$card")
+          # The card without its title, its links into the repository
+          # pinned to the tagged commit.
+          tail -n +2 "$card" \
+            | sed -E "s#\]\(\.\./#](https://github.com/$GITHUB_REPOSITORY/blob/$commit/#g; s#\]\(([a-z0-9-]+)\.md\)#](https://github.com/$GITHUB_REPOSITORY/blob/$commit/models/\1.md)#g" \
+            > notes.md
+          gh release create "model/$MODEL" --draft --target "$commit" \
+            --title "$title" --notes-file notes.md
