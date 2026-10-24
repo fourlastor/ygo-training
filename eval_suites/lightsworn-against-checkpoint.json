@@ -1,0 +1,13 @@
+{
+  "name": "lightsworn-against-checkpoint",
+  "primary": "lightsworn-vs-checkpoint",
+  "cases": [
+    {
+      "name": "lightsworn-vs-checkpoint",
+      "learner": "lightsworn",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

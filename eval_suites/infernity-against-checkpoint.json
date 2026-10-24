@@ -1,0 +1,13 @@
+{
+  "name": "infernity-against-checkpoint",
+  "primary": "infernity-vs-checkpoint",
+  "cases": [
+    {
+      "name": "infernity-vs-checkpoint",
+      "learner": "infernity",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}
