@@ -1,6 +1,6 @@
 # Specialist distillation: two champions imitated into one network, then their decks against each other
 
-**Status:** ACTIVE
+**Status:** COMPLETED (closed on 2026-10-24, once its report was in)
 
 **Proposed:** 2026-10-24
 
@@ -11,7 +11,9 @@ recipe and this one, this was taken first: it bears on making champions
 apart, on many machines at once, and needs no new champion. **The design
 and the readings were fixed before anything was built.**
 
-**Last updated:** 2026-10-24 (built, and begun on the CUDA machine at 15:08)
+**Last updated:** 2026-10-24 (read and closed: the copy keeps Blackwing's
+mirror, Cyber's not decided; the gap closed after 124,800 games of the two
+decks against each other, against the network of both's 312,000)
 
 A single-deck champion is a champion of its mirror alone: against a deck it
 never played it is well under a network that played the pairing against
@@ -186,3 +188,79 @@ first choice between two answers that score the same to their last
 digits. Every kind of run before plays as it did, to the last weight. How
 fast each way goes on the card is measured when it is free
 (`experiments/commands/teacher-calls.sh`).
+
+## Results (2026-10-24)
+
+The copy ran on the CUDA machine from 15:08 to 18:36 and `cross` to 22:16,
+both measured by 22:50, the copy's earlier checkpoints by 22:56 (the report
+and the runs' metrics copied to `analysis/specialist-distillation/`).
+Nothing failed: no duel stopped by the engine or cut off, at most 0.62 GiB
+of the card in use.
+
+1. **The copy keeps each champion's mirror: Blackwing's; Cyber's not
+   decided.** Against `all71` by its checkpoints after 320, 400 and 480
+   updates, the deals paired with its teacher's: in the Blackwing mirror
+   65.3% against Blackwing alone's 65.6%, −0.2 ± 0.5 points; in the Cyber
+   mirror 75.0% against `cyber-old`'s 76.5%, −1.5 ± 0.5, with two standard
+   errors taken away 2.5 under, past the margin.
+2. **The gap closed after 124,800 games of the two decks against each
+   other**, after 480 updates of `cross`, 1.04 hours of them: 63.0% ± 0.6%
+   of Blackwing against Cyber against `all71`, −0.5 ± 0.7 points to the
+   network of both's 63.5%. The network of both came within the same mark
+   after 312,000, two and a half times as many.
+
+Beside them, without a mark:
+
+- **The two curves**, Blackwing against Cyber against `all71`, by the games
+  of the two decks against each other:
+
+  | Games of the two decks | Distilled, then paired | The network of both | Difference |
+  | --- | --- | --- | --- |
+  | 0 (each copy) | 52.1% | 28.9% | +23.1 |
+  | 62,400 | 60.9% | 54.8% | +6.1 |
+  | 124,800 | 63.0% | 58.3% | +4.7 |
+  | 187,200 | 63.2% | 60.8% | +2.4 |
+  | 249,600 | 65.6% | 62.1% | +3.5 |
+  | 312,000 | 66.3% | 63.7% | +2.6 |
+  | 374,400 | 67.2% | 64.7% | +2.5 |
+
+  Each point ± 0.6%. The copy of the champions starts where they are, about
+  52%; the network of both's copy of the pilots at 28.9%.
+- **The copy along its updates**, each mirror against `all71` over its
+  teacher: Blackwing −3.8, −2.5, −1.6, −0.7, −0.2 and +0.2 points after 80,
+  160, 240, 320, 400 and 480 updates; Cyber −7.4, −3.6, −2.4, −0.7, −1.9 and
+  −1.8. It came within a point of each teacher from 320 updates, some
+  83,000 of each champion's games; Blackwing still rose at 480, Cyber had
+  levelled off from 320.
+- **Head to head with its teachers**: 49.6% ± 0.4% of the Blackwing mirror
+  against Blackwing alone, 48.3% ± 0.4% of the Cyber mirror against
+  `cyber-old`.
+- **The mirrors along `cross`**, which plays none, over each teacher
+  against `all71`: Blackwing's 1.5 to 3.3 points under from its first
+  checkpoint on; Cyber's 1.2 to 2.1 points over up to 1,200 updates, and
+  4.1 under after 1,440.
+- **The hours**: the copy 3.46, 26 seconds an update (each mirror game
+  imitated from both seats, both teachers asked at each decision); `cross`
+  3.66, 1.04 of them to the second reading. The whole way to the mark: 7.72
+  hours with the champions made one after the other (Blackwing alone 1.85,
+  `cyber-old` 1.37), 6.35 with the champions made at once; the network of
+  both to the same mark 5.41, its whole run 6.57.
+- **The games against itself grew long**: from 7 turns in the first update
+  to 15 to 19 from 240 on, the updates from 6 seconds to 9 to 11;
+  Blackwing's seat won 65% to 71% of them.
+
+What it says: champions imitated into one network, and then their decks
+against each other, need two and a half times fewer games of the pairing
+to play it as well as a network that learnt everything together, and end
+better at it: 2.5 points at as many games. The copy keeps Blackwing's mirror
+and comes within 1.5 points of Cyber's. For two decks the way is not
+cheaper in hours: the copy took 3.5 hours and the champions were made
+first. With many decks the pairings are most of the work, and champions can
+be made at once on many machines: a pairing that needs 2.5 times fewer
+games is what decides.
+
+## Closed (2026-10-24)
+
+Closed that night, once its report was in, as decided that evening: its
+second reading sets how the network of four decks is made. The next
+experiment is [A network of four decks](2026-10-24-four-decks.md).
