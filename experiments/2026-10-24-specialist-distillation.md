@@ -130,3 +130,24 @@ the two curves at as many games of the two decks against each other; each
 mirror against `all71` along `cross`, which plays none; the copy head to
 head against each teacher; the hours of each part, and of the whole way
 (the two champions, the copy and `cross`) beside the network of both's 6.6.
+
+## The build (2026-10-24)
+
+- `--imitation-teacher DECK=CHECKPOINT`, once for each deck of a learner of
+  several (`TrainerConfig.imitation_teachers`): each deck's seats are played
+  by its own teacher (`pool.taught_games`), and each is asked again at the
+  decisions of its deck in the update (`PpoOptimizer._taught`). In an update
+  that imitates networks, the duels against itself are played by them, a
+  teacher in both seats, both imitated; where the pilots are imitated there
+  are none, as before.
+- `--self-play-pairs cross`: the duels against itself with two different
+  decks alone, every ordered pair as often as any other
+  (`schedules.allocate_matchup_seats`).
+- Every kind of run before plays as it did, to the last weight and to every
+  number it reports but the clock's, two updates each: a copy of one
+  teacher, the pilots' copy of two decks, PPO of two decks with the duels
+  against itself on every pair and on the mirrors alone, and PPO of one deck.
+- `experiments/commands/specialist-distillation.sh` and
+  `tools/specialist_distillation_report.py`, held by
+  `tests/test_specialist_distillation_report.py`; tried small on the
+  development machine's processor, every part, to the report.

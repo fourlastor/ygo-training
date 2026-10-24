@@ -304,11 +304,13 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
     )
     parser.add_argument(
         "--imitation-teacher",
-        type=Path,
+        action="append",
+        metavar="[DECK=]CHECKPOINT",
         help=(
             "a checkpoint the imitation-only updates imitate in the pilot's place: it "
             "plays the learner's seat by its first choice and its answers are the ones "
-            "imitated"
+            "imitated; for a learner of several decks, DECK=CHECKPOINT once for each, "
+            "each playing the seats of its deck"
         ),
     )
     parser.add_argument(
@@ -476,7 +478,8 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         help=(
             "of an update's duels, how many the learner plays against itself: its own "
             "network in both seats with the learner's deck, every decision of the duel "
-            "learned from; the others are against the pilots"
+            "learned from; the others are against the pilots. In updates that imitate "
+            "--imitation-teacher, the teacher plays both seats and both are imitated"
         ),
     )
     parser.add_argument(
@@ -485,7 +488,8 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         default="all",
         help=(
             "which of a learner's decks meet in its duels against itself: any two of them, "
-            "one in each seat (all), or each deck against itself alone (mirrors)"
+            "one in each seat (all), each deck against itself alone (mirrors), or two "
+            "different decks alone (cross)"
         ),
     )
     parser.add_argument(

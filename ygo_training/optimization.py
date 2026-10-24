@@ -59,6 +59,15 @@ DIAGNOSTIC_DECISIONS = {
 }
 
 
+def seat_deck(trajectory: dict[str, Any], step: dict[str, Any], learner: str) -> str:
+    """The deck of the seat a step's decision was asked of: the learner's,
+    ``learner`` in a game that names none, or the other seat's where the
+    game has a network in both."""
+    if "opponent_deck" in trajectory and int(step["player"]) != int(trajectory["learner_player"]):
+        return str(trajectory["opponent_deck"])
+    return str(trajectory.get("learner_deck", learner))
+
+
 def decision_advantage_metrics(
     samples: list[PreparedSample], raw: torch.Tensor, normalized: torch.Tensor
 ) -> dict[str, float]:
@@ -121,10 +130,11 @@ class PpoOptimizer:
         # is building or has built, by their rows, and that thread.
         self._ahead: dict[tuple[int, ...], Future] = {}
         self._builder: ThreadPoolExecutor | None = None
-        # The network the imitation-only updates imitate, when their games
-        # are its own and not a pilot's: it is asked again at each of their
-        # decisions, for what it gives every answer.
-        self.teacher: torch.nn.Module | None = None
+        # The networks the imitation-only updates imitate, by the deck each
+        # teaches, when their games are theirs and not a pilot's: each is
+        # asked again at the decisions of its deck's seats, for what it gives
+        # every answer.
+        self.teachers: dict[str, torch.nn.Module] = {}
         # The head that learns how cards work (`card_head.py`), its own
         # optimizer, and the weight of the gradient it gives the network
         # beside PPO's: where there is one, a minibatch's decisions come with
@@ -534,8 +544,8 @@ class PpoOptimizer:
         # Terminal payoff from each labelled step's own seat. With undiscounted,
         # terminal-only rewards this is the Monte Carlo return PPO bootstraps.
         value_targets: list[float] = []
-        # The deck the learner's seat plays in each step's game.
-        decks: list[str | None] = []
+        # The deck of the seat each step's decision was asked of.
+        decks: list[str] = []
         for trajectory_index, trajectory in enumerate(trajectories):
             for step_index, step in enumerate(trajectory["steps"]):
                 if not step.get("teacher"):
@@ -544,7 +554,7 @@ class PpoOptimizer:
                     trajectory_index, step_index, step
                 )
                 samples.append(step)
-                decks.append(trajectory.get("learner_deck"))
+                decks.append(seat_deck(trajectory, step, self.config.learner_deck))
                 value_targets.append(
                     self.reward_model.terminal(trajectory.get("winner"), int(step["player"]))
                     if trajectory.get("terminal")
@@ -575,15 +585,17 @@ class PpoOptimizer:
         # A teacher that is a network: what it gives every answer is told
         # beside the model's, and is the target when the model is to learn
         # its distribution and not its choice alone.
-        teacher = self.teacher
-        soft = teacher is not None and self.config.imitation_teacher_targets == "distribution"
+        teachers = self.teachers
+        soft = bool(teachers) and self.config.imitation_teacher_targets == "distribution"
 
-        def forward(chunk: list[dict[str, Any]]) -> tuple[torch.Tensor, torch.Tensor, Any, Any]:
-            if teacher is not None:
-                # One batch for the two networks.
+        def forward(
+            chunk: list[dict[str, Any]], places: list[int]
+        ) -> tuple[torch.Tensor, torch.Tensor, Any, Any]:
+            if teachers:
+                # One batch for the networks.
                 given = self._input(chunk)
                 with torch.no_grad():
-                    taught, _ = teacher(given)
+                    taught = self._taught(given, [decks[place] for place in places])
                 logits, values, _ = self.model.evaluate(given, detach_value=detach_value)
                 return logits, values, None, taught
             if with_leads or detach_value:
@@ -614,7 +626,9 @@ class PpoOptimizer:
         with torch.no_grad():
             for start in range(0, len(samples), self.config.minibatch):
                 chunk = samples[start : start + self.config.minibatch]
-                logits, values, leads, taught = forward(chunk)
+                logits, values, leads, taught = forward(
+                    chunk, list(range(start, start + len(chunk)))
+                )
                 if taught is not None:
                     own = self._teacher_cross_entropy(taught, taught)
                     entropies.extend(own.tolist())
@@ -648,7 +662,7 @@ class PpoOptimizer:
                 self.config.minibatch,
             ):
                 chunk = [samples[index] for index in indices]
-                logits, values, leads, taught = forward(chunk)
+                logits, values, leads, taught = forward(chunk, indices)
                 if soft:
                     loss = self._by_transaction(self._teacher_cross_entropy(logits, taught), chunk)
                 else:
@@ -736,7 +750,7 @@ class PpoOptimizer:
                 deck: float(len(found)) for deck, found in sorted(by_deck.items())
             }
         teacher_metrics: dict[str, float] = {}
-        if teacher is not None:
+        if teachers:
             # Measured before this update's optimization, like agreement: in
             # nats a decision, the divergence of the teacher's answers from
             # the model's, and the entropy of the teacher's own.
@@ -978,6 +992,30 @@ class PpoOptimizer:
     ) -> torch.Tensor:
         losses = torch.nn.functional.cross_entropy(logits, chosen, reduction="none")
         return PpoOptimizer._by_transaction(losses, steps)
+
+    def _taught(self, given: dict[str, torch.Tensor], decks: list[str]) -> torch.Tensor:
+        """What the teacher of each decision's deck gives its answers: a batch
+        of one deck's decisions is given to its teacher whole."""
+        named = sorted(set(decks))
+        if len(named) == 1:
+            taught, _ = self._teacher_of(named[0])(given)
+            return taught
+        found: torch.Tensor | None = None
+        for deck in named:
+            rows = torch.tensor(
+                [row for row, own in enumerate(decks) if own == deck], device=self.device
+            )
+            part, _ = self._teacher_of(deck)({name: value[rows] for name, value in given.items()})
+            if found is None:
+                found = part.new_empty((len(decks), *part.shape[1:]))
+            found[rows] = part
+        assert found is not None
+        return found
+
+    def _teacher_of(self, deck: str) -> torch.nn.Module:
+        if deck not in self.teachers:
+            raise RuntimeError(f"No teacher plays {deck}")
+        return self.teachers[deck]
 
     @staticmethod
     def _teacher_cross_entropy(logits: torch.Tensor, taught: torch.Tensor) -> torch.Tensor:

@@ -129,6 +129,34 @@ def test_a_checkpoint_is_imitated_only_in_imitation_updates():
     assert TrainerConfig().imitation_teacher is None
 
 
+def test_a_learner_of_several_decks_imitates_a_checkpoint_for_each_of_them():
+    several = {
+        "opponent_decks": ["burn"],
+        "learner_decks": ["blackwing", "cyber"],
+        "imitation_only_updates": 1,
+        "pool_threads": 1,
+    }
+    teachers = {"blackwing": "a.pt", "cyber": "b.pt"}
+    config = TrainerConfig(imitation_teachers=teachers, **several)
+    assert (config.imitation_teacher, config.teachers) == (None, teachers)
+    for wrong in ({"blackwing": "a.pt"}, {**teachers, "burn": "c.pt"}, {**teachers, "cyber": ""}):
+        with pytest.raises(ValueError, match="for each learner deck"):
+            TrainerConfig(imitation_teachers=wrong, **several)
+    with pytest.raises(ValueError, match="one learner deck"):
+        TrainerConfig(imitation_teacher="a.pt", **several)
+    with pytest.raises(ValueError, match="requires imitation-only updates"):
+        TrainerConfig(imitation_teachers=teachers, **{**several, "imitation_only_updates": 0})
+    # A learner of one deck names its teacher either way, and not both.
+    alone = {"imitation_only_updates": 1, "pool_threads": 1}
+    assert TrainerConfig(imitation_teacher="a.pt", **alone).teachers == {"blackwing": "a.pt"}
+    assert TrainerConfig(imitation_teachers={"blackwing": "a.pt"}, **alone).teachers == {
+        "blackwing": "a.pt"
+    }
+    with pytest.raises(ValueError, match="mutually exclusive"):
+        TrainerConfig(imitation_teacher="a.pt", imitation_teachers={"blackwing": "a.pt"}, **alone)
+    assert TrainerConfig().teachers == {}
+
+
 def test_a_learner_of_several_decks_plays_against_named_opponents():
     several = {"learner_decks": ["blackwing", "monarch"]}
     with pytest.raises(ValueError, match="require opponent_decks"):
@@ -208,14 +236,21 @@ def test_a_network_in_the_other_seat_plays_some_of_an_updates_duels():
         )
     itself = TrainerConfig(duels=8, self_play_duels=4, pool_threads=1, **several)
     assert (itself.self_play_duels, itself.learners) == (4, ["blackwing", "monarch"])
-    # Any two of its decks meet, or each deck itself alone.
+    # Any two of its decks meet, each deck itself alone, or two different
+    # decks alone, which a learner of one deck does not have.
     assert itself.self_play_pairs == "all"
     mirrored = TrainerConfig(
         duels=8, self_play_duels=4, self_play_pairs="mirrors", pool_threads=1, **several
     )
     assert mirrored.self_play_pairs == "mirrors"
-    with pytest.raises(ValueError, match="self_play_pairs must be one of"):
+    crossed = TrainerConfig(
+        duels=8, self_play_duels=4, self_play_pairs="cross", pool_threads=1, **several
+    )
+    assert crossed.self_play_pairs == "cross"
+    with pytest.raises(ValueError, match="two different decks"):
         TrainerConfig(duels=8, self_play_duels=4, self_play_pairs="cross", pool_threads=1)
+    with pytest.raises(ValueError, match="self_play_pairs must be one of"):
+        TrainerConfig(duels=8, self_play_duels=4, self_play_pairs="rings", pool_threads=1)
     with pytest.raises(ValueError, match="duels against itself: self_play_duels"):
         TrainerConfig(duels=8, self_play_pairs="mirrors", pool_threads=1, **several)
     # Every duel of an update may be against a network, and a checkpoint may

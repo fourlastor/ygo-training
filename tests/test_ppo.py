@@ -1032,7 +1032,7 @@ def _taught_by_a_network(targets: str):
         imitation_teacher="teacher.pt",
         imitation_teacher_targets=targets,
     )
-    optimizer.teacher = teacher
+    optimizer.teachers = {optimizer.config.learner_deck: teacher}
     three = [
         choice(ACTIVATE, named(code=TRAP, location=SPELL_TRAP_ZONE)),
         choice(NORMAL_SUMMON, named(code=MONSTER, location=HAND)),
@@ -1094,6 +1094,83 @@ def test_a_network_is_imitated_by_its_choice_or_by_its_distribution(targets):
         assert last["imitation_teacher_divergence"] > 0.3
     assert value_fingerprint(teacher.state_dict()) == before
     assert not teacher.training
+
+
+def test_each_deck_is_set_against_its_own_teacher():
+    """A game with a network in both seats, a deck in each: each seat's
+    decisions are set against the teacher of its deck, by what it gives
+    every answer."""
+    torch.manual_seed(3)
+    mine = PolicyValueNet(embedding_dim=8, hidden_dim=16).eval()
+    torch.manual_seed(5)
+    theirs = PolicyValueNet(embedding_dim=8, hidden_dim=16).eval()
+    with torch.no_grad():
+        mine.score[-1].weight.mul_(150)
+        theirs.score[-1].weight.mul_(-150)
+    three = [
+        choice(ACTIVATE, named(code=TRAP, location=SPELL_TRAP_ZONE)),
+        choice(NORMAL_SUMMON, named(code=MONSTER, location=HAND)),
+        choice(PASS),
+    ]
+    decisions = [view(), view(choices=three), view(turn=3), view(choices=three, turn=5)]
+    players = [0, 1, 0, 1]
+    with torch.no_grad():
+        first, _ = mine(batched(*decisions))
+        second, _ = theirs(batched(*decisions))
+    taught = torch.stack(
+        [(first if player == 0 else second)[place] for place, player in enumerate(players)]
+    )
+    steps = [
+        {
+            "row": SHOWN.row(decision),
+            "chosen": int(answer),
+            "executed_chosen": int(answer),
+            "player": player,
+            "teacher": True,
+            "transaction": number,
+        }
+        for number, (decision, player, answer) in enumerate(
+            zip(decisions, players, taught.argmax(-1).tolist(), strict=True)
+        )
+    ]
+    game = {
+        "terminal": True,
+        "winner": 0,
+        "learner_player": 0,
+        "learner_deck": "blackwing",
+        "opponent_deck": "cyber",
+        "steps": steps,
+    }
+
+    def update(teachers):
+        torch.manual_seed(4)
+        optimizer = _optimizer(
+            PolicyValueNet(embedding_dim=8, hidden_dim=16),
+            lr=1e-2,
+            ppo_epochs=1,
+            minibatch=8,
+            imitation_only_updates=1,
+            pool_threads=1,
+            learner_decks=["blackwing", "cyber"],
+            opponent_decks=["burn"],
+            imitation_teachers={"blackwing": "mine.pt", "cyber": "theirs.pt"},
+            imitation_teacher_targets="distribution",
+        )
+        optimizer.teachers = teachers
+        return optimizer.imitation_update([game])
+
+    both = update({"blackwing": mine, "cyber": theirs})
+    probabilities = torch.softmax(taught, dim=-1)
+    offered = torch.isfinite(taught)
+    entropy = -(probabilities * probabilities.log().masked_fill(~offered, 0.0)).sum(-1)
+    assert both["imitation_teacher_entropy"] == pytest.approx(float(entropy.mean()), rel=1e-5)
+    assert both["imitation_samples_by_deck"] == {"blackwing": 2.0, "cyber": 2.0}
+    # Had the one teacher answered for both decks, the lesson would be another.
+    alone = update({"blackwing": mine, "cyber": mine})
+    assert alone["imitation_teacher_entropy"] != pytest.approx(both["imitation_teacher_entropy"])
+    assert alone["imitation_loss"] != pytest.approx(both["imitation_loss"])
+    with pytest.raises(RuntimeError, match="No teacher plays cyber"):
+        update({"blackwing": mine})
 
 
 def test_individual_board_tokens_run_through_the_optimizer_forward():

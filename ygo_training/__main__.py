@@ -163,6 +163,22 @@ def measured_as_ever(args: argparse.Namespace) -> dict[str, int]:
     }
 
 
+def _teachers(named: list[str] | None) -> dict[str, Any]:
+    """What `--imitation-teacher` names: one checkpoint, for a learner of one
+    deck, or DECK=CHECKPOINT for each deck of a learner of several."""
+    if not named:
+        return {"imitation_teacher": None}
+    split = [item.partition("=") for item in named]
+    if not any(sign for _, sign, _ in split):
+        if len(named) > 1:
+            raise SystemExit("--imitation-teacher names one checkpoint, or one for each deck")
+        return {"imitation_teacher": named[0]}
+    teachers = {deck: checkpoint for deck, sign, checkpoint in split if sign}
+    if len(teachers) != len(named):
+        raise SystemExit("--imitation-teacher names a deck for each checkpoint, each deck once")
+    return {"imitation_teachers": teachers}
+
+
 def _keeps_duels_in_flight(args: argparse.Namespace) -> bool:
     """Whether a run's updates can keep duels in flight (`TrainerConfig`) as
     `fast` did: they are of PPO from the run's start, it is not evaluated as
@@ -248,7 +264,7 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
         imitation_label=args.imitation_label,
         imitation_lead_weight=args.imitation_lead_weight,
         imitation_lead_detach=args.imitation_lead_detach,
-        imitation_teacher=None if args.imitation_teacher is None else str(args.imitation_teacher),
+        **_teachers(args.imitation_teacher),
         imitation_teacher_targets=args.imitation_teacher_targets,
         teacher_imitation_weight=args.teacher_imitation_weight,
         teacher_imitation_decay_updates=args.teacher_imitation_decay_updates,

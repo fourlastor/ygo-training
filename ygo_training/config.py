@@ -6,7 +6,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 
 from .records import GAMES as RECORDED_GAMES
-from .schedules import MAX_EPISODES_PER_ROLLOUT, MAX_SEEDED_WORKERS
+from .schedules import MAX_EPISODES_PER_ROLLOUT, MAX_SEEDED_WORKERS, SELF_PLAY_PAIRS
 
 
 @dataclass(frozen=True)
@@ -66,9 +66,6 @@ IN_FLIGHT_MINIBATCH = 512
 # Who plays the next update's games beside an update's pass
 # (`TrainerConfig.overlap`).
 OVERLAPS = ("thread", "in-turn")
-# Which of a learner's decks meet in its duels against itself
-# (`TrainerConfig.self_play_pairs`).
-SELF_PLAY_PAIRS = ("all", "mirrors")
 
 
 @dataclass(frozen=True)
@@ -172,6 +169,11 @@ class TrainerConfig:
     # at a decision, as a pilot's answer is, or its `distribution` over the
     # answers, which also tells what it nearly chose.
     imitation_teacher: str | None = None
+    # For a learner of several decks, a checkpoint for each of its decks in
+    # its place, by deck: each plays the seats of its deck, and its answers
+    # there are the ones imitated (decided on 2026-10-24,
+    # experiments/2026-10-24-specialist-distillation.md).
+    imitation_teachers: dict[str, str] | None = None
     imitation_teacher_targets: str = "choice"
     # Weight of the pilot's labels on the learner's own decisions in PPO updates.
     teacher_imitation_weight: float = 0.0
@@ -224,13 +226,17 @@ class TrainerConfig:
     # Of the duels of an update whose games the model plays, how many it
     # plays against itself: its own network in both seats, the learner's deck
     # on both sides, and every decision of the duel one it learns from.  The
-    # others are against the pilots, as all of them are at zero.
+    # others are against the pilots, as all of them are at zero.  In an
+    # update that imitates a network (`imitation_teacher`) the network plays
+    # both seats of them, and both are imitated.
     self_play_duels: int = 0
     # Which of a learner's decks meet in those duels where it has several:
-    # any two of them, one in each seat (`all`), or each deck against
-    # itself alone (`mirrors`, decided on 2026-10-24,
-    # experiments/2026-10-24-two-decks.md).  A learner of one deck plays its
-    # mirror either way.
+    # any two of them, one in each seat (`all`), each deck against itself
+    # alone (`mirrors`, decided on 2026-10-24,
+    # experiments/2026-10-24-two-decks.md), or two different decks alone
+    # (`cross`, decided the same day,
+    # experiments/2026-10-24-specialist-distillation.md).  A learner of one
+    # deck plays its mirror, and has no `cross`.
     self_play_pairs: str = "all"
     # A checkpoint held as it is, which plays the learner's deck from the
     # other seat by its first choice: in so many of those duels, where only
@@ -286,6 +292,14 @@ class TrainerConfig:
     def learners(self) -> list[str]:
         """The decks the learner plays: one, unless several are named."""
         return list(self.learner_decks or [self.learner_deck])
+
+    @property
+    def teachers(self) -> dict[str, str]:
+        """The checkpoint that teaches each of the learner's decks, by deck,
+        where a network is imitated in the pilot's place."""
+        if self.imitation_teacher:
+            return {self.learner_deck: self.imitation_teacher}
+        return dict(self.imitation_teachers or {})
 
     def calls(self, device: str) -> Calls:
         """How the model is asked in an update's games answered on
@@ -359,7 +373,9 @@ class TrainerConfig:
             if self.imitation_records:
                 raise ValueError("imitation_records are the games of one learner deck")
             if self.imitation_teacher:
-                raise ValueError("imitation_teacher plays one learner deck")
+                raise ValueError(
+                    "imitation_teacher plays one learner deck: imitation_teachers has one for each"
+                )
         for name, value in {
             "teacher_imitation_weight": self.teacher_imitation_weight,
             "policy_loss_weight": self.policy_loss_weight,
@@ -396,13 +412,20 @@ class TrainerConfig:
             raise ValueError("imitation_lead_weight requires imitation_records")
         if self.imitation_lead_detach and not self.imitation_lead_weight:
             raise ValueError("imitation_lead_detach requires an imitation_lead_weight")
-        if self.imitation_teacher and not self.imitation_only_updates:
+        if self.imitation_teachers is not None:
+            if self.imitation_teacher:
+                raise ValueError("imitation_teacher and imitation_teachers are mutually exclusive")
+            if sorted(self.imitation_teachers) != sorted(self.learners) or not all(
+                self.imitation_teachers.values()
+            ):
+                raise ValueError("imitation_teachers name a checkpoint for each learner deck")
+        if self.teachers and not self.imitation_only_updates:
             raise ValueError("imitation_teacher requires imitation-only updates")
-        if self.imitation_teacher and self.imitation_records:
+        if self.teachers and self.imitation_records:
             raise ValueError("imitation_teacher and imitation_records are mutually exclusive")
         if self.imitation_teacher_targets not in TEACHER_TARGETS:
             raise ValueError(f"imitation_teacher_targets must be one of {TEACHER_TARGETS}")
-        if self.imitation_teacher_targets != "choice" and not self.imitation_teacher:
+        if self.imitation_teacher_targets != "choice" and not self.teachers:
             raise ValueError("imitation_teacher_targets requires an imitation_teacher")
         if not 0.0 <= self.duel_gae_lambda <= 1.0:
             raise ValueError("duel_gae_lambda must be between 0 and 1")
@@ -451,6 +474,8 @@ class TrainerConfig:
             raise ValueError(
                 "self_play_pairs names the decks of duels against itself: self_play_duels"
             )
+        if self.self_play_pairs == "cross" and len(self.learners) < 2:
+            raise ValueError("self_play_pairs cross meets two different decks of the learner's")
         # Against itself a learner of several decks plays any two of them; a
         # checkpoint held in the other seat plays one deck.
         if self.opponent_checkpoint and len(self.learners) > 1:

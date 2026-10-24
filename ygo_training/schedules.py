@@ -41,21 +41,33 @@ def allocate_balanced_opponents(
     return assignments
 
 
-def allocate_balanced_matchups(
-    learners: list[str], opponents: list[str], episodes: int, *, seed: int
+def allocate_balanced_pairs(
+    pairs: list[tuple[str, str]], episodes: int, *, seed: int
 ) -> list[tuple[str, str]]:
-    """Allocate an exact, shuffled population of the learner's decks against
-    the opponents: every pairing as often as any other, to within a game."""
-    pairs = [(learner, opponent) for learner in learners for opponent in opponents]
+    """Allocate an exact, shuffled population of ``pairs``: every pair as
+    often as any other, to within a game."""
     drawn = allocate_balanced_opponents(
         [str(index) for index in range(len(pairs))], episodes, seed=seed
     )
     return [pairs[int(index)] for index in drawn]
 
 
+def allocate_balanced_matchups(
+    learners: list[str], opponents: list[str], episodes: int, *, seed: int
+) -> list[tuple[str, str]]:
+    """Allocate an exact, shuffled population of the learner's decks against
+    the opponents: every pairing as often as any other, to within a game."""
+    pairs = [(learner, opponent) for learner in learners for opponent in opponents]
+    return allocate_balanced_pairs(pairs, episodes, seed=seed)
+
+
 # Who sits in the seat the learner does not: the pilot of the deck there,
 # the learner's own network, or a checkpoint held as it is.
 OTHER_SEATS = ("pilot", "self", "checkpoint")
+# Which of a learner's decks meet in its duels against itself: any two of
+# them, one in each seat; each deck itself alone; or two different decks
+# alone (`allocate_matchup_seats`).
+SELF_PLAY_PAIRS = ("all", "mirrors", "cross")
 
 
 def allocate_other_seats(
@@ -89,7 +101,7 @@ def allocate_matchup_seats(
     *,
     itself: int,
     seed: int,
-    mirrors: bool = False,
+    pairs: str = "all",
 ) -> tuple[list[str], list[str], list[str]]:
     """The duels of an update of a learner of several decks, some of them
     against itself.
@@ -99,27 +111,36 @@ def allocate_matchup_seats(
     which deck is in the learner's seat and which in the other, as often as
     any other to within a game, a deck against itself among them.  So a seat
     has each deck as often as any other, and two different decks meet twice
-    as often as a deck meets itself.  With ``mirrors`` each deck meets only
-    itself, every deck as often as any other.  The other duels are the learner's
-    decks against the opponents' pilots, every pairing as often as any
-    other.  The two kinds are shuffled among each other, as
-    ``allocate_other_seats`` shuffles them for a learner of one deck.
+    as often as a deck meets itself.  With ``pairs`` `mirrors` each deck
+    meets only itself, every deck as often as any other; with `cross` only
+    the other decks, every ordered pair of two decks as often as any other.
+    The other duels are the learner's decks against the opponents' pilots,
+    every pairing as often as any other.  The two kinds are shuffled among
+    each other, as ``allocate_other_seats`` shuffles them for a learner of
+    one deck.
 
     For each duel: the deck in the learner's seat, the deck in the other
     seat, and who plays that one (``OTHER_SEATS``).
     """
     if not 0 <= itself <= episodes:
         raise ValueError("the duels against itself are of the update's duels")
+    met = {
+        "all": [(own, other) for own in learners for other in learners],
+        "mirrors": [(own, own) for own in learners],
+        "cross": [(own, other) for own in learners for other in learners if other != own],
+    }
+    if pairs not in met:
+        raise ValueError(f"pairs must be one of {SELF_PLAY_PAIRS}")
+    if itself and not met[pairs]:
+        raise ValueError("two different decks meet where the learner has two")
     duels = [
         (own, other, "pilot")
         for own, other in allocate_balanced_matchups(
             learners, opponents, episodes - itself, seed=seed
         )
     ] + [
-        (own, own if mirrors else other, "self")
-        for own, other in allocate_balanced_matchups(
-            learners, ["itself"] if mirrors else learners, itself, seed=seed ^ 0x53454C46
-        )
+        (own, other, "self")
+        for own, other in allocate_balanced_pairs(met[pairs], itself, seed=seed ^ 0x53454C46)
     ]
     random.Random(seed ^ 0x53454154).shuffle(duels)
     return (

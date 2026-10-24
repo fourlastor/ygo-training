@@ -387,6 +387,19 @@ def _held_rows(games: list[dict[str, Any]], places: list[int], players: list[int
     )
 
 
+def _seat_decks(
+    games: list[dict[str, Any]], places: list[int], players: list[int], learner: str
+) -> list[str]:
+    """The deck of the seat that asks each decision of a round: the
+    learner's, or the other seat's where a network sits in both."""
+    return [
+        str(games[place].get("learner", learner))
+        if player == int(games[place]["learner_player"])
+        else str(games[place]["opponent"])
+        for place, player in zip(places, players, strict=True)
+    ]
+
+
 def _first_choices(
     network: Any, arrays: dict[str, np.ndarray], rows: np.ndarray, device: str
 ) -> np.ndarray:
@@ -1278,18 +1291,21 @@ def watched_games(
 
 def taught_games(
     pool: DuelPool,
-    teacher: Any,
+    teachers: dict[str, Any],
     device: str,
     *,
     learner: str,
     games: list[dict[str, Any]],
     limit: int,
 ) -> tuple[list[dict[str, Any]], dict[str, float]]:
-    """The listed games (``schedules.rollout_games``) with ``teacher``, a
-    network, in the learner's seat, taking its first choice at every
-    decision: the trajectories :func:`imitation_games` returns for the
-    pilot's games, in the order given, and how the network was asked, as
-    :func:`sampled_games` tells it.
+    """The listed games (``schedules.rollout_games``) with a teacher, a
+    network, in the learner's seat, the one of the deck it plays there
+    (``teachers``, by deck), taking its first choice at every decision: the
+    trajectories :func:`imitation_games` returns for the pilot's games, in
+    the order given, and how the networks were asked, as
+    :func:`sampled_games` tells it.  Against ``self`` the teacher of the
+    other seat's deck plays that seat too, and the steps of the game are
+    those of both.
 
     A step is labelled with the teacher's answer, as a step of the pilot's
     game is with the pilot's.  The deck's pilot is asked alongside, and its
@@ -1318,14 +1334,28 @@ def taught_games(
                 raise DuelError(f"{round_.in_flight} duels neither ended nor asked")
             break
         started = time.perf_counter()
-        tensor = {name: torch.from_numpy(array).to(device) for name, array in round_.arrays.items()}
-        with torch.no_grad():
-            logits, _ = teacher(tensor)
-            chosen = logits.argmax(-1).cpu().numpy()
+        decks = np.asarray(
+            _seat_decks(games, (round_.duel - first).tolist(), round_.player.tolist(), learner)
+        )
+        chosen = np.zeros(count, dtype=np.int64)
+        for deck in sorted(set(decks.tolist())):
+            if deck not in teachers:
+                raise DuelError(f"no teacher plays {deck}")
+            rows = np.flatnonzero(decks == deck)
+            asked["batches"] += 1
+            asked["max_batch"] = max(asked["max_batch"], float(len(rows)))
+            if len(rows) < count:
+                chosen[rows] = _first_choices(teachers[deck], round_.arrays, rows, device)
+                continue
+            # A round of one deck's decisions is given whole.
+            tensor = {
+                name: torch.from_numpy(array).to(device) for name, array in round_.arrays.items()
+            }
+            with torch.no_grad():
+                logits, _ = teachers[deck](tensor)
+                chosen = logits.argmax(-1).cpu().numpy()
         asked["inference_seconds"] += time.perf_counter() - started
         asked["prompts"] += count
-        asked["batches"] += 1
-        asked["max_batch"] = max(asked["max_batch"], float(count))
         for duel, row, answer, player, transaction, label in zip(
             round_.duel.tolist(),
             round_.row.tolist(),

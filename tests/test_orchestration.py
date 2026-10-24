@@ -284,7 +284,7 @@ def test_a_learner_of_several_decks_meets_itself_in_its_mirrors_alone():
     learners = ["blackwing", "lightsworn", "gishki"]
     opponents = ["monarch", "burn", "heroes", "blackwing"]
     owns, others, seats = allocate_matchup_seats(
-        learners, opponents, 60, itself=36, seed=7, mirrors=True
+        learners, opponents, 60, itself=36, seed=7, pairs="mirrors"
     )
     itself = Counter(
         (own, other) for own, other, seat in zip(owns, others, seats) if seat == "self"
@@ -297,16 +297,106 @@ def test_a_learner_of_several_decks_meets_itself_in_its_mirrors_alone():
     ]
     # An update of the network of two decks: 260 of its 520 duels.
     two = allocate_matchup_seats(
-        ["blackwing", "cyber"], opponents, 520, itself=260, seed=2012, mirrors=True
+        ["blackwing", "cyber"], opponents, 520, itself=260, seed=2012, pairs="mirrors"
     )
     assert Counter((own, other) for own, other, seat in zip(*two) if seat == "self") == {
         ("blackwing", "blackwing"): 130,
         ("cyber", "cyber"): 130,
     }
     # To within a game where the duels do not share out evenly.
-    uneven = allocate_matchup_seats(learners, opponents, 31, itself=11, seed=7, mirrors=True)
+    uneven = allocate_matchup_seats(learners, opponents, 31, itself=11, seed=7, pairs="mirrors")
     mirrored = Counter(own for own, other, seat in zip(*uneven) if seat == "self" and own == other)
     assert sum(mirrored.values()) == 11 and set(mirrored.values()) <= {3, 4}
+
+
+def test_a_learner_of_several_decks_meets_itself_on_two_different_decks_alone():
+    """With `cross` the duels against itself have two different decks, every
+    ordered pair as often as any other; the duels against the pilots are the
+    same, in the same places, as without it."""
+    learners = ["blackwing", "lightsworn", "gishki"]
+    opponents = ["monarch", "burn", "heroes", "blackwing"]
+    owns, others, seats = allocate_matchup_seats(
+        learners, opponents, 60, itself=36, seed=7, pairs="cross"
+    )
+    itself = Counter(
+        (own, other) for own, other, seat in zip(owns, others, seats) if seat == "self"
+    )
+    assert itself == {(own, other): 6 for own in learners for other in learners if other != own}
+    every = allocate_matchup_seats(learners, opponents, 60, itself=36, seed=7)
+    assert every[2] == seats
+    assert [(own, other) for own, other, seat in zip(*every) if seat == "pilot"] == [
+        (own, other) for own, other, seat in zip(owns, others, seats) if seat == "pilot"
+    ]
+    # An update of specialist distillation's cross pairings: 260 of its 520
+    # duels.
+    two = allocate_matchup_seats(
+        ["blackwing", "cyber"], opponents, 520, itself=260, seed=2012, pairs="cross"
+    )
+    assert Counter((own, other) for own, other, seat in zip(*two) if seat == "self") == {
+        ("blackwing", "cyber"): 130,
+        ("cyber", "blackwing"): 130,
+    }
+    # To within a game where the duels do not share out evenly.
+    uneven = allocate_matchup_seats(learners, opponents, 31, itself=11, seed=7, pairs="cross")
+    crossed = Counter((own, other) for own, other, seat in zip(*uneven) if seat == "self")
+    assert sum(crossed.values()) == 11 and set(crossed.values()) <= {1, 2}
+    assert all(own != other for own, other in crossed)
+    with pytest.raises(ValueError, match="pairs must be one of"):
+        allocate_matchup_seats(learners, opponents, 8, itself=4, seed=7, pairs="rings")
+    with pytest.raises(ValueError, match="two different decks"):
+        allocate_matchup_seats(["blackwing"], opponents, 8, itself=4, seed=7, pairs="cross")
+    alone = allocate_matchup_seats(["blackwing"], opponents, 8, itself=0, seed=7, pairs="cross")
+    assert set(alone[2]) == {"pilot"}
+
+
+def test_updates_a_network_teaches_play_its_duels_against_itself_too():
+    """An imitation-only update plays the duels against itself where
+    networks teach, which play both seats; where the pilots are imitated it
+    plays none, as before."""
+    given = []
+
+    def taught(handed):
+        given.append(("taught", handed))
+        return ended(handed), NOT_ASKED
+
+    def piloted(handed):
+        given.append(("pilots", handed))
+        return ended(handed)
+
+    several = {
+        "workers": 2,
+        "duels": 8,
+        "seed": 3,
+        "imitation_only_updates": 1,
+        "self_play_duels": 4,
+        "self_play_pairs": "mirrors",
+        "pool_threads": 1,
+        "learner_decks": ["blackwing", "cyber"],
+        "opponent_decks": ["monarch"],
+    }
+    teachers = {"blackwing": "a.pt", "cyber": "b.pt"}
+    coordinator(
+        TrainerConfig(imitation_teachers=teachers, **several),
+        teacher_games=taught,
+        pilot_games=piloted,
+    ).collect()
+    ((kind, handed),) = given
+    assert kind == "taught"
+    assert Counter((game["learner"], game["opponent"], game["other"]) for game in handed) == {
+        ("blackwing", "blackwing", "self"): 2,
+        ("cyber", "cyber", "self"): 2,
+        ("blackwing", "monarch", "pilot"): 2,
+        ("cyber", "monarch", "pilot"): 2,
+    }
+    given.clear()
+    coordinator(TrainerConfig(**several), pilot_games=piloted).collect()
+    ((kind, handed),) = given
+    assert kind == "pilots"
+    assert all("other" not in game for game in handed)
+    assert Counter((game["learner"], game["opponent"]) for game in handed) == {
+        ("blackwing", "monarch"): 4,
+        ("cyber", "monarch"): 4,
+    }
 
 
 def test_an_updates_duels_are_shared_out_by_who_sits_in_the_other_seat():

@@ -109,26 +109,34 @@ class PpoTrainer(Trainer):
         self._graphs_failure_told = False
         if self.calls.graphs:
             self.graphs = Graphs(self.model, self.device, largest=self.calls.graphs)
-        # The checkpoint the imitation-only updates imitate in the pilot's
-        # place, when one is named, and what a run says of it.
-        self.teacher: PolicyValueNet | None = None
+        # The checkpoints the imitation-only updates imitate in the pilot's
+        # place, when they are named, one for each of the learner's decks,
+        # and what a run says of them: of a learner of one deck, its
+        # teacher's alone.
+        self.teachers: dict[str, PolicyValueNet] = {}
         self.teacher_description: dict[str, Any] | None = None
-        if config.imitation_teacher:
+        if config.teachers:
             # A network draws its first parameters when it is built: the
             # generator is left where the learner's left it, and the run goes
             # on as one without a teacher would.
             drawn = torch.get_rng_state()
-            path = Path(config.imitation_teacher).resolve()
-            self.teacher, saved = load_inference_model(path, device=self.device)
+            described: dict[str, dict[str, Any]] = {}
+            for deck, named in config.teachers.items():
+                path = Path(named).resolve()
+                teacher, saved = load_inference_model(path, device=self.device)
+                teacher.requires_grad_(False)
+                self.teachers[deck] = teacher
+                described[deck] = {
+                    "path": str(path),
+                    "step": saved.get("step"),
+                    "fingerprint": value_fingerprint(teacher.state_dict()),
+                    "board_representation": teacher.board_representation,
+                    "targets": config.imitation_teacher_targets,
+                }
             torch.set_rng_state(drawn)
-            self.teacher.requires_grad_(False)
-            self.teacher_description = {
-                "path": str(path),
-                "step": saved.get("step"),
-                "fingerprint": value_fingerprint(self.teacher.state_dict()),
-                "board_representation": self.teacher.board_representation,
-                "targets": config.imitation_teacher_targets,
-            }
+            self.teacher_description = (
+                described[config.learner_deck] if config.imitation_teacher else described
+            )
         # The checkpoint held as it is for the other seat, when one is named:
         # in duels of an update and in the cases of a suite that ask for it.
         self.held: PolicyValueNet | None = None
@@ -195,7 +203,7 @@ class PpoTrainer(Trainer):
             opponents=self.opponents,
             pilot_games=self._pilot_games,
             learner_games=self._learner_games,
-            teacher_games=None if self.teacher is None else self._teacher_games,
+            teacher_games=self._teacher_games if self.teachers else None,
             replayed_games=None if self.recorded is None else self._replayed_games,
             recorded=self.recorded,
             learner_stream=self._streamed_games if config.duels_in_flight else None,
@@ -226,8 +234,7 @@ class PpoTrainer(Trainer):
         # its decisions are kept.
         self._kept_seconds = 0.0
         self.policy_optimizer.kept = self._kept
-        if self.teacher is not None:
-            self.policy_optimizer.teacher = self.teacher
+        self.policy_optimizer.teachers = self.teachers
         # The critic that sees the hidden cards, where the run has one: made
         # once the model is as the run begins (`begin_critic`).
         self.critic: SightedCritic | None = None
@@ -437,14 +444,14 @@ class PpoTrainer(Trainer):
     def _teacher_games(
         self, games: list[dict[str, Any]]
     ) -> tuple[list[dict[str, Any]], dict[str, float]]:
-        """An update's games with the teacher in the learner's seat, taking
-        its first choices, their decisions kept in the pool until the next
-        update's."""
+        """An update's games with the teachers in the learner's seat, each in
+        its deck's, taking their first choices, their decisions kept in the
+        pool until the next update's."""
         duels = self._pool()
         duels.forget()
         return taught_games(
             duels,
-            self.teacher,
+            self.teachers,
             self.device,
             learner=self.config.learner_deck,
             games=games,

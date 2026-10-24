@@ -537,6 +537,25 @@ def test_a_checkpoint_to_imitate_reaches_the_trainer_config():
         parser().parse_args(["train", "--imitation-teacher-targets", "logits"])
 
 
+def test_a_checkpoint_for_each_deck_to_imitate_reaches_the_trainer_config():
+    imitating = ["train", "--imitation-only-updates", "4", "--pool-threads", "2"]
+    several = [*imitating, "--learner", "blackwing,cyber", "--opponents", "burn"]
+    named = ["--imitation-teacher", "blackwing=runs/a/model.pt"]
+    named += ["--imitation-teacher", "cyber=runs/b/model.pt"]
+    config = trainer_config(parser().parse_args([*several, *named]))
+    assert (config.imitation_teacher, config.imitation_teachers) == (
+        None,
+        {"blackwing": "runs/a/model.pt", "cyber": "runs/b/model.pt"},
+    )
+    for wrong in (
+        ["--imitation-teacher", "a.pt", "--imitation-teacher", "b.pt"],
+        ["--imitation-teacher", "blackwing=a.pt", "--imitation-teacher", "b.pt"],
+        ["--imitation-teacher", "blackwing=a.pt", "--imitation-teacher", "blackwing=b.pt"],
+    ):
+        with pytest.raises(SystemExit):
+            trainer_config(parser().parse_args([*several, *wrong]))
+
+
 def test_measuring_on_a_search_run_needs_its_rows_and_a_checkpoint():
     with pytest.raises(SystemExit):
         parser().parse_args(["evaluate-search", "model.pt"])

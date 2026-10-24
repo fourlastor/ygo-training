@@ -495,7 +495,7 @@ def test_a_networks_games_to_imitate_are_the_games_it_plays_when_it_is_measured(
     games = rollout_games(11 * 1024, 3, [OPPONENTS[game % 5] for game in range(18)])
     with DuelPool(ROOT, threads=1, slots=1) as pool:
         trajectories, asked = taught_games(
-            pool, trainer.model, "cpu", learner="blackwing", games=games, limit=4096
+            pool, {"blackwing": trainer.model}, "cpu", learner="blackwing", games=games, limit=4096
         )
         steps = [step for trajectory in trajectories for step in trajectory["steps"]]
         assert pool.kept == len(steps) == asked["prompts"] > 150
@@ -581,7 +581,7 @@ def test_updates_that_imitate_a_checkpoint_play_its_games_through_the_pool(tmp_p
     with PpoTrainer(ROOT, imitating(pool_threads=3, pool_slots=2)) as pilot:
         started = pilot.initial_model_fingerprint
         drawn = torch.get_rng_state()
-        assert pilot.teacher is None and pilot.teacher_description is None
+        assert pilot.teachers == {} and pilot.teacher_description is None
         theirs, _ = pilot.collect()
     with (
         PpoTrainer(ROOT, taught()) as one,
@@ -594,14 +594,16 @@ def test_updates_that_imitate_a_checkpoint_play_its_games_through_the_pool(tmp_p
         assert one.teacher_description == {
             "path": str(teacher.resolve()),
             "step": 7,
-            "fingerprint": value_fingerprint(one.teacher.state_dict()),
+            "fingerprint": value_fingerprint(one.teachers["blackwing"].state_dict()),
             "board_representation": "mean-pool",
             "targets": "choice",
         }
         assert soft.teacher_description["targets"] == "distribution"
         assert one.teacher_description["fingerprint"] != started
-        assert not one.teacher.training
-        assert not any(parameter.requires_grad for parameter in one.teacher.parameters())
+        assert not one.teachers["blackwing"].training
+        assert not any(
+            parameter.requires_grad for parameter in one.teachers["blackwing"].parameters()
+        )
 
         ours, rolled = one.collect()
         assert deals(ours) == deals(theirs)
@@ -625,7 +627,10 @@ def test_updates_that_imitate_a_checkpoint_play_its_games_through_the_pool(tmp_p
             other.model.state_dict()
         )
         assert value_fingerprint(one.model.state_dict()) != started
-        assert value_fingerprint(one.teacher.state_dict()) == one.teacher_description["fingerprint"]
+        assert (
+            value_fingerprint(one.teachers["blackwing"].state_dict())
+            == one.teacher_description["fingerprint"]
+        )
 
         # What is imitated of the teacher changes the lesson and not the
         # games, which are the teacher's whatever the learner has become.
@@ -637,6 +642,75 @@ def test_updates_that_imitate_a_checkpoint_play_its_games_through_the_pool(tmp_p
         assert value_fingerprint(soft.model.state_dict()) != value_fingerprint(
             one.model.state_dict()
         )
+
+
+def test_each_deck_of_a_learner_of_several_is_played_by_its_own_teacher(tmp_path):
+    """Each deck's seats are its own teacher's, against the pilots and in
+    its mirror against itself, where it plays both seats and both are
+    imitated; and each step is that teacher's first choice."""
+    import torch
+
+    torch.set_num_threads(2)
+    decks = ["blackwing", "monarch"]
+    teachers = {"blackwing": saved(tmp_path, 5), "monarch": saved(tmp_path, 6)}
+    config = TrainerConfig(
+        workers=3,
+        duels=12,
+        device="cpu",
+        seed=71,
+        learner_decks=decks,
+        opponent_decks=["heroes", "burn", "gladiator"],
+        pool_threads=3,
+        pool_slots=2,
+        ppo_epochs=1,
+        minibatch=64,
+        imitation_only_updates=2,
+        imitation_value_weight=0.5,
+        imitation_value_positions=4,
+        self_play_duels=6,
+        self_play_pairs="mirrors",
+        imitation_teachers={deck: str(path) for deck, path in teachers.items()},
+    )
+    with PpoTrainer(ROOT, config) as trainer:
+        assert {deck: told["path"] for deck, told in trainer.teacher_description.items()} == {
+            deck: str(path.resolve()) for deck, path in teachers.items()
+        }
+        ours, rolled = trainer.collect()
+        mirrors = [game for game in ours if game["other"] == "self"]
+        assert (
+            sorted(game["learner_deck"] for game in mirrors) == ["blackwing"] * 3 + ["monarch"] * 3
+        )
+        assert all(game["opponent_deck"] == game["learner_deck"] for game in mirrors)
+        assert all({step["player"] for step in game["steps"]} == {0, 1} for game in mirrors)
+        piloted = [game for game in ours if game["other"] == "pilot"]
+        assert len(piloted) == 6
+        assert all(
+            {step["player"] for step in game["steps"]} == {game["learner_player"]}
+            for game in piloted
+        )
+        assert all(step["teacher"] for game in ours for step in game["steps"])
+        for deck in decks:
+            rows = [
+                step["row"]
+                for game in ours
+                for step in game["steps"]
+                if game["learner_deck"] == deck
+            ]
+            chosen = [
+                step["chosen"]
+                for game in ours
+                for step in game["steps"]
+                if game["learner_deck"] == deck
+            ]
+            with torch.no_grad():
+                own, _ = trainer.teachers[deck](trainer._kept(rows))
+                other, _ = trainer.teachers[decks[deck == "blackwing"]](trainer._kept(rows))
+            assert own.argmax(-1).tolist() == chosen
+            assert other.argmax(-1).tolist() != chosen
+        assert rolled["decisions"] > 100 and rolled["max_inference_batch"] > 3
+        metrics = trainer.train_update()
+        assert metrics["imitation_teacher_agreement"] == 1.0
+        assert set(metrics["imitation_model_teacher_agreement_by_deck"]) == set(decks)
 
 
 def test_a_teacher_may_read_the_board_another_way_than_its_learner(tmp_path):

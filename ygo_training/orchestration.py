@@ -189,8 +189,10 @@ class Coordinator:
         learner_assignments: list[str] | None = None
         other_seats: list[str] | None = None
         # Duels against itself and against a held checkpoint are of the
-        # updates whose games the model plays.
-        itself = 0 if imitation_only else self.config.self_play_duels
+        # updates whose games the model plays; and against itself of those
+        # a network teaches, which then plays both seats.
+        taught = imitation_only and self.teacher_games is not None
+        itself = self.config.self_play_duels if taught or not imitation_only else 0
         held = 0 if imitation_only else self.config.opponent_checkpoint_duels
         if itself and len(self.learners) > 1:
             # A learner of several decks against itself: any two of its
@@ -201,7 +203,7 @@ class Coordinator:
                 self.config.duels,
                 itself=itself,
                 seed=rollout_seed ^ 0x4F50504F,
-                mirrors=self.config.self_play_pairs == "mirrors",
+                pairs=self.config.self_play_pairs,
             )
         elif itself or held:
             opponent_assignments, other_seats = allocate_other_seats(
