@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-monarch-screen",
+  "primary": "monarch-vs-monarch",
+  "cases": [
+    {
+      "name": "monarch-vs-blackwing",
+      "learner": "monarch",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-burn",
+      "learner": "monarch",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-crystal",
+      "learner": "monarch",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-dragunity",
+      "learner": "monarch",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-gishki",
+      "learner": "monarch",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-gladiator",
+      "learner": "monarch",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-heroes",
+      "learner": "monarch",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-infernity",
+      "learner": "monarch",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-lightsworn",
+      "learner": "monarch",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-monarch",
+      "learner": "monarch",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-morphtronic",
+      "learner": "monarch",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-rock-block",
+      "learner": "monarch",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-spellcaster",
+      "learner": "monarch",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

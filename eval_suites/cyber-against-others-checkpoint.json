@@ -1,0 +1,405 @@
+{
+  "name": "cyber-against-others-checkpoint",
+  "primary": "cyber-vs-agents-checkpoint",
+  "cases": [
+    {
+      "name": "cyber-vs-agents-checkpoint",
+      "learner": "cyber",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-alien-checkpoint",
+      "learner": "cyber",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-amazoness-checkpoint",
+      "learner": "cyber",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-batteryman-checkpoint",
+      "learner": "cyber",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-benkei-checkpoint",
+      "learner": "cyber",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-chain-burn-checkpoint",
+      "learner": "cyber",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-chaos-checkpoint",
+      "learner": "cyber",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-cloudian-checkpoint",
+      "learner": "cyber",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-counter-fairy-checkpoint",
+      "learner": "cyber",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-dark-world-checkpoint",
+      "learner": "cyber",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-deckout-checkpoint",
+      "learner": "cyber",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-demise-checkpoint",
+      "learner": "cyber",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-destiny-board-checkpoint",
+      "learner": "cyber",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-exodia-checkpoint",
+      "learner": "cyber",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-fabled-checkpoint",
+      "learner": "cyber",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-fish-checkpoint",
+      "learner": "cyber",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-flamvell-checkpoint",
+      "learner": "cyber",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-garden-checkpoint",
+      "learner": "cyber",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-gem-knight-checkpoint",
+      "learner": "cyber",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-gemini-checkpoint",
+      "learner": "cyber",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-genex-checkpoint",
+      "learner": "cyber",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-gusto-checkpoint",
+      "learner": "cyber",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-herald-checkpoint",
+      "learner": "cyber",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-ice-barrier-checkpoint",
+      "learner": "cyber",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-iron-chain-checkpoint",
+      "learner": "cyber",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-jurrac-checkpoint",
+      "learner": "cyber",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-macro-dd-checkpoint",
+      "learner": "cyber",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-malefic-checkpoint",
+      "learner": "cyber",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-naturia-checkpoint",
+      "learner": "cyber",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-nordic-checkpoint",
+      "learner": "cyber",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-nurse-checkpoint",
+      "learner": "cyber",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-psychic-checkpoint",
+      "learner": "cyber",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-reptilianne-checkpoint",
+      "learner": "cyber",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-scrap-checkpoint",
+      "learner": "cyber",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-spirit-checkpoint",
+      "learner": "cyber",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-venom-checkpoint",
+      "learner": "cyber",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-volcanic-checkpoint",
+      "learner": "cyber",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-worm-checkpoint",
+      "learner": "cyber",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-zombie-checkpoint",
+      "learner": "cyber",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-arcana-checkpoint",
+      "learner": "cyber",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-countdown-checkpoint",
+      "learner": "cyber",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-destiny-hero-checkpoint",
+      "learner": "cyber",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-draconic-might-checkpoint",
+      "learner": "cyber",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-fortune-lady-checkpoint",
+      "learner": "cyber",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-gravekeeper-checkpoint",
+      "learner": "cyber",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-harpie-checkpoint",
+      "learner": "cyber",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-karakuri-checkpoint",
+      "learner": "cyber",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-machina-checkpoint",
+      "learner": "cyber",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-ojama-checkpoint",
+      "learner": "cyber",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-pyramid-checkpoint",
+      "learner": "cyber",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-quickdraw-plant-checkpoint",
+      "learner": "cyber",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-six-samurai-checkpoint",
+      "learner": "cyber",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-tele-dad-checkpoint",
+      "learner": "cyber",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-toon-checkpoint",
+      "learner": "cyber",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-verdict-checkpoint",
+      "learner": "cyber",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-watt-checkpoint",
+      "learner": "cyber",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "cyber-vs-x-saber-checkpoint",
+      "learner": "cyber",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    }
+  ]
+}

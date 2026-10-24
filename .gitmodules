@@ -1,0 +1,6 @@
+[submodule "native/ygo-policies"]
+	path = native/ygo-policies
+	url = https://github.com/fourlastor/ygo-policies
+[submodule "native/ygo-model-input"]
+	path = native/ygo-model-input
+	url = https://github.com/fourlastor/ygo-model-input

@@ -1,0 +1,13 @@
+{
+  "name": "blackwing-against-lightsworn-checkpoint",
+  "primary": "blackwing-vs-lightsworn-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-lightsworn-checkpoint",
+      "learner": "blackwing",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

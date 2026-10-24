@@ -1,0 +1,27 @@
+# Rust build output of the duel environment.
+/target/
+# Machine-local build flags (tools/engine_pgo_build.sh).
+/.cargo/config.toml
+/.cargo/config.toml.*
+
+# Local Python training environment and generated learning artifacts.
+/.venv/
+__pycache__/
+/*.egg-info/
+/checkpoints/
+/trajectories/
+/analysis/
+/model-*.pt
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+/runs
+
+# Editor settings.
+/.idea
+edopro-logs/
+
+# What tools/benchmark.sh installs and writes.
+/benchmark/
+# A local agent's own settings.
+/.codex/

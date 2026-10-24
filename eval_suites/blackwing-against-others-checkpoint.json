@@ -1,0 +1,412 @@
+{
+  "name": "blackwing-against-others-checkpoint",
+  "primary": "blackwing-vs-agents-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-agents-checkpoint",
+      "learner": "blackwing",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-alien-checkpoint",
+      "learner": "blackwing",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-amazoness-checkpoint",
+      "learner": "blackwing",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-batteryman-checkpoint",
+      "learner": "blackwing",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-benkei-checkpoint",
+      "learner": "blackwing",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-chain-burn-checkpoint",
+      "learner": "blackwing",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-chaos-checkpoint",
+      "learner": "blackwing",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-cloudian-checkpoint",
+      "learner": "blackwing",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-counter-fairy-checkpoint",
+      "learner": "blackwing",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-cyber-checkpoint",
+      "learner": "blackwing",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-dark-world-checkpoint",
+      "learner": "blackwing",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-deckout-checkpoint",
+      "learner": "blackwing",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-demise-checkpoint",
+      "learner": "blackwing",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-destiny-board-checkpoint",
+      "learner": "blackwing",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-exodia-checkpoint",
+      "learner": "blackwing",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-fabled-checkpoint",
+      "learner": "blackwing",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-fish-checkpoint",
+      "learner": "blackwing",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-flamvell-checkpoint",
+      "learner": "blackwing",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-garden-checkpoint",
+      "learner": "blackwing",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-gem-knight-checkpoint",
+      "learner": "blackwing",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-gemini-checkpoint",
+      "learner": "blackwing",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-genex-checkpoint",
+      "learner": "blackwing",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-gusto-checkpoint",
+      "learner": "blackwing",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-herald-checkpoint",
+      "learner": "blackwing",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-ice-barrier-checkpoint",
+      "learner": "blackwing",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-iron-chain-checkpoint",
+      "learner": "blackwing",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-jurrac-checkpoint",
+      "learner": "blackwing",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-macro-dd-checkpoint",
+      "learner": "blackwing",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-malefic-checkpoint",
+      "learner": "blackwing",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-naturia-checkpoint",
+      "learner": "blackwing",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-nordic-checkpoint",
+      "learner": "blackwing",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-nurse-checkpoint",
+      "learner": "blackwing",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-psychic-checkpoint",
+      "learner": "blackwing",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-reptilianne-checkpoint",
+      "learner": "blackwing",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-scrap-checkpoint",
+      "learner": "blackwing",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-spirit-checkpoint",
+      "learner": "blackwing",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-venom-checkpoint",
+      "learner": "blackwing",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-volcanic-checkpoint",
+      "learner": "blackwing",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-worm-checkpoint",
+      "learner": "blackwing",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-zombie-checkpoint",
+      "learner": "blackwing",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-arcana-checkpoint",
+      "learner": "blackwing",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-countdown-checkpoint",
+      "learner": "blackwing",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-destiny-hero-checkpoint",
+      "learner": "blackwing",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-draconic-might-checkpoint",
+      "learner": "blackwing",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-fortune-lady-checkpoint",
+      "learner": "blackwing",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-gravekeeper-checkpoint",
+      "learner": "blackwing",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-harpie-checkpoint",
+      "learner": "blackwing",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-karakuri-checkpoint",
+      "learner": "blackwing",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-machina-checkpoint",
+      "learner": "blackwing",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-ojama-checkpoint",
+      "learner": "blackwing",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-pyramid-checkpoint",
+      "learner": "blackwing",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-quickdraw-plant-checkpoint",
+      "learner": "blackwing",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-six-samurai-checkpoint",
+      "learner": "blackwing",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-tele-dad-checkpoint",
+      "learner": "blackwing",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-toon-checkpoint",
+      "learner": "blackwing",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-verdict-checkpoint",
+      "learner": "blackwing",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-watt-checkpoint",
+      "learner": "blackwing",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "blackwing-vs-x-saber-checkpoint",
+      "learner": "blackwing",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    }
+  ]
+}

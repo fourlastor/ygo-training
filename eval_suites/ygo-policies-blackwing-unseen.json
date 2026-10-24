@@ -1,0 +1,114 @@
+{
+  "name": "ygo-policies-blackwing-unseen",
+  "primary": "blackwing-vs-arcana",
+  "cases": [
+    {
+      "name": "blackwing-vs-arcana",
+      "learner": "blackwing",
+      "opponent": "arcana",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-countdown",
+      "learner": "blackwing",
+      "opponent": "countdown",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-destiny-hero",
+      "learner": "blackwing",
+      "opponent": "destiny-hero",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-draconic-might",
+      "learner": "blackwing",
+      "opponent": "draconic-might",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-fortune-lady",
+      "learner": "blackwing",
+      "opponent": "fortune-lady",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-gravekeeper",
+      "learner": "blackwing",
+      "opponent": "gravekeeper",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-harpie",
+      "learner": "blackwing",
+      "opponent": "harpie",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-karakuri",
+      "learner": "blackwing",
+      "opponent": "karakuri",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-machina",
+      "learner": "blackwing",
+      "opponent": "machina",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-ojama",
+      "learner": "blackwing",
+      "opponent": "ojama",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-pyramid",
+      "learner": "blackwing",
+      "opponent": "pyramid",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-quickdraw-plant",
+      "learner": "blackwing",
+      "opponent": "quickdraw-plant",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-six-samurai",
+      "learner": "blackwing",
+      "opponent": "six-samurai",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-tele-dad",
+      "learner": "blackwing",
+      "opponent": "tele-dad",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-toon",
+      "learner": "blackwing",
+      "opponent": "toon",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-verdict",
+      "learner": "blackwing",
+      "opponent": "verdict",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-watt",
+      "learner": "blackwing",
+      "opponent": "watt",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-x-saber",
+      "learner": "blackwing",
+      "opponent": "x-saber",
+      "games": 128
+    }
+  ]
+}

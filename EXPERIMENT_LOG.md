@@ -1,0 +1,301 @@
+# Training experiment index
+
+This file is the canonical index for training experiments. Detailed hypotheses,
+protocols, evidence, and conclusions live in one Markdown file per experiment
+under [`experiments/`](experiments/).
+
+Shared evidence standards, probe purposes, validity requirements, and the
+diagnostic decision guide live in
+[`experiments/METHODOLOGY.md`](experiments/METHODOLOGY.md).
+
+Exactly one experiment may have `ACTIVE` status. Before activating a new
+experiment, update the previous active experiment to `HISTORICAL`,
+`COMPLETED`, or `INVALIDATED`. Keep this index ordered from newest to oldest.
+Record material, evidence-backed findings in the relevant experiment file;
+do not add routine progress, transient diagnostics, or unverified suspicions.
+
+## Current active experiment
+
+- [A network of two decks at the champions' games of each mirror](experiments/2026-10-24-two-decks.md),
+  since 2026-10-24, when the Cyber champion was closed; its design and
+  readings fixed before anything was built.
+  One network of Blackwing and Cyber by the champion's recipe: the pilots
+  copied for 480 updates, then 2,880 updates of PPO with half of each
+  update's duels against itself on every ordered pair of its decks, so
+  each mirror has as many games as its champion's 720 updates (the two
+  decks against each other twice that, each pilot's pairing twice a
+  champion's); and Blackwing alone afresh by the recipe at today's code.
+  For each deck, the network of both against its champion (Blackwing
+  alone, `cyber-old`) in its mirror, at as many games of it, every deal
+  from both seats: it matches when its share less two standard errors is
+  at least 48%, is weaker when its share plus two standard errors is at
+  most 48%, otherwise not decided. Two runs of the recipe, `cyber-new`
+  and `cyber-old`, are 57.3% ± 0.5% head to head, beside it.
+  Run and read that morning: it matches both, 52.3% ± 0.4% against
+  Blackwing alone and 57.2% ± 0.5% against `cyber-old`; against `all71`
+  it is ahead of each champion, +3.0 ± 0.6 and +4.9 ± 0.5 points, the
+  deals paired, for twice the two champions' updates together.
+  Its follow-up, fixed that day: the network of both
+  with its duels against itself in the mirrors only, the two champions'
+  games together and no more; the cross games bring strength to a
+  mirror when the network of both is at least 2 points over it against
+  `all71` by two standard errors (cost at 2 under), and it matches each
+  champion head to head by the rule above.
+  A second follow-up, played that morning: outside its mirror a
+  single-deck champion is worse, 11.3 ± 0.8 and 11.4 ± 0.8 points under
+  the network of both in Blackwing against Cyber, and 5 to 7 points
+  under `all71` against the decks outside the thirteen.
+- And beside it, since 2026-10-23,
+  [The credit offline: a value head with more results, and pairing at the decision](experiments/2026-10-23-credit-offline.md):
+  two measurements that train nothing, of `all71`'s last checkpoint in its
+  run's own games, readings fixed before anything was
+  built: whether a value phase over the last 16 updates' duels makes the
+  head explain at least 0.02 more of a result than the head taught as PPO
+  teaches it (and, if it does, gives the step at least 1.5 times the
+  signal), and whether two answers played on from one position with the
+  same draws to come cancel at least half the variance of their
+  difference (a quarter or less: does not pay), one such pair judging
+  the two answers better than the head does. Run and read that day: neither
+  is met. The value phase explains −0.004 ± 0.002 of a result against
+  the head taught as PPO teaches it (0.392 against 0.396); a shared future
+  cancels 0.136 ± 0.025 of the answers' difference, and one pair strays
+  more than the head, whose difference follows the answers' worth at 0.16.
+- And beside it too, since 2026-10-23,
+  [The staged search against the network](experiments/2026-10-23-search-against-network.md):
+  `all71`'s last checkpoint head to head against the policies' staged
+  search, with the generic pilot and with each deck's specialist, 1,040
+  deals each played twice with the decks swapped; reading fixed before
+  anything was built: the network stronger at 52% of the
+  games and two standard errors, weaker at 48%, otherwise not told apart.
+  Both arms played that day: with the generic pilot the network is
+  stronger (54.8% ± 0.8% of 2,080 games), with each deck's specialist not
+  told apart (48.7% ± 0.8%).
+
+- And beside it too, since 2026-10-23,
+  [The improved pilots on all71's yardstick](experiments/2026-10-23-improved-pilots.md):
+  each deck whose pilot is improved on the policies' branch
+  `pilots-against-the-network`, played on the games
+  `all71` was measured on, beside its pilot as pinned; the share of its
+  gap to `all71` closed, told without a mark. Cyber, the first pushed
+  (`d696a4b`, five rules): 40.4% against 18.8%, +21.6 ± 3.2 points, the
+  gap closed 56% ± 8%; the other 57 decks win the same games.
+  Beside it, the specialist arm's search on 520 deals Cyber is in, with
+  the pinned and with the improved pilot: stronger when the network wins
+  at least 2 points less against it by two standard errors, deals paired.
+  Played that day: stronger, the network winning 5.7 ± 1.6 points less
+  (48.2% of the games against 53.8%).
+  Then Zombie, Chain Burn, Herald and Iron Chain (`76090d2`, measured on
+  2026-10-24): the gaps closed 23% to 48%, Chain Burn's the most (+15.4
+  ± 3.5 points); the other 53 decks, Cyber among them, the same games.
+  Then Amazoness (`1b68829`): +5.8 ± 2.9 points, the gap closed 42% ± 17%.
+  Then Malefic (`0a529a1`): +7.7 ± 2.4 points, the gap closed 56% ± 16%.
+
+Each experiment before it, with what it found and how it was closed, is in
+the table below and in its own record.
+
+## Standing notes on the trainer and the checkpoints
+
+**Since 2026-10-13 the trainer gives the LSTM a packed batch and, on a
+card, answers the calls of an update's games from CUDA graphs with the
+duels in two groups**: a run on or after that day is not to the digit
+what it would have been before, and no measurement is touched.
+**Since 2026-10-16, when the branch `no-repeat` was merged after the
+measuring parts of the two experiments of the day before, a command of the
+Main or the Battle Phase that the network's seat gave at the same
+position earlier in the turn is not offered there again**: the network
+of three decks of the experiment on more decks had looped in a sixth
+of its games as Lightsworn against Rock-Block, activating Lyla under
+Skill Drain until the cap of decisions. Pilots' games are untouched; a
+network's games and measurements differ only where it gives such a
+command again. **Since the evening of 2026-10-16 the rule takes away an
+activation at a chain window too**: the first arms
+of the experiment on thirteen decks looped there, activating Lyla at a window of
+their own Main Phase, and were set aside and started again from the same
+copy. Passing a chain window is always offered.
+**Since 2026-10-16, after the runs of the experiment on thirteen decks
+started, the trainer plays every game through the pool and builds no input of its
+own**: the worker processes and the Python packing were dropped, and `native/ygo-model-input` is the input's one
+definition. Checked against the code before, on a checkpoint of the
+running copy: the same training runs to the last weight, the same suites
+and held-out deals; `evaluate-search`'s reading of recorded duels moves
+at decisions whose two answers score the same to the bit, which the
+workers' batches had parted by the clock (one decision of 3,403).
+**Since 2026-10-17 the policies' engine reuses what Lua frees**
+(`a10d7ec`, its fork's `77dc180`), and a duel whose arena still fills
+ends cut off where it aborted the process: a long duel of one of the
+decks outside training had filled it. Every game checked plays as
+before (14,880 of the pilots, 32 with their search, 3,744 of a network).
+**Since 2026-10-23 a monster face-up on the field is not offered the
+activation of its effect while its effects are negated**, where the seat
+may decline it (decided on 2026-10-22), the field asked for
+with each card's status: `all71` had learnt to loop so as Psychic,
+Destructotron under Fiendish Chain ([Seventy-one
+decks](experiments/2026-10-19-seventy-one-decks.md), its section on the
+duels it cut).
+Of 600 sampled duels of Psychic against the decks it looped with, 5 ran to
+the cap before and none does now. Pilots' games are untouched; a network's differ where
+it activated such an effect (21 and 4 of 1,664 measured games on the
+Rock-Block screen, whose deck plays Skill Drain, and the Lightsworn one).
+**Since 2026-10-23 a run on a card keeps twice its duels in flight, in
+minibatches of 512, where its command line does not say** (decided
+after the run `fast` of [Duels in
+flight](experiments/2026-10-23-duels-in-flight.md) learned as `all71` did
+and played 1.46 times the duels an hour): `--duels-in-flight` twice
+`--duels` for a run whose updates can keep them (of PPO from its start, not
+evaluated as it goes, with no critic, card head, held checkpoint's duels or
+teacher: a copy keeps the earlier settings), the
+pool's slots raised to hold them, the model's calls answered as they are in
+two groups; any other run and any run on a processor as before. A run that
+goes on keeps what it began with. The commands of earlier experiments take
+these defaults where they are run at today's code: `--duels-in-flight 0
+--minibatch 256` gives the earlier settings.
+**Since 2026-10-24 the policies play CardScripts at `188c4b93`**, its own
+mend of Batteryman Fuel Cell, where they had played a copy of it: the 65
+upstream commits between the two pins change five more of the pool's
+cards and the Fusion procedure, and no game of the pilots' suites and
+screens (33,696) or of `all71` on the decks that hold those cards (15,392)
+ends otherwise; the pinned engine runs them without an error.
+
+**The checkpoint format is 15 since 2026-10-16**, the board
+`mean-pool`: format 14 without the two deck lists in the input, which
+were dropped when
+[Without the deck lists](experiments/2026-10-15-without-deck-lists.md)
+found that a copy plays as well without them. The first checkpoints of
+format 15 are those of the experiment on thirteen decks, in
+`runs/thirteen-decks`. Format 16 (2026-10-17, for the experiment on card descriptions)
+is format 15 told more of a card by the code its input carries, the
+cards' descriptions or identities hidden, from a table the checkpoint
+carries; no array of the input changes, a model told nothing more is
+still written in format 15, and both load. Every checkpoint named below is of format 13 or 14, reads
+the lists and does not load at format 15 or after; the revision before it,
+`05d27141`, runs them and the scripts that made them. Format 14 was
+format 13 with a head that predicts each answer's lead, the input
+unchanged. The checkpoints are on the CUDA machine only. In format 13,
+which loaded with that head initialised: the imitation seed
+(`runs/format13-blackwing-imitation-seed-2012`) and the eight arms of the
+search-imitation experiment, which started from its version 49. In format
+14: the four arms and the calibration run of the search-leads experiment
+(`runs/search-leads`), which started from its version 89. None is
+promoted. The seed run was continued on 2026-10-07 and levels off at
+version 89, 2.1 points under its pilot on the suite (63.0% against
+64.9%): that is the checkpoint to start anything further from. Both
+rates are against the pilots the other decks had until that day. Against
+the improved ones its pilot wins 55.5% of the suite and the seed 53.2%,
+2.2 points under, both on the deals of the default seed; on the deals
+of seed 2012, which a training run of that seed evaluates on, the pilot
+wins 60.3%. The runs of the experiment on the learner itself are in
+`runs/learner`, in format 14, trained from scratch against the improved
+pilots.
+**Work on format 14 went on from `once-few` after 360 updates**
+(`runs/learner/once-few/checkpoints/model-00359.pt`, board `mean-pool`):
+59.6% of the held-out deals at that checkpoint and 58.6% over its last
+four, where its pilot wins 60.7% and the seed 55.1%, with a value head
+that explains 0.35 of the results of games new to it. `once-cards-few`
+is the same on the board as its cards (`individual-tokens`), 59.4% over
+its four. The five arms of the experiment on PPO are in
+`runs/ppo-head`, each 120 updates of PPO on from that checkpoint
+(versions 360 to 479); `one-pass` is the one that wins most, and none
+is promoted. The follow-up's runs are in `runs/ppo-long`, its third
+seed in `runs/ppo-seed-2014`: the long run
+ends in `one-pass-long/checkpoints/model-02279.pt`, which wins 77.6% of
+the held-out deals. The second long run is in
+`runs/ppo-long-rate/one-pass-long` (so named by the script as it was
+when it ran; it goes on from `runs/ppo-long/one-pass-rate`), and its
+last checkpoint, `model-02279.pt` there, wins 81.4% and is the
+strongest Blackwing player made here against the pilots: the
+experiment on self-play started from it, and its runs are in
+`runs/self-play`. Of its two arms, each 960 updates on
+(`model-03239.pt` under `with-itself` and `pilots-alone`), With
+itself's last checkpoint is the best player of the mirror made here and
+the one a learner finds nothing in, at 79.9% of the held-out deals;
+Pilots alone's wins 82.1% of them and has the start's holes whole. None
+is promoted. The experiment after it took those two arms on to 1,920
+updates in the same folders (`model-04199.pt` under each: With itself's
+wins 81.0% of the held-out deals and Pilots alone's 83.3%), measured in
+`analysis/self-play-further`, with the exploiters of those checkpoints
+in `runs/self-play/exploiter-ARM-SEED.1920`. The second pair of the arms
+(training seed 2013, 960 updates) is in `runs/self-play-2013`, measured
+in `analysis/self-play-2013`. The networks of the experiment on two
+decks, each an imitation from scratch, are in `runs/several-decks`.
+Those of the experiment on more decks, each its copy
+(`decks-NN-copy`) and its PPO (`decks-NN`), are in `runs/more-decks`,
+measured in `analysis/more-decks`.
+**The trainer's default
+is one pass over an update's games since 2026-10-10**, where it was
+four; the scripts of earlier experiments that took the default now name
+four. **PPO runs at a learning rate of 1e-4 since 2026-10-11**, named by its
+scripts: the default stays 3e-4, which the
+imitating runs are made with.
+
+> **Engine defect, 2026-07-16 to 2026-09-28:** OCGCore never received card
+> archetype set codes, so every setcode-gated effect was silently disabled
+> (fixed in `f22edb4e2`). Every duel-based result recorded between those dates
+> was measured on that engine. The ygo-policies series is marked INVALIDATED.
+
+> **Repository cleanup, 2026-10-04 to 2026-10-06:** the earlier policy, the
+> old client and the standalone probes were removed, the training project
+> moved to the repository root, and the duels moved onto the ygo-policies
+> tooling, run by `crates/ygo-env`. Checkpoints are format 13 from here on
+> and earlier ones do not load: the network's input, the decisions it is
+> asked, the deals and the pilots all changed (see the port in the
+> [remedies record](experiments/2026-09-29-ppo-regression-remedies.md)).
+> The engine, the card scripts and the card database were brought up to date
+> with their upstreams in the same step (ygo-policies `215f7d0`), before
+> anything was measured on the new setup. The pin has since moved to
+> `bc8c0f7`, a faster search that plays the same duels, and on 2026-10-07
+> to `568711d`, whose search can log every alternative it could have tried;
+> the duels are again the same.
+
+> **Opponents' pilots improved, 2026-10-07:** the pin moved to ygo-policies
+> `1b85b63`, the pilots as improved upstream on 2026-10-06 and 07
+> (`75e4b37`) with the full log on top. They change 24 decks, ten of the
+> twelve the Blackwing pool plays against. Blackwing's pilot, Infernity's
+> and Monarch's are as they were, and so are the engine, the scripts, the
+> cards, the search and the network's input: the checkpoints load and see
+> what they were trained on. The duels against the ten are others. The
+> Blackwing pilot wins 60.3% of its suite where it won 64.9% (on the
+> deals of seed 2012; 55.5% on those of the default seed, which was set
+> beside the 64.9% until 2026-10-09), and 60.7% of
+> the held-out deals of the search-imitation experiment where it won
+> 67.6%. Every result against the pool up to and including that experiment
+> was measured against the earlier pilots and is not comparable with what
+> comes after. Its recorded games play again only at `bc8c0f7`, or at
+> `568711d`, which is that pin with the full log (ygo-policies branch
+> `log-full-bc8c0f7`).
+
+## Experiments
+
+| Status | Experiment | Summary |
+| --- | --- | --- |
+| ACTIVE | [2026-10-24 — A network of two decks at the champions' games of each mirror](experiments/2026-10-24-two-decks.md) | Proposed on 2026-10-24, design and readings confirmed before anything was built: whether one network of Blackwing and Cyber, made by the champion's recipe with as many games of each mirror as each deck's champion had (its copy 480 updates, then 2,880 of PPO, half of each update's 520 duels against itself on every ordered pair of its decks, the others against the thirteen decks' pilots), plays each mirror as well as the deck's champion: Blackwing alone, made afresh by the recipe at today's code, and `cyber-old`. It matches in a mirror when its share against the champion there, at as many games of it and every deal from both seats, less two standard errors is at least 48%; weaker when its share plus two standard errors is at most 48%; otherwise not decided. Two runs of the recipe, `cyber-new` and `cyber-old`, are 57.3% ± 0.5% head to head. Run and read on 2026-10-24: it matches both, 52.3% ± 0.4% against Blackwing alone and 57.2% ± 0.5% against `cyber-old`; against `all71` it is ahead of each champion, +3.0 ± 0.6 points in the Blackwing mirror and +4.9 ± 0.5 in the Cyber mirror, the deals paired, and wins 63.5% of Blackwing against Cyber; 6.6 hours on the card, twice the two champions' updates together. |
+| COMPLETED | [2026-10-23 — A Cyber champion: the Blackwing recipe from the improved pilot](experiments/2026-10-23-cyber-champion.md) | Proposed on 2026-10-23, design and readings confirmed before anything was run: the recipe of the network of Blackwing alone (`decks-01`: its pilot copied for 240 updates, then PPO with half its duels the mirror against itself) for Cyber, to 720 updates of PPO, where Blackwing's mirror stopped rising, in two arms: from a copy of the improved pilot and from a copy of the pilot as pinned. A champion when the first arm's last three checkpoints win at least 52% of the Cyber mirror against `all71` by two standard errors, weaker at 48% or less, otherwise not told apart; the pilot matters at 120 and at 720 updates when the first arm is at least 2 points over the second on Cyber's 208 games against the thirteen decks' pilots, by two standard errors. Begun on the CUDA machine that day, when overlap was read and closed, with `fast`'s settings alone (overlap was not faster). Run and read on 2026-10-24: a champion, `cyber-new`'s last three checkpoints winning 74.4% ± 0.5% of the Cyber mirror against `all71`; the pilot not shown to matter, +7.7 ± 3.3 points after 120 updates and +0.5 ± 3.6 after 720 (63.0% against 62.5%, `all71` 57.5% on the same games). Two hours of the card for `cyber-new`, nothing failed. `cyber-old`, played in the mirror against `all71` afterwards: a champion too, 76.4% ± 0.5%, `cyber-new` 2.0 ± 0.5 points under it, the deals paired: the recipe made the champion, not the improved pilot. Closed on 2026-10-24 for the next experiment, built on it. |
+| COMPLETED | [2026-10-23 — Overlap: the pass beside the next update's games](experiments/2026-10-23-overlap.md) | Whether PPO with the next update's games played by a second thread beside the pass, with the weights from before it (a duel's answers one update older than in `fast`, PPO's ratio taken against the chances its game was answered with, no V-trace), learns as well per duel as `fast` did, and how much faster an update is: one arm, `overlap`, from `all71`'s copy to R1 with `fast`'s settings (the default on a card since that day) and the option, measured against `fast` there; a trial first of 20 updates of each at the same code, on the CUDA machine's engine built from a profile of its own games. Equivalent when over the three suites the gap less two standard errors is above −2 points, worse when the gap plus two standard errors is below −2; faster when its first 20 updates play at least 1.25 times the duels an hour of the trial's `fast` settings. Design and readings fixed on 2026-10-23 before anything was built. Run and read on the CUDA machine that day: equivalent (55.4% against 55.2% over the three suites, +0.2 ± 0.2 over 33,696 games) and not faster (its first 20 updates 1.17 times the duels an hour of the trial's 20 of `fast`'s settings; 1.20 times over the whole run, 5.68 s an update against 6.79). The update is now the pass's, which the games beside it slow from 3.0 s to 4.6 as they share the card and Python's lock. Closed that day, when the Cyber champion was to begin; not made a default, the champion runs without it. |
+| ACTIVE, beside the network of two decks | [2026-10-23 — The improved pilots on all71's yardstick](experiments/2026-10-23-improved-pilots.md) | Each deck whose pilot is improved on the policies' branch `pilots-against-the-network`, played on the suites `all71` and the pilots were measured on by seventy-one decks, beside the pilots as pinned at the same trainer code: the decks the branch left as they were must win the same games; for the others the gain, `all71`'s share and the share of the gap closed, told without a mark. The pilots as pinned win exactly the games they won for seventy-one decks. Cyber (`d696a4b`, five rules): 40.4% against 18.8% on its 208 games, +21.6 ± 3.2 points, `all71` 57.5%: the gap closed 56% ± 8%; the other 57 decks the same games. The specialist arm's search on 520 deals Cyber is in, with the improved pilot against the pinned, the deals paired: stronger, the network winning 5.7 ± 1.6 points less (48.2% of the games against 53.8%). Zombie, Chain Burn, Herald and Iron Chain (`76090d2`, measured on 2026-10-24): Chain Burn 40.4% against 25.0% (the gap closed 48% ± 9%), Iron Chain 46.6% against 35.1% (47% ± 12%), Herald 38.5% against 30.3% (34% ± 9%), Zombie 55.8% against 48.1% (23% ± 8%); the other 53 decks, Cyber among them, the same games. Amazoness (`1b68829`, 2026-10-24): 54.8% against 49.0% (42% ± 17%). Malefic (`0a529a1`): 64.9% against 57.2% (56% ± 16%). |
+| ACTIVE, beside the network of two decks | [2026-10-23 — The staged search against the network](experiments/2026-10-23-search-against-network.md) | Whether the policies' staged search plays better than the network: `all71`'s last checkpoint, its first choice, head to head against the staged search at upstream's measured settings, in two arms (the generic pilot with the generic model of the other player; each deck's own specialist with the other deck's specialist as the model), on 1,040 of `all71`'s own pairings of two decks, each played twice with the network and the search swapping decks. The network stronger when it wins at least 52% of an arm's games by two standard errors, weaker at 48% or less, otherwise not told apart. Design and reading fixed on 2026-10-23 before anything was built. Both arms played on the development machine that day. Generic: the network is stronger, 54.8% ± 0.8% of 2,080 games (1,140 won, 938 lost, 2 drawn). Specialist: not told apart, 48.7% ± 0.8% (1,012 won, 1,068 lost). The search changed its pilot's answer 2.3 to 2.4 times a game, at some 46 s a game; the pilot it plays its worlds with is worth some 6 points of the network's share. |
+| ACTIVE, beside the network of two decks | [2026-10-23 — The credit offline: a value head with more results, and pairing at the decision](experiments/2026-10-23-credit-offline.md) | Whether the noise of the credit can be taken out, by two measurements that train nothing, made beside duels in flight: of `all71`'s last checkpoint in its run's own games, a value phase as Phasic Policy Gradient has one (two passes over the last 16 updates' duels, each seat's result at four of its transactions a duel) against the head taught as PPO teaches it, on 48 updates' games (it predicts better when it explains at least 0.02 more of a result on 8 updates' held games by two standard errors; then a stronger signal at 1.5 times the step's signal per duel and two standard errors); and pairing at the decision, 2,000 decisions each played on four times with the answer taken and four with another, the k-th of each sharing their future (pays when the pairs cancel at least half the variance of the answers' difference by two standard errors, does not at a quarter or less; a pair judges better than the head when its difference strays less from the answers' worth than the head's difference, by two standard errors). Design and readings fixed on 2026-10-23 before anything was built. Run and read on the development machine that day: neither is met. The value phase is not shown to predict better (it explains 0.392 of a result over every decision of 4,160 held duels, the control 0.396, −0.004 ± 0.002; the head they began as 0.400): the head is not short of results. Pairing does not pay (0.136 ± 0.025 cancelled), and a pair strays more than the head (0.346 against 0.183), the head's difference following the answers' worth at only 0.16 ± 0.03 (0.01 where the policy hesitates). |
+| COMPLETED | [2026-10-23 — Duels in flight and larger minibatches: a faster update](experiments/2026-10-23-duels-in-flight.md) | Whether PPO with 1,040 duels kept in flight from one update to the next (an update the next 520 duels to end, each trained on once, whole, with what its game was answered with) and minibatches of 512 (of 1,024 as first designed, until the card ran out of memory with them, changed on 2026-10-23) learns as well per duel as `all71` did, and how much faster an update is: one arm, `fast`, from `all71`'s copy to R1 with its settings, measured against `all71` there (measured again at today's code, which no longer offers a negated monster's effect); a trial first of `all71`'s own settings at today's code and of the ways of answering the model's calls. Equivalent when over the three suites the gap less two standard errors is above −2 points, worse when the gap plus two standard errors is below −2; faster when its first 20 updates play at least 1.3 times the duels an hour of the trial's. Design and readings fixed on 2026-10-23 before anything was built. Run and read on the CUDA machine that day: both readings are met. Equivalent (55.2% against 54.8%, +0.3 ± 0.2 over 33,696 games; the thirteen screens +0.6 ± 0.2, the eighteen −1.4 ± 0.5, the forty +0.4 ± 0.4) and faster (278,767 duels an hour over its first 20 updates against the trial's 191,048, 1.46 times; over the run 6.79 s an update against 8.95, the pass now 3.01 s of it). Closed that day, its settings made the default of a run on a card. |
+| COMPLETED | [2026-09-08 — How cards work: predicting what the engine does after an answer](experiments/2026-09-08-engine-transition-prediction.md) | Refreshed on 2026-10-22, the next experiment if the critic that sees the hidden cards does not pay: a head beside the network predicts, at the end of each of the seat's transactions, where the cards it sees go by its next decision with no chain open, and the changes of their ATK and DEF, of the life points and of the cards in each location; labels from the engine's execution, nothing of them in the input; taught beside PPO from `all71`'s copy to R1, against `all71` there, with a probe of the copy first. Its readings fixed on 2026-10-22, before anything was built; opened that evening, when the critic's experiment was closed. Run that night and read on 2026-10-23: the head predicts (0.840 ± 0.004 of the frequencies' log-loss taken away on held games), PPO with it not told apart from `all71` at R1 (+0.3 ± 0.2 points over 33,696 games). Closed that morning, without the breakdown of the first reading. |
+| COMPLETED | [2026-10-22 — A critic that sees the hidden cards, in training only](experiments/2026-10-22-privileged-critic.md) | Whether a critic that sees, in training only, the cards the seat cannot see gives a stronger signal: a network of its own, separate from the policy and never at play, reading the seat's view and the same decision with nothing hidden (hands and face-down cards; a second version also the order of the decks' next cards). Fitted alone on `all71`'s games and read against the value head on games it never trained on (it sees more at 0.10 more of a result explained, by two standard errors), then the update's signal with its advantages (stronger at twice the value head's 5.0e-5 a duel, the gap two standard errors), then a run designed after those. Plan and readings fixed on 2026-10-22 before anything was built. The first two read that day, neither met (begun as the head and fitted 200 updates the critic explains +0.002 and +0.007 ± 0.008 more; the step's signal per duel with it 4.66e-05 and 4.43e-05 against the head's 5.20e-05). The run made all the same, its design and reading confirmed before it: PPO from `all71`'s copy to R1 with the critic that sees the next five draws too, against `all71` there, faster or slower at 2 points and two standard errors over the three suites; run and read on the CUDA machine on 2026-10-22: not told apart (54.9% against 54.8%, +0.1 ± 0.2 points over 33,696 games), the arm passing less at chain windows and winning no more. Closed the same evening, the second setting not run. |
+| FUTURE | [2026-10-22 — One deck, or one deck with its variants](experiments/2026-10-22-deck-variants.md) | Proposed on 2026-10-22: whether a network of one deck learns it better or faster when its games deal the deck's real variants, the lists people played, than when they deal its one list, and what each plays well (its own list, the variants trained on, variants never seen). Builds on the 252 complete tournament lists of 2010-11 in `analysis/meta-decks-2011` (Blackwing 14, Six Samurai 27, Plants 31) and on playing a list in place of a deck's own (`--learner-list`); training on several lists of a deck is not built. Not designed; readings to be confirmed before anything is built. |
+| COMPLETED | [2026-10-22 — The signal of an update: how much of it is noise, how much the deal](experiments/2026-10-22-update-signal.md) | Whether the signal is what makes learning slow, by two measurements that train nothing, made beside the copy of the specialist: of `all71`'s last checkpoint in its run's own games, the noise scale of an update's step (the gradient on 64 groups of 65 duels: limited by noise at twice the update's 520 duels and two standard errors over them, not limited at half of them and two standard errors under), and what training on each deal played twice would cancel (another play's result accounting for at least a quarter of the advantages' variance by two standard errors, or at most a tenth; 512 deals played 16 times). Readings fixed on 2026-10-22 before anything was built; built, run and read on the development machine that day: the step neither, its signal not measured (15,481 ± 20,945 duels; at least 4,530 with the signal two errors larger; 758 ± 168 on the Blackwing mirror alone), pairing does not pay (0.037 ± 0.004), though the deal is 0.58 ± 0.02 of a result and the value head explains 0.19 of it at a seat's first decision: at λ = 0.95 the advantages are mostly the head's estimates from one transaction to the next. The follow-up at three λ with four times the duels, readings confirmed before it: limited by noise (20,018 ± 6,347 duels), pairing not paying at λ = 1 (0.049 ± 0.009), λ = 1 not told apart from 0.95 (a third of the signal per duel; a fifth on the Blackwing mirror alone, 4,049 ± 1,165 against 758 ± 96). Closed on 2026-10-22, the day it was read. |
+| COMPLETED | [2026-10-22 — Copy of the specialist: decks-01 imitated into a new network](experiments/2026-10-22-copy-of-the-specialist.md) | Whether imitating a specialist takes its strength into a new network in a fraction of the games it took to learn: two networks from scratch imitate `decks-01` of more decks (the network of Blackwing alone, 78.3% of the held-out deals), one its first choice and one what it gives every answer, 200 updates each as the pilot's copy `once-few` was, read on the 1,536 held-out deals by their checkpoints after 160 and 200 updates, and the first on `decks-01`'s own curve in the Blackwing mirror. Prepared on 2026-10-10, its first three readings fixed that day (`choice` over the pilot at 2 points and two standard errors; holding half of the teacher's lead over the pilot; `distribution` over `choice` at 2 points and two standard errors) and the fourth on 2026-10-20 (it keeps the teacher's strength in the mirror when level with or over `decks-01` after 720 updates, little of it when under `decks-01` after 120); the teacher chosen on 2026-10-20. Made at `05d27141`, the last revision that loads a checkpoint of format 14. Started on the CUDA machine on 2026-10-22 and read that day: past the pilot (`choice` 75.4% of the held-out deals, +14.6 ± 1.3 over the pilot's 60.7%), holding nine tenths of the teacher's lead (1.5 ± 0.9 under its 76.9%), the distribution not told apart from the choice (+0.6 ± 0.7), and keeping some of the teacher's strength in the mirror (level with `decks-01` after 480 of its 1,920 updates of PPO); the pilot's copy in as many updates 57.3%; 104,000 games where the teacher had about a million. Closed on 2026-10-22, the day it was read. |
+| COMPLETED | [2026-10-19 — Seventy-one decks: every deck of the pool](experiments/2026-10-19-seventy-one-decks.md) | Whether a network of all 71 decks of the pool, given each deck about as many games as `half` gave each of its thirteen, plays the thirteen as well as `half`, the eighteen other decks of thirty-one as well as `all`, and the forty new decks better than their pilots: made from scratch as `half` was (a copy of 240 updates a deck, then PPO with the games' own estimates to 10,560 updates), read at 1,920, 4,440 and 10,560 updates. Design and readings fixed on 2026-10-19 before anything was built (the thirteen and the eighteen equivalent when the gap less two standard errors is above −2 points, worse when the gap plus two standard errors is below −2; the new decks over or under their pilots at 2 points and two standard errors). Built and tried small that evening, and started on the CUDA machine at 20:28. Added beside the readings on 2026-10-20, without a mark: where it stands in the Blackwing mirror on the curve of the network of Blackwing alone of more decks, whose checkpoints today's code plays folded for that mirror (`tools/fold_deck_lists.py`). Stopped on 2026-10-20 in its 1,839th update of PPO, a card's script failing in one duel (Batteryman Fuel Cell left without a target); on 2026-10-21 going on from its last checkpoint at new pins whose duels are the old ones, the script mended in the policies, and a duel the engine stops from then on ended as the limit ends one and kept with the run. Run and read on 2026-10-22: the thirteen kept not decided (−2.3 ± 0.2 against `half`, 58.8% against 61.0%, at the mark for worse), the eighteen kept equivalent (+0.4 ± 0.5 against `all`), the forty new decks over their own pilots (+16.0 ± 0.5, 61.9% against 45.9%), over its pilot on every one of them; Countdown the one deck its PPO played worse (64.4% against its pilot's 84.6%). Added that day: head to head `all71` wins 48.9% ± 0.3 against `half`, a deck 2.2 points worse on the same deals, the mirrors no different; in the Blackwing mirror it stands where the network of thirteen stood on `decks-01`'s curve, on a fifth of its games of that mirror. Closed on 2026-10-22, the day it was read. |
+| COMPLETED | [2026-10-19 — Darker Than Black: does a network learn decks, or cards?](experiments/2026-10-19-darker-than-black.md) | Whether a network that plays a deck's list better than its pilot keeps that edge with another list of the same deck, proposed on 2026-10-19: Darker Than Black, a variant of the Blackwing list (24 of its 40 copies cards of the list, 4 cards of the other decks of training, 9 cards no deck of the pool holds; no pilot written for it), played by `half` of the experiment on thirteen decks, `all` of the experiment on thirty-one and Blackwing's pilot, and Blackwing's list by the same three, against the thirteen decks' pilots on the wide Blackwing screen (512 games a pairing). Design and reading fixed on 2026-10-19 before anything was built (for each network, its edge over the pilot with the variant less its edge with the list: kept when the gap less two standard errors is above −2 points, lost when the gap and two standard errors are below −2 points). Built (`evaluate-suite --learner-list`) and tried small on 2026-10-19. Run and read that evening: kept by both (`half` +7.0 ± 0.8, `all` +8.0 ± 0.8 over 6,656 games); the networks win as much with the variant as with the list (`half` 72.5% against 71.9%, `all` 69.9% against 68.3%) where Blackwing's pilot loses 6.3 ± 0.9 points with it (53.4% against 59.7%): the edges grow by what the pilot loses. Closed on 2026-10-19, the day it was run and read. |
+| COMPLETED | [2026-10-18 — Thirty-one decks: more decks for the decks never trained on](experiments/2026-10-18-thirty-one-decks.md) | Whether more decks in training make a network play decks it never trained on better: two networks of twenty-two decks, the thirteen of `half` and one half of the eighteen outside them (the halves chosen alike in their pilots, in `half`'s results and in their cards' nearness), each never seeing the other half, and one of all thirty-one, each made from scratch as `half` was to 1,920 PPO updates. Design and readings fixed on 2026-10-18 before anything was built (on the decks each held out, the eighteen together, better or worse at 2 points and two standard errors against `half`; on the thirteen screens equivalent when the gap less two standard errors is above −2 points; the network of thirty-one over or under the pilots of the eighteen at 2 points and two standard errors). Started on the CUDA machine on 2026-10-18. Run and read on 2026-10-19: the decks held out not told apart from `half` (−0.0 ± 0.6, 34.6% both, twelve points under their pilots); on the thirteen screens `plus-a` equivalent (−1.5 ± 0.2), `plus-b` not decided (−2.4 ± 0.2), `all` worse (−3.4 ± 0.2); `all` over the pilots of the eighteen (+5.7 ± 0.7). An arm on the nine decks it trained on 18.8 ± 0.6 points over the arm that held them out and 6.8 ± 0.7 over their pilots; the copies of more decks a little further on the decks held out (+1.7 ± 0.7), evened out by PPO. Closed on 2026-10-19, the day it was read. |
+| COMPLETED | [2026-10-17 — Card descriptions and hidden identities, for decks outside training](experiments/2026-10-17-card-descriptions.md) | Whether a network of the thirteen decks plays the decks it never trained on better when it is told what each card's text says and trained with some cards' identities hidden: three networks made from scratch as `half` of the experiment on thirteen decks was, to 1,920 PPO updates, one with a fixed table of the texts' vectors (the words and voyage-4-nano, 256 numbers a card, looked up by its code) and a quarter of the cards' identities hidden in each update, one with the descriptions alone, one with the identities hidden alone; `half` is the control. A first look without training, on 2026-10-17: in the vectors cards of the same effect are each other's nearest (0.80 to 0.95), and fifteen of the eighteen decks outside training are more than half cards no deck of training holds. Design and readings fixed on 2026-10-17 before anything was built (on the decks outside training better or worse at 2 points and two standard errors, by the checkpoints after 1,680 to 1,920 updates; on the thirteen screens equivalent when the gap less two standard errors is above −2 points). Built and started on the CUDA machine on 2026-10-17 (one change from the design, told before the run: the description added to the identity, not beside it, so that the arms are the control's width). Run and read on 2026-10-18: on the decks outside training neither is told apart from `half` (descriptions and identities hidden +0.5 ± 0.5, descriptions alone +1.0 ± 0.5, identities hidden alone −1.5 ± 0.5); the decks of training kept (equivalent, −0.3 ± 0.2); every network still eleven to thirteen points under those decks' own pilots. The copies part further (descriptions +2.4 ± 0.7, identities hidden −3.8 ± 0.7), PPO evens them out. Closed on 2026-10-18: equivalent, and not worth the slower training. |
+| COMPLETED | [2026-10-16 — Thirteen decks on the new input: longer, with UPGO, and against itself alone](experiments/2026-10-16-thirteen-decks.md) | The first network made on the input without the deck lists (format 15): the pilots of the thirteen decks imitated from scratch, then three runs of 3,840 PPO updates from that copy, one with half of its duels against itself as `decks-13` was, one the same with UPGO, one with every duel against itself. Whether anything is lost without the lists under PPO, what 1,920 more updates add, whether UPGO helps, and what playing only itself does, against the pilots and head to head. Design chosen and readings fixed on 2026-10-16 before any run (each better or worse at 2 points and two standard errors over the thirteen screens, by the checkpoints after 3,600 to 3,840 updates; without the lists equivalent when the gap less two standard errors is above −2 points; head to head better at 52% and two standard errors over half); started on the CUDA machine that day. Read on 2026-10-17: without the lists equivalent to `decks-13` (−0.0 ± 0.2 over the thirteen screens), the second 1,920 updates gained (+2.6 ± 0.2, 61.0% to 63.6%), UPGO (−0.2 ± 0.2) and every duel against itself (−0.7 ± 0.2 on the screens, 50.7% ± 0.3 of 16,224 games head to head) not told apart from `half`. Beside them: every arm over every deck's pilot on its screen; on the eighteen decks outside training `half` 35.5% (`decks-13` 34.1%, their pilots 46.6%). Its measuring part aborted on those decks when a long duel filled the engine's arena; the engine was fixed to reuse what Lua frees and they were measured at that pin. Closed on 2026-10-17, the day it was read. |
+| COMPLETED | [2026-10-16 — Three of ygo-agent's training settings, one at a time](experiments/2026-10-16-training-differences.md) | Three of the differences from ygo-agent's trainer written down on 2026-10-09 and never tried, each on its own against `decks-01` of the experiment on more decks, from its copy: updates of a quarter of the games, their minibatch of 512 and clip of 0.25, their UPGO. Readings confirmed on 2026-10-16 before any run (better or worse at 2 points and two standard errors on the held-out deals, by the checkpoints after the games of 720, 840 and 960 of the control's updates). Run the night of 2026-10-16 and read that morning: none of the three is told apart from the control (smaller updates −1.6 ± 0.7, their minibatch and clip −1.1 ± 0.7, UPGO +1.9 ± 0.8); smaller updates cost a third more a game. Closed on 2026-10-16: UPGO to be tried again as an arm of the first run on the new input. |
+| COMPLETED | [2026-10-15 — Without the deck lists](experiments/2026-10-15-without-deck-lists.md) | Whether the model needs the deck lists in its input, proposed on 2026-10-15: they are half the card rows of a call answered from a CUDA graph, a list over 48 cards keeps a call off the graphs, and the other player's has to be named at a table. Copies that do not read the other player's list (Blackwing) or either list (three decks), against the copies of the experiment on more decks of the same seed, on the held-out deals, the eighteen decks outside training and the screens; equivalence is the mark for dropping a list, not better play. A first look before it, without training, taken on 2026-10-15: told another deck's list, the Blackwing network after PPO wins 2.7 ± 1.0 points fewer of the held-out deals (it uses the list) and its copy 0.7 ± 0.6; told the mean of the lists, under a point either way, and on the decks outside training it gives nothing back. Design and readings fixed on 2026-10-15, with a third copy without its own earlier answers (the last 32, read by an LSTM), PPO left out for now. Made active on 2026-10-15, when the experiment on more decks was closed; its copies started on the CUDA machine at 22:19 that evening, after that experiment's measuring part. Read on 2026-10-15: without the other player's list the copy of Blackwing is equivalent on the held-out deals (−0.2 ± 0.8) and outside training (+0.0 ± 0.8), and the copy of three decks without either list on its screens (+0.6 ± 0.5): the lists can go. Without its own earlier answers, equivalent outside training (+0.5 ± 0.8) and not decided on the held-out deals (−0.3 ± 0.9). Copies only; PPO without them is not measured. Closed on 2026-10-15: the lists are dropped from the input, the earlier answers kept. |
+| COMPLETED | [2026-10-14 — One network for more decks, half of its duels against itself](experiments/2026-10-14-more-decks.md) | What a deck more costs the decks one network already plays, at the same games in all, under PPO with half of its duels against itself: six networks of 1, 2, 3, 5, 8 and 13 decks (Blackwing in each), each its pilots imitated from scratch and then 1,920 updates of PPO. Readings confirmed on 2026-10-13 before any run (worse on Blackwing at 2 points and two standard errors under the network of Blackwing alone on the held-out deals; the network of thirteen gained on its copy, and over or under the pilots, at 2 points and two standard errors over its thirteen screens). Started on the CUDA machine on 2026-10-14. Run and read on 2026-10-15, all three met: every network of more decks is worse on Blackwing (two decks 2.1 ± 0.7 points fewer of the held-out deals than the 78.3% of Blackwing alone, three to thirteen 4.6 to 5.0 fewer, the price not growing from three to thirteen); the network of thirteen gained 11.9 ± 0.3 points on its copy over its thirteen screens and is 10.4 ± 0.3 over the decks' own pilots, over each of them. By games of Blackwing a network of more decks learns Blackwing faster, by updates slower. Closed on 2026-10-15, without the controls against the pilots alone: the goal is play against persons. A follow-up of its networks beyond their decks, its four readings confirmed on 2026-10-16 and read that morning: playing the eighteen decks outside training themselves, the network of thirteen is under those decks' own pilots (34.1% against 46.6%, −12.5 ± 0.7), 9.2 ± 0.5 points over Blackwing alone and 6.6 ± 0.6 over its own copy (more decks help, PPO carries over); in the mirror it wins 27.0% ± 0.4 against Blackwing alone, which trained on about 90 times as many games of it. Measured along Blackwing alone's training on 2026-10-20, against the network of thirteen's last checkpoint in that mirror: its copy wins 30.5%, its PPO after 120 updates 57.1% (33,600 games of the mirror), 70% by 720 updates and 69% to 73% after; played again by today's code with both folded for the mirror (`tools/fold_deck_lists.py`), 69,617 of the 69,632 games end the same. The networks of five and eight decks on that curve the same day, readings fixed before: a game of Blackwing against itself on another deck counts for little in the mirror (eight decks as its mirror games alone, five partly, about a seventh of a mirror game each). Blackwing against Lightsworn, Gishki, Burn and Crystal head to head, readings fixed before: `decks-05` against `decks-01` not told apart against either network playing them (−1.4 ± 0.5, −1.6 ± 0.5), as against their pilots (−1.1 ± 0.5): outside the mirror a network is no better head to head than against the pilots. |
+| COMPLETED | [2026-10-13 — Self-play, a second seed](experiments/2026-10-13-self-play-second-seed.md) | What the experiment before left open: a second pair of the two arms, of the training seed 2013, 960 updates from the same start, and two exploiters of each arm's checkpoint after 1,920 updates, of the first pair. Whether the learner that plays half of its duels against itself keeps the pilots and is the better player of the mirror in a second pair too, whether it is under the control against the pilots there (the first pair: 2.1 ± 0.7 points after 960 updates), and whether it still leaves less for an exploiter after 1,920. Design and four readings confirmed on 2026-10-13 before any run (lost at 2 points and two standard errors under the start; better at 52% and two standard errors over half; under the control at 1 point and two standard errors on the held-out deals; less for an exploiter at 3 points and two standard errors, each of its two under each of the other two). Made with the trainer of 2026-10-13, the trainings at once through MPS. Run and read on 2026-10-14: the second pair LOST against the pilots by the mark (2.6 ± 0.9 under the start), is the better mirror player (67.3% ± 0.5) and is under the control (3.0 ± 0.7): two pairs put self-play 2 to 3 points under it. After 1,920 updates its exploiters win 50.8%, the control's 69.0%. Closed on 2026-10-14. |
+| COMPLETED | [2026-10-12 — Self-play, further](experiments/2026-10-12-self-play-further.md) | Both arms of the experiment on self-play taken on from 960 updates to 1,920: whether the learner that plays half of its duels against itself still keeps what the start wins against the pilots, is still the better player of the mirror, and has gained on its own checkpoint of 960 updates before. Design and readings confirmed on 2026-10-12 before any run (lost at 2 points and two standard errors under the start on the held-out deals; better, and gained, at 52% and two standard errors over half, every deal from either seat). Run and read on 2026-10-13, all three met: 0.5 ± 0.9 under the start on the held-out deals, 71.2% ± 0.5 of the mirror against Pilots alone, 52.7% ± 0.4 against its own checkpoint of 960 updates before; beside them, 2.8 ± 0.7 under Pilots alone on the held-out deals. Threatening Roar spent early, which both arms had come to, has nearly gone again in With itself. Closed on 2026-10-13 for a second seed and the exploiters of these checkpoints, which it left open. |
+| COMPLETED | [2026-10-12 — One network, several decks](experiments/2026-10-12-one-network-several-decks.md) | Whether a network that imitates the pilots of two decks, Blackwing and Lightsworn, copies each as well as a network that imitates one: a network of each deck for 200 updates and one of both for 400, read on each deck's screen game by game. Design and readings confirmed on 2026-10-10. Run and read on 2026-10-12: the network of both is worse on neither deck (0.8 ± 0.7 over Blackwing's own, 1.6 ± 0.7 over Lightsworn's, where 2 points and two standard errors under is worse), so one network holds the two decks; it is a little ahead on both, with twice the games in all. A follow-up of the same evening, by the same mark confirmed before it: with Gishki a network of the three decks is worse on none either (0.3 ± 0.7, 1.0 ± 0.8 and 0.4 ± 0.7 over each deck's own), and is not told from the network of two on the first two. PPO or self-play of several decks is not tried. |
+| COMPLETED | [2026-10-11 — Self-play, and the named plays](experiments/2026-10-11-self-play.md) | Whether a learner that plays half of each update's duels against itself keeps what its start wins against the pilots, becomes the better player of the mirror than the same updates against pilots alone make it, and leaves less for a learner that looks for its habits. Two arms of 960 updates from the second long run's last checkpoint, readings fixed before. All three came out for self-play: kept by the mark (1.4 ± 0.9 under the start on the held-out deals, about two points under the control), better by far (67.5% ± 0.5 of the mirror against the control), next to nothing for an exploiter (51.1% ± 0.4 after 240 updates where the control's win 67.0%). The named plays are the same in both arms, and with them forbidden or the pilot's play forced the checkpoints win no more against themselves or the pilots; nine recorded duels against them were read again. What an exploiter of the start used: Blackwing Armor Master and many Main Phase commands. Closed on 2026-10-12. |
+| COMPLETED | [2026-10-09 — PPO with a head that predicts](experiments/2026-10-09-ppo-with-a-head-that-predicts.md) | PPO from the copy of the Blackwing pilot whose value head predicts (`once-few` after 360 updates), without an anchor, by how the head is taught: five arms of 120 updates, then a follow-up of two more seeds, a learning rate of 1e-4 and two runs of a million games. All five first readings are met and all the follow-up's but the second seed's. In one pass PPO adds to the copy, for the first time on this engine, and in four it undoes it: 62.9% of the 1,536 held-out deals over its last checkpoints against the start's 58.6% and its pilot's 60.7%, and 47.4% in four. The head predicted in every arm (0.35 to 0.37 of the results of its own games), so it was the number of passes and not the head; an answer's credit has to lean on the head. Three seeds add 3.0 ± 0.8 together and lie a point or two apart: a run of 120 updates has that much luck of its own. Run long, one pass climbs for a million games, past the pilot with its search (72.5%): to 76.8% at 3e-4 and 81.6% at 1e-4, which is 4.8 ± 0.7 more and the rate PPO runs at since. Two thirds of what it adds carries to eighteen decks outside training (73.7% where the pilot wins 63.8%). A stronger player played the checkpoints, judged their play poor and named plays that are theirs and cost nothing against a pilot (how many duels that player won is not known: corrected on 2026-10-12); head to head in the mirror the second long run's last checkpoint wins 54.3% ± 0.7 against the first's. Beside it, ygo-agent's own trainer from scratch on the CUDA machine, by self-play on one deck, is at its released model's level on that matchup after 356,000 games and four hours. The trainer's default is one pass since 2026-10-10. Closed on 2026-10-11 for an experiment on those plays, by self-play. |
+| COMPLETED | [2026-10-08 — The learner itself: the value head and the board](experiments/2026-10-08-value-head-and-board.md) | Imitation of the Blackwing pilot from scratch with one thing changed in each arm: every game seen once, a game's result at few of its positions, a value head that reads without shaping, and the board as its cards. Asks whether a value head trained so that it cannot learn its games by heart tells who is winning on games new to it, what that does to the copy, and whether the board as its cards helps the copy and the heads. Run on 2026-10-08 and a follow-up on 2026-10-09, both read: seen once with its result at four positions, the head explains 0.35 of new games' results (four passes: none) and the copy loses nothing; the cards add 1.1 ± 0.4 points to the copy, under the 2 asked; every copy is 1 to 3 points under its pilot. Closed on 2026-10-09 for a try of PPO from `once-few`. |
+| COMPLETED | [2026-10-07 — Learning the search's leads](experiments/2026-10-07-search-leads.md) | A head that predicts, for every answer, the lead the search measured for it over the pilot's answer, trained on the search's full log of 7,680 Blackwing games against the opponents' pilots as improved on 2026-10-06 and 07, and a player that leaves its first choice where it predicts a lead; against arms that imitate the pilot and the answers the search played, from the imitation seed's version 89, chosen on 384 validation games and read on 1,536 held-out deals (pilot 60.7%, search 72.5%). Neither reading is met: the rule gains 1.9 ± 0.4 points a game by the search's measurements where the mark was 2.9, and wins 1.4 ± 1.2 points more deals than the arm that imitates the pilot. The head knows which answers lose (correlation 0.49 on unseen games) and not which lead: those it rates highest against the pilot's answer are level with it, and the rule's gain is its own copy repaired. Over 8 worlds about one in ten of the leads a target shows is real. Measured after the readings: 1.5 of the rule's 1.9 points come from undoing the policy's own departures and 0.4 ± 0.4 from leaving the pilot's answer; the arm that imitates the search's answers wins 1.5 ± 0.6 points more than the one that imitates the pilot over five updates (3.5 at the one read), a point under the pilot; the head's fit on unseen games is nearly all there after a fifth of the games. Closed to look at the learner itself first. |
+| COMPLETED | [2026-10-05 — Imitating the search](experiments/2026-10-05-search-imitation.md) | A learner that imitates the games the one-step search plays against one that imitates the pilot's games on the same deals, on 960 to 7,680 searched Blackwing games, measured on 1,536 held-out deals (pilot 67.6%, search 77.3%). It does not make a stronger player: on 7,680 games the search's answer at 7.3% of the held-out deviations against 2.8% (9.1% trained twice as long), and the same wins (+0.5 ± 1.1 after 64 updates, +1.1 ± 1.1 after 128). The deviations of the games trained on are memorised and about half of the search's deviations would not be found again. By the leads the search measured, the learner's own other answers are worth more than its control's on the largest set for a while (+2.2 ± 0.5 points a game), then less; smaller sets lose it sooner. More games help, by little. The seed levels off at version 89, 2.1 points under its pilot; its value head predicts nothing on games new to it. |
+| COMPLETED | [2026-09-29 — PPO regression remedies](experiments/2026-09-29-ppo-regression-remedies.md) | DAgger labels on the learner's own states and imitation-anchored PPO from the Blackwing imitation seed. Phase 1: every arm levels off at the teacher's level over 50 updates (60-62%; v9 50.4%, control 37.5%, teacher 62.1%), an imitation control does as well as DAgger, and the PPO term adds nothing measurable. Best known pilots (the updated policies) against the training opponents: none better than Blackwing's teacher, Monarch's 7.5 points better. A one-step search on top of the teacher gains 17.7 points for Blackwing and 15.8 for Monarch against the same opponents. Phase 1c: without the anchor the drift resumes at once; the anchored arm's latest evaluations are its first above the teacher (64.8%, 63.5%, one run); plain imitation distils Monarch and has not yet distilled Spellcaster. Phase 1d: continued to v119 the anchored arm shows no lead over DAgger (61.9% against 61.3% over four evaluations); Spellcaster stays 3.5 to 4.7 points under its teacher with more imitation or DAgger, and the learner lacks the counters its pilot reads. |
+| COMPLETED | [2026-09-28 — Archetype-fix re-baseline](experiments/2026-09-28-archetype-fix-rebaseline.md) | Teacher references on the engine with set codes. Blackwing PPO degrades from its imitation seed (v9 50.4% to v99 35.5% against `2cd3c4a` opponents), dominated by premature chain activations that no single term of the update drives. |
+| INVALIDATED | [2026-09-28 — Value-head warm-up](experiments/2026-09-28-value-head-warmup.md) | Pilots ran without archetype set codes; mechanisms (critic warm-up, clipping bound) need re-checking. |
+| INVALIDATED | [2026-09-28 — Individual board tokens with ygo-policies](experiments/2026-09-28-ygo-policies-board-tokens.md) | Both arms ran without archetype set codes. |

@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-gladiator-screen",
+  "primary": "gladiator-vs-gladiator",
+  "cases": [
+    {
+      "name": "gladiator-vs-blackwing",
+      "learner": "gladiator",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-burn",
+      "learner": "gladiator",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-crystal",
+      "learner": "gladiator",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-dragunity",
+      "learner": "gladiator",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-gishki",
+      "learner": "gladiator",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-gladiator",
+      "learner": "gladiator",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-heroes",
+      "learner": "gladiator",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-infernity",
+      "learner": "gladiator",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-lightsworn",
+      "learner": "gladiator",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-monarch",
+      "learner": "gladiator",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-morphtronic",
+      "learner": "gladiator",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-rock-block",
+      "learner": "gladiator",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-spellcaster",
+      "learner": "gladiator",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

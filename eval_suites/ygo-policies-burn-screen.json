@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-burn-screen",
+  "primary": "burn-vs-burn",
+  "cases": [
+    {
+      "name": "burn-vs-blackwing",
+      "learner": "burn",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-burn",
+      "learner": "burn",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-crystal",
+      "learner": "burn",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-dragunity",
+      "learner": "burn",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-gishki",
+      "learner": "burn",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-gladiator",
+      "learner": "burn",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-heroes",
+      "learner": "burn",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-infernity",
+      "learner": "burn",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-lightsworn",
+      "learner": "burn",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-monarch",
+      "learner": "burn",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-morphtronic",
+      "learner": "burn",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-rock-block",
+      "learner": "burn",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-spellcaster",
+      "learner": "burn",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-gishki-screen",
+  "primary": "gishki-vs-gishki",
+  "cases": [
+    {
+      "name": "gishki-vs-blackwing",
+      "learner": "gishki",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-burn",
+      "learner": "gishki",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-crystal",
+      "learner": "gishki",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-dragunity",
+      "learner": "gishki",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-gishki",
+      "learner": "gishki",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-gladiator",
+      "learner": "gishki",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-heroes",
+      "learner": "gishki",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-infernity",
+      "learner": "gishki",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-lightsworn",
+      "learner": "gishki",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-monarch",
+      "learner": "gishki",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-morphtronic",
+      "learner": "gishki",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-rock-block",
+      "learner": "gishki",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-spellcaster",
+      "learner": "gishki",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "blackwing-against-burn-checkpoint",
+  "primary": "blackwing-vs-burn-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-burn-checkpoint",
+      "learner": "blackwing",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

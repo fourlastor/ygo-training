@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-lightsworn-screen",
+  "primary": "lightsworn-vs-lightsworn",
+  "cases": [
+    {
+      "name": "lightsworn-vs-blackwing",
+      "learner": "lightsworn",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-burn",
+      "learner": "lightsworn",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-crystal",
+      "learner": "lightsworn",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-dragunity",
+      "learner": "lightsworn",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-gishki",
+      "learner": "lightsworn",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-gladiator",
+      "learner": "lightsworn",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-heroes",
+      "learner": "lightsworn",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-infernity",
+      "learner": "lightsworn",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-lightsworn",
+      "learner": "lightsworn",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-monarch",
+      "learner": "lightsworn",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-morphtronic",
+      "learner": "lightsworn",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-rock-block",
+      "learner": "lightsworn",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-spellcaster",
+      "learner": "lightsworn",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

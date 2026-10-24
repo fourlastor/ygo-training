@@ -1,0 +1,13 @@
+{
+  "name": "blackwing-against-cyber-checkpoint",
+  "primary": "blackwing-vs-cyber-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-cyber-checkpoint",
+      "learner": "blackwing",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

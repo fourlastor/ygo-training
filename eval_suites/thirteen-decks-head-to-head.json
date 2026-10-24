@@ -1,0 +1,1189 @@
+{
+  "name": "thirteen-decks-head-to-head",
+  "primary": "blackwing-vs-blackwing",
+  "cases": [
+    {
+      "name": "blackwing-vs-blackwing",
+      "learner": "blackwing",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-burn",
+      "learner": "blackwing",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-crystal",
+      "learner": "blackwing",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-dragunity",
+      "learner": "blackwing",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-gishki",
+      "learner": "blackwing",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-gladiator",
+      "learner": "blackwing",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-heroes",
+      "learner": "blackwing",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-infernity",
+      "learner": "blackwing",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-lightsworn",
+      "learner": "blackwing",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-monarch",
+      "learner": "blackwing",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-morphtronic",
+      "learner": "blackwing",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-rock-block",
+      "learner": "blackwing",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "blackwing-vs-spellcaster",
+      "learner": "blackwing",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-blackwing",
+      "learner": "burn",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-burn",
+      "learner": "burn",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-crystal",
+      "learner": "burn",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-dragunity",
+      "learner": "burn",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-gishki",
+      "learner": "burn",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-gladiator",
+      "learner": "burn",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-heroes",
+      "learner": "burn",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-infernity",
+      "learner": "burn",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-lightsworn",
+      "learner": "burn",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-monarch",
+      "learner": "burn",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-morphtronic",
+      "learner": "burn",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-rock-block",
+      "learner": "burn",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "burn-vs-spellcaster",
+      "learner": "burn",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-blackwing",
+      "learner": "crystal",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-burn",
+      "learner": "crystal",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-crystal",
+      "learner": "crystal",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-dragunity",
+      "learner": "crystal",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-gishki",
+      "learner": "crystal",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-gladiator",
+      "learner": "crystal",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-heroes",
+      "learner": "crystal",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-infernity",
+      "learner": "crystal",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-lightsworn",
+      "learner": "crystal",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-monarch",
+      "learner": "crystal",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-morphtronic",
+      "learner": "crystal",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-rock-block",
+      "learner": "crystal",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "crystal-vs-spellcaster",
+      "learner": "crystal",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-blackwing",
+      "learner": "dragunity",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-burn",
+      "learner": "dragunity",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-crystal",
+      "learner": "dragunity",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-dragunity",
+      "learner": "dragunity",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-gishki",
+      "learner": "dragunity",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-gladiator",
+      "learner": "dragunity",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-heroes",
+      "learner": "dragunity",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-infernity",
+      "learner": "dragunity",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-lightsworn",
+      "learner": "dragunity",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-monarch",
+      "learner": "dragunity",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-morphtronic",
+      "learner": "dragunity",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-rock-block",
+      "learner": "dragunity",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "dragunity-vs-spellcaster",
+      "learner": "dragunity",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-blackwing",
+      "learner": "gishki",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-burn",
+      "learner": "gishki",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-crystal",
+      "learner": "gishki",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-dragunity",
+      "learner": "gishki",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-gishki",
+      "learner": "gishki",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-gladiator",
+      "learner": "gishki",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-heroes",
+      "learner": "gishki",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-infernity",
+      "learner": "gishki",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-lightsworn",
+      "learner": "gishki",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-monarch",
+      "learner": "gishki",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-morphtronic",
+      "learner": "gishki",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-rock-block",
+      "learner": "gishki",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gishki-vs-spellcaster",
+      "learner": "gishki",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-blackwing",
+      "learner": "gladiator",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-burn",
+      "learner": "gladiator",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-crystal",
+      "learner": "gladiator",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-dragunity",
+      "learner": "gladiator",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-gishki",
+      "learner": "gladiator",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-gladiator",
+      "learner": "gladiator",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-heroes",
+      "learner": "gladiator",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-infernity",
+      "learner": "gladiator",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-lightsworn",
+      "learner": "gladiator",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-monarch",
+      "learner": "gladiator",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-morphtronic",
+      "learner": "gladiator",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-rock-block",
+      "learner": "gladiator",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "gladiator-vs-spellcaster",
+      "learner": "gladiator",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-blackwing",
+      "learner": "heroes",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-burn",
+      "learner": "heroes",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-crystal",
+      "learner": "heroes",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-dragunity",
+      "learner": "heroes",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-gishki",
+      "learner": "heroes",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-gladiator",
+      "learner": "heroes",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-heroes",
+      "learner": "heroes",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-infernity",
+      "learner": "heroes",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-lightsworn",
+      "learner": "heroes",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-monarch",
+      "learner": "heroes",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-morphtronic",
+      "learner": "heroes",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-rock-block",
+      "learner": "heroes",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "heroes-vs-spellcaster",
+      "learner": "heroes",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-blackwing",
+      "learner": "infernity",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-burn",
+      "learner": "infernity",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-crystal",
+      "learner": "infernity",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-dragunity",
+      "learner": "infernity",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-gishki",
+      "learner": "infernity",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-gladiator",
+      "learner": "infernity",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-heroes",
+      "learner": "infernity",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-infernity",
+      "learner": "infernity",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-lightsworn",
+      "learner": "infernity",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-monarch",
+      "learner": "infernity",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-morphtronic",
+      "learner": "infernity",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-rock-block",
+      "learner": "infernity",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "infernity-vs-spellcaster",
+      "learner": "infernity",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-blackwing",
+      "learner": "lightsworn",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-burn",
+      "learner": "lightsworn",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-crystal",
+      "learner": "lightsworn",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-dragunity",
+      "learner": "lightsworn",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-gishki",
+      "learner": "lightsworn",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-gladiator",
+      "learner": "lightsworn",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-heroes",
+      "learner": "lightsworn",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-infernity",
+      "learner": "lightsworn",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-lightsworn",
+      "learner": "lightsworn",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-monarch",
+      "learner": "lightsworn",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-morphtronic",
+      "learner": "lightsworn",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-rock-block",
+      "learner": "lightsworn",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "lightsworn-vs-spellcaster",
+      "learner": "lightsworn",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-blackwing",
+      "learner": "monarch",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-burn",
+      "learner": "monarch",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-crystal",
+      "learner": "monarch",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-dragunity",
+      "learner": "monarch",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-gishki",
+      "learner": "monarch",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-gladiator",
+      "learner": "monarch",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-heroes",
+      "learner": "monarch",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-infernity",
+      "learner": "monarch",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-lightsworn",
+      "learner": "monarch",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-monarch",
+      "learner": "monarch",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-morphtronic",
+      "learner": "monarch",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-rock-block",
+      "learner": "monarch",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "monarch-vs-spellcaster",
+      "learner": "monarch",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-blackwing",
+      "learner": "morphtronic",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-burn",
+      "learner": "morphtronic",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-crystal",
+      "learner": "morphtronic",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-dragunity",
+      "learner": "morphtronic",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-gishki",
+      "learner": "morphtronic",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-gladiator",
+      "learner": "morphtronic",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-heroes",
+      "learner": "morphtronic",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-infernity",
+      "learner": "morphtronic",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-lightsworn",
+      "learner": "morphtronic",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-monarch",
+      "learner": "morphtronic",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-morphtronic",
+      "learner": "morphtronic",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-rock-block",
+      "learner": "morphtronic",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "morphtronic-vs-spellcaster",
+      "learner": "morphtronic",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-blackwing",
+      "learner": "rock-block",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-burn",
+      "learner": "rock-block",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-crystal",
+      "learner": "rock-block",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-dragunity",
+      "learner": "rock-block",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-gishki",
+      "learner": "rock-block",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-gladiator",
+      "learner": "rock-block",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-heroes",
+      "learner": "rock-block",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-infernity",
+      "learner": "rock-block",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-lightsworn",
+      "learner": "rock-block",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-monarch",
+      "learner": "rock-block",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-morphtronic",
+      "learner": "rock-block",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-rock-block",
+      "learner": "rock-block",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "rock-block-vs-spellcaster",
+      "learner": "rock-block",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-blackwing",
+      "learner": "spellcaster",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-burn",
+      "learner": "spellcaster",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-crystal",
+      "learner": "spellcaster",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-dragunity",
+      "learner": "spellcaster",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-gishki",
+      "learner": "spellcaster",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-gladiator",
+      "learner": "spellcaster",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-heroes",
+      "learner": "spellcaster",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-infernity",
+      "learner": "spellcaster",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-lightsworn",
+      "learner": "spellcaster",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-monarch",
+      "learner": "spellcaster",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-morphtronic",
+      "learner": "spellcaster",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-rock-block",
+      "learner": "spellcaster",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    },
+    {
+      "name": "spellcaster-vs-spellcaster",
+      "learner": "spellcaster",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 16
+    }
+  ]
+}

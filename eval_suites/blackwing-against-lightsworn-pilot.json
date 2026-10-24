@@ -1,0 +1,12 @@
+{
+  "name": "blackwing-against-lightsworn-pilot",
+  "primary": "blackwing-vs-lightsworn",
+  "cases": [
+    {
+      "name": "blackwing-vs-lightsworn",
+      "learner": "blackwing",
+      "opponent": "lightsworn",
+      "games": 2048
+    }
+  ]
+}

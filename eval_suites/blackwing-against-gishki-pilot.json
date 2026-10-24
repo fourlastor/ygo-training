@@ -1,0 +1,12 @@
+{
+  "name": "blackwing-against-gishki-pilot",
+  "primary": "blackwing-vs-gishki",
+  "cases": [
+    {
+      "name": "blackwing-vs-gishki",
+      "learner": "blackwing",
+      "opponent": "gishki",
+      "games": 2048
+    }
+  ]
+}

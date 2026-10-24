@@ -1,0 +1,97 @@
+{
+  "name": "cyber-yardstick",
+  "primary": "cyber-vs-blackwing",
+  "cases": [
+    {
+      "name": "cyber-vs-blackwing",
+      "learner": "cyber",
+      "opponent": "blackwing",
+      "games": 16,
+      "seed_index": 117
+    },
+    {
+      "name": "cyber-vs-burn",
+      "learner": "cyber",
+      "opponent": "burn",
+      "games": 16,
+      "seed_index": 118
+    },
+    {
+      "name": "cyber-vs-crystal",
+      "learner": "cyber",
+      "opponent": "crystal",
+      "games": 16,
+      "seed_index": 119
+    },
+    {
+      "name": "cyber-vs-dragunity",
+      "learner": "cyber",
+      "opponent": "dragunity",
+      "games": 16,
+      "seed_index": 120
+    },
+    {
+      "name": "cyber-vs-gishki",
+      "learner": "cyber",
+      "opponent": "gishki",
+      "games": 16,
+      "seed_index": 121
+    },
+    {
+      "name": "cyber-vs-gladiator",
+      "learner": "cyber",
+      "opponent": "gladiator",
+      "games": 16,
+      "seed_index": 122
+    },
+    {
+      "name": "cyber-vs-heroes",
+      "learner": "cyber",
+      "opponent": "heroes",
+      "games": 16,
+      "seed_index": 123
+    },
+    {
+      "name": "cyber-vs-infernity",
+      "learner": "cyber",
+      "opponent": "infernity",
+      "games": 16,
+      "seed_index": 124
+    },
+    {
+      "name": "cyber-vs-lightsworn",
+      "learner": "cyber",
+      "opponent": "lightsworn",
+      "games": 16,
+      "seed_index": 125
+    },
+    {
+      "name": "cyber-vs-monarch",
+      "learner": "cyber",
+      "opponent": "monarch",
+      "games": 16,
+      "seed_index": 126
+    },
+    {
+      "name": "cyber-vs-morphtronic",
+      "learner": "cyber",
+      "opponent": "morphtronic",
+      "games": 16,
+      "seed_index": 127
+    },
+    {
+      "name": "cyber-vs-rock-block",
+      "learner": "cyber",
+      "opponent": "rock-block",
+      "games": 16,
+      "seed_index": 128
+    },
+    {
+      "name": "cyber-vs-spellcaster",
+      "learner": "cyber",
+      "opponent": "spellcaster",
+      "games": 16,
+      "seed_index": 129
+    }
+  ]
+}

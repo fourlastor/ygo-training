@@ -1,0 +1,13 @@
+{
+  "name": "blackwing-against-gishki-checkpoint",
+  "primary": "blackwing-vs-gishki-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-gishki-checkpoint",
+      "learner": "blackwing",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

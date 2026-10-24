@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-spellcaster-screen",
+  "primary": "spellcaster-vs-spellcaster",
+  "cases": [
+    {
+      "name": "spellcaster-vs-blackwing",
+      "learner": "spellcaster",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-burn",
+      "learner": "spellcaster",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-crystal",
+      "learner": "spellcaster",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-dragunity",
+      "learner": "spellcaster",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-gishki",
+      "learner": "spellcaster",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-gladiator",
+      "learner": "spellcaster",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-heroes",
+      "learner": "spellcaster",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-infernity",
+      "learner": "spellcaster",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-lightsworn",
+      "learner": "spellcaster",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-monarch",
+      "learner": "spellcaster",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-morphtronic",
+      "learner": "spellcaster",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-rock-block",
+      "learner": "spellcaster",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-spellcaster",
+      "learner": "spellcaster",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

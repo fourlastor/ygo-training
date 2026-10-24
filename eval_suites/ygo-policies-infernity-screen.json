@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-infernity-screen",
+  "primary": "infernity-vs-infernity",
+  "cases": [
+    {
+      "name": "infernity-vs-blackwing",
+      "learner": "infernity",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-burn",
+      "learner": "infernity",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-crystal",
+      "learner": "infernity",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-dragunity",
+      "learner": "infernity",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-gishki",
+      "learner": "infernity",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-gladiator",
+      "learner": "infernity",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-heroes",
+      "learner": "infernity",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-infernity",
+      "learner": "infernity",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-lightsworn",
+      "learner": "infernity",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-monarch",
+      "learner": "infernity",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-morphtronic",
+      "learner": "infernity",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-rock-block",
+      "learner": "infernity",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-spellcaster",
+      "learner": "infernity",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+[project]
+name = "ygo-training"
+version = "0.1.0"
+description = "Training of neural players on OCGCore duels"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "numpy>=1.26",
+    "pytest>=8.0",
+    "torch>=2.2",
+    "rich>=13",
+]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["ygo_training"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: needs the duel environment built (cargo build --release)",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[dependency-groups]
+dev = [
+    "py-spy>=0.4.2",
+    "ruff>=0.16.0",
+    "scalene>=2.3.0",
+]

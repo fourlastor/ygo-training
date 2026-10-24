@@ -1,0 +1,13 @@
+{
+  "name": "blackwing-against-crystal-checkpoint",
+  "primary": "blackwing-vs-crystal-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-crystal-checkpoint",
+      "learner": "blackwing",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+[package]
+name = "ygo-env"
+description = "Duels for the trainer: seats that stop at a decision, pilots that label it, and recorded duels played again"
+edition = "2021"
+version = "0.1.0"
+license = "Apache-2.0"
+
+[lib]
+# The trainer loads the shared library; the tests use the crate.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# The card database, read as the policies read it: the same build of SQLite.
+rusqlite = { version = "0.37", features = ["bundled"] }
+# A decision as a view and as the arrays the policy reads, and the seat a
+# network decides for: shared with whatever else seats a checkpoint.
+ygo-model-input = { path = "../../native/ygo-model-input/input" }
+ygo-model-seat = { path = "../../native/ygo-model-input/seat" }
+ygo-policies = { path = "../../native/ygo-policies/crates/ygo-policies" }
+ygo-policies-ocgcore = { path = "../../native/ygo-policies/crates/ygo-policies-ocgcore" }
+ygo-policies-duel = { path = "../../native/ygo-policies/crates/ygo-policies-duel" }
+# The policies' staged search, for a search's seat.
+ygo-policies-search = { path = "../../native/ygo-policies/crates/ygo-policies-search" }
+# The client that joins a room of EDOPro, for the caller's seat there.
+ygo-policies-edopro = { path = "../../native/ygo-policies/crates/ygo-policies-edopro" }

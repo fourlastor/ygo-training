@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = ["crates/ygo-env", "native/ygo-model-input/input", "native/ygo-model-input/seat"]
+# The policies are a workspace of their own, used here by path.
+exclude = ["native/ygo-policies"]
+
+# What the shared crates of `native/ygo-model-input` take from the project
+# that holds them: this checkout's policies.  Without its card database
+# reader, which a seat does not need and a browser cannot build.
+[workspace.dependencies]
+ygo-policies = { path = "native/ygo-policies/crates/ygo-policies" }
+ygo-policies-ocgcore = { path = "native/ygo-policies/crates/ygo-policies-ocgcore", default-features = false }
+
+[profile.release]
+debug = 1

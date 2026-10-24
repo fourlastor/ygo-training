@@ -1,0 +1,84 @@
+{
+  "name": "ygo-policies-crystal-screen",
+  "primary": "crystal-vs-crystal",
+  "cases": [
+    {
+      "name": "crystal-vs-blackwing",
+      "learner": "crystal",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-burn",
+      "learner": "crystal",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-crystal",
+      "learner": "crystal",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-dragunity",
+      "learner": "crystal",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-gishki",
+      "learner": "crystal",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-gladiator",
+      "learner": "crystal",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-heroes",
+      "learner": "crystal",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-infernity",
+      "learner": "crystal",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-lightsworn",
+      "learner": "crystal",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-monarch",
+      "learner": "crystal",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-morphtronic",
+      "learner": "crystal",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-rock-block",
+      "learner": "crystal",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-spellcaster",
+      "learner": "crystal",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

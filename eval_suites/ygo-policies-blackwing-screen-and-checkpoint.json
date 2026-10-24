@@ -1,0 +1,92 @@
+{
+  "name": "ygo-policies-blackwing-screen-and-checkpoint",
+  "primary": "blackwing-vs-blackwing",
+  "cases": [
+    {
+      "name": "blackwing-vs-blackwing",
+      "learner": "blackwing",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-burn",
+      "learner": "blackwing",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-crystal",
+      "learner": "blackwing",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-dragunity",
+      "learner": "blackwing",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-gishki",
+      "learner": "blackwing",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-gladiator",
+      "learner": "blackwing",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-heroes",
+      "learner": "blackwing",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-infernity",
+      "learner": "blackwing",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-lightsworn",
+      "learner": "blackwing",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-monarch",
+      "learner": "blackwing",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-morphtronic",
+      "learner": "blackwing",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-rock-block",
+      "learner": "blackwing",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-spellcaster",
+      "learner": "blackwing",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-checkpoint",
+      "learner": "blackwing",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 2048,
+      "seed_index": 0
+    }
+  ]
+}
