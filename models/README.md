@@ -25,3 +25,11 @@ Or in three, from the browser:
 Either way the notes are the card without its title, its links into the
 repository pinned to the tagged commit, a paragraph to a line
 (`tools/release_notes.py`).
+
+A release may hold several networks under one card and one tag: each is
+named by `--network NAME=CHECKPOINT` in place of the checkpoint, its files
+are named by it, and one `SHA256SUMS` covers them all
+(`champions.md`, the champions of their mirrors):
+
+    uv run python tools/model_release.py champions \
+        --network burn=CHECKPOINT --network gishki=CHECKPOINT ... --publish

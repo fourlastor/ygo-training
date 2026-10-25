@@ -4,7 +4,15 @@ titled and described by its card (`models/NAME.md`).
     uv run python tools/model_release.py all71 \\
         runs/seventy-one-decks/all71/checkpoints/model-27599.pt --publish
 
-Writes into `release/NAME/` (or `--output`):
+A release may hold several networks, one card and one tag for all of them,
+each named by `--network NAME=CHECKPOINT` in place of the checkpoint:
+
+    uv run python tools/model_release.py champions \\
+        --network burn=runs/champions/burn/checkpoints/model-00959.pt \\
+        --network gishki=runs/champions/gishki/checkpoints/model-00959.pt
+
+Writes into `release/NAME/` (or `--output`), for each network by its name
+(the release's own for a release of one):
 
 - `NAME.pt`: the checkpoint for this repository's tools (`evaluate-suite`,
   `edopro`), its weights and what describes them, without the optimizer's
@@ -13,7 +21,8 @@ Writes into `release/NAME/` (or `--output`):
 - `NAME.safetensors`, `NAME.json` and `NAME.outputs.json`: the network for a
   project that seats it without PyTorch, as `tools/export_checkpoint.py`
   writes it (its `model.safetensors`, `model.json` and `outputs.json`).
-- `SHA256SUMS`: each file's digest, as `sha256sum --check` reads them.
+- `SHA256SUMS`, one for the release: each file's digest, as
+  `sha256sum --check` reads them.
 
 With `--publish` it then makes the release with `gh`, as the workflow
 `.github/workflows/model-release.yml` drafts it (the tag `model/NAME` on the
@@ -70,8 +79,9 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def release(name: str, checkpoint: Path, output: Path, vectors: Path) -> list[Path]:
-    """Write the release's files into `output`, and say which they are."""
+def written(name: str, checkpoint: Path, output: Path, vectors: Path) -> list[Path]:
+    """Write a network's files into `output`, named by it, and say which
+    they are."""
     if not NAME.fullmatch(name):
         raise SystemExit(f"A network's name is lowercase words joined by dashes, not {name!r}")
     output.mkdir(parents=True, exist_ok=True)
@@ -83,10 +93,38 @@ def release(name: str, checkpoint: Path, output: Path, vectors: Path) -> list[Pa
         export(played, Path(folder), vectors)
         for source, suffix in EXPORTED:
             shutil.move(Path(folder) / source, output / f"{name}{suffix}")
-    files = [played] + [output / f"{name}{suffix}" for _, suffix in EXPORTED]
+    return [played] + [output / f"{name}{suffix}" for _, suffix in EXPORTED]
+
+
+def release(networks: dict[str, Path], output: Path, vectors: Path) -> list[Path]:
+    """Write the release's files into `output`, each network's named by it
+    and one digest file for all, and say which they are."""
+    files = [
+        path
+        for name, checkpoint in networks.items()
+        for path in written(name, checkpoint, output, vectors)
+    ]
     sums = output / "SHA256SUMS"
     sums.write_text("".join(f"{digest(path)}  {path.name}\n" for path in files), encoding="utf8")
     return [*files, sums]
+
+
+def networks_of(name: str, checkpoint: Path | None, named: list[str]) -> dict[str, Path]:
+    """The release's networks by name: its one checkpoint, under the
+    release's name, or each that `--network NAME=CHECKPOINT` names."""
+    if (checkpoint is None) == (not named):
+        raise SystemExit("A release is of one checkpoint, or of the networks --network names")
+    if checkpoint is not None:
+        return {name: checkpoint}
+    networks: dict[str, Path] = {}
+    for told in named:
+        network, _, path = told.partition("=")
+        if not network or not path:
+            raise SystemExit(f"--network takes NAME=CHECKPOINT, not {told!r}")
+        if network in networks:
+            raise SystemExit(f"{network} is named twice")
+        networks[network] = Path(path)
+    return networks
 
 
 def git(*arguments: str) -> str:
@@ -143,18 +181,29 @@ def publish(name: str, files: list[Path], card: str, commit: str, repository: st
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("name", help="the network's name, the card's and the tag's (model/NAME)")
-    parser.add_argument("checkpoint", type=Path)
+    parser.add_argument("name", help="the release's name, the card's and the tag's (model/NAME)")
+    parser.add_argument("checkpoint", type=Path, nargs="?", help="the network of a release of one")
+    parser.add_argument(
+        "--network",
+        action="append",
+        default=[],
+        metavar="NAME=CHECKPOINT",
+        help="a network of a release of several, its files named NAME (repeated)",
+    )
     parser.add_argument("--output", type=Path, help="the folder (release/NAME unless said)")
     parser.add_argument("--vectors", type=Path, default=ROOT / VECTORS)
     parser.add_argument("--publish", action="store_true", help="make the release, published")
     parser.add_argument("--ref", default="HEAD", help="the commit the tag points at (HEAD)")
     args = parser.parse_args()
-    if not args.checkpoint.is_file():
-        raise SystemExit(f"No file at {args.checkpoint}")
+    if not NAME.fullmatch(args.name):
+        raise SystemExit(f"A release's name is lowercase words joined by dashes, not {args.name!r}")
+    networks = networks_of(args.name, args.checkpoint, args.network)
+    for checkpoint in networks.values():
+        if not checkpoint.is_file():
+            raise SystemExit(f"No file at {checkpoint}")
     ready = publishing(args.name, args.ref) if args.publish else None
     output = args.output or ROOT / "release" / args.name
-    files = release(args.name, args.checkpoint, output, args.vectors.resolve())
+    files = release(networks, output, args.vectors.resolve())
     for path in files:
         print(f"{path.stat().st_size / 1e6:8.1f} MB  {path}")
     if ready is not None:

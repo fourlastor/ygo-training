@@ -38,7 +38,7 @@ def test_a_release_holds_the_network_for_play_its_export_and_their_digests(tmp_p
     model, checkpoint, vectors = made(tmp_path)
     output = tmp_path / "release"
 
-    files = tool.release("tiny-net", checkpoint, output, vectors)
+    files = tool.release({"tiny-net": checkpoint}, output, vectors)
 
     names = ["tiny-net.pt", "tiny-net.safetensors", "tiny-net.json"]
     names += ["tiny-net.outputs.json", "SHA256SUMS"]
@@ -56,11 +56,46 @@ def test_a_release_holds_the_network_for_play_its_export_and_their_digests(tmp_p
     ]
 
 
+def test_a_release_of_several_networks_names_each_ones_files_and_sums_them_all(tmp_path):
+    _, checkpoint, vectors = made(tmp_path)
+    torch.manual_seed(6)
+    model = PolicyValueNet(board_representation="mean-pool")
+    other = tmp_path / "model-00003.pt"
+    save(other, model, torch.optim.Adam(model.parameters()), 3, {})
+    output = tmp_path / "release"
+
+    files = tool.release({"one-deck": checkpoint, "another-deck": other}, output, vectors)
+
+    suffixes = (".pt", ".safetensors", ".json", ".outputs.json")
+    names = [f"{name}{suffix}" for name in ("one-deck", "another-deck") for suffix in suffixes]
+    assert [path.name for path in files] == [*names, "SHA256SUMS"]
+    sums = (output / "SHA256SUMS").read_text().splitlines()
+    assert [line.split("  ")[1] for line in sums] == names
+    described = json.loads((output / "another-deck.json").read_text())
+    assert described["checkpoint"]["checkpoint"] == "another-deck.pt"
+    assert described["checkpoint"]["step"] == 3
+
+
+def test_a_release_is_of_one_checkpoint_or_of_the_networks_named():
+    assert tool.networks_of("all71", Path("a.pt"), []) == {"all71": Path("a.pt")}
+    named = tool.networks_of("champions", None, ["burn=b.pt", "gishki=g.pt"])
+    assert named == {"burn": Path("b.pt"), "gishki": Path("g.pt")}
+    for checkpoint, given, said in (
+        (Path("a.pt"), ["burn=b.pt"], "one checkpoint, or"),
+        (None, [], "one checkpoint, or"),
+        (None, ["burn"], "NAME=CHECKPOINT"),
+        (None, ["=b.pt"], "NAME=CHECKPOINT"),
+        (None, ["burn=b.pt", "burn=c.pt"], "named twice"),
+    ):
+        with pytest.raises(SystemExit, match=said):
+            tool.networks_of("champions", checkpoint, given)
+
+
 @pytest.mark.parametrize("name", ["All71", "all 71", "-all71", "all71-", "model/all71"])
 def test_a_name_that_is_no_tag_is_refused(tmp_path, name):
     _, checkpoint, vectors = made(tmp_path)
     with pytest.raises(SystemExit, match="lowercase words joined by dashes"):
-        tool.release(name, checkpoint, tmp_path / "release", vectors)
+        tool.release({name: checkpoint}, tmp_path / "release", vectors)
 
 
 def test_a_checkpoint_without_its_weights_is_refused(tmp_path):
@@ -69,7 +104,7 @@ def test_a_checkpoint_without_its_weights_is_refused(tmp_path):
     del payload["metadata"]
     torch.save(payload, checkpoint)
     with pytest.raises(SystemExit, match="holds no metadata"):
-        tool.release("tiny-net", checkpoint, tmp_path / "release", vectors)
+        tool.release({"tiny-net": checkpoint}, tmp_path / "release", vectors)
 
 
 def test_a_release_is_published_with_its_files_titled_and_described_by_its_card(
