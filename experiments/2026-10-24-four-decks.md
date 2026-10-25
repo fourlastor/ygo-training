@@ -11,8 +11,8 @@ that evening before anything was run; and the network of the four decks,
 made the way specialist distillation found cheaper in games of the
 pairings, its design fixed once the champions are made.
 
-**Last updated:** 2026-10-24 (opened; the champions to begin on the CUDA
-machine once specialist distillation's follow-up is done)
+**Last updated:** 2026-10-25 (part 1 read: all three champions; two seeds
+of the recipe 48.1% head to head; the queue's first three champions too)
 
 Specialist distillation found that champions imitated into one network, and
 then their decks against each other, need two and a half times fewer games
@@ -69,6 +69,36 @@ Told beside it, without a mark (`tools/champions_report.py`): Cyber at seed
 2013 against `cyber-old` head to head, and its share against `all71` over
 `cyber-old`'s on the same deals, the spread of two seeds of the recipe; the
 hours.
+
+### Results (2026-10-25)
+
+Run on the CUDA machine from 23:19 on 2026-10-24 to 02:45 the next morning,
+at `7e568fbf` (the clocks went back an hour at 03:00 that night; the times
+are local), into `runs/four-decks` and `analysis/four-decks`. Nothing
+failed: no duel stopped by the engine or cut off.
+
+1. **Lightsworn: a champion**, 56.5% ± 0.5% of its mirror against `all71`;
+   1.17 hours.
+2. **Infernity: a champion**, 63.0% ± 0.5%; 1.57 hours.
+3. **Cyber at seed 2013: a champion**, 75.9% ± 0.4%; 1.44 hours.
+
+Beside them, without a mark:
+
+- **Two seeds of the recipe**: Cyber at seed 2013 wins 48.1% ± 0.4% head to
+  head against `cyber-old`, and against `all71` 0.5 ± 0.5 points under it
+  (75.9% against 76.4%, the deals paired). Two runs on the same pilot land
+  within 2 points of each other head to head and half a point against
+  `all71`. The calibration's 57.3% between `cyber-new` and `cyber-old`, which
+  copied different pilots, is so mostly the pilot: `cyber-new` was 7.3 points
+  ahead head to head though 2.0 under against `all71`.
+- Lightsworn's champion is the narrowest over `all71`, which is strongest on
+  Lightsworn among the thirteen (75.6% against their pilots).
+- Cyber's mirror games at seed 2013 ran to 26 turns by its last updates,
+  Infernity's to 12, Lightsworn's to 9.
+- **The queue's champions**, read by the same rule: Gishki 65.5% ± 0.5%
+  (1.57 hours), Burn 63.8% ± 0.4% (1.82), Crystal Beasts 63.6% ± 0.6% (0.98):
+  champions, all three. Burn's beats `all71` in its mirror though `all71`
+  plays Burn no better than its pilot against the thirteen.
 
 ## Part 2: the network of four decks (to be fixed once the champions are made)
 
