@@ -100,25 +100,94 @@ Beside them, without a mark:
   champions, all three. Burn's beats `all71` in its mirror though `all71`
   plays Burn no better than its pilot against the thirteen.
 
-## Part 2: the network of four decks (to be fixed once the champions are made)
+## Part 2: the network of four decks (design fixed on 2026-10-25)
 
-Blackwing alone, `cyber-old` and the two new champions as its teachers,
-their mirrors imitated as in specialist distillation, then the twelve
-pairings against each other. Its design and readings are fixed before it is
-built, with what the champions and the speed of the copy say
-(`experiments/commands/teacher-calls.sh`, measured on the CUDA machine the
-same night). Decided on 2026-10-25, from that measurement: its copy plays
-the teachers' games in two groups and from CUDA graphs, 17.7 seconds an
-update against 24.1 without (an update's duels at once, 26 slots; graphs up
-to 130 decisions).
+Specialist distillation's mirrors faded in a phase that played none, and a
+pairing's gains slowed as it neared its level: a mirror is a pairing as any
+other in what it needs. Hence two arms of as many games, one with every
+pairing as often as any other and one with the games given to each pairing
+by how far behind it is.
 
-Its pairings, decided on 2026-10-25 before its design is fixed: two arms of
-as many games, one with every pairing as often as any other, mirrors kept
-in, and one with the games given to each pairing by how far it is behind,
-measured against `all71` playing the other deck every so many updates, with
-a floor so that no pairing goes unplayed. Specialist distillation's mirrors
-faded in a phase that played none, and a pairing's gains slow as it nears
-its level: a mirror is a pairing as any other in what it needs.
+- **The copy (`taught`).** One network of Blackwing, Cyber, Lightsworn and
+  Infernity from scratch, seed 2012, each deck's games played by its
+  champion by its first choice and imitated: Blackwing alone, `cyber-old`
+  (as in specialist distillation), and part 1's champions of Lightsworn and
+  Infernity, each by its last checkpoint. 960 updates of 520 duels (240 a
+  deck, 124,800 of each champion's games, as specialist distillation's copy
+  had), at 3e-4, in minibatches of 256 with no duels in flight, one pass,
+  the value taught at four positions a game. Of an update's duels, 260 are
+  each champion against itself in its own mirror, 65 a deck, both seats
+  imitated, and 260 against the thirteen decks' pilots, 5 in each of the 52
+  pairings. Its teachers' games in two groups and from CUDA graphs (an
+  update's duels at once, 26 slots; graphs up to 130 decisions), decided
+  from the measurement of 2026-10-24: 17.7 seconds an update against 24.1. A
+  checkpoint every 80 updates. A copy of 640 updates may cost under a point
+  and save some 1.7 hours; 960 is kept so as to compare with specialist
+  distillation, and 640 is to be measured later by an arm of PPO alone from
+  the copy's checkpoint there.
+- **Two arms of PPO from the copy's last checkpoint,** 2,880 updates each at
+  1e-4 with `fast`'s settings, a checkpoint every 240. Of an update's 520
+  duels, 260 against itself and 260 against the thirteen decks' pilots, 5
+  in each pairing, in both.
+  - **Uniform (`uniform`)**: its duels against itself on the 16 ordered
+    pairings of its decks as often as any other, the mirrors among them.
+  - **Weighted (`weighted`)**: its duels against itself shared out by
+    weights (`train --self-play-weights`, built for it). Before every 240
+    updates, its last checkpoint plays each ordered pairing against `all71`
+    on the other side, 128 games each
+    (`eval_suites/four-decks-pairings-quick-checkpoint.json`). A pairing's
+    share is the learner's there, a mirror's from both seats, two decks' the
+    mean of their two seatings, and the mean of this measurement and the one
+    before it. Each pairing weighs (1 − share)² times its seatings, at least
+    a quarter of its share where every ordered pairing counts the same; two
+    decks' weight is split evenly between their seatings
+    (`tools/pairing_weights.py`). A pairing where `all71` happens to be
+    strong looks behind, and draws games, though the network may be near its
+    level there: the second reading tells whether that costs.
+- Four tasks of high priority on the CUDA machine's queue, one after the
+  other (`experiments/commands/four-decks.sh`, `PARTS` copy, uniform,
+  weighted and measure): about 5, 7 and 7 hours, and 1 to measure.
+- **Measured afterwards**, every deal from both seats where a suite plays
+  one deck against another: each teacher and the copy's checkpoints after
+  800, 880 and 960 updates, and after 160, 320, 480 and 640, against `all71`
+  in each deck's mirror; each arm's last three checkpoints on every ordered
+  pairing against `all71`, 1,024 games each
+  (`eval_suites/four-decks-pairings-checkpoint.json`), and every other
+  checkpoint on the 128 games of each; the uniform arm after 1,920 updates in
+  Blackwing against Cyber against `all71`, both ways, as specialist
+  distillation's cross pairings were measured; the copy's and each arm's
+  last checkpoint head to head against each champion in its mirror.
+
+### Readings (fixed on 2026-10-25, before anything was built)
+
+1. *The copy keeps each champion's mirror*: for each deck, the copy's share
+   against `all71` in that deck's mirror, by its checkpoints after 800, 880
+   and 960 updates, a deal's games at the three together, less its
+   teacher's share on the same deals: it **keeps** the champion's mirror
+   when the gap less two standard errors is above −2 points, **loses
+   strength** when the gap plus two standard errors is below −2, otherwise
+   **not decided**.
+2. *Weighting by weakness pays*: the weighted arm against the uniform arm,
+   by their checkpoints after 2,400, 2,640 and 2,880 updates, by the mean
+   over the ten pairings of the learner's share against `all71` (a mirror
+   from both seats, two decks the mean of their two seatings), the deals
+   paired: it **pays** when the weighted arm is at least 1 point over by two
+   standard errors, **costs** when it is at least 1 point under by two
+   standard errors, otherwise **not told apart**. A point, not two: a mean of
+   ten pairings has a smaller error than one pairing.
+3. *Four decks against two, for one pairing*: Blackwing against Cyber
+   against `all71`, the uniform arm after 1,920 updates against specialist
+   distillation's cross pairings after 240, each having played the two
+   decks against each other 62,400 times, the deals paired: sharing four
+   decks **helps** a pairing when the uniform arm is at least 2 points over
+   by two standard errors, **hurts** it when it is at least 2 points under
+   by two standard errors, otherwise **not told apart**.
+
+Told beside them, without a mark (`tools/four_decks_report.py`): each
+pairing's curve in each arm; the weighted arm's weights along it; the
+weakest pairing of each arm; the copy along its updates; the copy and each
+arm head to head against each champion in its mirror; the hours, and those
+the weighted arm spent measuring.
 
 ## Beside it: luna's queue
 
