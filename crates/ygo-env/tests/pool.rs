@@ -33,7 +33,7 @@ fn setups(count: u64) -> Vec<Setup> {
     let ids = ["blackwing", "monarch", "heroes", "gladiator", "burn", "lightsworn"];
     (0..count)
         .map(|duel| {
-            let seat = |control| SeatSetup { control, policy: None, model: None, search: None, alone: false, observe: false };
+            let seat = |control| SeatSetup { control, policy: None, model: None, search: None, alone: false, observe: false, handover: false };
             let caller = (duel % 2) as usize;
             let mut seats = [seat(Control::Pilot), seat(Control::Pilot)];
             seats[caller] = seat(Control::Caller);
@@ -234,7 +234,7 @@ fn what_is_not_an_answer_to_the_round_is_refused() {
 fn observed(count: u64) -> Vec<Setup> {
     let mut setups = setups(count);
     for (duel, setup) in setups.iter_mut().enumerate() {
-        setup.seats[duel % 2] = SeatSetup { control: Control::Pilot, policy: None, model: None, search: None, alone: false, observe: true };
+        setup.seats[duel % 2] = SeatSetup { control: Control::Pilot, policy: None, model: None, search: None, alone: false, observe: true, handover: false };
     }
     setups
 }

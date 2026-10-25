@@ -28,7 +28,7 @@ fn decisions(environment: &Environment, games: u64) -> Vec<View> {
     let mut found = Vec::new();
     for game in 0..games {
         let decks = [ids[game as usize % ids.len()].clone(), ids[(game as usize * 5 + 3) % ids.len()].clone()];
-        let seat = || SeatSetup { control: Control::Pilot, policy: None, model: None, search: None, alone: false, observe: true };
+        let seat = || SeatSetup { control: Control::Pilot, policy: None, model: None, search: None, alone: false, observe: true, handover: false };
         let setup = Setup {
             seed: 9_000 + game,
             decks: decks.clone(),

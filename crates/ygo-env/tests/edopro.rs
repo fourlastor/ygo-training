@@ -93,7 +93,7 @@ fn episode(
     decks: [&str; 2],
     caller: usize,
 ) -> (Vec<Shown>, serde_json::Value, Option<u8>) {
-    let seat = |control| SeatSetup { control, policy: None, model: None, search: None, alone: false, observe: false };
+    let seat = |control| SeatSetup { control, policy: None, model: None, search: None, alone: false, observe: false, handover: false };
     let mut seats = [seat(Control::Pilot), seat(Control::Pilot)];
     seats[caller] = seat(Control::Caller);
     let setup = Setup {

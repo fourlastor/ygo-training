@@ -83,6 +83,12 @@ pub struct SeatSetup {
     /// Report the seat's decisions (a caller is shown its own anyway).
     #[serde(default)]
     pub observe: bool,
+    /// For a recorded seat: a caller from the first question its record
+    /// has no answer to, its trail kept all along as a caller's is.  A duel
+    /// a person played goes on from one of their decisions with a network
+    /// in their seat.
+    #[serde(default)]
+    pub handover: bool,
 }
 
 /// What is kept from a network: the zone a card goes to, a decision with a
@@ -275,6 +281,9 @@ impl Environment {
             if seat.control == Control::Record && setup.record.is_none() {
                 return Err(format!("seat {player} plays a record and none is given"));
             }
+            if seat.handover && seat.control != Control::Record {
+                return Err(format!("seat {player} is handed over to a caller, and only a recorded seat is"));
+            }
             // Asked alongside a search's seat, the deck's own.
             let id = match seat.control {
                 Control::Search => setup.decks[player].as_str(),
@@ -290,7 +299,7 @@ impl Environment {
             let start = duel.borrow().start_message(player as u8);
             let mut table = Table::new(self.db.clone(), player as u8);
             table.feed(&start, &mut [])?;
-            let sight = if setup.whole && seat.control == Control::Caller {
+            let sight = if setup.whole && (seat.control == Control::Caller || seat.handover) {
                 let mut sight = Sight::new(self.db.clone(), player as u8);
                 sight.feed(&start)?;
                 Some(sight)
@@ -316,6 +325,7 @@ impl Environment {
                 control: seat.control,
                 pilot,
                 observe: seat.observe,
+                handover: seat.handover,
                 trail: Trail::default(),
                 sight,
                 followers: Vec::new(),
@@ -353,6 +363,8 @@ struct Seat<'a> {
     /// Plays a pilot's seat; is asked alongside a caller's or a recorded one.
     pilot: Option<Box<dyn Policy>>,
     observe: bool,
+    /// A recorded seat that is a caller once its record runs out.
+    handover: bool,
     /// Its own earlier answers and the transaction it is in.
     trail: Trail,
     /// The duel from its side with nothing hidden but the Decks' order, for
@@ -598,6 +610,9 @@ impl Episode<'_> {
             return Err("the decision has not been answered".into());
         }
         let seat = &mut self.seats[pending.player];
+        if seat.handover && seat.control == Control::Record && self.answers[pending.player].is_empty() {
+            seat.control = Control::Caller;
+        }
         let response = match seat.control {
             Control::Pilot => loop {
                 let pilot = seat.pilot.as_mut().expect("a pilot's seat has its pilot");
@@ -823,7 +838,13 @@ fn report(
     samples: &mut Vec<View>,
 ) {
     let decision = pending.asked.decision();
-    let standing = standing(decision, options);
+    // A seat to be handed over keeps its trail as a caller's: the positions
+    // it gave commands at, and only what a caller would be asked remembered.
+    let standing = if seat.handover {
+        seat.trail.offered(&pending.asked.observation, decision, options)
+    } else {
+        standing(decision, options)
+    };
     if standing.real {
         if let Some(chosen) = standing.open.iter().position(|index| *index == choice) {
             if seat.observe {

@@ -135,7 +135,7 @@ fn searched_bench(environment: &Environment, seed: u64, ids: [&str; 2], searcher
 }
 
 fn seat(control: Control, alone: bool, observe: bool) -> SeatSetup {
-    SeatSetup { control, policy: None, model: None, search: None, alone, observe }
+    SeatSetup { control, policy: None, model: None, search: None, alone, observe, handover: false }
 }
 
 fn setup(seed: u64, ids: [&str; 2], seats: [SeatSetup; 2]) -> Setup {
@@ -203,6 +203,7 @@ fn a_search_plays_its_seat_as_the_bench_seats_it() {
             search: Some(serde_json::from_str(QUICK).unwrap()),
             alone: true,
             observe: false,
+            handover: false,
         };
         let (samples, decisions, over) = play(&environment, &setup(seed, ids, seats), |_| unreachable!());
         assert_eq!(played(&over), searched_bench(&environment, seed, ids, searcher, pilot, model), "seed {seed}, {ids:?}");
@@ -319,6 +320,52 @@ fn a_record_plays_again_with_the_same_decisions() {
         let shown = |views: &[View]| views.iter().map(|view| serde_json::to_string(view).unwrap()).collect::<Vec<_>>();
         assert_eq!(shown(&replayed), shown(&samples));
     }
+}
+
+#[test]
+fn a_record_handed_over_to_a_caller_goes_on_as_the_caller_would() {
+    let environment = environment();
+    let follow = |decision: &View| decision.label.expect("the pilot's answer is one a network may give");
+    for (seed, ids) in DUELS {
+        // A caller that follows its pilot plays the duel.
+        let mut first = setup(seed, ids, [seat(Control::Caller, false, false), seat(Control::Pilot, false, false)]);
+        first.keep_record = true;
+        let (_, asked, over) = play(&environment, &first, follow);
+        // Its record without the seat's answers from its middle selection
+        // on: the seat is a caller from there, and follows its pilot again.
+        let middle = asked.len() / 2 + asked[asked.len() / 2..].iter().position(|decision| decision.step == 0).unwrap();
+        let cut = asked[middle].answer;
+        let mut record = over.record.clone().unwrap();
+        let kept: Vec<serde_json::Value> = record["responses"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .enumerate()
+            .filter(|(at, answer)| answer[0] != 0 || *at < cut)
+            .map(|(_, answer)| answer.clone())
+            .collect();
+        record["responses"] = kept.into();
+        let mut handed = seat(Control::Record, false, false);
+        handed.handover = true;
+        let mut again = setup(seed, ids, [handed, seat(Control::Record, true, false)]);
+        again.record = Some(record);
+        let (_, later, end) = play(&environment, &again, follow);
+        // The same duel, and the caller is shown from the handover on what
+        // the caller was shown: its history, transactions and choices, the
+        // commands it gave earlier in the turn left out as they were.
+        assert_eq!(played(&end), played(&over), "seed {seed}, {ids:?}");
+        let shown = |views: &[View]| views.iter().map(|view| serde_json::to_string(view).unwrap()).collect::<Vec<_>>();
+        assert_eq!(shown(&later), shown(&asked[middle..]), "seed {seed}, {ids:?}");
+    }
+}
+
+#[test]
+fn only_a_recorded_seat_is_handed_over() {
+    let environment = environment();
+    let mut handed = seat(Control::Pilot, false, false);
+    handed.handover = true;
+    let refused = environment.start(&setup(7, ["blackwing", "monarch"], [handed, seat(Control::Pilot, false, false)]));
+    assert!(refused.is_err_and(|error| error.contains("only a recorded seat")));
 }
 
 /// A card or sum selection answered as `Sequential` writes it (an `i32` 0
