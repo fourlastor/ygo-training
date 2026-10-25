@@ -172,6 +172,9 @@ class Coordinator:
                 if name.startswith(("pool_", "stream_")) or name == "held_decisions"
             }
         )
+        if self.config.self_play_weights is not None and not imitation_only:
+            # The weights the duels against itself were shared out by.
+            metrics["self_play_weights"] = dict(self.config.self_play_weights)
         if replayed is not None and self.recorded is not None:
             metrics["recorded_games"] = float(len(self.recorded))
             # How many times the games had all been gone through before.
@@ -204,6 +207,7 @@ class Coordinator:
                 itself=itself,
                 seed=rollout_seed ^ 0x4F50504F,
                 pairs=self.config.self_play_pairs,
+                weights=self.config.pair_weights,
             )
         elif itself or held:
             opponent_assignments, other_seats = allocate_other_seats(

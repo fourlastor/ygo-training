@@ -238,6 +238,11 @@ class TrainerConfig:
     # experiments/2026-10-24-specialist-distillation.md).  A learner of one
     # deck plays its mirror, and has no `cross`.
     self_play_pairs: str = "all"
+    # Those duels shared out by a weight for each ordered pair of a learner's
+    # decks, "OWN>OTHER" (`schedules.allocate_weighted_pairs`), in place of
+    # every pair as often as any other: the weights a run is given, decided
+    # on 2026-10-25 (experiments/2026-10-24-four-decks.md).
+    self_play_weights: dict[str, float] | None = None
     # A checkpoint held as it is, which plays the learner's deck from the
     # other seat by its first choice: in so many of those duels, where only
     # the learner's own decisions are learned from, and in the cases of an
@@ -292,6 +297,16 @@ class TrainerConfig:
     def learners(self) -> list[str]:
         """The decks the learner plays: one, unless several are named."""
         return list(self.learner_decks or [self.learner_deck])
+
+    @property
+    def pair_weights(self) -> dict[tuple[str, str], float] | None:
+        """The weights of the duels against itself, by ordered pair of decks."""
+        if self.self_play_weights is None:
+            return None
+        return {
+            tuple(pair.split(">", 1)): float(weight)  # type: ignore[misc]
+            for pair, weight in self.self_play_weights.items()
+        }
 
     @property
     def teachers(self) -> dict[str, str]:
@@ -476,6 +491,23 @@ class TrainerConfig:
             )
         if self.self_play_pairs == "cross" and len(self.learners) < 2:
             raise ValueError("self_play_pairs cross meets two different decks of the learner's")
+        if self.self_play_weights is not None:
+            if not self.self_play_duels or len(self.learners) < 2:
+                raise ValueError(
+                    "self_play_weights share out the duels against itself of several decks"
+                )
+            if self.self_play_pairs != "all":
+                raise ValueError("self_play_weights and self_play_pairs are one or the other")
+            for pair, weight in self.self_play_weights.items():
+                own, sign, other = pair.partition(">")
+                if not sign or own not in self.learners or other not in self.learners:
+                    raise ValueError(
+                        f"self_play_weights names pairs of the learner's decks: {pair}"
+                    )
+                if float(weight) < 0:
+                    raise ValueError("self_play_weights are not below zero")
+            if not any(float(weight) > 0 for weight in self.self_play_weights.values()):
+                raise ValueError("self_play_weights are not all zero")
         # Against itself a learner of several decks plays any two of them; a
         # checkpoint held in the other seat plays one deck.
         if self.opponent_checkpoint and len(self.learners) > 1:

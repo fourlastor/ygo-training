@@ -52,6 +52,32 @@ def allocate_balanced_pairs(
     return [pairs[int(index)] for index in drawn]
 
 
+def allocate_weighted_pairs(
+    weights: dict[tuple[str, str], float], episodes: int, *, seed: int
+) -> list[tuple[str, str]]:
+    """Allocate an exact, shuffled population of the pairs of ``weights``:
+    each pair as often as its share of the weights, the duels a share leaves
+    over going to the largest remainders, ties broken by the seed."""
+    if episodes < 0:
+        raise ValueError("episodes must be non-negative")
+    total = sum(weights.values())
+    if not weights or total <= 0 or min(weights.values()) < 0:
+        raise ValueError("pairs are weighted by numbers not below zero, not all zero")
+    pairs = sorted(weights)
+    order = list(range(len(pairs)))
+    random.Random(seed ^ 0x52454D41).shuffle(order)
+    exact = [episodes * weights[pair] / total for pair in pairs]
+    counts = [int(share) for share in exact]
+    left = episodes - sum(counts)
+    # The largest remainders first, and among equal ones the seed's order.
+    ranked = sorted(order, key=lambda place: counts[place] - exact[place])
+    for place in ranked[:left]:
+        counts[place] += 1
+    drawn = [pair for pair, count in zip(pairs, counts, strict=True) for _ in range(count)]
+    random.Random(seed).shuffle(drawn)
+    return drawn
+
+
 def allocate_balanced_matchups(
     learners: list[str], opponents: list[str], episodes: int, *, seed: int
 ) -> list[tuple[str, str]]:
@@ -102,6 +128,7 @@ def allocate_matchup_seats(
     itself: int,
     seed: int,
     pairs: str = "all",
+    weights: dict[tuple[str, str], float] | None = None,
 ) -> tuple[list[str], list[str], list[str]]:
     """The duels of an update of a learner of several decks, some of them
     against itself.
@@ -114,10 +141,12 @@ def allocate_matchup_seats(
     as often as a deck meets itself.  With ``pairs`` `mirrors` each deck
     meets only itself, every deck as often as any other; with `cross` only
     the other decks, every ordered pair of two decks as often as any other.
-    The other duels are the learner's decks against the opponents' pilots,
-    every pairing as often as any other.  The two kinds are shuffled among
-    each other, as ``allocate_other_seats`` shuffles them for a learner of
-    one deck.
+    With ``weights``, each ordered pair of the learner's decks by name, the
+    duels against itself are shared out by them instead
+    (``allocate_weighted_pairs``).  The other duels are the learner's decks
+    against the opponents' pilots, every pairing as often as any other.  The
+    two kinds are shuffled among each other, as ``allocate_other_seats``
+    shuffles them for a learner of one deck.
 
     For each duel: the deck in the learner's seat, the deck in the other
     seat, and who plays that one (``OTHER_SEATS``).
@@ -140,7 +169,11 @@ def allocate_matchup_seats(
         )
     ] + [
         (own, other, "self")
-        for own, other in allocate_balanced_pairs(met[pairs], itself, seed=seed ^ 0x53454C46)
+        for own, other in (
+            allocate_balanced_pairs(met[pairs], itself, seed=seed ^ 0x53454C46)
+            if weights is None
+            else allocate_weighted_pairs(weights, itself, seed=seed ^ 0x53454C46)
+        )
     ]
     random.Random(seed ^ 0x53454154).shuffle(duels)
     return (

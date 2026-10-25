@@ -435,3 +435,54 @@ def test_an_updates_duels_are_shared_out_by_who_sits_in_the_other_seat():
     assert [{key: value for key, value in game.items() if key != "other"} for game in games] == (
         plain
     )
+
+
+def test_duels_against_itself_shared_out_by_the_weights_of_the_pairs():
+    """Each ordered pair as often as its share of the weights, what is left
+    over to the largest remainders; a pair of weight zero none; the duels
+    against the pilots the same, in the same places, as without weights."""
+    learners = ["blackwing", "cyber", "lightsworn", "infernity"]
+    opponents = ["monarch", "burn", "heroes"]
+    weights = {(own, other): 1.0 for own in learners for other in learners}
+    weights[("blackwing", "cyber")] = 5.0
+    weights[("cyber", "blackwing")] = 5.0
+    weights[("lightsworn", "lightsworn")] = 0.0
+    owns, others, seats = allocate_matchup_seats(
+        learners, opponents, 520, itself=260, seed=7, weights=weights
+    )
+    assert (owns, others, seats) == allocate_matchup_seats(
+        learners, opponents, 520, itself=260, seed=7, weights=weights
+    )
+    itself = Counter(
+        (own, other) for own, other, seat in zip(owns, others, seats) if seat == "self"
+    )
+    assert sum(itself.values()) == 260 and ("lightsworn", "lightsworn") not in itself
+    # Of a weight of 23 in all: 5/23 of 260 is 56.5, 1/23 is 11.3.
+    assert {itself[("blackwing", "cyber")], itself[("cyber", "blackwing")]} <= {56, 57}
+    assert set(itself.values()) - {56, 57} <= {11, 12}
+    plain = allocate_matchup_seats(learners, opponents, 520, itself=260, seed=7)
+    assert plain[2] == seats
+    assert [(own, other) for own, other, seat in zip(*plain) if seat == "pilot"] == [
+        (own, other) for own, other, seat in zip(owns, others, seats) if seat == "pilot"
+    ]
+    with pytest.raises(ValueError, match="not all zero"):
+        allocate_matchup_seats(
+            learners, opponents, 8, itself=4, seed=7, weights={("cyber", "cyber"): 0.0}
+        )
+
+
+def test_an_updates_metrics_say_the_weights_its_duels_against_itself_had():
+    several = {
+        "workers": 2,
+        "duels": 8,
+        "seed": 3,
+        "self_play_duels": 4,
+        "pool_threads": 1,
+        "learner_decks": ["blackwing", "cyber"],
+        "opponent_decks": ["monarch"],
+    }
+    weights = {"blackwing>cyber": 2.0, "cyber>blackwing": 1.0}
+    _, metrics = coordinator(TrainerConfig(self_play_weights=weights, **several)).collect()
+    assert metrics["self_play_weights"] == weights
+    _, plain = coordinator(TrainerConfig(**several)).collect()
+    assert "self_play_weights" not in plain

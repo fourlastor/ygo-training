@@ -1,0 +1,118 @@
+{
+  "name": "four-decks-pairings-checkpoint",
+  "primary": "blackwing-vs-cyber-checkpoint",
+  "cases": [
+    {
+      "name": "blackwing-vs-blackwing-checkpoint",
+      "learner": "blackwing",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "blackwing-vs-cyber-checkpoint",
+      "learner": "blackwing",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "blackwing-vs-lightsworn-checkpoint",
+      "learner": "blackwing",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "blackwing-vs-infernity-checkpoint",
+      "learner": "blackwing",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "cyber-vs-blackwing-checkpoint",
+      "learner": "cyber",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "cyber-vs-cyber-checkpoint",
+      "learner": "cyber",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "cyber-vs-lightsworn-checkpoint",
+      "learner": "cyber",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "cyber-vs-infernity-checkpoint",
+      "learner": "cyber",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "lightsworn-vs-blackwing-checkpoint",
+      "learner": "lightsworn",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "lightsworn-vs-cyber-checkpoint",
+      "learner": "lightsworn",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "lightsworn-vs-lightsworn-checkpoint",
+      "learner": "lightsworn",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "lightsworn-vs-infernity-checkpoint",
+      "learner": "lightsworn",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "infernity-vs-blackwing-checkpoint",
+      "learner": "infernity",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "infernity-vs-cyber-checkpoint",
+      "learner": "infernity",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "infernity-vs-lightsworn-checkpoint",
+      "learner": "infernity",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    },
+    {
+      "name": "infernity-vs-infernity-checkpoint",
+      "learner": "infernity",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 1024
+    }
+  ]
+}

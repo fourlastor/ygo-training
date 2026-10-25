@@ -157,6 +157,32 @@ def test_a_learner_of_several_decks_imitates_a_checkpoint_for_each_of_them():
     assert TrainerConfig().teachers == {}
 
 
+def test_the_weights_of_duels_against_itself_name_pairs_of_the_learners_decks():
+    several = {
+        "duels": 8,
+        "self_play_duels": 4,
+        "pool_threads": 1,
+        "opponent_decks": ["burn"],
+        "learner_decks": ["blackwing", "cyber"],
+    }
+    weights = {"blackwing>cyber": 2.0, "cyber>cyber": 0.0}
+    config = TrainerConfig(self_play_weights=weights, **several)
+    assert config.pair_weights == {("blackwing", "cyber"): 2.0, ("cyber", "cyber"): 0.0}
+    assert TrainerConfig(**several).pair_weights is None
+    for wrong, told in (
+        ({"blackwing>burn": 1.0}, "pairs of the learner's decks"),
+        ({"blackwing-cyber": 1.0}, "pairs of the learner's decks"),
+        ({"blackwing>cyber": -1.0}, "not below zero"),
+        ({"blackwing>cyber": 0.0}, "not all zero"),
+    ):
+        with pytest.raises(ValueError, match=told):
+            TrainerConfig(self_play_weights=wrong, **several)
+    with pytest.raises(ValueError, match="one or the other"):
+        TrainerConfig(self_play_weights=weights, self_play_pairs="mirrors", **several)
+    with pytest.raises(ValueError, match="duels against itself of several decks"):
+        TrainerConfig(self_play_weights=weights, **{**several, "self_play_duels": 0})
+
+
 def test_a_learner_of_several_decks_plays_against_named_opponents():
     several = {"learner_decks": ["blackwing", "monarch"]}
     with pytest.raises(ValueError, match="require opponent_decks"):

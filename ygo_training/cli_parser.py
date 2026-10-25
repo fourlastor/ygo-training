@@ -493,6 +493,15 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         ),
     )
     parser.add_argument(
+        "--self-play-weights",
+        type=Path,
+        help=(
+            "a JSON file of a weight for each ordered pair of a learner's decks, "
+            '{"OWN>OTHER": weight}: its duels against itself shared out by them, read '
+            "when the run starts or goes on"
+        ),
+    )
+    parser.add_argument(
         "--critic",
         action="store_true",
         help=(

@@ -290,6 +290,11 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
         duels_in_flight=args.duels_in_flight,
         overlap=args.overlap,
         self_play_duels=args.self_play_duels,
+        self_play_weights=(
+            None
+            if args.self_play_weights is None
+            else json.loads(args.self_play_weights.read_text(encoding="utf8"))
+        ),
         self_play_pairs=args.self_play_pairs,
         opponent_checkpoint=(
             None if args.opponent_checkpoint is None else str(args.opponent_checkpoint)
@@ -423,6 +428,12 @@ def train(args: argparse.Namespace) -> None:
         # it is, in so many more and in the suite's cases against it.
         "self_play_duels": config.self_play_duels,
         "self_play_pairs": config.self_play_pairs,
+        # The file the weights of those duels are read from, which a run may
+        # be given again changed as it goes on: each update's metrics say
+        # the weights it was played with.
+        "self_play_weights": None
+        if args.self_play_weights is None
+        else str(args.self_play_weights.resolve()),
         "opponent_checkpoint": trainer.held_description,
         "opponent_checkpoint_duels": config.opponent_checkpoint_duels,
         "teacher_imitation_weight": args.teacher_imitation_weight,

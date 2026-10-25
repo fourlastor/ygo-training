@@ -556,6 +556,19 @@ def test_a_checkpoint_for_each_deck_to_imitate_reaches_the_trainer_config():
             trainer_config(parser().parse_args([*several, *wrong]))
 
 
+def test_the_weights_of_duels_against_itself_are_read_from_their_file(tmp_path):
+    weights = tmp_path / "weights.json"
+    weights.write_text('{"blackwing>cyber": 3, "cyber>blackwing": 1}')
+    args = parser().parse_args(
+        ["train", "--learner", "blackwing,cyber", "--opponents", "burn", "--pool-threads", "2"]
+        + ["--self-play-duels", "4", "--duels", "8", "--workers", "2"]
+        + ["--self-play-weights", str(weights)]
+    )
+    config = trainer_config(args)
+    assert config.self_play_weights == {"blackwing>cyber": 3, "cyber>blackwing": 1}
+    assert trainer_config(parser().parse_args(["train"])).self_play_weights is None
+
+
 def test_measuring_on_a_search_run_needs_its_rows_and_a_checkpoint():
     with pytest.raises(SystemExit):
         parser().parse_args(["evaluate-search", "model.pt"])
