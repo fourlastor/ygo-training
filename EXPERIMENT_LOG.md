@@ -32,7 +32,7 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   Infernity 63.0%, Cyber at seed 2013 75.9%); two seeds of the recipe 48.1%
   ± 0.4% head to head and half a point apart against `all71`, so the
   calibration's 57.3% was mostly the pilot. The queue's Gishki, Burn,
-  Crystal Beasts and Dragunity are champions too.
+  Crystal Beasts, Dragunity and Gladiator Beasts are champions too.
 - And beside it, since 2026-10-23,
   [The credit offline: a value head with more results, and pairing at the decision](experiments/2026-10-23-credit-offline.md):
   two measurements that train nothing, of `all71`'s last checkpoint in its

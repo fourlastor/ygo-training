@@ -12,7 +12,7 @@ made the way specialist distillation found cheaper in games of the
 pairings, its design fixed once the champions are made.
 
 **Last updated:** 2026-10-25 (part 1 read: all three champions; two seeds
-of the recipe 48.1% head to head; the queue's first four champions too)
+of the recipe 48.1% head to head; the queue's first five champions too)
 
 Specialist distillation found that champions imitated into one network, and
 then their decks against each other, need two and a half times fewer games
@@ -97,9 +97,9 @@ Beside them, without a mark:
   Infernity's to 12, Lightsworn's to 9.
 - **The queue's champions**, read by the same rule: Gishki 65.5% ± 0.5%
   (1.57 hours), Burn 63.8% ± 0.4% (1.82), Crystal Beasts 63.6% ± 0.6% (0.98),
-  Dragunity 62.8% ± 0.5% (1.53): champions, all four. Burn's beats `all71`
-  in its mirror though `all71` plays Burn no better than its pilot against
-  the thirteen.
+  Dragunity 62.8% ± 0.5% (1.53), Gladiator Beasts 67.7% ± 0.5% (1.63):
+  champions, all five. Burn's beats `all71` in its mirror though `all71`
+  plays Burn no better than its pilot against the thirteen.
 
 ## Part 2: the network of four decks (design fixed on 2026-10-25)
 
