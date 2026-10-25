@@ -5,8 +5,9 @@
 # pin:
 #
 # 1. the pilots as the trainer pins them: the forty decks' and the eighteen
-#    decks' suites as seventy-one decks played them (evaluate-suite --pilot,
-#    seed 2012, 24 workers), into OUT/pinned-COMMIT, once a pin;
+#    decks' suites as seventy-one decks played them, and the thirteen decks'
+#    screens (evaluate-suite --pilot, seed 2012, 24 workers), into
+#    OUT/pinned-COMMIT, once a pin;
 # 2. the branch's: a worktree of this repository at its HEAD (WORKTREE), its
 #    submodules filled from this checkout's, the policies at BRANCH as REMOTE
 #    has it, built on its own, nothing of this checkout touched; the same
@@ -36,6 +37,14 @@ declare -A suites=(
   [new]=$MAIN/eval_suites/ygo-policies-forty-played.json
   [old]=$MAIN/eval_suites/ygo-policies-unseen-played.json
 )
+# Each of the thirteen decks' own screen, against the thirteen decks'
+# pilots, where an improved pilot of theirs plays its own deck.
+THIRTEEN=${THIRTEEN:-blackwing lightsworn gishki burn crystal dragunity gladiator heroes infernity monarch morphtronic rock-block spellcaster}
+kinds=(new old)
+for deck in $THIRTEEN; do
+  suites[screen-$deck]=$MAIN/eval_suites/ygo-policies-$deck-screen.json
+  kinds+=("screen-$deck")
+done
 
 pinned=$(git submodule status --recursive)
 if grep -q '^[^ ]' <<< "$pinned"; then
@@ -47,12 +56,12 @@ if [ -n "${YGO_ENV_LIBRARY:-}" ]; then
   exit 1
 fi
 
-# played ROOT FOLDER: both suites with the pilots of the checkout at ROOT,
+# played ROOT FOLDER: every suite with the pilots of the checkout at ROOT,
 # into OUT/FOLDER.
 played() {
   local root=$1 folder=$2 kind
   mkdir -p "$MAIN/$OUT/$folder"
-  for kind in new old; do
+  for kind in "${kinds[@]}"; do
     if [ ! -f "$MAIN/$OUT/$folder/$kind.json" ]; then
       (cd "$root" && "$PYTHON" -m ygo_training evaluate-suite --pilot --device cpu \
         --workers "$WORKERS" --pool-threads "$THREADS" --pool-slots "$SLOTS" --seed "$SEED" \

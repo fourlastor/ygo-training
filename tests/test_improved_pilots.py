@@ -61,3 +61,38 @@ def test_decks_the_branch_left_as_they_were_are_not_measured(tmp_path):
     out, network = measured(tmp_path, cyber=[0, 0, 0, 0, 1, 0, 0, 0])
     result = tool.report(out / "pinned", out / "branch", network)
     assert result["changed"] == {} and result["unchanged"] == 3
+
+
+def test_games_against_an_opponent_whose_pilot_changed_are_told_apart(tmp_path):
+    """Where both folders hold the thirteen's screens they are read beside
+    the two suites; where the branch says whose pilots it changed, games
+    against those of the thirteen are told apart, those of every deck whose
+    own pilot is as it was together."""
+    out, network = measured(tmp_path, cyber=[1, 1, 0, 0, 1, 0, 0, 0])
+    for folder, mine, theirs, mirror in (
+        ("pinned", [0, 1, 0, 1], [1, 1, 0, 0], [0, 0, 0, 0]),
+        ("branch", [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 1, 1]),
+    ):
+        write(
+            out / folder / "screen-dragunity.json",
+            {"dragunity-vs-heroes": mine, "dragunity-vs-dragunity": mirror},
+        )
+        write(out / folder / "screen-heroes.json", {"heroes-vs-dragunity": theirs})
+    write(network / "screens" / "all71-10560.dragunity.json", {"dragunity-vs-heroes": [1] * 4}, 3)
+    write(network / "screens" / "all71-10560.heroes.json", {"heroes-vs-dragunity": [1] * 4}, 3)
+    (out / "branch" / "changed.txt").write_text(
+        " crates/ygo-policies/src/decks/cyber.rs     | 52 ++-\n"
+        " crates/ygo-policies/src/decks/dragunity.rs |  5 +-\n"
+    )
+    result = tool.report(out / "pinned", out / "branch", network)
+    assert result["screens"] == ["dragunity", "heroes"] and result["moved"] == ["dragunity"]
+    assert sorted(result["changed"]) == ["cyber", "dragunity"]
+    dragunity = result["changed"]["dragunity"]
+    assert (dragunity["pinned"], dragunity["branch"], dragunity["network"]) == (0.5, 1.0, 1.0)
+    assert dragunity["closed"] == pytest.approx(1.0)
+    # Heroes' only games are against Dragunity's changed pilot: told apart,
+    # without the mirror, where Dragunity's own pilot changed too.
+    assert "heroes" not in result["changed"]
+    against = result["against the moved"]["dragunity"]
+    assert against["games"] == 4 and against["gain"] == pytest.approx(-0.25)
+    assert "Against dragunity's pilot as the branch has it" in tool.shown(result)
