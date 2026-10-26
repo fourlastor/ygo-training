@@ -11,8 +11,11 @@ that evening before anything was run; and the network of the four decks,
 made the way specialist distillation found cheaper in games of the
 pairings, its design fixed once the champions are made.
 
-**Last updated:** 2026-10-25 (part 1 read: all three champions; two seeds
-of the recipe 48.1% head to head; the queue's first five champions too)
+**Last updated:** 2026-10-26 (part 2 read: the copy keeps two mirrors and
+two are not decided; weighting not told apart from the uniform arm; four
+decks not told apart from two; the network about each champion's equal
+in its mirror, over `all71` on every pairing; nine of the queue's
+champions)
 
 Specialist distillation found that champions imitated into one network, and
 then their decks against each other, need two and a half times fewer games
@@ -97,9 +100,11 @@ Beside them, without a mark:
   Infernity's to 12, Lightsworn's to 9.
 - **The queue's champions**, read by the same rule: Gishki 65.5% ± 0.5%
   (1.57 hours), Burn 63.8% ± 0.4% (1.82), Crystal Beasts 63.6% ± 0.6% (0.98),
-  Dragunity 62.8% ± 0.5% (1.53), Gladiator Beasts 67.7% ± 0.5% (1.63):
-  champions, all five. Burn's beats `all71` in its mirror though `all71`
-  plays Burn no better than its pilot against the thirteen.
+  Dragunity 62.8% ± 0.5% (1.53), Gladiator Beasts 67.7% ± 0.5% (1.63),
+  HEROes 68.3% ± 0.5% (1.22), Monarchs 70.1% ± 0.5% (1.51), Morphtronics
+  59.2% ± 0.5% (0.94), Rock-Block 63.3% ± 0.5% (1.51): champions, all nine.
+  Burn's beats `all71` in its mirror though `all71` plays Burn no better
+  than its pilot against the thirteen.
 
 ## Part 2: the network of four decks (design fixed on 2026-10-25)
 
@@ -189,6 +194,81 @@ pairing's curve in each arm; the weighted arm's weights along it; the
 weakest pairing of each arm; the copy along its updates; the copy and each
 arm head to head against each champion in its mirror; the hours, and those
 the weighted arm spent measuring.
+
+### Results (2026-10-26)
+
+Run on the CUDA machine's queue from 10:31 on 2026-10-25 to 02:37 the next
+morning: the copy (4.27 hours) and the two arms at `6142c469`, the
+measurements at `0b5f89ed` (1.3 hours), into `runs/four-decks/network` and
+`analysis/four-decks/network`. No duel failed; one of the weighted arm's 1.5
+million was cut off at the cap of answers.
+
+1. **The copy keeps Lightsworn's and Infernity's mirrors; Blackwing's and
+   Cyber's are not decided**, each against `all71` less its teacher, the
+   deals paired:
+
+   | Mirror | The copy | Its teacher | Gap | Reading |
+   |---|---|---|---|---|
+   | Blackwing | 64.4% | 65.6% | −1.2 ± 0.5 | not decided |
+   | Cyber | 74.7% | 76.5% | −1.8 ± 0.5 | not decided |
+   | Lightsworn | 57.2% | 57.7% | −0.4 ± 0.4 | keeps |
+   | Infernity | 63.1% | 63.8% | −0.7 ± 0.4 | keeps |
+
+   Specialist distillation's copy of two of them had Blackwing −0.2 ± 0.5
+   and Cyber −1.5 ± 0.5.
+2. **Weighting by weakness: not told apart.** By the mean over the ten
+   pairings against `all71`, the weighted arm 63.4% and the uniform 63.0%,
+   +0.4 ± 0.3 points.
+3. **Four decks against two, for Blackwing against Cyber: not told
+   apart.** The uniform arm after 1,920 updates 60.9%, specialist
+   distillation's cross pairings after 240 updates 60.9%, +0.0 ± 0.8 points,
+   each after as many games of the pairing.
+
+Beside them, without a mark:
+
+- **Every pairing against `all71`**, by each arm's last three checkpoints:
+
+  | Pairing | Uniform | Weighted |
+  |---|---|---|
+  | Blackwing mirror | 65.4% | 66.0% |
+  | Blackwing and Cyber | 63.2% | 63.3% |
+  | Blackwing and Lightsworn | 58.1% | 59.2% |
+  | Blackwing and Infernity | 61.6% | 62.5% |
+  | Cyber mirror | 79.7% | 77.2% |
+  | Cyber and Lightsworn | 57.2% | 59.8% |
+  | Cyber and Infernity | 62.8% | 64.0% |
+  | Lightsworn mirror | 56.4% | 56.8% |
+  | Lightsworn and Infernity | 60.7% | 60.3% |
+  | Infernity mirror | 65.5% | 65.0% |
+
+  Each mirror is over the mark of a champion against `all71` in either arm.
+- **Head to head against each champion in its mirror**, by each arm's last
+  checkpoint: the uniform arm 50.1% against Blackwing's, 52.7% against
+  Cyber's, 49.5% against Lightsworn's, 48.1% against Infernity's; the
+  weighted arm 49.0%, 45.3%, 49.9% and 48.9%; the copy 50.0%, 49.3%, 49.2%
+  and 48.5%.
+- **The weighted arm's weights** went most to Lightsworn's pairings, its
+  mirror 7.7% to 9.3% of the duels against itself where each ordered
+  pairing has 6.25% in the uniform arm: `all71` is strongest on Lightsworn,
+  so its pairings looked furthest behind. The Cyber mirror, the strongest,
+  drew the fewest, and is the weighted arm's one pairing under the uniform's
+  (77.2% against 79.7%, and 45.3% head to head with its champion).
+- **Along the updates**, the mean over the pairings against `all71`: both
+  arms from the copy's 58.1% to 61.3% after 480 updates; the uniform arm
+  then between 61.4% and 64.2%, 64.2% after 2,880, the weighted arm between
+  61.7% and 65.4%, 65.4% after 2,880.
+- **The copy along its updates**, each mirror less its teacher: after 640
+  updates Blackwing −0.7, Cyber −3.1, Lightsworn −0.6 and Infernity −1.1;
+  after 960 −1.1, −2.3, −0.3 and −1.2.
+- **Hours:** the copy 4.27, the uniform arm 5.26, the weighted arm 5.03, of
+  which 0.21 measuring its weights.
+
+What it says: one network of four decks, the champions copied and then
+played against itself on every pairing as often as any other, plays each
+mirror about as well as its champion (48% to 53% head to head) and beats
+`all71` on all ten pairings (56.4% to 79.7%), in 9.5 hours of the CUDA
+machine. Weighting the pairings by weakness against `all71` does not pay;
+four decks cost Blackwing against Cyber nothing against two.
 
 ## Beside it: luna's queue
 
