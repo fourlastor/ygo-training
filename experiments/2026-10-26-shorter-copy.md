@@ -8,7 +8,7 @@
 was read and closed; design and reading fixed that morning, before anything
 was built.
 
-**Last updated:** 2026-10-26 (design and reading fixed; the arm queued)
+**Last updated:** 2026-10-26 (the arm made; read by the checkpoints it keeps)
 
 The network of four decks imitated its champions for 960 updates before its
 PPO, 240 a deck, as specialist distillation's copy had. Along that copy its
@@ -44,6 +44,19 @@ copy costs at the end of PPO.
    deals paired: **as good** when the two are within 1 point of each other
    by two standard errors, **worse** when the short arm is at least 1 point
    under by two standard errors, otherwise **not decided**.
+
+The short arm's checkpoints after 2,400 and 2,640 updates were never kept.
+The trainer numbers a run's updates on from the checkpoint it goes on from,
+here the copy's 640th, and keeps a checkpoint where that number closes 240,
+and the last: the short arm's after 80, 320 and so on to 2,720 updates, and
+after 2,880. Decided on 2026-10-26, after the arm was made and before its
+pairings were played: it is read by its last three checkpoints, after 2,480,
+2,720 and 2,880 updates, beside the uniform arm's after 2,400, 2,640 and
+2,880, the mark unchanged. Its three are 53 updates later on average; along
+its last 1,700 updates the uniform arm's curve stays within its noise (61.4%
+to 64.2% on 128 games of each pairing), which makes the shift worth well
+under a tenth of a point. Its curve begins at the copy's checkpoint after
+640, on the same games.
 
 Told beside it, without a mark: each pairing in both arms; each arm's curve
 along its updates; each arm's last checkpoint head to head against each
