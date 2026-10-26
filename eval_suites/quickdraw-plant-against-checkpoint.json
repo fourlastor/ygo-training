@@ -1,0 +1,13 @@
+{
+  "name": "quickdraw-plant-against-checkpoint",
+  "primary": "quickdraw-plant-vs-checkpoint",
+  "cases": [
+    {
+      "name": "quickdraw-plant-vs-checkpoint",
+      "learner": "quickdraw-plant",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}
