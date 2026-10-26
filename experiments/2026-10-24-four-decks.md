@@ -1,6 +1,6 @@
 # A network of four decks: two more champions, then four decks distilled and paired
 
-**Status:** ACTIVE
+**Status:** COMPLETED
 
 **Proposed:** 2026-10-24
 
@@ -280,3 +280,10 @@ Crystal Beasts, Dragunity, Gladiator Beasts, HEROes, Monarchs, Morphtronics,
 Rock-Block and Spellcasters (`runs/champions`, `analysis/champions`). Each is
 read by the rule of a champion above, without a mark: the way to a network
 of many decks needs a champion of each.
+
+## Closed (2026-10-26)
+
+Closed that morning, once part 2 was read: one network of four decks made
+from their champions is the way to more decks, by the uniform arm. The
+copy's length, left open by its design, is measured by the next experiment,
+[A shorter copy](2026-10-26-shorter-copy.md).

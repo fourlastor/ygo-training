@@ -35,6 +35,15 @@
 # arm's last checkpoint head to head against each champion in its mirror;
 # the runs' metrics; then the report (tools/four_decks_report.py).
 #
+# short. The copy shorter (experiments/2026-10-26-shorter-copy.md): the
+# uniform arm's PPO on from the copy's checkpoint after SHORT updates, as
+# many updates and as the uniform arm was made.
+#
+# short-measure. Into OUT, as the uniform arm was measured: the short arm's
+# last three checkpoints on PAIRINGS, every other one on QUICK, its last
+# head to head against each champion in its mirror, its metrics; then its
+# report beside the uniform arm (tools/shorter_copy_report.py).
+#
 # About 20 hours on the CUDA machine by reckoning: the copy 5, each arm 7.
 #   PARTS=copy bash experiments/commands/four-decks.sh
 set -euo pipefail
@@ -74,6 +83,8 @@ CROSS=${CROSS:-eval_suites/blackwing-against-cyber-checkpoint.json}
 # often as specialist distillation's cross pairings after 240, and where
 # those were measured; the copy's earlier checkpoints measured beside.
 FAR=${FAR:-1920}
+# The copy's checkpoint the short arm goes on from.
+SHORT=${SHORT:-640}
 DISTILLED=${DISTILLED:-analysis/specialist-distillation/cross}
 CURVE=${CURVE:-160 320 480 640}
 # The interpreter of a machine that has no uv: the benchmark's setup leaves one.
@@ -81,9 +92,9 @@ PYTHON=${PYTHON:-}
 
 for part in $PARTS; do
   case $part in
-    copy | uniform | weighted | measure) ;;
+    copy | uniform | weighted | measure | short | short-measure) ;;
     *)
-      echo "PARTS names copy, uniform, weighted and measure, not $part" >&2
+      echo "PARTS names copy, uniform, weighted, measure, short and short-measure, not $part" >&2
       exit 1
       ;;
   esac
@@ -226,6 +237,20 @@ if [[ " $PARTS " == *" weighted "* ]]; then
   echo "$(date +%H:%M) weighted ends"
 fi
 
+if [[ " $PARTS " == *" short "* ]]; then
+  echo "$(date +%H:%M) short begins"
+  # The uniform arm's options, on from the copy's checkpoint after SHORT.
+  shorter=()
+  for option in "${arm[@]}"; do
+    if [ "$option" = "$copied" ]; then
+      option=$(checkpoint "$RUNS/taught" 0 "$SHORT")
+    fi
+    shorter+=("$option")
+  done
+  made short "$SHORT" "$UPDATES" "$STEP" "${shorter[@]}"
+  echo "$(date +%H:%M) short ends"
+fi
+
 if [[ " $PARTS " == *" measure "* ]]; then
   last=$(checkpoint "$RUNS/uniform" "$COPY" "$UPDATES")
   for path in "$copied" "$last" "$(checkpoint "$RUNS/weighted" "$COPY" "$UPDATES")"; do
@@ -270,5 +295,29 @@ if [[ " $PARTS " == *" measure "* ]]; then
   done
   "${python[@]}" tools/four_decks_report.py "$OUT" --decks "$DECKS" --distilled "$DISTILLED" \
     --far "$FAR" --output "$OUT/report.json" | tee "$OUT/report.txt"
+  echo "The measurements and what they say are in $OUT."
+fi
+
+if [[ " $PARTS " == *" short-measure "* ]]; then
+  last=$(checkpoint "$RUNS/short" "$SHORT" "$UPDATES")
+  if [ ! -f "$last" ]; then
+    echo "Missing $last: the short arm is measured when it is made" >&2
+    exit 1
+  fi
+  for deck in "${decks[@]}"; do
+    pair "$OUT/heads-short/$deck" "$last" "$(teacher "$deck")" "$SUITES/$deck-against-checkpoint.json"
+  done
+  for ((point = UPDATES - 2 * STEP; point <= UPDATES; point += STEP)); do
+    played "$OUT/short-pairings/$point" "$PAIRINGS" "$(checkpoint "$RUNS/short" "$SHORT" "$point")" \
+      --opponent-checkpoint "$NETWORK"
+  done
+  for ((point = STEP; point <= UPDATES; point += STEP)); do
+    played "$OUT/short-quick/$point" "$QUICK" "$(checkpoint "$RUNS/short" "$SHORT" "$point")" \
+      --opponent-checkpoint "$NETWORK"
+  done
+  cp "$RUNS/short/metrics.jsonl" "$OUT/short.metrics.jsonl"
+  cp "$RUNS/short/run.json" "$OUT/short.run.json"
+  "${python[@]}" tools/shorter_copy_report.py "$OUT" --decks "$DECKS" \
+    --output "$OUT/short-report.json" | tee "$OUT/short-report.txt"
   echo "The measurements and what they say are in $OUT."
 fi
