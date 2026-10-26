@@ -1,0 +1,13 @@
+{
+  "name": "six-samurai-against-checkpoint",
+  "primary": "six-samurai-vs-checkpoint",
+  "cases": [
+    {
+      "name": "six-samurai-vs-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

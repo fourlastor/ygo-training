@@ -1,0 +1,13 @@
+{
+  "name": "gravekeeper-against-checkpoint",
+  "primary": "gravekeeper-vs-checkpoint",
+  "cases": [
+    {
+      "name": "gravekeeper-vs-checkpoint",
+      "learner": "gravekeeper",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

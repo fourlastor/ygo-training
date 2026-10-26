@@ -1,0 +1,13 @@
+{
+  "name": "macro-dd-against-checkpoint",
+  "primary": "macro-dd-vs-checkpoint",
+  "cases": [
+    {
+      "name": "macro-dd-vs-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

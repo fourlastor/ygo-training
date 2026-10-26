@@ -1,0 +1,13 @@
+{
+  "name": "verdict-against-checkpoint",
+  "primary": "verdict-vs-checkpoint",
+  "cases": [
+    {
+      "name": "verdict-vs-checkpoint",
+      "learner": "verdict",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

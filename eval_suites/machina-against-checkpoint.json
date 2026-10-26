@@ -1,0 +1,13 @@
+{
+  "name": "machina-against-checkpoint",
+  "primary": "machina-vs-checkpoint",
+  "cases": [
+    {
+      "name": "machina-vs-checkpoint",
+      "learner": "machina",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "exodia-against-checkpoint",
+  "primary": "exodia-vs-checkpoint",
+  "cases": [
+    {
+      "name": "exodia-vs-checkpoint",
+      "learner": "exodia",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

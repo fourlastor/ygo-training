@@ -1,0 +1,13 @@
+{
+  "name": "scrap-against-checkpoint",
+  "primary": "scrap-vs-checkpoint",
+  "cases": [
+    {
+      "name": "scrap-vs-checkpoint",
+      "learner": "scrap",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}
