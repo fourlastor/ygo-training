@@ -1,0 +1,12 @@
+{
+  "name": "countdown-against-pilot",
+  "primary": "countdown-vs-countdown",
+  "cases": [
+    {
+      "name": "countdown-vs-countdown",
+      "learner": "countdown",
+      "opponent": "countdown",
+      "games": 2048
+    }
+  ]
+}

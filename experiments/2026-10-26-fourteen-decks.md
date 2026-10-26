@@ -116,3 +116,22 @@ go on behind this experiment's runs. Claudi-oh's Countdown was made on
 Claudi-oh's Verdict, Astra's Exodia, Machina Gadgets, Between Light and
 Dark, D.D. Border Patrol, Legendary Six Samurai, Gravekeeper's Tomb, Scrap
 Renaissance, Heaven's Dispatch and Quickdraw Plants.
+
+Countdown's pilot was thought to play its deck near perfectly, and the
+champion to stand well under it. Measured on the development machine on
+2026-10-26, into `analysis/champions/countdown/pilot`, the champion's last
+checkpoint plays the deck as well as the pilot, in the mirror and against
+the other decks:
+
+- In the mirror, head to head, 2,048 deals from both seats
+  (`eval_suites/countdown-against-pilot.json` for the champion in the
+  learner's seat, `evaluate-suite --pilot` against it on
+  `eval_suites/countdown-against-checkpoint.json` for the other way): the
+  champion 50.7% ± 0.2%, `all71` on the same deals 46.6% ± 0.4%, the
+  champion 4.2 ± 0.4 points over it. Player 0's seat wins some 64% of the
+  games whoever holds it, which keeps every share near half. The champion
+  plays the pilot's answer at 59% of its decisions, `all71` at 85%.
+- Against the thirteen decks' pilots, on the 208 deals where seventy-one
+  decks found `all71` 20.2 points under the pilot (64.4% against 84.6%, the
+  one deck its PPO took down from its copy's 78.4%): the champion 86.1% ±
+  2.4%, 1.4 ± 2.8 points over the pilot.
