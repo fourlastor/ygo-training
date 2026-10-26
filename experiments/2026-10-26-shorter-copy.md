@@ -8,7 +8,7 @@
 was read and closed; design and reading fixed that morning, before anything
 was built.
 
-**Last updated:** 2026-10-26 (the arm made; read by the checkpoints it keeps)
+**Last updated:** 2026-10-26 (read: as good)
 
 The network of four decks imitated its champions for 960 updates before its
 PPO, 240 a deck, as specialist distillation's copy had. Along that copy its
@@ -61,6 +61,61 @@ under a tenth of a point. Its curve begins at the copy's checkpoint after
 Told beside it, without a mark: each pairing in both arms; each arm's curve
 along its updates; each arm's last checkpoint head to head against each
 champion in its mirror; the hours.
+
+## Results (2026-10-26)
+
+The arm made on the CUDA machine's queue from 09:27 to 14:46 on 2026-10-26
+at `0f789d1a`, into `runs/four-decks/short`; measured at `9b507e8c` by
+17:27, into `analysis/four-decks/network` (`short-report.txt`). The first
+measurement, at `0f789d1a`, stopped where it asked for the checkpoint after
+2,400 updates; the games it had played against the champions are kept. No
+duel failed.
+
+1. **The shorter copy costs nothing: as good.** By the mean over the ten
+   pairings against `all71`, the short arm 62.8% and the uniform arm 63.0%,
+   −0.2 ± 0.3 points, the deals paired (−0.8 to +0.3 by two standard
+   errors).
+
+Beside it, without a mark:
+
+- **Every pairing against `all71`**, by each arm's last three checkpoints:
+
+  | Pairing | From 640 | From 960 (uniform) |
+  |---|---|---|
+  | Blackwing mirror | 66.7% | 65.4% |
+  | Blackwing and Cyber | 61.7% | 63.2% |
+  | Blackwing and Lightsworn | 57.1% | 58.1% |
+  | Blackwing and Infernity | 60.6% | 61.6% |
+  | Cyber mirror | 81.1% | 79.7% |
+  | Cyber and Lightsworn | 57.8% | 57.2% |
+  | Cyber and Infernity | 62.9% | 62.8% |
+  | Lightsworn mirror | 55.6% | 56.4% |
+  | Lightsworn and Infernity | 60.8% | 60.7% |
+  | Infernity mirror | 64.2% | 65.5% |
+
+- **Head to head against each champion in its mirror**, by each arm's last
+  checkpoint, the deals paired: Blackwing 50.3% against the uniform arm's
+  50.1% (+0.2 ± 0.9), Cyber 50.3% against 52.7% (−2.4 ± 1.0), Lightsworn
+  49.8% against 49.5% (+0.3 ± 0.7), Infernity 49.1% against 48.1% (+1.0 ±
+  0.8). Against `all71` the Cyber mirror goes the other way (81.1% against
+  79.7%).
+- **Along the updates**, the mean over the pairings against `all71` on 128
+  games of each: the short arm from its copy's 56.6% (the uniform arm's
+  copy 58.1%) to 60.7% after 320 updates, then between 58.9% and 62.9%,
+  62.9% after 2,880; the uniform arm between 61.4% and 64.2% from 720
+  updates, 64.2% after 2,880.
+- **The training games against the pilots**, sampled and so only a
+  diagnostic: the short arm 0.5 to 1.1 points under the uniform arm in each
+  stretch of 480 updates (some 125,000 games each), 73.6% against 74.5% in
+  the last.
+- **Hours:** the copy to 640 updates 2.85 of its 4.27, 1.42 saved; the
+  short arm's PPO 5.32, the uniform arm's 5.26.
+
+What it says: a copy of 160 updates a deck rather than 240 costs the network
+of four decks nothing measurable against `all71` after the same PPO, and
+saves a third of the copy. The short arm begins 1.5 points under and is
+level by the end. Head to head against Cyber's champion and in the sampled
+games against the pilots it is behind by small amounts.
 
 ## Beside it: luna's queue
 
