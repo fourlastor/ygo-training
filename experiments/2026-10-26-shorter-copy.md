@@ -1,6 +1,6 @@
 # A shorter copy: four decks on from the copy's 640th update
 
-**Status:** ACTIVE
+**Status:** COMPLETED
 
 **Proposed:** 2026-10-26
 
@@ -8,7 +8,7 @@
 was read and closed; design and reading fixed that morning, before anything
 was built.
 
-**Last updated:** 2026-10-26 (read: as good)
+**Last updated:** 2026-10-26 (read: as good; closed)
 
 The network of four decks imitated its champions for 960 updates before its
 PPO, 240 a deck, as specialist distillation's copy had. Along that copy its
@@ -128,3 +128,9 @@ Tomb, Scrap Renaissance and Heaven's Dispatch (`runs/champions`,
 Each is read by the rule of a champion of the four decks' record, without a
 mark: they are the teachers of networks of more decks. Countdown's duels run
 18 to 28 turns, about twice Lightsworn's, and its run may take nearer 3 hours.
+
+## Closed (2026-10-26)
+
+Closed that evening, once read: a copy of 160 updates a deck is the copy of
+the networks of more decks. The next experiment,
+[A network of fourteen decks](2026-10-26-fourteen-decks.md), takes it.
