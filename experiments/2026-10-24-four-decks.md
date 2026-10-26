@@ -199,8 +199,8 @@ the weighted arm spent measuring.
 
 Run on the CUDA machine's queue from 10:31 on 2026-10-25 to 02:37 the next
 morning: the copy (4.27 hours) and the two arms at `6142c469`, the
-measurements at `0b5f89ed` (1.3 hours), into `runs/four-decks/network` and
-`analysis/four-decks/network`. No duel failed; one of the weighted arm's 1.5
+measurements at `0b5f89ed` (1.3 hours), into `runs/four-decks` (`taught`,
+`uniform` and `weighted`) and `analysis/four-decks/network`. No duel failed; one of the weighted arm's 1.5
 million was cut off at the cap of answers.
 
 1. **The copy keeps Lightsworn's and Infernity's mirrors; Blackwing's and
