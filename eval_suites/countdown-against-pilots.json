@@ -1,0 +1,84 @@
+{
+  "name": "countdown-against-pilots",
+  "primary": "countdown-vs-blackwing",
+  "cases": [
+    {
+      "name": "countdown-vs-blackwing",
+      "learner": "countdown",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-lightsworn",
+      "learner": "countdown",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-gishki",
+      "learner": "countdown",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-burn",
+      "learner": "countdown",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-crystal",
+      "learner": "countdown",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-dragunity",
+      "learner": "countdown",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-gladiator",
+      "learner": "countdown",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-heroes",
+      "learner": "countdown",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-infernity",
+      "learner": "countdown",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-monarch",
+      "learner": "countdown",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-morphtronic",
+      "learner": "countdown",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-rock-block",
+      "learner": "countdown",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-spellcaster",
+      "learner": "countdown",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}

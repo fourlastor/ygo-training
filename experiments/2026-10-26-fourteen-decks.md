@@ -120,8 +120,8 @@ Renaissance, Heaven's Dispatch and Quickdraw Plants.
 Countdown's pilot was thought to play its deck near perfectly, and the
 champion to stand well under it. Measured on the development machine on
 2026-10-26, into `analysis/champions/countdown/pilot`, the champion's last
-checkpoint plays the deck as well as the pilot, in the mirror and against
-the other decks:
+checkpoint plays the mirror as well as the pilot, and the other decks a
+little under it and far over `all71`:
 
 - In the mirror, head to head, 2,048 deals from both seats
   (`eval_suites/countdown-against-pilot.json` for the champion in the
@@ -131,7 +131,17 @@ the other decks:
   champion 4.2 ± 0.4 points over it. Player 0's seat wins some 64% of the
   games whoever holds it, which keeps every share near half. The champion
   plays the pilot's answer at 59% of its decisions, `all71` at 85%.
-- Against the thirteen decks' pilots, on the 208 deals where seventy-one
-  decks found `all71` 20.2 points under the pilot (64.4% against 84.6%, the
-  one deck its PPO took down from its copy's 78.4%): the champion 86.1% ±
-  2.4%, 1.4 ± 2.8 points over the pilot.
+- Against the thirteen decks' pilots, 128 games of each pairing, the same
+  1,664 deals for all three (`eval_suites/countdown-against-pilots.json`):
+  the pilot 89.7% ± 0.7%, the champion 84.4% ± 0.9%, 5.2 ± 0.9 points
+  under the pilot and 16.5 ± 1.2 over `all71`, and `all71` 68.0% ± 1.1%,
+  21.7 ± 1.2 under the pilot, as seventy-one decks found it on 208 of the
+  deals (64.4% against 84.6%, the one deck its PPO took down from its
+  copy's 78.4%). The champion's 86.1% ± 2.4% on those 208 deals was within
+  their noise of either. `all71` is 21 to 33 points under the pilot on ten
+  of the thirteen pairings and within 6 of it on Lightsworn, HEROes and
+  Dragunity. The champion is within 9 points of the pilot on all but Burn
+  (29.7% against 46.9%), and over `all71` by 14 to 30 points on the ten
+  `all71` lost, most on Morphtronics, Spellcasters and Gladiator Beasts.
+  `all71`'s games last 37 turns to the pilot's 26, and it loses 32 of them
+  by deck-out to the pilot's one.
