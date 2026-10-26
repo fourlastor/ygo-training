@@ -4,8 +4,9 @@
 
 **Proposed:** 2026-10-22
 
-**Last updated:** 2026-10-22 (proposed; not designed, its readings not yet
-proposed)
+**Last updated:** 2026-10-26 (the sketch drawn again: real lists only, the
+copy on the decks' own lists and every game of PPO on variants, one deck
+and then two, four and fourteen; its readings to be fixed before its run)
 
 Proposed on 2026-10-22, while
 [A critic that sees the hidden cards](2026-10-22-privileged-critic.md) was
@@ -54,3 +55,48 @@ not know, as with Darker Than Black, where it lost 6.3 points with the
 variant list.
 
 The readings are to be proposed and fixed before anything is built.
+
+## The sketch drawn again (2026-10-26)
+
+Raised again once a network of four decks matched its champions: the
+pairings of a network grow with the square of its decks, and variants of
+its decks would teach more cards with its pairings as they are.
+
+- **Real lists only**, the tournament lists gathered, made `.ydk` files:
+  few files, none to invent.
+- **The copy deals the decks' own lists; PPO deals variants**, in every one
+  of its games: its teachers, a deck's pilot or champion, would play a
+  variant's cards they do not know as a generic pilot does.
+- **One deck first, then two, four and fourteen**, each beside the same
+  recipe on the decks' own lists: what the variants cost on the deck's own
+  list, and what they give on lists held out.
+- **The readings are fixed before the run**, once the shorter copy and the
+  network of fourteen decks have set the recipe.
+
+The network holds no deck list in its input since format 15, and a duel
+shows a seat a part of its deck: what it learns of a deck may already be
+much of what it would learn of its variants.
+
+Of the 515 lists, 278 are complete, every card of the main and Extra Decks
+resolved (counted on 2026-10-26: a main deck of 40 to 60, no row left
+invalid); 199 of those share at least half their main deck's copies with one
+of the pool's decks, over 23 decks:
+
+| Deck | Complete lists |
+|---|---|
+| Quickdraw Plants | 47 |
+| Six Samurai | 29 |
+| Blackwing | 25 |
+| Gravekeeper | 20 |
+| Heaven's Dispatch | 18 |
+| Machina | 10 |
+| Gladiator Beasts | 9 |
+| X-Saber, Scrap | 7 each |
+| Ten more | 1 to 4 each |
+
+Of the thirteen decks only Blackwing and Gladiator Beasts have more than
+two: a network of the thirteen and Cyber would be dealt few variants, and
+the stages past one deck are best made of the decks the lists favour. Six
+Samurai's, Gravekeeper's, Heaven's Dispatch's and Machina's champions are
+queued on 2026-10-26; Quickdraw Plants', the deck with the most lists, is
+not.
