@@ -25,11 +25,15 @@ every deck, and is released to be played against in that mirror.
 | Crystal Beasts | `12 Crystal Beast - Rainbow.ydk` | `crystal` | 63.6% ± 0.6% | [Four decks](../experiments/2026-10-24-four-decks.md) |
 | Dragunity | `Dragunity Flight.ydk` | `dragunity` | 62.8% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
 | Gladiator Beasts | `Fight, Gladiators!.ydk` | `gladiator` | 67.7% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
+| HEROes | `Fusion Heroes.ydk` | `heroes` | 68.3% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
+| Monarchs | `Emperor, Arise!.ydk` | `monarch` | 70.1% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
+| Morphtronics | `01 Morphtronic - Straight Up.ydk` | `morphtronic` | 59.2% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
+| Rock-Block | `06 Koaki Meiru - Rock Block.ydk` | `rock-block` | 63.3% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
+| Spellcasters | `14 - Spellcaster's Command.ydk` | `spellcaster` | 65.6% ± 0.5% | [Four decks](../experiments/2026-10-24-four-decks.md) |
 
 Blackwing's and Cyber's are the networks of their own releases,
-[blackwing](blackwing.md) and [cyber](cyber.md). The champions of HEROes,
-Monarchs, Morphtronics, Rock-Block and Spellcasters join this release as
-they are made.
+[blackwing](blackwing.md) and [cyber](cyber.md). Champions of more decks
+join this release as they are made.
 
 Outside its mirror a champion is weaker than `all71` playing its deck: of
 the two measured, Blackwing's and Cyber's, playing their deck against

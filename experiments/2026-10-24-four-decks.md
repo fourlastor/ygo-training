@@ -102,7 +102,8 @@ Beside them, without a mark:
   (1.57 hours), Burn 63.8% ± 0.4% (1.82), Crystal Beasts 63.6% ± 0.6% (0.98),
   Dragunity 62.8% ± 0.5% (1.53), Gladiator Beasts 67.7% ± 0.5% (1.63),
   HEROes 68.3% ± 0.5% (1.22), Monarchs 70.1% ± 0.5% (1.51), Morphtronics
-  59.2% ± 0.5% (0.94), Rock-Block 63.3% ± 0.5% (1.51): champions, all nine.
+  59.2% ± 0.5% (0.94), Rock-Block 63.3% ± 0.5% (1.51), Spellcasters 65.6% ±
+  0.5% (1.43, read after the record was closed): champions, all ten.
   Burn's beats `all71` in its mirror though `all71` plays Burn no better
   than its pilot against the thirteen.
 
