@@ -40,9 +40,13 @@
 # many updates and as the uniform arm was made.
 #
 # short-measure. Into OUT, as the uniform arm was measured: the short arm's
-# last three checkpoints on PAIRINGS, every other one on QUICK, its last
-# head to head against each champion in its mirror, its metrics; then its
-# report beside the uniform arm (tools/shorter_copy_report.py).
+# last three checkpoints on PAIRINGS, every one it keeps and the copy's it
+# went on from on QUICK, its last head to head against each champion in its
+# mirror, its metrics; then its report beside the uniform arm
+# (tools/shorter_copy_report.py). The trainer numbers its updates on from
+# the copy's and keeps a checkpoint where that count closes STEP, and the
+# last: the short arm's at 80, 320 and so on past the copy's 640, its last
+# three after 2,480, 2,720 and 2,880.
 #
 # About 20 hours on the CUDA machine by reckoning: the copy 5, each arm 7.
 #   PARTS=copy bash experiments/commands/four-decks.sh
@@ -133,6 +137,17 @@ mkdir -p "$RUNS" "$OUT"
 # updates past the FIRST it began with.
 checkpoint() {
   printf '%s/checkpoints/model-%05d.pt' "$1" $(($2 + $3 - 1))
+}
+# kept FIRST UPDATES EVERY: the points, updates past the FIRST it began
+# with, of the checkpoints a run of UPDATES keeps with --keep-checkpoints
+# EVERY: where the trainer's count, which went on from FIRST, closes EVERY
+# (RunRepository.thin), and the last.
+kept() {
+  local point
+  for ((point = 1; point < $2; point++)); do
+    ((($1 + point) % $3)) || echo "$point"
+  done
+  echo "$2"
 }
 # teacher DECK: the champion that teaches DECK.
 teacher() {
@@ -307,13 +322,15 @@ if [[ " $PARTS " == *" short-measure "* ]]; then
   for deck in "${decks[@]}"; do
     pair "$OUT/heads-short/$deck" "$last" "$(teacher "$deck")" "$SUITES/$deck-against-checkpoint.json"
   done
-  for ((point = UPDATES - 2 * STEP; point <= UPDATES; point += STEP)); do
+  mapfile -t points < <(kept "$SHORT" "$UPDATES" "$STEP")
+  for point in "${points[@]: -3}"; do
     played "$OUT/short-pairings/$point" "$PAIRINGS" "$(checkpoint "$RUNS/short" "$SHORT" "$point")" \
       --opponent-checkpoint "$NETWORK"
   done
-  for ((point = STEP; point <= UPDATES; point += STEP)); do
-    played "$OUT/short-quick/$point" "$QUICK" "$(checkpoint "$RUNS/short" "$SHORT" "$point")" \
-      --opponent-checkpoint "$NETWORK"
+  for point in 0 "${points[@]}"; do
+    at=$(checkpoint "$RUNS/taught" 0 "$SHORT")
+    ((point == 0)) || at=$(checkpoint "$RUNS/short" "$SHORT" "$point")
+    played "$OUT/short-quick/$point" "$QUICK" "$at" --opponent-checkpoint "$NETWORK"
   done
   cp "$RUNS/short/metrics.jsonl" "$OUT/short.metrics.jsonl"
   cp "$RUNS/short/run.json" "$OUT/short.run.json"

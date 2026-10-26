@@ -34,6 +34,9 @@ def read(tmp_path: Path, short: int, uniform: int = 60, weaker: dict | None = No
             pairings(out / f"{arm}-quick" / f"{point}.json", 55)
         for deck in DECKS:
             pair(out / f"heads-{arm}" / deck, 49)
+    # Each arm's copy: the short arm's among its own points, the uniform
+    # arm's where the weighted arm measured it.
+    pairings(out / "short-quick" / "0.json", 45)
     pairings(out / "weighted-weights" / "0.json", 50)
     return tool.report(out, DECKS)
 
@@ -56,11 +59,13 @@ def test_the_shorter_copy_is_as_good_worse_or_not_decided(tmp_path):
     assert tool.verdict(-0.016, 0.0025) == "worse"
 
 
-def test_beside_the_curves_start_from_the_copy_and_the_hours_are_told(tmp_path):
+def test_beside_the_curves_start_from_each_arms_copy_and_the_hours_are_told(tmp_path):
     result = read(tmp_path, short=60)
-    curve = result["beside"]["curves"]["short"]
-    assert [point["updates"] for point in curve] == [0, 2, 4]
-    assert curve[0]["mean"] == pytest.approx(0.5)
+    curves = result["beside"]["curves"]
+    assert [point["updates"] for point in curves["short"]] == [0, 2, 4]
+    assert [point["updates"] for point in curves["uniform"]] == [0, 2, 4]
+    assert curves["short"][0]["mean"] == pytest.approx(0.45)
+    assert curves["uniform"][0]["mean"] == pytest.approx(0.5)
     assert result["beside"]["head to head"]["short"]["cyber"] == pytest.approx(0.49)
     assert result["hours"]["short"] is None
     shown = tool.shown(result)

@@ -12,8 +12,10 @@ measurements (`tools/four_decks_report.py`):
 - `short-pairings/POINT.json`, `uniform-pairings/POINT.json`: each arm's
   last three checkpoints on every ordered pairing against `all71`, 1,024
   games each;
-- `short-quick/POINT.json`, `uniform-quick/POINT.json`: every checkpoint of
-  each arm on 128 games of each, and the copy's (`weighted-weights/0.json`);
+- `short-quick/POINT.json`, `uniform-quick/POINT.json`: every checkpoint
+  each arm keeps on 128 games of each, and the copy's it went on from: the
+  short arm's at 0 among its own, the uniform arm's in
+  `weighted-weights/0.json`;
 - `heads-short/DECK`, `heads-uniform/DECK`: each arm's last checkpoint
   against each champion in its mirror;
 - `taught.metrics.jsonl`, `uniform.metrics.jsonl`, `short.metrics.jsonl`.
@@ -79,7 +81,8 @@ def report(directory: Path, decks: list[str]) -> dict[str, Any]:
     zero = directory / "weighted-weights"
     start = quick_curve(zero, decks)[:1] if (zero / "0.json").is_file() else []
     result["beside"]["curves"] = {
-        arm: start + quick_curve(directory / f"{arm}-quick", decks) for arm in ("short", "uniform")
+        "short": quick_curve(directory / "short-quick", decks),
+        "uniform": start + quick_curve(directory / "uniform-quick", decks),
     }
     result["beside"]["head to head"] = {
         arm: {deck: told(shares(directory / f"heads-{arm}" / deck))["share"] for deck in decks}
