@@ -3248,6 +3248,43 @@ to the last. It ends with 1 when a duel is not that.
   all 4,956 answers of the network's seat the same (the record of the
   experiment on PPO with a head that predicts has it).
 
+## A person's duel read again
+
+```sh
+uv run python tools/web_client_reading.py beside CHECKPOINT saved-duel.json --other OTHER.pt
+uv run python tools/web_client_reading.py what-if CHECKPOINT saved-duel.json --playouts 64 --every-kind
+```
+
+A duel the web client saved, read two ways once `tools/web_client_duels.py`
+has found that the page played it as the trainer's seat does. CHECKPOINT is
+the one the page played.
+
+- **`beside`**: each decision of the network's seat with its answer, how
+  sure the checkpoint was, its chances by its value head, and the answers of
+  `--other` and of the deck's pilot where they are others; the person's
+  answers between, but for their passes. A selection the pilot answers as
+  recorded is walked in its own order of picks, so there an answer said to
+  be another may be the same cards picked in another order.
+- **`what-if`**: the person's seat is their record handed over to a caller
+  where it is cut (a seat's `handover`), the network's seat a caller with
+  the page's pilot seed, so up to the cut the duel is exactly theirs, their
+  zones and copies as they gave them. The duel is first played whole this
+  way and compared with the record. At each of the person's decisions where
+  the checkpoint's first choice is another answer (Main and Battle Phase
+  commands, every kind with `--every-kind`) it is played on twice, with
+  their answer and with the checkpoint's, the checkpoint then answering both
+  seats: once by its first choices and PLAYOUTS times sampled from its
+  probabilities. The person's wins of each are told, marked where the two
+  are a sixth of the playouts apart or more.
+- The checkpoint plays the person's deck after a cut, so it should be one
+  that plays both decks: `all71`, or a champion in its own mirror. Its
+  playouts measure a choice as the checkpoint would follow it up, not as the
+  person would; 64 of them tell a share to about 6 points. A duel takes
+  about a minute on 20 processes.
+- Read so on 2026-10-25, a person's Gladiator Beasts mirror turned on one
+  Yes or No: declining Gyzarus's effect on turn 3 left 0 of 64 playouts won,
+  where the champion's Yes won 61.
+
 ## Moving the pin
 
 Before the `native/ygo-policies` pin moves, play a few plain and searched
