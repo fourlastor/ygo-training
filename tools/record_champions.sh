@@ -17,7 +17,10 @@
 # OPTIONS are given to each recording (`--mirrors 44 --against 4` and the
 # rest of tools/record_champion.py). With TO, each deck's archive is sent
 # there once it is made (`daniele@luna:ygo-training/records`, where a copy
-# runs).
+# runs); with PULL as well, each look first copies the archives there into
+# OUT, so a deck another machine recorded is done here too. With REVERSE the
+# list is gone through from its end: two machines on one list meet in its
+# middle.
 #
 #   WAIT=600 bash tools/record_champions.sh experiments/commands/champion-recordings.list
 set -euo pipefail
@@ -27,6 +30,8 @@ FROM=${FROM:-daniele@luna:ygo-training/ygo}
 WAIT=${WAIT:-0}
 OPTIONS=${OPTIONS:-}
 TO=${TO:-}
+PULL=${PULL:-}
+REVERSE=${REVERSE:-}
 # The interpreter of a machine that has no uv: the benchmark's setup leaves one.
 PYTHON=${PYTHON:-}
 python=(uv run python)
@@ -46,6 +51,19 @@ fetched() {
 while :; do
   left=0
   recorded=0
+  if [ -n "$PULL" ] && [ -n "$TO" ]; then
+    # A remote shell expands the archives' pattern there; a folder here, this one.
+    case $TO in
+      *:*) rsync -q "$TO/*.tar" "$OUT/" < /dev/null 2> /dev/null || true ;;
+      *) rsync -q "$TO"/*.tar "$OUT/" < /dev/null 2> /dev/null || true ;;
+    esac
+  fi
+  looked=("$LIST")
+  if [ -n "$REVERSE" ]; then
+    reversed=$(mktemp)
+    tac "$LIST" > "$reversed"
+    looked=("$reversed")
+  fi
   # The list on a descriptor of its own: what the recording runs, and the
   # remote shell of a fetch, read their own input and not the list.
   while read -r deck checkpoint _ <&3; do
@@ -70,7 +88,8 @@ while :; do
       echo "$(date '+%F %H:%M') $deck FAILED: tried again on the next look" >&2
       rm -f "$OUT/champions/$deck.pt"
     fi
-  done 3< "$LIST"
+  done 3< "${looked[0]}"
+  [ -z "$REVERSE" ] || rm -f "${looked[0]}"
   if ((left == 0)); then
     echo "$(date '+%F %H:%M') every deck of $LIST is recorded"
     break
