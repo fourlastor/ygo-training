@@ -15,7 +15,9 @@
 # is done or it is stopped.
 #
 # OPTIONS are given to each recording (`--mirrors 44 --against 4` and the
-# rest of tools/record_champion.py).
+# rest of tools/record_champion.py). With TO, each deck's archive is sent
+# there once it is made (`daniele@luna:ygo-training/records`, where a copy
+# runs).
 #
 #   WAIT=600 bash tools/record_champions.sh experiments/commands/champion-recordings.list
 set -euo pipefail
@@ -24,6 +26,7 @@ OUT=${OUT:-records/champions}
 FROM=${FROM:-daniele@luna:ygo-training/ygo}
 WAIT=${WAIT:-0}
 OPTIONS=${OPTIONS:-}
+TO=${TO:-}
 # The interpreter of a machine that has no uv: the benchmark's setup leaves one.
 PYTHON=${PYTHON:-}
 python=(uv run python)
@@ -58,6 +61,10 @@ while :; do
       --out "$OUT" $OPTIONS < /dev/null; then
       recorded=$((recorded + 1))
       left=$((left - 1))
+      if [ -n "$TO" ]; then
+        rsync -q "$OUT/$deck.tar" "$TO/" < /dev/null
+        echo "$(date '+%F %H:%M') $deck.tar sent to $TO"
+      fi
     else
       # A champion fetched while it was being written is fetched again.
       echo "$(date '+%F %H:%M') $deck FAILED: tried again on the next look" >&2
