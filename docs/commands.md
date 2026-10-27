@@ -3043,6 +3043,41 @@ RENTED=root@HOST:PORT POD=ID bash experiments/commands/more-decks-pod.sh
   a pod without a volume is left running then; a pod still named after
   its deletion is told. It has not been run against a pod yet.
 
+### Champions on a second machine
+
+```sh
+THREADS=10 FAST_SLOTS=104 OMP_NUM_THREADS=2 LANES=2 \
+  bash tools/champion_lanes.sh decks.txt
+```
+
+`tools/champion_lanes.sh LIST` makes the champions of a list of decks on a
+machine beside the CUDA machine: `experiments/commands/champions.sh` for
+each, as the queue runs it there (`RUNNING=DECK`, `RUNS=runs/champions`,
+`OUT=analysis/champions/DECK`), from a checkout at the commit the queue's
+champions are made at. `LANES` of them are made at once, each lane taking
+the next deck of the list that no lane has taken.
+
+- A deck taken is a folder of `TAKEN` (`taken` beside the checkout), which
+  only one lane can make. A champion made is marked `done` there; a deck
+  whose script failed stays taken, its log in `LOGS/champion-DECK.log`.
+  Removing its folder has it taken again, and the script goes on from its
+  last checkpoint.
+- The list is read again for each deck: a line added is made in its turn,
+  and one taken out before its turn is not.
+- `THREADS` and `FAST_SLOTS` share the machine's threads out between the
+  lanes. The pool must hold the PPO arm's 1,040 duels in flight, `THREADS`
+  times `FAST_SLOTS` of them.
+- On an RTX 4090 under WSL 2 (2026-10-27), a champion's updates took 2.3
+  times as long as the CUDA machine's in the copy and 1.8 times in PPO.
+  The trainer's thread that launches the card's work was busy all the time
+  and the card about half of it, each launch being dearer under WSL. Two
+  lanes made more champions an hour than one: an update of PPO took 1.45
+  times as long beside a copy, and one of the copy 1.08 times.
+- WSL ends a distribution a few seconds after the last session into it
+  closes, whatever still runs there. A process holding one open keeps it,
+  `wsl.exe -d DISTRO -e sleep infinity` started outside the SSH session
+  (by `Win32_Process.Create`, which runs it apart from the session).
+
 ## `status`
 
 ```sh
