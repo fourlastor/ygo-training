@@ -25,5 +25,8 @@ edopro-logs/
 /benchmark/
 # The files of a network's release (tools/model_release.py).
 /release/
+# The champions' recordings (tools/record_champion.py), made on a machine of
+# their own and copied where a copy runs.
+/records/
 # A local agent's own settings.
 /.codex/

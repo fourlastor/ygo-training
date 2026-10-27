@@ -463,7 +463,7 @@ may read the board another way than the learner
 ```sh
 OMP_NUM_THREADS=8 uv run python tools/record_champion.py burn \
   runs/champions/burn/checkpoints/model-00959.pt --out records/champions
-WAIT=600 bash tools/record_champions.sh records/champions.list
+WAIT=600 bash tools/record_champions.sh experiments/commands/champion-recordings.list
 uv run python -m ygo_training train --device cuda --run runs/copy \
   --learner blackwing,burn --duels 520 --updates 320 \
   --opponents blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster \

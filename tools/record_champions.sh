@@ -17,7 +17,7 @@
 # OPTIONS are given to each recording (`--mirrors 44 --against 4` and the
 # rest of tools/record_champion.py).
 #
-#   WAIT=600 bash tools/record_champions.sh records/champions.list
+#   WAIT=600 bash tools/record_champions.sh experiments/commands/champion-recordings.list
 set -euo pipefail
 LIST=${1:?the list of decks and their champions}
 OUT=${OUT:-records/champions}
