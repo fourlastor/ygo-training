@@ -146,9 +146,15 @@ Beside them:
   against one alone at 68.3 games a second: three at once 2.07 times as
   many games a second, five 2.74 times, six 3.31 times. One evaluation of
   each level was played again alone and gave the same 2,048 games.
+- The mirrors along the arm, the mean of the fourteen against `all71` on 64
+  games each (about ±1.6 points): 65.7% from the copy, then between 63.4%
+  and 65.8% at every checkpoint kept, 64.8% after 4,320 updates; the other
+  pairings from 51.0% to 55.5%. PPO took its gain to the other pairings and
+  left the mirrors where the copy had them.
 
-Next: the recipe arm (`PARTS="recipe recipe-measure"`), some 18 to 20
-hours of the CUDA machine with its measure.
+The recipe arm was held on 2026-10-27, before it was queued: its duels
+against itself have the arm's share of mirrors, and it would not tell
+whether the mirrors were lost in the copy or in PPO.
 
 ## Beside it: luna's queue
 
