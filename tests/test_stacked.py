@@ -72,3 +72,40 @@ def test_each_network_stacked_answers_its_own_decisions_as_it_does():
         assert torch.allclose(ours[finite], own[finite], atol=1e-4)
     with pytest.raises(ValueError, match="No network stacked plays"):
         Stacked({"burn": networks["burn"]}, "cpu").answer(arrays, decks)
+
+
+@pytest.mark.integration
+@pytest.mark.skipif(not _built(), reason="the environment is not built: cargo build --release")
+def test_the_stacked_networks_answer_from_graphs_of_fixed_sizes():
+    from ygo_training.graphs import Graphs
+
+    torch.set_num_threads(2)
+    networks = {"blackwing": drawn(1), "burn": drawn(2)}
+    games = rollout_games(11 * 1024, 3, ["monarch", "heroes", "burn", "lightsworn"])
+    with DuelPool(ROOT, threads=1, slots=1) as pool:
+        trajectories, _ = taught_games(
+            pool,
+            {"blackwing": networks["blackwing"]},
+            "cpu",
+            learner="blackwing",
+            games=games,
+            limit=4096,
+        )
+        rows = [step["row"] for trajectory in trajectories for step in trajectory["steps"]]
+        # Decisions a graph's widths hold.
+        fitting = Graphs(networks["blackwing"], "cpu", largest=1)
+        rows = [row for row in rows if fitting.fits(pool.batch([row]))][:10]
+        arrays = pool.batch(rows)
+    decks = np.asarray(["blackwing", "burn"] * 5)[: len(rows)]
+    stacked = Stacked(networks, "cpu", largest=8)
+    stacked.begin_update()
+    ours = stacked.answer(arrays, decks)
+    assert stacked.graphs is not None and stacked.graphs.told["answered"] == 1
+    for deck, network in networks.items():
+        mine = np.flatnonzero(decks == deck)
+        given = {name: torch.from_numpy(array[mine]) for name, array in arrays.items()}
+        with torch.no_grad():
+            own = network(given)[0]
+        finite = torch.isfinite(own)
+        assert torch.equal(torch.isfinite(ours[torch.from_numpy(mine)]), finite)
+        assert torch.allclose(ours[torch.from_numpy(mine)][finite], own[finite], atol=1e-4)

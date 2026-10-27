@@ -9,6 +9,11 @@ decisions so (`pool.taught_games`) in place of a call for each deck.
 written out from its equations here, and its sums are not worked out in the
 order PyTorch's own kernels work them out, so the answers are the networks'
 own only to their last digits.
+
+With ``largest`` the call is answered from graphs of fixed sizes
+(`graphs.Graphs`, CUDA graphs on a card), the networks' decisions laid end to
+end, each network's filled out to the next of the counts of decisions a graph
+holds, as a single network's call is.
 """
 
 from __future__ import annotations
@@ -20,6 +25,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.func import functional_call, stack_module_state, vmap
+
+from .graphs import Graphs, counts
 
 
 def lstm(steps: torch.Tensor, cells: torch.nn.LSTM) -> torch.Tensor:
@@ -38,10 +45,33 @@ def lstm(steps: torch.Tensor, cells: torch.nn.LSTM) -> torch.Tensor:
     return torch.stack(outputs, 1)
 
 
-class Stacked:
-    """The networks ``models``, by deck, answering together on ``device``."""
+class Laid(torch.nn.Module):
+    """Stacked networks as one model of their decisions laid end to end, as
+    many of each network's: what a graph of them records."""
 
-    def __init__(self, models: dict[str, torch.nn.Module], device: str) -> None:
+    def __init__(self, stacked: Stacked) -> None:
+        super().__init__()
+        self.stacked = stacked
+
+    def forward(self, tensors: dict[str, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:
+        networks = len(self.stacked.decks)
+        count = next(iter(tensors.values())).shape[0] // networks
+        laid = {
+            name: tensor.view(networks, count, *tensor.shape[1:])
+            for name, tensor in tensors.items()
+        }
+        logits, values = self.stacked.call(self.stacked.params, self.stacked.buffers, laid)
+        return logits.reshape(networks * count, -1), values.reshape(networks * count)
+
+
+class Stacked:
+    """The networks ``models``, by deck, answering together on ``device``,
+    from graphs of calls of up to ``largest`` decisions of each where it is
+    named."""
+
+    def __init__(
+        self, models: dict[str, torch.nn.Module], device: str, *, largest: int = 0
+    ) -> None:
         if not models:
             raise ValueError("Networks stacked are one at least")
         self.decks = sorted(models)
@@ -65,6 +95,17 @@ class Stacked:
             return functional_call(base, (params, buffers), (tensors,))
 
         self.call = vmap(one)
+        # The counts of decisions of each network a graph holds.
+        self.counts = counts(largest) if largest else []
+        self.graphs: Graphs | None = None
+        if largest:
+            self.graphs = Graphs(Laid(self), self.device, largest=largest)
+            self.graphs.counts = [len(self.decks) * count for count in self.counts]
+
+    def begin_update(self) -> None:
+        """An update's games begin (`graphs.Graphs.begin_update`)."""
+        if self.graphs is not None:
+            self.graphs.begin_update()
 
     def answer(self, arrays: dict[str, np.ndarray], decks: np.ndarray) -> torch.Tensor:
         """The logits of each decision of ``arrays`` by the network of its
@@ -74,14 +115,34 @@ class Stacked:
         if missing:
             raise ValueError(f"No network stacked plays {', '.join(missing)}")
         most = max(len(found) for found in rows.values())
+        # From a graph, each network's decisions are as many as a graph holds.
+        each = next((count for count in self.counts if count >= most), most)
+        networks = len(self.decks)
         laid = {}
         for name, array in arrays.items():
-            whole = np.zeros((len(self.decks), most, *array.shape[1:]), dtype=array.dtype)
+            whole = np.zeros((networks, each, *array.shape[1:]), dtype=array.dtype)
             for deck, found in rows.items():
                 whole[self.place[deck], : len(found)] = array[found]
-            laid[name] = torch.from_numpy(whole).to(self.device)
-        with torch.no_grad():
-            logits, _ = self.call(self.params, self.buffers, laid)
+            laid[name] = whole
+        made = None
+        if self.graphs is not None:
+            made = self.graphs.answer(
+                {
+                    name: whole.reshape(networks * each, *whole.shape[2:])
+                    for name, whole in laid.items()
+                }
+            )
+        if made is None:
+            tensors = {
+                name: torch.from_numpy(whole).to(self.device) for name, whole in laid.items()
+            }
+            with torch.no_grad():
+                logits, _ = self.call(self.params, self.buffers, tensors)
+        else:
+            # A graph's answers are filled out to its widths: the call's are
+            # the first of them.
+            width = arrays["action_mask"].shape[-1]
+            logits = made[0].reshape(networks, each, -1)[..., :width]
         answered = torch.empty(
             (len(decks), logits.shape[-1]), dtype=logits.dtype, device=logits.device
         )

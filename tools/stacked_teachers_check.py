@@ -8,15 +8,16 @@ The games of an update of a copy, as `PARTS=copy` of
 `experiments/commands/fourteen-decks.sh` plays them: each deck's champion in
 the learner's seat, ITSELF of the DUELS each champion against itself in its
 own mirror, the others against the thirteen decks' pilots. Every round of
-the teachers' decisions is answered three ways: each teacher on its own
+the teachers' decisions is answered four ways: each teacher on its own
 decisions, as a copy answers without graphs; each from its graphs of fixed
 sizes (`graphs.Graphs`, replayed from CUDA graphs on a card), as the copy of
-fourteen decks answered; and all of them in one call, their weights stacked
-(`stacked.Stacked`). The games go on by the first. Told for each of the
-other two: the first choices that are another than the first's, the rounds
-answered to the last digit alike, the largest difference of a logit, the
-widest a flip is (how far apart the first's own scores put the two first
-choices that differ), and the seconds each way took.
+fourteen decks answered; all of them in one call, their weights stacked
+(`stacked.Stacked`); and that call from graphs of fixed sizes. The games go
+on by the first. Told for each of the other three: the first choices that
+are another than the first's, the rounds answered to the last digit alike,
+the largest difference of a logit, the widest a flip is (how far apart the
+first's own scores put the two first choices that differ), and the seconds
+each way took; and whether the graphs answered.
 """
 
 from __future__ import annotations
@@ -43,16 +44,18 @@ THIRTEEN = (
     "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,"
     "morphtronic,rock-block,spellcaster"
 )
-WAYS = ("own", "graphs", "stacked")
+WAYS = ("own", "graphs", "stacked", "stacked graphs")
 
 
-class Checked(Stacked):
-    """The stacked teachers answering beside each on its own and from its
-    graphs, the games going on by each on its own."""
+class Checked:
+    """A round of the teachers' decisions answered the four ways, the games
+    going on by each teacher on its own."""
 
     def __init__(self, teachers: dict[str, torch.nn.Module], device: str, largest: int) -> None:
-        super().__init__(teachers, device)
         self.teachers = teachers
+        self.device = str(device)
+        self.stacked = Stacked(teachers, device)
+        self.stacked_graphs = Stacked(teachers, device, largest=largest)
         self.graphs = {
             deck: Graphs(model, device, largest=largest) for deck, model in teachers.items()
         }
@@ -69,6 +72,7 @@ class Checked(Stacked):
     def begin_update(self) -> None:
         for graphs in self.graphs.values():
             graphs.begin_update()
+        self.stacked_graphs.begin_update()
 
     def _timed(self, way: str, work: Any) -> torch.Tensor:
         if self.device.startswith("cuda"):
@@ -109,7 +113,10 @@ class Checked(Stacked):
         own = self._timed("own", lambda: self._each(arrays, decks, graphs=False))
         made = {
             "graphs": self._timed("graphs", lambda: self._each(arrays, decks, graphs=True)),
-            "stacked": self._timed("stacked", lambda: super(Checked, self).answer(arrays, decks)),
+            "stacked": self._timed("stacked", lambda: self.stacked.answer(arrays, decks)),
+            "stacked graphs": self._timed(
+                "stacked graphs", lambda: self.stacked_graphs.answer(arrays, decks)
+            ),
         }
         self.told["rounds"] += 1
         self.told["decisions"] += len(decks)
@@ -199,6 +206,14 @@ def main() -> None:
         pool.close()
     seconds = ", ".join(f"{way} {checked.seconds[way]:.1f} s" for way in WAYS)
     print(f"Seconds answering: {seconds}")
+    graphs = checked.stacked_graphs.graphs
+    assert graphs is not None
+    failed = [graphs.failed] + [each.failed for each in checked.graphs.values()]
+    print(
+        f"The stacked graphs: {graphs.told}; the teachers' own: "
+        f"{sum(each.told['answered'] for each in checked.graphs.values())} answered; "
+        f"failed: {[reason for reason in failed if reason] or 'none'}"
+    )
 
 
 if __name__ == "__main__":
