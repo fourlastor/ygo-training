@@ -19,6 +19,7 @@ import torch
 
 from .card_head import PREFIX, CardHead
 from .card_table import CardTable
+from .champion_records import Recordings
 from .checkpoints import (
     load_beside,
     load_inference_model,
@@ -209,6 +210,12 @@ class PpoTrainer(Trainer):
             for game in self.recorded:
                 if game.opponent not in self.decks:
                     raise ValueError(f"Unknown deck in the recorded games: {game.opponent}")
+        # The champions' recordings a copy plays its games again from, where
+        # it does: every deck the learner plays has one.
+        self.copy_records: Recordings | None = None
+        if config.copy_records:
+            self.copy_records = Recordings(Path(config.copy_records))
+            self.copy_records.teachers(config.learners)
         self.coordinator = Coordinator(
             config=config,
             reward_model=self.reward_model,
@@ -219,6 +226,8 @@ class PpoTrainer(Trainer):
             replayed_games=None if self.recorded is None else self._replayed_games,
             recorded=self.recorded,
             learner_stream=self._streamed_games if config.duels_in_flight else None,
+            copy_records=self.copy_records,
+            recorded_copy_games=None if self.copy_records is None else self._recorded_copy_games,
         )
         # The duels kept in flight from one update to the next, once the
         # model plays an update's games.
@@ -485,6 +494,35 @@ class PpoTrainer(Trainer):
                     flush=True,
                 )
         return played
+
+    def _recorded_copy_games(
+        self, games: list[dict[str, Any]]
+    ) -> tuple[list[dict[str, Any]], dict[str, float]]:
+        """An update's games of a copy played again from the champions'
+        recordings (``champion_records``): the answers recorded in the
+        teachers' place, each game held to the digest it was recorded with."""
+        duels = self._pool()
+        duels.forget()
+        trajectories, asked = taught_games(
+            duels,
+            {},
+            self.device,
+            learner=self.config.learner_deck,
+            games=games,
+            limit=self.config.limit,
+            groups_over=self.calls.groups_over,
+            grouped=self.config.pool_groups is not None,
+            played=[game["answers"] for game in games],
+        )
+        for game, trajectory in zip(games, trajectories, strict=True):
+            if trajectory["digest"] != game["digest"]:
+                raise ValueError(
+                    f"the recorded game of seed {game['seed']} ({game['learner']} against "
+                    f"{game['opponent']}) plays again with digest {trajectory['digest']}, not "
+                    f"{game['digest']}: it was recorded with another engine, other scripts, "
+                    "cards or pilots"
+                )
+        return trajectories, asked
 
     def _learner_games(
         self,

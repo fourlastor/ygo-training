@@ -1320,6 +1320,7 @@ def taught_games(
     grouped: bool = True,
     graphs: dict[str, Any] | None = None,
     stacked: Any = None,
+    played: list[list[int]] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, float]]:
     """The listed games (``schedules.rollout_games``) with a teacher, a
     network, in the learner's seat, the one of the deck it plays there
@@ -1344,6 +1345,13 @@ def taught_games(
     game is with the pilot's.  The deck's pilot is asked alongside, and its
     own answer is held beside the teacher's (``pilot_chosen``): where the
     two differ is what the teacher has that its pilot has not.
+
+    With ``played``, each game's answers as its teachers gave them, in the
+    order its decisions came (``champion_records``), the games are played
+    again with those answers in the teachers' place: the same decisions,
+    labelled the same, with no network asked.  A game's trajectory holds its
+    duel's digest of every question and answer (``digest``), which tells a
+    game played again from the one recorded.
     """
     import torch
 
@@ -1375,7 +1383,15 @@ def taught_games(
             _seat_decks(games, (round_.duel - first).tolist(), round_.player.tolist(), learner)
         )
         chosen = np.zeros(count, dtype=np.int64)
-        if stacked is not None:
+        if played is not None:
+            asked["batches"] += 1
+            asked["max_batch"] = max(asked["max_batch"], float(count))
+            for place, duel in enumerate((round_.duel - first).tolist()):
+                answer = next(answers[duel], None)
+                if answer is None:
+                    raise DuelError(f"the answers given to game {duel} end before its duel does")
+                chosen[place] = answer
+        elif stacked is not None:
             asked["batches"] += 1
             asked["max_batch"] = max(asked["max_batch"], float(count))
             chosen = stacked.answer(round_.arrays, decks).argmax(-1).cpu().numpy()
@@ -1428,10 +1444,17 @@ def taught_games(
             steps[duel - first].append(step)
         return chosen
 
+    answers = [iter(given) for given in played or []]
     left = _played(pool, answered, noted, asked, groups_over, grouped)
     if left:
         raise DuelError(f"{left} duels neither ended nor asked")
-    return _trajectories(learner, games, steps, ended), asked
+    for place, given in enumerate(answers):
+        if next(given, None) is not None:
+            raise DuelError(f"game {place} ended with answers given to it left over")
+    trajectories = _trajectories(learner, games, steps, ended)
+    for place, trajectory in enumerate(trajectories):
+        trajectory["digest"] = ended[place]["digest"]
+    return trajectories, asked
 
 
 def evaluate_games(

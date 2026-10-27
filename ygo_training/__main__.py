@@ -259,6 +259,7 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
         opponent_decks=_deck_list(args.opponents),
         imitation_only_updates=args.imitation_only_updates,
         imitation_records=None if args.imitation_records is None else str(args.imitation_records),
+        copy_records=None if args.copy_records is None else str(args.copy_records),
         imitation_game=args.imitation_game,
         imitation_games=args.imitation_games,
         imitation_label=args.imitation_label,
@@ -420,6 +421,14 @@ def train(args: argparse.Namespace) -> None:
             "game": config.imitation_game,
             "games": len(trainer.recorded),
             "fingerprint": fingerprint(trainer.recorded),
+        },
+        # The champions' recordings those updates play again, when they do,
+        # and the champion each deck's was recorded with.
+        "copy_records": None
+        if trainer.copy_records is None
+        else {
+            "path": str(args.copy_records.resolve()),
+            "teachers": trainer.copy_records.teachers(config.learners),
         },
         # The checkpoint those updates imitate, when it is not the pilot.
         "imitation_teacher": trainer.teacher_description,

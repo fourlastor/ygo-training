@@ -155,6 +155,10 @@ class TrainerConfig:
     imitation_records: str | None = None
     imitation_game: str = "search"
     imitation_games: int | None = None
+    # The folder of the decks' champions' recordings (`champion_records`):
+    # those updates deal their games as a copy of the teachers would play
+    # them, and play each again from its deck's recording.
+    copy_records: str | None = None
     # Which answer of a recorded duel the policy imitates: the one played,
     # or the pilot's own, which a search leaves here and there.
     imitation_label: str = "played"
@@ -411,6 +415,12 @@ class TrainerConfig:
             raise ValueError("imitation-only updates and teacher imitation are mutually exclusive")
         if self.imitation_records and not self.imitation_only_updates:
             raise ValueError("imitation_records requires imitation-only updates")
+        if self.copy_records and not self.imitation_only_updates:
+            raise ValueError("copy_records requires imitation-only updates")
+        if self.copy_records and (self.imitation_records or self.teachers):
+            raise ValueError(
+                "copy_records are played in place of teachers and of recorded duels: one of them"
+            )
         if self.imitation_game not in RECORDED_GAMES:
             raise ValueError("imitation_game must be search or baseline")
         if self.imitation_games is not None and not self.imitation_records:

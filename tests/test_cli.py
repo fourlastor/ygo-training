@@ -89,6 +89,7 @@ class _Trainer:
 
     decks = ("blackwing", "monarch")
     recorded = None
+    copy_records = None
     teacher_description = None
     held = None
     held_description = None

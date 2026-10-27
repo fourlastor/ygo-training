@@ -7,6 +7,7 @@ from collections import Counter
 from collections.abc import Callable
 from typing import Any
 
+from .champion_records import Recordings
 from .config import TrainerConfig
 from .records import RecordedGame, update_games
 from .rewards import RewardModel
@@ -75,6 +76,8 @@ class Coordinator:
         replayed_games: Played | None = None,
         recorded: list[RecordedGame] | None = None,
         learner_stream: Streamed | None = None,
+        copy_records: Recordings | None = None,
+        recorded_copy_games: Asked | None = None,
     ) -> None:
         self.config = config
         # The decks the learner plays: one, or several in equal shares.
@@ -97,6 +100,11 @@ class Coordinator:
         # Where duels are kept in flight from one update to the next, what
         # the model's updates are played with.
         self.learner_stream = learner_stream
+        # The champions' recordings a copy plays its games again from, and
+        # what plays them; the updates whose games are dealt from them so far.
+        self.copy_records = copy_records
+        self.recorded_copy_games = recorded_copy_games
+        self._dealt = 0
 
     def set_rollout_index(self, index: int) -> None:
         self.schedule.set_rollout_index(index)
@@ -146,7 +154,13 @@ class Coordinator:
             trajectories, asked = self.learner_stream(blocks, rollout_index, labels)
         else:
             games = self._games(rollout_seed, imitation_only=imitation_only)
-            if imitation_only and self.teacher_games is not None:
+            if imitation_only and self.copy_records is not None:
+                if self.recorded_copy_games is None:
+                    raise ValueError("recordings are given and nothing plays them again")
+                self._records_caught_up(self.schedule.update_index - 1, rollout_index)
+                trajectories, asked = self.recorded_copy_games(self.copy_records.dealt(games))
+                self._dealt += 1
+            elif imitation_only and self.teacher_games is not None:
                 trajectories, asked = self.teacher_games(games)
             elif imitation_only:
                 trajectories = self.pilot_games(games)
@@ -184,6 +198,19 @@ class Coordinator:
             )
         return trajectories, metrics
 
+    def _records_caught_up(self, update: int, rollout_index: int) -> None:
+        """The recordings gone through as far as the copy's earlier updates
+        went: where a copy goes on from where it stood, each of its updates
+        before is dealt again from its own rollout's seed, one a rollout as a
+        copy's are, and passed."""
+        assert self.copy_records is not None
+        origin = rollout_index - update
+        while self._dealt < update:
+            if self._dealt < self.config.imitation_only_updates:
+                seed = self.schedule.rollout_seed(origin + self._dealt)
+                self.copy_records.passed(self._games(seed, imitation_only=True))
+            self._dealt += 1
+
     def _games(self, rollout_seed: int, *, imitation_only: bool) -> list[dict[str, Any]]:
         """The games of the rollout of ``rollout_seed``: which deals, which
         decks, who sits in the other seat."""
@@ -194,7 +221,9 @@ class Coordinator:
         # Duels against itself and against a held checkpoint are of the
         # updates whose games the model plays; and against itself of those
         # a network teaches, which then plays both seats.
-        taught = imitation_only and self.teacher_games is not None
+        taught = imitation_only and (
+            self.teacher_games is not None or self.copy_records is not None
+        )
         itself = self.config.self_play_duels if taught or not imitation_only else 0
         held = 0 if imitation_only else self.config.opponent_checkpoint_duels
         if itself and len(self.learners) > 1:

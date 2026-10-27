@@ -259,6 +259,15 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         ),
     )
     parser.add_argument(
+        "--copy-records",
+        type=Path,
+        help=(
+            "the decks' champions' recordings (tools/record_champion.py): the "
+            "imitation-only updates deal their games as a copy of the champions plays "
+            "them, and play each again from its deck's recording, with no network asked"
+        ),
+    )
+    parser.add_argument(
         "--imitation-game",
         choices=RECORDED_GAMES,
         default="search",
