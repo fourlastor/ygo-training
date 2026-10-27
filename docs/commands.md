@@ -3077,6 +3077,11 @@ the next deck of the list that no lane has taken.
   closes, whatever still runs there. A process holding one open keeps it,
   `wsl.exe -d DISTRO -e sleep infinity` started outside the SSH session
   (by `Win32_Process.Create`, which runs it apart from the session).
+- `tools/relay_champions.sh` brings each champion such a machine has made
+  to the CUDA machine through this one, for machines that do not reach
+  each other: the deck's two runs and its measures, streamed from the one
+  checkout into the other and held there to their checksums, every `WAIT`
+  seconds. A deck brought is marked in `runs/relayed` here.
 
 ## `status`
 
