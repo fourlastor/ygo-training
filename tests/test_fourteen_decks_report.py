@@ -137,3 +137,25 @@ def test_the_copy_head_to_head_beside_the_arm(tmp_path):
     shown = tool.shown(result, DECKS)
     assert "The copy head to head against each champion, the mean 46.0%" in shown
     assert "the selfplay arm less the copy +2.0" in shown
+
+
+def test_the_mirrors_arms_are_each_read_against_the_selfplay_arm(tmp_path):
+    out = measured(tmp_path)
+    assert "quarter against selfplay" not in tool.report(out, DECKS)
+    measured(out, "quarter", heads=dict.fromkeys(DECKS, 50))
+    measured(out, "half", share=55, heads=dict.fromkeys(DECKS, 52))
+    for deck in DECKS:
+        pair(out / "heads-taught" / deck, 46)
+    result = tool.report(out, DECKS)
+    assert result["arms"]["quarter"]["mirrors"]["verdict"] == "kept"
+    assert result["quarter against selfplay"]["verdict"] == "as good"
+    half = result["half against selfplay"]
+    assert half["gap"] == pytest.approx(-0.1) and half["verdict"] == "worse"
+    # Each arm less the copy in the mirrors, on the same deals.
+    copy = result["copy head to head"]
+    assert copy["quarter less the copy"]["gap"] == pytest.approx(0.04)
+    assert copy["half less the copy"]["gap"] == pytest.approx(0.06)
+    shown = tool.shown(result, DECKS)
+    assert "4. The quarter arm against the selfplay arm: as good" in shown
+    assert "4. The half arm against the selfplay arm: worse" in shown
+    assert "the half arm less the copy +6.0" in shown

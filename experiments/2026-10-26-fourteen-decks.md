@@ -9,7 +9,8 @@ was read and closed; design and readings fixed that evening, before
 anything was built.
 
 **Last updated:** 2026-10-27 (the copy and the arm measured: the mirrors
-lost, `all71` not decided; reading 3 asks for the recipe arm)
+lost in PPO, `all71` not decided; the recipe arm held; two arms that give
+the mirrors a share of their duels, design and readings fixed and queued)
 
 The network of four decks, its champions copied and then PPO on every
 pairing of its decks, played each mirror about as well as its champion and
@@ -166,6 +167,33 @@ whether the mirrors were lost in the copy or in PPO.
   Beasts −3.2, Blackwing −2.3, Spellcasters −2.1, Infernity −1.8,
   Lightsworn −0.6, Gishki −0.6, Morphtronics −0.5. The copy held the
   mirrors and PPO lost them.
+
+## The mirrors' arms (design and readings fixed on 2026-10-27, before anything was built)
+
+The copy held the mirrors head to head and PPO lost them, its mirrors 14 of
+the 196 ordered pairings and so 7% of its duels. Two arms give them a share
+of their own.
+
+- **Design**: from the copy's last checkpoint, each as the selfplay arm
+  (4,320 updates of 520 duels at 1e-4 with `fast`'s settings, seed 2012,
+  every duel against itself and none against a pilot, its checkpoints
+  where the arm's are), but for the duels against itself shared out by
+  weights of the ordered pairings (`--self-play-weights`): **`quarter`**, a
+  quarter of them in the mirrors (each mirror 13, each other pairing 3:
+  some 9.3 duels of each mirror an update and 2.1 of each other pairing),
+  and **`half`**, half of them (13 and 1: some 18.6 and 1.4). The two
+  trained at once through MPS (`PARTS=mirrors`, `AT_ONCE=2`), then
+  measured as the selfplay arm, seven evaluations at once
+  (`PARTS=mirrors-measure`, `AT_ONCE=7`). About 13 hours for the two and
+  3 to measure, by reckoning.
+- **Readings**, for each of the two: readings 1 and 2 as they are; and
+  4. *Against the selfplay arm*: the mean over the 105 pairings against
+  `all71` by their last three checkpoints, the deals paired: **as good**
+  when the two are within 1 point of each other by two standard errors,
+  **worse** when the arm is at least 1 point under the selfplay arm by two
+  standard errors, otherwise **not decided**.
+- Told beside them, without a mark: each arm less the copy head to head in
+  the mirrors, deal by deal; each arm's curve along its updates.
 
 ## Beside it: luna's queue
 

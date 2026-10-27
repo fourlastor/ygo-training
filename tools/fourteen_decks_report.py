@@ -69,7 +69,10 @@ MIRRORS = 0.48
 FLOOR = 0.45
 # Reading 2: each pairing over an even share.
 EVEN = 0.50
-ARMS = ("selfplay", "recipe")
+ARMS = ("selfplay", "recipe", "quarter", "half")
+# The arms that give the mirrors a share of their duels, each read against
+# the selfplay arm.
+MIRRORED = ("quarter", "half")
 # The decks of the network of four decks.
 FOUR = ["blackwing", "cyber", "lightsworn", "infernity"]
 
@@ -206,12 +209,19 @@ def report(directory: Path, decks: list[str]) -> dict[str, Any]:
             result["arms"][arm], games[arm] = arm_report(directory, arm, decks)
     if not result["arms"]:
         raise SystemExit(f"No arm is measured in {directory}")
-    if len(games) == len(ARMS):
+    if "selfplay" in games and "recipe" in games:
         found = compared(games["selfplay"], games["recipe"])
         result["selfplay against recipe"] = {
             **found,
             "verdict": within(found["gap"], found["error"]),
         }
+    for arm in MIRRORED:
+        if "selfplay" in games and arm in games:
+            found = compared(games[arm], games["selfplay"])
+            result[f"{arm} against selfplay"] = {
+                **found,
+                "verdict": within(found["gap"], found["error"]),
+            }
     teachers = {deck: shares(directory / "teachers" / deck) for deck in decks}
     result["copy"] = {
         deck: [
@@ -233,26 +243,25 @@ def report(directory: Path, decks: list[str]) -> dict[str, Any]:
 
 def copy_head_to_head(directory: Path, decks: list[str]) -> dict[str, Any]:
     """The copy's last checkpoint head to head against each champion in its
-    mirror, on the deals the selfplay arm played them: each share and their
-    mean, and the arm less the copy, deal by deal."""
+    mirror, on the deals the arms played them: each share and their mean, and
+    each arm less the copy, deal by deal."""
+    arms = [arm for arm in ARMS if (directory / f"heads-{arm}").is_dir()]
     each = {}
     for deck in decks:
         copy = shares(directory / "heads-taught" / deck)
         each[deck] = told(copy)
-        if (directory / "heads-selfplay").is_dir():
-            each[deck]["selfplay less the copy"] = paired(
-                shares(directory / "heads-selfplay" / deck), copy
+        for arm in arms:
+            each[deck][f"{arm} less the copy"] = paired(
+                shares(directory / f"heads-{arm}" / deck), copy
             )
     found: dict[str, Any] = {
         "mean": mean([one["share"] for one in each.values()]),
         "error": joined([one["error"] for one in each.values()]),
         "each": each,
     }
-    gaps = [
-        one["selfplay less the copy"] for one in each.values() if "selfplay less the copy" in one
-    ]
-    if gaps:
-        found["selfplay less the copy"] = {
+    for arm in arms:
+        gaps = [one[f"{arm} less the copy"] for one in each.values()]
+        found[f"{arm} less the copy"] = {
             "gap": mean([gap["gap"] for gap in gaps]),
             "error": joined([gap["error"] for gap in gaps]),
         }
@@ -289,6 +298,14 @@ def shown(result: dict[str, Any], decks: list[str]) -> str:
             f"{100 * found['gap']:+.1f} ± {100 * found['error']:.1f} points over the pairings against "
             "all71, the deals paired"
         )
+    for arm in MIRRORED:
+        if f"{arm} against selfplay" in result:
+            found = result[f"{arm} against selfplay"]
+            lines.append(
+                f"4. The {arm} arm against the selfplay arm: {found['verdict']}, "
+                f"{100 * found['gap']:+.1f} ± {100 * found['error']:.1f} points over the pairings "
+                "against all71, the deals paired"
+            )
     lines.append("Beside them:")
     for arm, found in result["arms"].items():
         heads = ", ".join(
@@ -331,25 +348,29 @@ def shown(result: dict[str, Any], decks: list[str]) -> str:
             )
     if "copy head to head" in result:
         found = result["copy head to head"]
-        each = ", ".join(
-            f"{deck} {one['share']:.1%}"
-            + (
-                f" ({100 * one['selfplay less the copy']['gap']:+.1f})"
-                if "selfplay less the copy" in one
-                else ""
+        arms = [arm for arm in ARMS if f"{arm} less the copy" in found]
+
+        def gaps(one: dict[str, Any]) -> str:
+            told_ = ", ".join(
+                f"{arm} {100 * one[f'{arm} less the copy']['gap']:+.1f}" for arm in arms
             )
-            for deck, one in found["each"].items()
+            return f" ({told_})" if told_ else ""
+
+        each = ", ".join(
+            f"{deck} {one['share']:.1%}{gaps(one)}" for deck, one in found["each"].items()
         )
         line = (
             f"  The copy head to head against each champion, the mean {found['mean']:.1%} ± "
             f"{found['error']:.1%}"
         )
-        if "selfplay less the copy" in found:
-            gap = found["selfplay less the copy"]
+        for arm in arms:
+            gap = found[f"{arm} less the copy"]
             line += (
-                f"; the selfplay arm less the copy {100 * gap['gap']:+.1f} ± "
-                f"{100 * gap['error']:.1f} points, the deals paired"
+                f"; the {arm} arm less the copy {100 * gap['gap']:+.1f} ± "
+                f"{100 * gap['error']:.1f} points"
             )
+        if arms:
+            line += ", the deals paired"
         lines.append(f"{line}: {each}")
     for deck, points in result["copy"].items():
         told_ = ", ".join(
