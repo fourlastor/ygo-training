@@ -52,10 +52,11 @@ while :; do
   left=0
   recorded=0
   if [ -n "$PULL" ] && [ -n "$TO" ]; then
-    # A remote shell expands the archives' pattern there; a folder here, this one.
+    # A remote shell expands the archives' pattern there; a folder here, this
+    # one. Only those not here are copied: one sent from here is its own.
     case $TO in
-      *:*) rsync -q "$TO/*.tar" "$OUT/" < /dev/null 2> /dev/null || true ;;
-      *) rsync -q "$TO"/*.tar "$OUT/" < /dev/null 2> /dev/null || true ;;
+      *:*) rsync -q --ignore-existing "$TO/*.tar" "$OUT/" < /dev/null 2> /dev/null || true ;;
+      *) rsync -q --ignore-existing "$TO"/*.tar "$OUT/" < /dev/null 2> /dev/null || true ;;
     esac
   fi
   looked=("$LIST")
