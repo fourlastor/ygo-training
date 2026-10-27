@@ -156,6 +156,17 @@ The recipe arm was held on 2026-10-27, before it was queued: its duels
 against itself have the arm's share of mirrors, and it would not tell
 whether the mirrors were lost in the copy or in PPO.
 
+- The copy's last checkpoint head to head against each champion in its
+  mirror, on the deals the arm played them (`PARTS=copy-heads`, measured
+  on 2026-10-27, seven evaluations at once, five minutes): a mean of 48.4%
+  ± 0.1%, the lowest Cyber and Rock-Block at 47.1%; by reading 1's rule
+  the copy would read kept. The arm less the copy, deal by deal: −3.5 ±
+  0.2 points over the mirrors; Crystal Beasts −7.2, Cyber −6.8, Burn −6.2,
+  HEROes −5.5, Rock-Block −4.1, Dragunity −4.0, Monarchs −3.6, Gladiator
+  Beasts −3.2, Blackwing −2.3, Spellcasters −2.1, Infernity −1.8,
+  Lightsworn −0.6, Gishki −0.6, Morphtronics −0.5. The copy held the
+  mirrors and PPO lost them.
+
 ## Beside it: luna's queue
 
 The champions of more decks queued at low priority beside the shorter copy
