@@ -1319,6 +1319,7 @@ def taught_games(
     groups_over: int = 0,
     grouped: bool = True,
     graphs: dict[str, Any] | None = None,
+    stacked: Any = None,
 ) -> tuple[list[dict[str, Any]], dict[str, float]]:
     """The listed games (``schedules.rollout_games``) with a teacher, a
     network, in the learner's seat, the one of the deck it plays there
@@ -1335,7 +1336,9 @@ def taught_games(
     teacher with ``graphs`` (``graphs.Graphs``, by deck) answers the calls
     they take from them.  Either gives the teachers other batches, and a
     first choice between two answers that score the same to their last
-    digits can go the other way.
+    digits can go the other way.  With ``stacked`` (``stacked.Stacked``) the
+    teachers answer a round's decisions in one call for all of them, in
+    place of a call for each deck.
 
     A step is labelled with the teacher's answer, as a step of the pilot's
     game is with the pilot's.  The deck's pilot is asked alongside, and its
@@ -1372,28 +1375,35 @@ def taught_games(
             _seat_decks(games, (round_.duel - first).tolist(), round_.player.tolist(), learner)
         )
         chosen = np.zeros(count, dtype=np.int64)
-        for deck in sorted(set(decks.tolist())):
-            if deck not in teachers:
-                raise DuelError(f"no teacher plays {deck}")
-            rows = np.flatnonzero(decks == deck)
+        if stacked is not None:
             asked["batches"] += 1
-            asked["max_batch"] = max(asked["max_batch"], float(len(rows)))
-            # A round of one deck's decisions is given whole.
-            given = (
-                round_.arrays
-                if len(rows) == count
-                else {name: array[rows] for name, array in round_.arrays.items()}
-            )
-            # From a graph of fixed sizes where the call is one of those: the
-            # answer is read before the next call, which is written over it.
-            made = graphs[deck].answer(given) if deck in graphs else None
-            if made is None:
-                tensor = {name: torch.from_numpy(array).to(device) for name, array in given.items()}
-                with torch.no_grad():
-                    made = teachers[deck](tensor)
-            else:
-                asked["pool_graph_batches"] += 1
-            chosen[rows] = made[0].argmax(-1).cpu().numpy()
+            asked["max_batch"] = max(asked["max_batch"], float(count))
+            chosen = stacked.answer(round_.arrays, decks).argmax(-1).cpu().numpy()
+        else:
+            for deck in sorted(set(decks.tolist())):
+                if deck not in teachers:
+                    raise DuelError(f"no teacher plays {deck}")
+                rows = np.flatnonzero(decks == deck)
+                asked["batches"] += 1
+                asked["max_batch"] = max(asked["max_batch"], float(len(rows)))
+                # A round of one deck's decisions is given whole.
+                given = (
+                    round_.arrays
+                    if len(rows) == count
+                    else {name: array[rows] for name, array in round_.arrays.items()}
+                )
+                # From a graph of fixed sizes where the call is one of those: the
+                # answer is read before the next call, which is written over it.
+                made = graphs[deck].answer(given) if deck in graphs else None
+                if made is None:
+                    tensor = {
+                        name: torch.from_numpy(array).to(device) for name, array in given.items()
+                    }
+                    with torch.no_grad():
+                        made = teachers[deck](tensor)
+                else:
+                    asked["pool_graph_batches"] += 1
+                chosen[rows] = made[0].argmax(-1).cpu().numpy()
         asked["inference_seconds"] += time.perf_counter() - started
         asked["prompts"] += count
         for duel, row, answer, player, transaction, label in zip(

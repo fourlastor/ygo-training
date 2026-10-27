@@ -299,16 +299,7 @@ class PolicyValueNet(nn.Module):
 
     def _history(self, tensor: dict[str, Tensor], described: Tensor | None = None) -> Tensor:
         """The seat's own earlier answers, oldest first."""
-        lengths = tensor["history_lengths"]
-        steps = torch.cat(
-            (
-                self._identity(tensor["history_card"], described),
-                self.location_embedding(tensor["history_location"]),
-                self.action_kind_embedding(tensor["history_kind"]),
-                tensor["history_scalars"],
-            ),
-            dim=-1,
-        )
+        steps = self._history_steps(tensor, described)
         # The batch is given packed, every row at the length the batch is
         # padded to: the same steps of the same rows.  On a card cuDNN then
         # works them out its standard way.  For a padded batch of an LSTM of
@@ -319,6 +310,24 @@ class PolicyValueNet(nn.Module):
         whole = torch.full((steps.shape[0],), steps.shape[1], dtype=torch.int64)
         packed, _ = self.history(pack_padded_sequence(steps, whole, batch_first=True))
         output, _ = pad_packed_sequence(packed, batch_first=True)
+        return self._history_read(output, tensor["history_lengths"])
+
+    def _history_steps(self, tensor: dict[str, Tensor], described: Tensor | None = None) -> Tensor:
+        """What the history's LSTM reads at each of a row's steps."""
+        return torch.cat(
+            (
+                self._identity(tensor["history_card"], described),
+                self.location_embedding(tensor["history_location"]),
+                self.action_kind_embedding(tensor["history_kind"]),
+                tensor["history_scalars"],
+            ),
+            dim=-1,
+        )
+
+    @staticmethod
+    def _history_read(output: Tensor, lengths: Tensor) -> Tensor:
+        """Each row's history: the LSTM's output at its last step, none
+        where it has no step."""
         batch = torch.arange(output.shape[0], device=output.device)
         return output[batch, lengths.clamp_min(1) - 1] * (lengths > 0).unsqueeze(-1)
 
