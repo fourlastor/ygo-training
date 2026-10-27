@@ -54,9 +54,10 @@ to() {
 folders() {
   echo "runs/champions/$1 runs/champions/$1-copy analysis/champions/$1"
 }
-# sums DECK: each file of the deck's folders with its checksum, in order.
+# sums DECK: each file of the deck's folders with its checksum, in the order
+# of their names' bytes: the two machines' languages may sort them otherwise.
 sums() {
-  echo "find $(folders "$1") -type f -print0 | sort -z | xargs -0 sha256sum"
+  echo "find $(folders "$1") -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum"
 }
 # bring DECK: the deck's folders streamed there, then held to their
 # checksums; fails where a step does, or a file is not as it is here.
