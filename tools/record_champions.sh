@@ -18,9 +18,11 @@
 # rest of tools/record_champion.py). With TO, each deck's archive is sent
 # there once it is made (`daniele@luna:ygo-training/records`, where a copy
 # runs); with PULL as well, each look first copies the archives there into
-# OUT, so a deck another machine recorded is done here too. With REVERSE the
-# list is gone through from its end: two machines on one list meet in its
-# middle.
+# OUT, so a deck another machine recorded is done here too, and a deck's
+# archive is looked for there again just before it is recorded, since a look
+# can take hours. With REVERSE the list is gone through from its end: two
+# machines on one list meet in its middle, and a deck both begin before
+# either has sent it is recorded on both.
 #
 #   WAIT=600 bash tools/record_champions.sh experiments/commands/champion-recordings.list
 set -euo pipefail
@@ -73,6 +75,12 @@ while :; do
     fi
     left=$((left + 1))
     if ! fetched "$deck" "$checkpoint" < /dev/null; then
+      continue
+    fi
+    # Sent there by another machine since this look began.
+    if [ -n "$PULL" ] && [ -n "$TO" ] \
+      && rsync -q --ignore-existing "$TO/$deck.tar" "$OUT/" < /dev/null 2> /dev/null; then
+      left=$((left - 1))
       continue
     fi
     echo "$(date '+%F %H:%M') $deck begins"
