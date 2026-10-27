@@ -1,0 +1,13 @@
+{
+  "name": "nurse-against-checkpoint",
+  "primary": "nurse-vs-checkpoint",
+  "cases": [
+    {
+      "name": "nurse-vs-checkpoint",
+      "learner": "nurse",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

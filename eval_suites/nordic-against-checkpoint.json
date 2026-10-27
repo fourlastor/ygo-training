@@ -1,0 +1,13 @@
+{
+  "name": "nordic-against-checkpoint",
+  "primary": "nordic-vs-checkpoint",
+  "cases": [
+    {
+      "name": "nordic-vs-checkpoint",
+      "learner": "nordic",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "gem-knight-against-checkpoint",
+  "primary": "gem-knight-vs-checkpoint",
+  "cases": [
+    {
+      "name": "gem-knight-vs-checkpoint",
+      "learner": "gem-knight",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

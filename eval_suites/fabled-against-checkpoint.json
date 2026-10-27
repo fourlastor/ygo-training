@@ -1,0 +1,13 @@
+{
+  "name": "fabled-against-checkpoint",
+  "primary": "fabled-vs-checkpoint",
+  "cases": [
+    {
+      "name": "fabled-vs-checkpoint",
+      "learner": "fabled",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

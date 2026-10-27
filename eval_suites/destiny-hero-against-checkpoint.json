@@ -1,0 +1,13 @@
+{
+  "name": "destiny-hero-against-checkpoint",
+  "primary": "destiny-hero-vs-checkpoint",
+  "cases": [
+    {
+      "name": "destiny-hero-vs-checkpoint",
+      "learner": "destiny-hero",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

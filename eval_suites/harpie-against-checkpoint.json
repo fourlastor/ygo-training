@@ -1,0 +1,13 @@
+{
+  "name": "harpie-against-checkpoint",
+  "primary": "harpie-vs-checkpoint",
+  "cases": [
+    {
+      "name": "harpie-vs-checkpoint",
+      "learner": "harpie",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "herald-against-checkpoint",
+  "primary": "herald-vs-checkpoint",
+  "cases": [
+    {
+      "name": "herald-vs-checkpoint",
+      "learner": "herald",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

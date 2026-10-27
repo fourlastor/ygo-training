@@ -1,0 +1,13 @@
+{
+  "name": "amazoness-against-checkpoint",
+  "primary": "amazoness-vs-checkpoint",
+  "cases": [
+    {
+      "name": "amazoness-vs-checkpoint",
+      "learner": "amazoness",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

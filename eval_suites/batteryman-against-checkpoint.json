@@ -1,0 +1,13 @@
+{
+  "name": "batteryman-against-checkpoint",
+  "primary": "batteryman-vs-checkpoint",
+  "cases": [
+    {
+      "name": "batteryman-vs-checkpoint",
+      "learner": "batteryman",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

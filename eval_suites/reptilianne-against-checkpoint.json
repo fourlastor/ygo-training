@@ -1,0 +1,13 @@
+{
+  "name": "reptilianne-against-checkpoint",
+  "primary": "reptilianne-vs-checkpoint",
+  "cases": [
+    {
+      "name": "reptilianne-vs-checkpoint",
+      "learner": "reptilianne",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

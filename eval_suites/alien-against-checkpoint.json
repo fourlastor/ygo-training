@@ -1,0 +1,13 @@
+{
+  "name": "alien-against-checkpoint",
+  "primary": "alien-vs-checkpoint",
+  "cases": [
+    {
+      "name": "alien-vs-checkpoint",
+      "learner": "alien",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

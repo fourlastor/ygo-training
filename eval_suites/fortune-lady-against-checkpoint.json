@@ -1,0 +1,13 @@
+{
+  "name": "fortune-lady-against-checkpoint",
+  "primary": "fortune-lady-vs-checkpoint",
+  "cases": [
+    {
+      "name": "fortune-lady-vs-checkpoint",
+      "learner": "fortune-lady",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

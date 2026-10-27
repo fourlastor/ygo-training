@@ -1,0 +1,13 @@
+{
+  "name": "zombie-against-checkpoint",
+  "primary": "zombie-vs-checkpoint",
+  "cases": [
+    {
+      "name": "zombie-vs-checkpoint",
+      "learner": "zombie",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

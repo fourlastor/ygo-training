@@ -1,0 +1,13 @@
+{
+  "name": "fish-against-checkpoint",
+  "primary": "fish-vs-checkpoint",
+  "cases": [
+    {
+      "name": "fish-vs-checkpoint",
+      "learner": "fish",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

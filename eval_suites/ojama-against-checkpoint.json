@@ -1,0 +1,13 @@
+{
+  "name": "ojama-against-checkpoint",
+  "primary": "ojama-vs-checkpoint",
+  "cases": [
+    {
+      "name": "ojama-vs-checkpoint",
+      "learner": "ojama",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "karakuri-against-checkpoint",
+  "primary": "karakuri-vs-checkpoint",
+  "cases": [
+    {
+      "name": "karakuri-vs-checkpoint",
+      "learner": "karakuri",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

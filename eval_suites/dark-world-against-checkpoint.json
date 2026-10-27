@@ -1,0 +1,13 @@
+{
+  "name": "dark-world-against-checkpoint",
+  "primary": "dark-world-vs-checkpoint",
+  "cases": [
+    {
+      "name": "dark-world-vs-checkpoint",
+      "learner": "dark-world",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

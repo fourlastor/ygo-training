@@ -1,0 +1,13 @@
+{
+  "name": "tele-dad-against-checkpoint",
+  "primary": "tele-dad-vs-checkpoint",
+  "cases": [
+    {
+      "name": "tele-dad-vs-checkpoint",
+      "learner": "tele-dad",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

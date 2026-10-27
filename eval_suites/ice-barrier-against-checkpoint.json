@@ -1,0 +1,13 @@
+{
+  "name": "ice-barrier-against-checkpoint",
+  "primary": "ice-barrier-vs-checkpoint",
+  "cases": [
+    {
+      "name": "ice-barrier-vs-checkpoint",
+      "learner": "ice-barrier",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

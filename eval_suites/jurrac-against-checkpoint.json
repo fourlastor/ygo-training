@@ -1,0 +1,13 @@
+{
+  "name": "jurrac-against-checkpoint",
+  "primary": "jurrac-vs-checkpoint",
+  "cases": [
+    {
+      "name": "jurrac-vs-checkpoint",
+      "learner": "jurrac",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

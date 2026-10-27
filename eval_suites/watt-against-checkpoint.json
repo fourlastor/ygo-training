@@ -1,0 +1,13 @@
+{
+  "name": "watt-against-checkpoint",
+  "primary": "watt-vs-checkpoint",
+  "cases": [
+    {
+      "name": "watt-vs-checkpoint",
+      "learner": "watt",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

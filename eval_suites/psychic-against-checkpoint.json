@@ -1,0 +1,13 @@
+{
+  "name": "psychic-against-checkpoint",
+  "primary": "psychic-vs-checkpoint",
+  "cases": [
+    {
+      "name": "psychic-vs-checkpoint",
+      "learner": "psychic",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

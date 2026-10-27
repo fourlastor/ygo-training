@@ -1,0 +1,13 @@
+{
+  "name": "arcana-against-checkpoint",
+  "primary": "arcana-vs-checkpoint",
+  "cases": [
+    {
+      "name": "arcana-vs-checkpoint",
+      "learner": "arcana",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

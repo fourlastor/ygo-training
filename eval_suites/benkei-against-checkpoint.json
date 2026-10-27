@@ -1,0 +1,13 @@
+{
+  "name": "benkei-against-checkpoint",
+  "primary": "benkei-vs-checkpoint",
+  "cases": [
+    {
+      "name": "benkei-vs-checkpoint",
+      "learner": "benkei",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

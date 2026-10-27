@@ -1,0 +1,13 @@
+{
+  "name": "counter-fairy-against-checkpoint",
+  "primary": "counter-fairy-vs-checkpoint",
+  "cases": [
+    {
+      "name": "counter-fairy-vs-checkpoint",
+      "learner": "counter-fairy",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

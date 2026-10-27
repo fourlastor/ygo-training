@@ -1,0 +1,13 @@
+{
+  "name": "deckout-against-checkpoint",
+  "primary": "deckout-vs-checkpoint",
+  "cases": [
+    {
+      "name": "deckout-vs-checkpoint",
+      "learner": "deckout",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

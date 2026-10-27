@@ -1,0 +1,13 @@
+{
+  "name": "malefic-against-checkpoint",
+  "primary": "malefic-vs-checkpoint",
+  "cases": [
+    {
+      "name": "malefic-vs-checkpoint",
+      "learner": "malefic",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

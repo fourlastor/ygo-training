@@ -1,0 +1,13 @@
+{
+  "name": "garden-against-checkpoint",
+  "primary": "garden-vs-checkpoint",
+  "cases": [
+    {
+      "name": "garden-vs-checkpoint",
+      "learner": "garden",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

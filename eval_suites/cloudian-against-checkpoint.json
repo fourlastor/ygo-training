@@ -1,0 +1,13 @@
+{
+  "name": "cloudian-against-checkpoint",
+  "primary": "cloudian-vs-checkpoint",
+  "cases": [
+    {
+      "name": "cloudian-vs-checkpoint",
+      "learner": "cloudian",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

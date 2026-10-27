@@ -1,0 +1,13 @@
+{
+  "name": "pyramid-against-checkpoint",
+  "primary": "pyramid-vs-checkpoint",
+  "cases": [
+    {
+      "name": "pyramid-vs-checkpoint",
+      "learner": "pyramid",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

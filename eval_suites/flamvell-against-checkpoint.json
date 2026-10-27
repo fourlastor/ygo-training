@@ -1,0 +1,13 @@
+{
+  "name": "flamvell-against-checkpoint",
+  "primary": "flamvell-vs-checkpoint",
+  "cases": [
+    {
+      "name": "flamvell-vs-checkpoint",
+      "learner": "flamvell",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

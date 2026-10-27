@@ -1,0 +1,13 @@
+{
+  "name": "volcanic-against-checkpoint",
+  "primary": "volcanic-vs-checkpoint",
+  "cases": [
+    {
+      "name": "volcanic-vs-checkpoint",
+      "learner": "volcanic",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

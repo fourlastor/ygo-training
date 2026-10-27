@@ -1,0 +1,13 @@
+{
+  "name": "iron-chain-against-checkpoint",
+  "primary": "iron-chain-vs-checkpoint",
+  "cases": [
+    {
+      "name": "iron-chain-vs-checkpoint",
+      "learner": "iron-chain",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

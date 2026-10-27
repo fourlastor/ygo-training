@@ -1,0 +1,13 @@
+{
+  "name": "demise-against-checkpoint",
+  "primary": "demise-vs-checkpoint",
+  "cases": [
+    {
+      "name": "demise-vs-checkpoint",
+      "learner": "demise",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

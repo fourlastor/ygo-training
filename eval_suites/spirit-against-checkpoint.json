@@ -1,0 +1,13 @@
+{
+  "name": "spirit-against-checkpoint",
+  "primary": "spirit-vs-checkpoint",
+  "cases": [
+    {
+      "name": "spirit-vs-checkpoint",
+      "learner": "spirit",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

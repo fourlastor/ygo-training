@@ -1,0 +1,13 @@
+{
+  "name": "gemini-against-checkpoint",
+  "primary": "gemini-vs-checkpoint",
+  "cases": [
+    {
+      "name": "gemini-vs-checkpoint",
+      "learner": "gemini",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

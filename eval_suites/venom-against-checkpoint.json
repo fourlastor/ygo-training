@@ -1,0 +1,13 @@
+{
+  "name": "venom-against-checkpoint",
+  "primary": "venom-vs-checkpoint",
+  "cases": [
+    {
+      "name": "venom-vs-checkpoint",
+      "learner": "venom",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

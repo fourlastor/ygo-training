@@ -1,0 +1,13 @@
+{
+  "name": "x-saber-against-checkpoint",
+  "primary": "x-saber-vs-checkpoint",
+  "cases": [
+    {
+      "name": "x-saber-vs-checkpoint",
+      "learner": "x-saber",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

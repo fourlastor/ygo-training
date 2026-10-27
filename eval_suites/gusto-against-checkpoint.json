@@ -1,0 +1,13 @@
+{
+  "name": "gusto-against-checkpoint",
+  "primary": "gusto-vs-checkpoint",
+  "cases": [
+    {
+      "name": "gusto-vs-checkpoint",
+      "learner": "gusto",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

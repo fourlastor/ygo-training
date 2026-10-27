@@ -1,0 +1,13 @@
+{
+  "name": "draconic-might-against-checkpoint",
+  "primary": "draconic-might-vs-checkpoint",
+  "cases": [
+    {
+      "name": "draconic-might-vs-checkpoint",
+      "learner": "draconic-might",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

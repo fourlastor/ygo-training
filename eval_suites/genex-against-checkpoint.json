@@ -1,0 +1,13 @@
+{
+  "name": "genex-against-checkpoint",
+  "primary": "genex-vs-checkpoint",
+  "cases": [
+    {
+      "name": "genex-vs-checkpoint",
+      "learner": "genex",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

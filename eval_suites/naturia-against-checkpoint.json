@@ -1,0 +1,13 @@
+{
+  "name": "naturia-against-checkpoint",
+  "primary": "naturia-vs-checkpoint",
+  "cases": [
+    {
+      "name": "naturia-vs-checkpoint",
+      "learner": "naturia",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}

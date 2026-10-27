@@ -1,0 +1,13 @@
+{
+  "name": "worm-against-checkpoint",
+  "primary": "worm-vs-checkpoint",
+  "cases": [
+    {
+      "name": "worm-vs-checkpoint",
+      "learner": "worm",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 2048
+    }
+  ]
+}
