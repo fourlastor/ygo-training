@@ -189,6 +189,9 @@ def test_a_recording_is_made_and_a_copy_deals_its_games_from_it(tmp_path, monkey
         for _ in range(2):
             trajectories, _ = trainer.collect()
             dealt.append(trajectories)
+            # The recorded answers are what an update of the copy learns.
+            learnt = trainer.imitation_update(trajectories)
+            assert learnt["samples"] == sum(len(t["steps"]) for t in trajectories) > 0
     mirrors = [t for t in dealt[0] if t.get("other") == "self"]
     assert len(mirrors) == 2 and all({s["player"] for s in t["steps"]} == {0, 1} for t in mirrors)
     recorded = {

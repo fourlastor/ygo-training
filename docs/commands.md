@@ -458,6 +458,59 @@ may read the board another way than the learner
   130`, 24.1 with neither (experiments/commands/teacher-calls.sh, measured
   on 2026-10-24).
 
+### Imitating champions from their recordings
+
+```sh
+OMP_NUM_THREADS=8 uv run python tools/record_champion.py burn \
+  runs/champions/burn/checkpoints/model-00959.pt --out records/champions
+WAIT=600 bash tools/record_champions.sh records/champions.list
+uv run python -m ygo_training train --device cuda --run runs/copy \
+  --learner blackwing,burn --duels 520 --updates 320 \
+  --opponents blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster \
+  --imitation-only-updates 1000000 --imitation-value-weight 0.5 --imitation-value-positions 4 \
+  --self-play-duels 260 --self-play-pairs mirrors --copy-records records/champions
+```
+
+A copy's games depend on its teachers, the pilots and the deals alone, not
+on the network that learns from them: they can be played once, anywhere, and
+learnt from by every copy after. `tools/record_champion.py DECK CHECKPOINT`
+plays a deck's champion by its first choices, in its mirror, both seats its
+own, and against each of the thirteen decks' pilots, a chunk of 1,000 games
+at a time, and keeps each game as the answers the champion gave, in the
+order its decisions came (`ygo_training/champion_records.py`). A deck's
+recording is a folder, `records/champions/DECK/KIND/CHUNK.jsonl.gz` and
+`about.json`, and then one archive of it, `records/champions/DECK.tar`.
+
+- The deals are the training schedule's of the seed 7105, each chunk a
+  rollout of its own, so no two chunks of any deck share a deal; that seed is
+  the first from 7,100 whose chunks hold none of the deals of the suites
+  measured at seed 2012.
+- `--mirrors 44 --against 4`, the default, is a copy of 160 updates a deck
+  with some to spare: 41,600 games of the mirror and 3,200 against each
+  pilot is what such a copy draws on, give or take a few dozen. A recording
+  goes on from the chunks it holds, and one asked for more adds them.
+- On the development machine's processor, 1,000 games of Burn's mirror took
+  23 seconds (44 games a second, 282 answers a game) and came to 104 KB:
+  a deck's 96,000 games are about forty minutes and ten megabytes.
+- `tools/record_champions.sh LIST` records the decks of a list one after
+  another on a machine beside the CUDA machine: each line a deck and its
+  champion's checkpoint there, fetched once it is made; a deck whose archive
+  is there is done, and with `WAIT` it looks again for champions made since.
+- `train --copy-records DIR` has the imitation-only updates deal their games
+  as a copy of the champions would play them, the mirrors among them, and
+  play each again from the next game of its deck and kind in its deck's
+  recording: through the same seats, with the recorded answers in the
+  teachers' place (`pool.taught_games` with `played`), so the decisions,
+  their labels and their inputs are the ones the champions' games had
+  (`tests/test_champion_records.py`). No network is asked, and a copy run
+  names no teacher.
+- A game counts only where it ends with the digest it was recorded with, of
+  every question and answer. Another engine, other scripts, cards or pilots
+  play other games, and the copy stops: a recording is made again after the
+  pins move.
+- A copy that goes on deals its earlier updates again, from their rollouts'
+  seeds, to know where it stands in each recording.
+
 ### Imitating recorded duels
 
 ```sh

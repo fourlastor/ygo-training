@@ -172,7 +172,7 @@ def record(
         with tarfile.open(part, "w") as written:
             written.add(folder, arcname=deck)
         part.replace(kept)
-        print(f"{kept}: {kept.stat().st_size / 2**20:.0f} MiB", flush=True)
+        print(f"{kept}: {kept.stat().st_size / 2**20:.1f} MiB", flush=True)
     return kept
 
 
