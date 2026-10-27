@@ -11,16 +11,22 @@
 # FROM_AT and TO_AT the checkouts there. FROM_BASH is how a script read from
 # its input runs on the first: `bash -s` where the login shell is bash,
 # `wsl.exe -d Ubuntu-24.04 -e bash -s` for a Windows machine's WSL. The other
-# runs what it is given as any shell of a Unix machine does.
+# runs what it is given as any shell of a Unix machine does; with TO empty it
+# is this machine, where the CUDA machine reaches the other itself.
 #
 #   FROM='-J daniele@luna alelk@100.93.143.204' FROM_AT=ygo-training/ygo \
 #   FROM_BASH='wsl.exe -d Ubuntu-24.04 -e bash -s' TO=daniele@luna \
 #   WAIT=1800 bash tools/relay_champions.sh
+#
+# and on the CUDA machine, from its checkout:
+#
+#   FROM=alelk@100.93.143.204 FROM_BASH='wsl.exe -d Ubuntu-24.04 -e bash -s' \
+#   TO= TO_AT=. WAIT=1800 bash relay_champions.sh
 set -euo pipefail
 FROM=${FROM:?what ssh is given to reach the machine that makes the champions}
 FROM_AT=${FROM_AT:-ygo-training/ygo}
 FROM_BASH=${FROM_BASH:-bash -s}
-TO=${TO:-daniele@luna}
+TO=${TO-daniele@luna}
 TO_AT=${TO_AT:-ygo-training/ygo}
 TAKEN=${TAKEN:-../taken}
 RELAYED=${RELAYED:-runs/relayed}
@@ -37,6 +43,10 @@ from() {
   ssh -o BatchMode=yes $FROM "$FROM_BASH" <<< "cd && cd $FROM_AT && $1"
 }
 to() {
+  if [ -z "$TO" ]; then
+    (cd "$TO_AT" && bash -c "$1")
+    return
+  fi
   # shellcheck disable=SC2086
   ssh -o BatchMode=yes $TO "cd $TO_AT && $1"
 }

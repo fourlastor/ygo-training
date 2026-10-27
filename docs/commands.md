@@ -3081,7 +3081,9 @@ the next deck of the list that no lane has taken.
   to the CUDA machine through this one, for machines that do not reach
   each other: the deck's two runs and its measures, streamed from the one
   checkout into the other and held there to their checksums, every `WAIT`
-  seconds. A deck brought is marked in `runs/relayed` here.
+  seconds. A deck brought is marked in `runs/relayed` here. With `TO`
+  empty it runs on the CUDA machine itself, where that one reaches the
+  other, and brings the decks into its own checkout (`TO_AT`).
 
 ## `status`
 
