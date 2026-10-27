@@ -38,6 +38,24 @@
 # recipe-measure. The recipe arm measured as the selfplay arm, then the
 # report again, the two arms compared.
 #
+# AT_ONCE: how many of the measurements go at a time, through an MPS server
+# on a card (experiments/commands/at-once.sh), what each writes in
+# OUT/logs; 1, the default, one after the other. With more than one, the
+# first teacher's games in its mirror are then played again alone and held
+# to those played beside the others, game for game.
+#
+# LEVELS: a measure of how many at a time pay. The decks' own measurements
+# in their mirrors (each teacher, the copy along its updates and the arm
+# head to head, twelve files of the same deals for every deck) go in a group
+# of decks for each number named, as many decks as the number and as many
+# at a time, the first group's decks first; after each group its first
+# deck's teacher is played again alone, held to its games and timed. The
+# rest go as many at a time as the last number names. The card's and the
+# processor's load every ten seconds are kept in OUT/logs/load.txt, each
+# group's files and times in OUT/logs/levels.jsonl, and what they come to
+# in OUT/at-once.txt (tools/at_once_report.py). LEVELS="3 5 6" measures
+# fourteen decks so.
+#
 # The trainer numbers an arm's updates on from the copy's and keeps a
 # checkpoint where that count closes STEP, and the last: the selfplay arm's
 # after 160, 400 and so on to 4,240 updates past the copy's 2,240, and after
@@ -101,6 +119,10 @@ FOUR_PAIRINGS=${FOUR_PAIRINGS:-eval_suites/four-decks-pairings-checkpoint.json}
 CURVE=${CURVE:-560 1120 1680 2240}
 # The interpreter of a machine that has no uv: the benchmark's setup leaves one.
 PYTHON=${PYTHON:-}
+LOGS=${LOGS:-$OUT/logs}
+LEVELS=${LEVELS:-}
+# shellcheck source=experiments/commands/at-once.sh
+source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
@@ -173,18 +195,28 @@ teacher() {
   done
 }
 # played FILE SUITE OPTION...: what the options name on a suite, with how
-# each game ended, into FILE.json.
+# each game ended, into FILE.json, at once with others where AT_ONCE says.
 played() {
+  # A file being played beside others is not there yet: it is not played
+  # twice.
+  if [ ! -f "$1.json" ] && [ -z "${queued[$1]:-}" ]; then
+    queued[$1]=1
+    planned+=("$1.json")
+    at_once "$(basename "$(dirname "$1")")-$(basename "$1")" playing "$@"
+  fi
+}
+declare -A queued
+planned=()
+# playing FILE SUITE OPTION...: what played does, then and there.
+playing() {
   local file=$1 suite=$2
   shift 2
-  if [ ! -f "$file.json" ]; then
-    mkdir -p "$(dirname "$file")"
-    "${python[@]}" -m ygo_training evaluate-suite "$@" --device "$DEVICE" \
-      --workers "$WORKERS" --pool-threads "$THREADS" --pool-slots "$SLOTS" --seed "$SEED" \
-      --suite "$suite" --output "$file.json.part" > /dev/null
-    mv "$file.json.part" "$file.json"
-    echo "$(date +%H:%M) $file"
-  fi
+  mkdir -p "$(dirname "$file")"
+  "${python[@]}" -m ygo_training evaluate-suite "$@" --device "$DEVICE" \
+    --workers "$WORKERS" --pool-threads "$THREADS" --pool-slots "$SLOTS" --seed "$SEED" \
+    --suite "$suite" --output "$file.json.part" > /dev/null
+  mv "$file.json.part" "$file.json"
+  echo "$(date +%H:%M) $file"
 }
 # pair FILE FIRST SECOND SUITE: FIRST in the learner's seat against SECOND,
 # then the other way round, into FILE.plays.json and FILE.held.json.
@@ -255,8 +287,90 @@ measured() {
   cp "$RUNS/$arm/metrics.jsonl" "$OUT/$arm.metrics.jsonl"
   cp "$RUNS/$arm/run.json" "$OUT/$arm.run.json"
 }
-# reported: the report of what OUT holds.
+# mirrored DECK: the deck's own measurements in its mirror: its teacher, the
+# copy after each of CURVE, and the arm's last checkpoint head to head
+# against its teacher.
+mirrored() {
+  local mirror=$SUITES/$1-against-checkpoint.json point
+  pair "$OUT/teachers/$1" "$(teacher "$1")" "$NETWORK" "$mirror"
+  for point in $CURVE; do
+    pair "$OUT/taught-$1/$point" "$(checkpoint "$RUNS/taught" 0 "$point")" "$NETWORK" "$mirror"
+  done
+  pair "$OUT/heads-selfplay/$1" "$(checkpoint "$RUNS/selfplay" "$COPY" "$UPDATES")" \
+    "$(teacher "$1")" "$mirror"
+}
+# timed LEVEL FROM PART: the files planned since FROM, played LEVEL at a
+# time, kept in LOGS/levels.jsonl as PART: the decks' own measurements in
+# their mirrors, one of them alone, or the rest.
+timed() {
+  local files=() file
+  for file in "${planned[@]}"; do
+    files+=("\"$file\"")
+  done
+  if ((${#files[@]})); then
+    local joined
+    joined=$(IFS=,; echo "${files[*]}")
+    echo "{\"part\": \"$3\", \"at_once\": $1, \"from\": $2, \"to\": $(date +%s), \"files\": [$joined]}" \
+      >> "$LOGS/levels.jsonl"
+  fi
+  planned=()
+}
+# alone DECK: the deck's teacher in its mirror played again alone, timed, and
+# held to the games it played beside the others.
+alone() {
+  local started
+  if [ ! -f "$OUT/alone/$1.plays.json" ]; then
+    started=$(date +%s)
+    planned=("$OUT/alone/$1.plays.json")
+    playing "$OUT/alone/$1.plays" "$SUITES/$1-against-checkpoint.json" "$(teacher "$1")" \
+      --opponent-checkpoint "$NETWORK"
+    timed 1 "$started" alone
+    "${python[@]}" tools/same_games.py "$OUT/teachers/$1.plays.json" "$OUT/alone/$1.plays.json"
+  fi
+}
+# leveled LEVEL DECK...: the decks' own measurements, LEVEL at a time, then
+# the first of them alone.
+leveled() {
+  local level=$1 started deck
+  shift
+  AT_ONCE=$level
+  started=$(date +%s)
+  planned=()
+  for deck in "$@"; do
+    mirrored "$deck"
+  done
+  all_done
+  timed "$level" "$started" mirrors
+  alone "$1"
+}
+# watched: the card's busy share and memory and the processor's counters
+# every ten seconds into LOGS/load.txt, while the script goes.
+watched() {
+  mkdir -p "$LOGS"
+  (
+    set +e
+    while kill -0 $$ 2> /dev/null; do
+      card="- -"
+      if [[ "$DEVICE" == cuda* ]] && command -v nvidia-smi > /dev/null; then
+        card=$(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader,nounits \
+          2> /dev/null | head -1 | tr -d ,)
+      fi
+      { read -r _ counters; } < /proc/stat
+      echo "$(date +%s) ${card:-- -} $counters"
+      sleep 10
+    done >> "$LOGS/load.txt"
+  ) &
+  disown $!
+}
+# reported: the report of what OUT holds, once every measurement is over;
+# where they went at once, the first teacher's games played again alone and
+# held to them.
 reported() {
+  all_done
+  [ -z "${measuring:-}" ] || timed "$AT_ONCE" "$measuring" rest
+  if ((AT_ONCE > 1)); then
+    alone "${decks[0]}"
+  fi
   "${python[@]}" tools/fourteen_decks_report.py "$OUT" --decks "$DECKS" \
     --output "$OUT/report.json" | tee "$OUT/report.txt"
   echo "The measurements and what they say are in $OUT."
@@ -291,16 +405,31 @@ if [[ " $PARTS " == *" recipe "* ]]; then
 fi
 
 if [[ " $PARTS " == *" measure "* ]]; then
-  if [ ! -f "$copied" ]; then
-    echo "Missing $copied: the copy is measured when it is made" >&2
+  for path in "$copied" "$(checkpoint "$RUNS/selfplay" "$COPY" "$UPDATES")"; do
+    if [ ! -f "$path" ]; then
+      echo "Missing $path: the copy and the arm are measured when they are made" >&2
+      exit 1
+    fi
+  done
+  read -r -a levels <<< "$LEVELS"
+  place=0
+  for level in "${levels[@]}"; do
+    place=$((place + level))
+  done
+  if ((place > ${#decks[@]})); then
+    echo "LEVELS names groups of $place decks in all, of ${#decks[@]}" >&2
     exit 1
   fi
-  for deck in "${decks[@]}"; do
-    mirror=$SUITES/$deck-against-checkpoint.json
-    pair "$OUT/teachers/$deck" "$(teacher "$deck")" "$NETWORK" "$mirror"
-    for point in $CURVE; do
-      pair "$OUT/taught-$deck/$point" "$(checkpoint "$RUNS/taught" 0 "$point")" "$NETWORK" "$mirror"
-    done
+  watched
+  place=0
+  for level in "${levels[@]}"; do
+    leveled "$level" "${decks[@]:place:level}"
+    place=$((place + level))
+  done
+  ((${#levels[@]} == 0)) || AT_ONCE=${levels[-1]}
+  measuring=$(date +%s)
+  for deck in "${decks[@]:place}"; do
+    mirrored "$deck"
   done
   played "$OUT/copy-quick/0" "$QUICK" "$copied" --opponent-checkpoint "$NETWORK"
   played "$OUT/pilots/all71" "$PILOTS" "$NETWORK"
@@ -308,6 +437,9 @@ if [[ " $PARTS " == *" measure "* ]]; then
   cp "$RUNS/taught/run.json" "$OUT/taught.run.json"
   measured selfplay "$UPDATES"
   reported
+  if ((${#levels[@]})); then
+    "${python[@]}" tools/at_once_report.py "$OUT" | tee "$OUT/at-once.txt"
+  fi
 fi
 
 if [[ " $PARTS " == *" recipe-measure "* ]]; then
