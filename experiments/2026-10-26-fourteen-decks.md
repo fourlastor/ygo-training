@@ -115,7 +115,11 @@ go on behind this experiment's runs. Claudi-oh's Countdown was made on
 2026-10-26, a champion at 54.1% ± 0.4% in its mirror against `all71`; then
 Claudi-oh's Verdict, Astra's Exodia, Machina Gadgets, Between Light and
 Dark, D.D. Border Patrol, Legendary Six Samurai, Gravekeeper's Tomb, Scrap
-Renaissance, Heaven's Dispatch and Quickdraw Plants.
+Renaissance, Heaven's Dispatch and Quickdraw Plants. Verdict was made that
+evening, a champion at 61.1% ± 0.5%. On 2026-10-27 the other 46 decks of the
+pool were queued behind them, each with a mirror suite of its own
+(`a9c72e05`), so that every deck of the 71 has a champion to teach a network
+of all of them.
 
 Countdown's pilot was thought to play its deck near perfectly, and the
 champion to stand well under it. Measured on the development machine on
