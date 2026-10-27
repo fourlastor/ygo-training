@@ -8,7 +8,8 @@
 was read and closed; design and readings fixed that evening, before
 anything was built.
 
-**Last updated:** 2026-10-26 (design and readings fixed; the runs queued)
+**Last updated:** 2026-10-27 (the copy and the arm measured: the mirrors
+lost, `all71` not decided; reading 3 asks for the recipe arm)
 
 The network of four decks, its champions copied and then PPO on every
 pairing of its decks, played each mirror about as well as its champion and
@@ -107,6 +108,47 @@ Told beside them, without a mark: each pairing against `all71` and the
 weakest; each arm's curve along its updates; the copy in each mirror along
 its updates, less its teacher; against the thirteen decks' pilots beside
 `all71`; head to head against the network of four decks; the hours.
+
+## Results (read on 2026-10-27)
+
+The copy took 13.4 hours and the arm 9.3 (`analysis/fourteen-decks/report.txt`
+on the CUDA machine); the measure 2 hours 15 minutes, with up to six
+evaluations at once (below).
+
+1. **The mirrors: lost.** The arm's last checkpoint head to head against each
+   champion in its mirror, 2,048 deals from both seats: a mean of 44.9% ±
+   0.2%, Cyber the lowest at 40.3% ± 0.7%. Blackwing 45.9%, Lightsworn
+   47.8%, Infernity 46.9%, Gishki 49.0%, Burn 42.9%, Crystal Beasts 41.3%,
+   Dragunity 44.8%, Gladiator Beasts 44.8%, HEROes 42.7%, Monarchs 45.2%,
+   Morphtronics 48.5%, Rock-Block 43.0%, Spellcasters 45.9%.
+2. **Against `all71`: not decided.** The mean over the 105 pairings by the
+   last three checkpoints 56.9%; the weakest, Lightsworn against
+   Spellcasters, 50.1% ± 0.4%. The mirrors against `all71` from 56.7%
+   (Rock-Block) to 70.8% (Cyber).
+3. Reading 1 not kept, **the recipe arm is to be made**, and read by
+   readings 1 and 2 and against the arm.
+
+Beside them:
+
+- The arm along its updates, the mean over the pairings against `all71` on
+  64 games each: 53.0% from the copy, 55.2% after 1,120 updates, 56.5% after
+  2,080, at its highest 57.3% after 3,760 and 56.7% after 4,320. Most of the
+  gain came in its first half.
+- Against the thirteen decks' pilots 64.1%, `all71` 58.3% on the same
+  games: +5.8 ± 0.3 points. Burn (29.0%) and Spellcasters (31.0%) the
+  weakest there, as for `all71` (26.0%, 29.7%).
+- Head to head against the network of four decks on that network's
+  pairings: 45.2% ± 0.2%, Cyber's mirror the lowest at 35.5%.
+- The copy in each mirror against `all71` after 2,240 updates, less its
+  teacher: from −0.2 points (Crystal Beasts) to −2.9 (Cyber, Rock-Block),
+  most of the way after 1,120 updates (80 a deck).
+- Several evaluations at once through MPS (`analysis/fourteen-decks/at-once.txt`),
+  against one alone at 68.3 games a second: three at once 2.07 times as
+  many games a second, five 2.74 times, six 3.31 times. One evaluation of
+  each level was played again alone and gave the same 2,048 games.
+
+Next: the recipe arm (`PARTS="recipe recipe-measure"`), some 18 to 20
+hours of the CUDA machine with its measure.
 
 ## Beside it: luna's queue
 
