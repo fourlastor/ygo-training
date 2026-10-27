@@ -121,3 +121,19 @@ def test_beside_the_readings(tmp_path):
     shown = tool.shown(result, DECKS)
     assert "1. The mirrors: not decided." in shown and "2. Against all71: beats all71." in shown
     assert "Hours: the copy not measured; selfplay not measured" in shown
+    assert "copy head to head" not in result
+
+
+def test_the_copy_head_to_head_beside_the_arm(tmp_path):
+    out = measured(tmp_path)
+    for deck in DECKS:
+        pair(out / "heads-taught" / deck, 46)
+    result = tool.report(out, DECKS)
+    found = result["copy head to head"]
+    assert found["mean"] == pytest.approx(0.46)
+    # The arm's 48% and the copy's 46% on the same deals.
+    assert found["selfplay less the copy"]["gap"] == pytest.approx(0.02)
+    assert found["each"]["cyber"]["selfplay less the copy"]["gap"] == pytest.approx(0.02)
+    shown = tool.shown(result, DECKS)
+    assert "The copy head to head against each champion, the mean 46.0%" in shown
+    assert "the selfplay arm less the copy +2.0" in shown

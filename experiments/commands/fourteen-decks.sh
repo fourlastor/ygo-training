@@ -38,6 +38,10 @@
 # recipe-measure. The recipe arm measured as the selfplay arm, then the
 # report again, the two arms compared.
 #
+# copy-heads. The copy's last checkpoint head to head against each champion
+# in its mirror, on the deals the selfplay arm played them, then the report
+# again: where the arm's mirrors were lost, in the copy or in PPO.
+#
 # AT_ONCE: how many of the measurements go at a time, through an MPS server
 # on a card (experiments/commands/at-once.sh), what each writes in
 # OUT/logs; 1, the default, one after the other. With more than one, the
@@ -126,9 +130,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
-    copy | selfplay | recipe | measure | recipe-measure) ;;
+    copy | selfplay | recipe | measure | recipe-measure | copy-heads) ;;
     *)
-      echo "PARTS names copy, selfplay, recipe, measure and recipe-measure, not $part" >&2
+      echo "PARTS names copy, selfplay, recipe, measure, recipe-measure and copy-heads, not $part" >&2
       exit 1
       ;;
   esac
@@ -444,5 +448,17 @@ fi
 
 if [[ " $PARTS " == *" recipe-measure "* ]]; then
   measured recipe "$RECIPE"
+  reported
+fi
+
+if [[ " $PARTS " == *" copy-heads "* ]]; then
+  if [ ! -f "$copied" ]; then
+    echo "Missing $copied: the copy is measured when it is made" >&2
+    exit 1
+  fi
+  for deck in "${decks[@]}"; do
+    pair "$OUT/heads-taught/$deck" "$copied" "$(teacher "$deck")" \
+      "$SUITES/$deck-against-checkpoint.json"
+  done
   reported
 fi
