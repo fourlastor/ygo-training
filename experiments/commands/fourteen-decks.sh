@@ -42,6 +42,14 @@
 # in its mirror, on the deals the selfplay arm played them, then the report
 # again: where the arm's mirrors were lost, in the copy or in PPO.
 #
+# mirrors. Two arms as the selfplay arm but for the share of its duels in
+# the mirrors, AT_ONCE at a time: quarter, a quarter of them (each mirror
+# weighed 13, each other ordered pairing 3), and half, half of them (13 and
+# 1), by --self-play-weights from RUNS/ARM.weights.json.
+#
+# mirrors-measure. The two arms measured as the selfplay arm, then the report
+# again, each against the selfplay arm.
+#
 # AT_ONCE: how many of the measurements go at a time, through an MPS server
 # on a card (experiments/commands/at-once.sh), what each writes in
 # OUT/logs; 1, the default, one after the other. With more than one, the
@@ -130,9 +138,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
-    copy | selfplay | recipe | measure | recipe-measure | copy-heads) ;;
+    copy | selfplay | recipe | measure | recipe-measure | copy-heads | mirrors | mirrors-measure) ;;
     *)
-      echo "PARTS names copy, selfplay, recipe, measure, recipe-measure and copy-heads, not $part" >&2
+      echo "PARTS names copy, selfplay, recipe, measure, recipe-measure, copy-heads, mirrors" \
+        "and mirrors-measure, not $part" >&2
       exit 1
       ;;
   esac
@@ -380,6 +389,22 @@ reported() {
   echo "The measurements and what they say are in $OUT."
 }
 
+# weights FILE MIRROR OTHER: the weights of the duels against itself, each
+# mirror MIRROR and each other ordered pairing of the decks OTHER, into FILE.
+weights() {
+  local file=$1 mirror=$2 other=$3 one two entries=()
+  for one in "${decks[@]}"; do
+    for two in "${decks[@]}"; do
+      if [ "$one" = "$two" ]; then
+        entries+=("\"$one>$two\": $mirror")
+      else
+        entries+=("\"$one>$two\": $other")
+      fi
+    done
+  done
+  (IFS=,; echo "{${entries[*]}}") > "$file"
+}
+
 copied=$(checkpoint "$RUNS/taught" 0 "$COPY")
 fast=(
   --pool-slots "$FAST_SLOTS" --rollout-estimates kept
@@ -448,6 +473,23 @@ fi
 
 if [[ " $PARTS " == *" recipe-measure "* ]]; then
   measured recipe "$RECIPE"
+  reported
+fi
+
+if [[ " $PARTS " == *" mirrors "* ]]; then
+  weights "$RUNS/quarter.weights.json" 13 3
+  weights "$RUNS/half.weights.json" 13 1
+  for arm in quarter half; do
+    at_once "$arm" made "$arm" "$COPY" "$UPDATES" "$STEP" "${fast[@]}" \
+      --self-play-duels "$DUELS" --self-play-weights "$RUNS/$arm.weights.json"
+  done
+  all_done
+  echo "$(date +%H:%M) the mirrors' arms are made"
+fi
+
+if [[ " $PARTS " == *" mirrors-measure "* ]]; then
+  measured quarter "$UPDATES"
+  measured half "$UPDATES"
   reported
 fi
 
