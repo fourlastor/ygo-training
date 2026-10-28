@@ -91,3 +91,24 @@ is built: the share of its duels in the mirrors, whether any are against
 the pilots, its length over the 5,041 ordered pairings, and its readings
 (the mirrors head to head against each teacher, and every pairing against
 `all71`).
+
+Whatever is drawn, it is checked as it trains, as agreed on 2026-10-28, so
+that a run that gets worse is not left to run for days:
+
+- **The checks**: PPO is trained in stretches of about six hours, a fixed
+  number of updates, and after each its last checkpoint is measured, the
+  training paused, on the same deals every time: head to head against each
+  teacher in its mirror, 128 deals from both seats (18,176 games), and
+  against `all71` on every ordered pairing, 4 games each (20,164 games).
+  The copy's last checkpoint, where PPO begins, is measured once on the
+  same deals before it. Head to head, because against `all71` the fourteen
+  decks' selfplay arm held its mirrors where the copy had them while it
+  lost them head to head against the champions.
+- **The rule**: PPO stops when, at two checks in a row, the mean over the
+  mirrors head to head or the mean over the pairings against `all71` is
+  under the copy's by at least 1 point by two standard errors, the deals
+  paired. Its checkpoints are kept, and a run so stopped can be taken on
+  from its last.
+- Told beside it, without a mark: each check's gain over the copy against
+  `all71`.
+- The copy is not checked so: it imitates its teachers' recorded answers.
