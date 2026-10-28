@@ -18,12 +18,23 @@ network named in the learner's seat and then the second.
   `all71`, each deck against each of the thirteen decks' pilots;
 - `taught.metrics.jsonl`.
 
+And where PPO is measured (`PARTS=ppo-measure`):
+
+- `heads-ppo/DECK`: PPO's last checkpoint head to head against each teacher
+  in its mirror;
+- `pairings/ppo-PART.json`, `pairings/taught-PART.json`: PPO's last
+  checkpoint and the copy's against `all71` on every ordered pairing, the
+  parts of one suite;
+- `pilots/ppo.json`: PPO's last checkpoint against the pilots;
+- `checks/`: PPO's checks as it trained (tools/seventy_one_checks.py);
+- `ppo.metrics.jsonl`.
+
 Each teacher's own figure against `all71` in its mirror is its run's, from
 its making (`CHAMPIONS/DECK/report.json`, tools/champions_report.py); for
 the decks of the champions' release made before that report, its figure as
 the fourteen decks measured it (`TEACHERS/DECK`, the same suites and seed).
 
-The reading, fixed on 2026-10-28 before anything was built:
+The reading of the copy, fixed on 2026-10-28 before anything was built:
 
 1. The copy keeps the teachers: head to head against each teacher in its
    mirror, by the last checkpoint, every deal from both seats: kept when the
@@ -35,6 +46,23 @@ The reading, fixed on 2026-10-28 before anything was built:
 Told beside it, without a mark: each mirror against `all71` less its
 teacher's figure; the copy along its updates; against the pilots beside
 `all71`; the hours.
+
+The readings of PPO, by its last checkpoint, fixed on 2026-10-28 once the
+fourteen decks' mirror arms were read, before anything of it was built:
+
+1. The mirrors kept, by the copy's rule.
+2. Against `all71`, deck by deck: each deck's share, played by the network
+   against `all71` playing each of the seventy-one decks: it beats all71
+   when every deck is over 50% by two standard errors, falls short when one
+   is at most 50% by two standard errors, and is otherwise not decided.
+3. Against the copy: the mean over the ordered pairings against `all71`,
+   the deals paired: PPO pays when it is at least 1 point over the copy by
+   two standard errors, does not pay when it is at most 1 point over it by
+   two standard errors, and is otherwise not decided.
+
+Told beside them, without a mark: the mirrors against `all71` beside the
+copy's; against the pilots beside the copy and `all71`; each check; the
+hours.
 """
 
 from __future__ import annotations
@@ -48,9 +76,21 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from fourteen_decks_report import against_pilots, joined, kept_mirrors, number
+from fourteen_decks_report import (
+    ERRORS,
+    against_pilots,
+    beats,
+    joined,
+    kept_mirrors,
+    number,
+    outcomes_of,
+)
+from seventy_one_checks import read as checks_read
 from specialist_distillation_report import shares, spent, stems
 from two_decks_report import mean, paired, told
+
+# PPO's reading 3: over the copy by so much.
+PAYS = 0.01
 
 
 def teacher_figure(deck: str, champions: Path, teachers: Path) -> dict[str, Any] | None:
@@ -127,7 +167,135 @@ def report(directory: Path, decks: list[str], champions: Path, teachers: Path) -
             **paired(ours["games"], theirs["games"]),
         }
     result["hours"] = spent(directory, "taught")
+    if (directory / "heads-ppo").is_dir():
+        result["ppo"] = ppo_report(directory, decks)
     return result
+
+
+def against_all71(folder: Path, network: str) -> dict[str, list[str]]:
+    """How each game of every ordered pairing against `all71` ended, the
+    suite's parts together."""
+    played: dict[str, list[str]] = {}
+    for path in sorted(folder.glob(f"{network}-*.json")):
+        played.update(outcomes_of(path))
+    if not played:
+        raise SystemExit(f"Nothing of {network} is measured in {folder}")
+    return played
+
+
+def won(played: dict[str, list[str]], cases: list[str] | None = None) -> list[float]:
+    """Each game won or not, in the order of the cases' names."""
+    names = played if cases is None else cases
+    return [float(game == "win") for name in sorted(names) for game in played[name]]
+
+
+def pays(gap: float, error_: float) -> str:
+    """PPO's reading 3."""
+    if gap - ERRORS * error_ >= PAYS:
+        return "pays"
+    if gap + ERRORS * error_ <= PAYS:
+        return "does not pay"
+    return "not decided"
+
+
+def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
+    """PPO's readings by its last checkpoint, and what is told beside them."""
+    heads = {deck: told(shares(directory / "heads-ppo" / deck)) for deck in decks}
+    ours = against_all71(directory / "pairings", "ppo")
+    theirs = against_all71(directory / "pairings", "taught")
+    if sorted(ours) != sorted(theirs):
+        raise SystemExit("PPO and the copy were played on other pairings")
+    by_deck = {
+        deck: told(won(ours, [name for name in ours if name.split("-vs-")[0] == deck]))
+        for deck in decks
+    }
+    weakest = min(by_deck, key=lambda deck: by_deck[deck]["share"])
+    gain = paired(won(ours), won(theirs))
+    mirrors = [f"{deck}-vs-{deck}-checkpoint" for deck in decks]
+    found: dict[str, Any] = {
+        "mirrors": {**kept_mirrors(heads), "each": heads},
+        "against all71": {
+            "verdict": beats(by_deck),
+            "mean": mean(won(ours)),
+            "weakest": weakest,
+            "each": by_deck,
+        },
+        "against the copy": {**gain, "verdict": pays(gain["gap"], gain["error"])},
+        "mirrors against all71": {
+            "ppo": mean(won(ours, mirrors)),
+            "taught": mean(won(theirs, mirrors)),
+        },
+        "hours": spent(directory, "ppo"),
+    }
+    pilots = directory / "pilots"
+    if all((pilots / f"{who}.json").is_file() for who in ("ppo", "taught", "all71")):
+        ppo, copy, all71 = (
+            against_pilots(pilots / f"{who}.json", decks) for who in ("ppo", "taught", "all71")
+        )
+        found["pilots"] = {
+            "mean": ppo["mean"],
+            "taught": copy["mean"],
+            "all71": all71["mean"],
+            "against the copy": paired(ppo["games"], copy["games"]),
+            "against all71": paired(ppo["games"], all71["games"]),
+        }
+    if (directory / "checks" / "copy").is_dir():
+        found["checks"] = checks_read(directory / "checks", decks)
+    return found
+
+
+def ppo_shown(found: dict[str, Any]) -> list[str]:
+    mirrors, against, gain = found["mirrors"], found["against all71"], found["against the copy"]
+    each = mirrors["each"]
+    lowest = min(each, key=lambda deck: each[deck]["share"])
+    floor = mirrors["under the floor"]
+    weakest = against["each"][against["weakest"]]
+    lines = [
+        "PPO, by its last checkpoint:",
+        (
+            f"  1. The mirrors: {mirrors['verdict']}. Head to head against each teacher in its "
+            f"mirror, the mean {mirrors['mean']:.1%} ± {mirrors['error']:.1%}, the lowest "
+            f"{lowest} {each[lowest]['share']:.1%} ± {each[lowest]['error']:.1%}"
+            + (f"; at most 45% by two standard errors: {', '.join(floor)}" if floor else "")
+        ),
+        (
+            f"  2. Against all71: {against['verdict']}. Deck by deck, the mean over the pairings "
+            f"{against['mean']:.1%}, the weakest {against['weakest']} {weakest['share']:.1%} ± "
+            f"{weakest['error']:.1%}"
+        ),
+        (
+            f"  3. Against the copy: {gain['verdict']}, {100 * gain['gap']:+.1f} ± "
+            f"{100 * gain['error']:.1f} points over the pairings against all71, the deals paired"
+        ),
+        "Beside them:",
+        "  Head to head against each teacher: "
+        + ", ".join(f"{deck} {one['share']:.1%}" for deck, one in each.items()),
+        "  Against all71, each deck over its pairings: "
+        + ", ".join(f"{deck} {one['share']:.1%}" for deck, one in against["each"].items()),
+        (
+            f"  The mirrors against all71 {found['mirrors against all71']['ppo']:.1%}, the copy "
+            f"{found['mirrors against all71']['taught']:.1%}"
+        ),
+    ]
+    if "pilots" in found:
+        pilots = found["pilots"]
+        over_copy, over_all71 = pilots["against the copy"], pilots["against all71"]
+        lines.append(
+            f"  Against the thirteen decks' pilots {pilots['mean']:.1%}: the copy "
+            f"{pilots['taught']:.1%} ({100 * over_copy['gap']:+.1f} ± "
+            f"{100 * over_copy['error']:.1f} points), all71 {pilots['all71']:.1%} "
+            f"({100 * over_all71['gap']:+.1f} ± {100 * over_all71['error']:.1f}), the games paired"
+        )
+    if "checks" in found:
+        for point, check in found["checks"]["checks"].items():
+            lines.append(
+                f"  Its check after {point:,} updates against the copy's: the mirrors "
+                f"{100 * check['mirrors']['gap']:+.1f} ± {100 * check['mirrors']['error']:.1f} "
+                f"points, the pairings {100 * check['pairings']['gap']:+.1f} ± "
+                f"{100 * check['pairings']['error']:.1f}"
+            )
+    lines.append(f"  PPO took {number(found['hours'])}.")
+    return lines
 
 
 def shown(result: dict[str, Any], decks: list[str]) -> str:
@@ -183,6 +351,8 @@ def shown(result: dict[str, Any], decks: list[str]) -> str:
             )
         )
     lines.append(f"  The copy took {number(result['hours'])}.")
+    if "ppo" in result:
+        lines += ppo_shown(result["ppo"])
     return "\n".join(lines)
 
 
