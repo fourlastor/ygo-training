@@ -708,6 +708,12 @@ its training seed, and its reference is the pilot's with the same one.
 A case is dealt from the run of seeds of its place among the suite's cases,
 or of the place its `seed_index` names: what keeps a case on its deals when
 suites are joined.
+A case may name several opponent decks, separated by commas: its `games`
+are so many against each, each opponent on seeds of its own, and all of
+them are played at once. The cases of a suite go one after the other, each
+waiting for its slowest duel, so many short cases are far quicker as a few
+such cases (`eval_suites/seventy-one-decks-check-pairings-checkpoint.json`:
+each deck against all seventy-one).
 
 `eval_suites/ygo-policies-blackwing-unseen.json` is 128 games against the
 pilot of each of the eighteen decks the Blackwing learner does not train
