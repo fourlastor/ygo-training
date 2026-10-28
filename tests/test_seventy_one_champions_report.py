@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from tests.test_four_decks_report import DEALS, DECKS, pair, played
+from tests.test_seventy_one_checks import checks
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -87,3 +88,57 @@ def test_each_mirror_is_told_beside_its_teachers_figure_along_the_copy(tmp_path)
     assert "1. The teachers: not decided" in shown
     assert "No teacher's figure: lightsworn" in shown
     assert "The copy took not measured." in shown
+    assert "PPO" not in shown
+
+
+def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_path):
+    out = measured(tmp_path / "out")
+    for deck in DECKS:
+        pair(out / "heads-ppo" / deck, 50)
+    # Against all71 PPO wins 60 of a pairing's hundred games and the copy 55,
+    # Cyber in the learner's seat 25 fewer each; the suite in two parts.
+    for part, learners in enumerate((DECKS[:2], DECKS[2:]), start=1):
+        for who, wins in (("ppo", 60), ("taught", 55)):
+            played(
+                out / "pairings" / f"{who}-{part}.json",
+                {
+                    f"{one}-vs-{other}-checkpoint": won(wins - 25 * (one == "cyber"))
+                    for one in learners
+                    for other in DECKS
+                },
+            )
+    played(
+        out / "pilots" / "ppo.json",
+        {f"{deck}-vs-{pilot}": won(75) for deck in DECKS for pilot in PILOTS},
+    )
+    checks(out / "checks", (2880, 50, 52))
+
+    result = tool.report(out, DECKS, tmp_path / "none", tmp_path / "none")
+    found = result["ppo"]
+
+    assert found["mirrors"]["verdict"] == "kept"
+    against = found["against all71"]
+    assert against["weakest"] == "cyber"
+    assert against["each"]["cyber"]["share"] == pytest.approx(0.35)
+    assert against["verdict"] == "falls short"
+    assert found["against the copy"]["gap"] == pytest.approx(0.05)
+    assert found["against the copy"]["verdict"] == "pays"
+    assert found["mirrors against all71"]["ppo"] == pytest.approx((0.60 + 0.35 + 0.60) / 3)
+    assert found["mirrors against all71"]["taught"] == pytest.approx((0.55 + 0.30 + 0.55) / 3)
+    assert found["pilots"]["mean"] == pytest.approx(0.75)
+    assert found["pilots"]["against the copy"]["gap"] == pytest.approx(0.05)
+    assert found["pilots"]["against all71"]["gap"] == pytest.approx(0.15)
+    assert list(found["checks"]["checks"]) == [2880]
+    shown = tool.shown(result, DECKS)
+    assert "PPO, by its last checkpoint:" in shown
+    assert "2. Against all71: falls short" in shown
+    assert "3. Against the copy: pays, +5.0" in shown
+    assert "Its check after 2,880 updates against the copy's: the mirrors +0.0" in shown
+
+
+@pytest.mark.parametrize(
+    ("gap", "error", "verdict"),
+    [(0.03, 0.005, "pays"), (0.005, 0.002, "does not pay"), (0.012, 0.004, "not decided")],
+)
+def test_ppo_pays_by_a_point_over_the_copy(gap, error, verdict):
+    assert tool.pays(gap, error) == verdict

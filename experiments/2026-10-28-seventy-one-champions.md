@@ -6,16 +6,17 @@
 
 **Last updated:** 2026-10-28 (the copy's design and readings fixed that
 day, while the fourteen decks' mirror arms were measured, before anything
-was built, and the copy to be made before this record is active; PPO's to
-be drawn once those arms are read)
+was built, and the copy to be made before this record is active; PPO's
+fixed that afternoon, once those arms were read, and built)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
 pairing. In [a network of fourteen decks](2026-10-26-fourteen-decks.md) the
 champions' copy kept the mirrors (48.4% ± 0.1% head to head against each
 champion, the lowest 47.1%), and PPO with every duel against itself lost
-them (44.9%) while it gained on the other pairings; two arms that give the
-mirrors a share of PPO's duels are measured on 2026-10-28. A run of the
+them (44.9%) while it gained on the other pairings; of two arms that gave
+the mirrors a share of PPO's duels, read on 2026-10-28, a quarter kept
+them at no cost to the other pairings. A run of the
 champions' recipe is being made for every deck of the seventy-one, the last
 expected on 2026-10-29, and each run's copy games are recorded once
 (`tools/record_champion.py`: in its mirror and against each of the thirteen
@@ -84,31 +85,76 @@ Told beside it, without a mark: each mirror against `all71` less its
 teacher's figure; the copy along its updates; against the pilots beside
 `all71`.
 
-## PPO
+## PPO (design and readings fixed on 2026-10-28, once the fourteen decks' mirror arms were read, before anything was built)
 
-Drawn once the fourteen decks' mirror arms are read, before anything of it
-is built: the share of its duels in the mirrors, whether any are against
-the pilots, its length over the 5,041 ordered pairings, and its readings
-(the mirrors head to head against each teacher, and every pairing against
-`all71`).
+In the fourteen decks a quarter of PPO's duels in the mirrors kept them,
+and the other pairings gained as much as when the duels were spread
+evenly; half took the mirrors further for 1.3 points of the other
+pairings. The seventy-one decks' PPO takes the quarter.
 
-Whatever is drawn, it is checked as it trains, as agreed on 2026-10-28, so
-that a run that gets worse is not left to run for days:
-
-- **The checks**: PPO is trained in stretches of about six hours, a fixed
-  number of updates, and after each its last checkpoint is measured, the
-  training paused, on the same deals every time: head to head against each
-  teacher in its mirror, 128 deals from both seats (18,176 games), and
-  against `all71` on every ordered pairing, 4 games each (20,164 games).
-  The copy's last checkpoint, where PPO begins, is measured once on the
-  same deals before it. Head to head, because against `all71` the fourteen
-  decks' selfplay arm held its mirrors where the copy had them while it
-  lost them head to head against the champions.
-- **The rule**: PPO stops when, at two checks in a row, the mean over the
-  mirrors head to head or the mean over the pairings against `all71` is
-  under the copy's by at least 1 point by two standard errors, the deals
-  paired. Its checkpoints are kept, and a run so stopped can be taken on
-  from its last.
-- Told beside it, without a mark: each check's gain over the copy against
-  `all71`.
+- **Design**: from the copy's last checkpoint, 21,900 updates of 520 duels
+  at 1e-4 with the fourteen decks' arms' settings, seed 2012, every duel
+  against itself and none against a pilot, a quarter of them in the
+  mirrors (`--self-play-weights`, each mirror 70 and each other ordered
+  pairing 3: some 1.8 duels of each mirror an update and 0.08 of each
+  other pairing); a checkpoint every 240 updates. At a fixed share of
+  mirrors each deck's mirror stands to its other pairings as in the
+  fourteen decks' `quarter`, one duel to six, whatever the number of
+  decks; at seventy-one decks each deck has some five times fewer duels an
+  update than at fourteen, and 21,900 updates are the fourteen decks'
+  4,320 by the deck. Some two days by reckoning, at the fourteen decks'
+  pace. Neither of the fourteen decks' arms had a duel against the pilots,
+  and both stayed 4 to 6 points over `all71` against them.
+- **The checks**, so that a run that gets worse is not left to run for
+  days: PPO is trained in stretches to 2,880, 5,760, 8,640, 11,520,
+  14,400, 17,280 and 20,160 updates, some six hours each at the fourteen
+  decks' pace, and after each its last checkpoint is measured, the
+  training paused, on the same deals every time: head to head against
+  each teacher in its mirror, 128 deals from both seats (18,176 games),
+  and against `all71` on 71 of the ordered pairings, each deck against the
+  deck after it in the list and the last against the first, 256 games each
+  (18,176 games; `eval_suites/seventy-one-decks-check-pairings-checkpoint.json`).
+  The copy's last checkpoint is measured once on the same deals before PPO
+  begins. Head to head, because against `all71` the fourteen decks'
+  selfplay arm held its mirrors where the copy had them while it lost them
+  head to head against the champions. Every ordered pairing at 4 games
+  each, as first agreed, was dropped before anything was built: the
+  evaluator plays a suite's cases one after the other, each waiting for
+  its slowest duel, some 5 seconds a case on the CUDA machine seven at
+  once, and 5,041 cases would take about an hour a check.
+- **The rule**: PPO stops when the mean over the mirrors head to head, or
+  the mean over the pairings against `all71`, is under the copy's by at
+  least 1 point by two standard errors, the deals paired, the same of the
+  two at two checks in a row (`tools/seventy_one_checks.py`). Its
+  checkpoints are kept, and a run so stopped can be taken on from its last.
+  Where it stops for the mirrors, half of its duels in the mirrors (each
+  mirror 70, each other pairing 1) is the next to try.
+- **Measured** at its end (`PARTS=ppo-measure`, seven at once, some three
+  hours by reckoning): its last checkpoint head to head against each
+  teacher in its mirror, 2,048 deals from both seats; it and the copy
+  against `all71` on every ordered pairing, 64 games each (322,624 games;
+  `eval_suites/seventy-one-decks-pairings-quick-checkpoint-1.json` to
+  `-7.json`, one suite's deals in seven parts by the learner's deck that go
+  at once); it against the thirteen decks' pilots, 128 games each, beside
+  the copy and `all71`.
 - The copy is not checked so: it imitates its teachers' recorded answers.
+
+### Readings (fixed on 2026-10-28, before anything of PPO was built)
+
+By PPO's last checkpoint:
+
+1. *The mirrors kept*: the copy's reading 1.
+2. *Against `all71`, deck by deck*: each deck's share, played by the
+   network against `all71` playing each of the seventy-one decks (4,544
+   games a deck): **beats all71** when every deck is over 50% by two
+   standard errors, **falls short** when one is at most 50% by two
+   standard errors, otherwise **not decided**. Every pairing on its own, as
+   the fourteen decks were read, would take some 15 million games.
+3. *PPO against the copy*: the mean over the ordered pairings against
+   `all71`, the deals paired: **pays** when PPO is at least 1 point over
+   the copy by two standard errors, **does not pay** when it is at most 1
+   point over it by two standard errors, otherwise **not decided**.
+
+Told beside them, without a mark: each check, and its gain over the copy
+against `all71`; the mirrors against `all71` beside the copy's; against
+the pilots beside the copy and `all71`; the hours.

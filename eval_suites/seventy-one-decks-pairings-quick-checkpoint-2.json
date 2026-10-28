@@ -1,0 +1,5686 @@
+{
+  "name": "seventy-one-decks-pairings-quick-checkpoint-2",
+  "primary": "morphtronic-vs-blackwing-checkpoint",
+  "cases": [
+    {
+      "name": "morphtronic-vs-blackwing-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 781
+    },
+    {
+      "name": "morphtronic-vs-cyber-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 782
+    },
+    {
+      "name": "morphtronic-vs-lightsworn-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 783
+    },
+    {
+      "name": "morphtronic-vs-infernity-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 784
+    },
+    {
+      "name": "morphtronic-vs-gishki-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 785
+    },
+    {
+      "name": "morphtronic-vs-burn-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 786
+    },
+    {
+      "name": "morphtronic-vs-crystal-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 787
+    },
+    {
+      "name": "morphtronic-vs-dragunity-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 788
+    },
+    {
+      "name": "morphtronic-vs-gladiator-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 789
+    },
+    {
+      "name": "morphtronic-vs-heroes-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 790
+    },
+    {
+      "name": "morphtronic-vs-monarch-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 791
+    },
+    {
+      "name": "morphtronic-vs-morphtronic-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 792
+    },
+    {
+      "name": "morphtronic-vs-rock-block-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 793
+    },
+    {
+      "name": "morphtronic-vs-spellcaster-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 794
+    },
+    {
+      "name": "morphtronic-vs-countdown-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 795
+    },
+    {
+      "name": "morphtronic-vs-verdict-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 796
+    },
+    {
+      "name": "morphtronic-vs-exodia-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 797
+    },
+    {
+      "name": "morphtronic-vs-machina-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 798
+    },
+    {
+      "name": "morphtronic-vs-chaos-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 799
+    },
+    {
+      "name": "morphtronic-vs-macro-dd-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 800
+    },
+    {
+      "name": "morphtronic-vs-six-samurai-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 801
+    },
+    {
+      "name": "morphtronic-vs-gravekeeper-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 802
+    },
+    {
+      "name": "morphtronic-vs-scrap-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 803
+    },
+    {
+      "name": "morphtronic-vs-agents-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 804
+    },
+    {
+      "name": "morphtronic-vs-quickdraw-plant-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 805
+    },
+    {
+      "name": "morphtronic-vs-alien-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 806
+    },
+    {
+      "name": "morphtronic-vs-amazoness-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 807
+    },
+    {
+      "name": "morphtronic-vs-arcana-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 808
+    },
+    {
+      "name": "morphtronic-vs-batteryman-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 809
+    },
+    {
+      "name": "morphtronic-vs-benkei-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 810
+    },
+    {
+      "name": "morphtronic-vs-chain-burn-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 811
+    },
+    {
+      "name": "morphtronic-vs-cloudian-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 812
+    },
+    {
+      "name": "morphtronic-vs-counter-fairy-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 813
+    },
+    {
+      "name": "morphtronic-vs-dark-world-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 814
+    },
+    {
+      "name": "morphtronic-vs-deckout-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 815
+    },
+    {
+      "name": "morphtronic-vs-demise-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 816
+    },
+    {
+      "name": "morphtronic-vs-destiny-board-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 817
+    },
+    {
+      "name": "morphtronic-vs-destiny-hero-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 818
+    },
+    {
+      "name": "morphtronic-vs-draconic-might-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 819
+    },
+    {
+      "name": "morphtronic-vs-fabled-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 820
+    },
+    {
+      "name": "morphtronic-vs-fish-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 821
+    },
+    {
+      "name": "morphtronic-vs-flamvell-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 822
+    },
+    {
+      "name": "morphtronic-vs-fortune-lady-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 823
+    },
+    {
+      "name": "morphtronic-vs-garden-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 824
+    },
+    {
+      "name": "morphtronic-vs-gem-knight-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 825
+    },
+    {
+      "name": "morphtronic-vs-gemini-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 826
+    },
+    {
+      "name": "morphtronic-vs-genex-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 827
+    },
+    {
+      "name": "morphtronic-vs-gusto-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 828
+    },
+    {
+      "name": "morphtronic-vs-harpie-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 829
+    },
+    {
+      "name": "morphtronic-vs-herald-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 830
+    },
+    {
+      "name": "morphtronic-vs-ice-barrier-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 831
+    },
+    {
+      "name": "morphtronic-vs-iron-chain-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 832
+    },
+    {
+      "name": "morphtronic-vs-jurrac-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 833
+    },
+    {
+      "name": "morphtronic-vs-karakuri-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 834
+    },
+    {
+      "name": "morphtronic-vs-malefic-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 835
+    },
+    {
+      "name": "morphtronic-vs-naturia-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 836
+    },
+    {
+      "name": "morphtronic-vs-nordic-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 837
+    },
+    {
+      "name": "morphtronic-vs-nurse-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 838
+    },
+    {
+      "name": "morphtronic-vs-ojama-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 839
+    },
+    {
+      "name": "morphtronic-vs-psychic-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 840
+    },
+    {
+      "name": "morphtronic-vs-pyramid-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 841
+    },
+    {
+      "name": "morphtronic-vs-reptilianne-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 842
+    },
+    {
+      "name": "morphtronic-vs-spirit-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 843
+    },
+    {
+      "name": "morphtronic-vs-tele-dad-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 844
+    },
+    {
+      "name": "morphtronic-vs-toon-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 845
+    },
+    {
+      "name": "morphtronic-vs-venom-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 846
+    },
+    {
+      "name": "morphtronic-vs-volcanic-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 847
+    },
+    {
+      "name": "morphtronic-vs-watt-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 848
+    },
+    {
+      "name": "morphtronic-vs-worm-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 849
+    },
+    {
+      "name": "morphtronic-vs-x-saber-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 850
+    },
+    {
+      "name": "morphtronic-vs-zombie-checkpoint",
+      "learner": "morphtronic",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 851
+    },
+    {
+      "name": "rock-block-vs-blackwing-checkpoint",
+      "learner": "rock-block",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 852
+    },
+    {
+      "name": "rock-block-vs-cyber-checkpoint",
+      "learner": "rock-block",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 853
+    },
+    {
+      "name": "rock-block-vs-lightsworn-checkpoint",
+      "learner": "rock-block",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 854
+    },
+    {
+      "name": "rock-block-vs-infernity-checkpoint",
+      "learner": "rock-block",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 855
+    },
+    {
+      "name": "rock-block-vs-gishki-checkpoint",
+      "learner": "rock-block",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 856
+    },
+    {
+      "name": "rock-block-vs-burn-checkpoint",
+      "learner": "rock-block",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 857
+    },
+    {
+      "name": "rock-block-vs-crystal-checkpoint",
+      "learner": "rock-block",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 858
+    },
+    {
+      "name": "rock-block-vs-dragunity-checkpoint",
+      "learner": "rock-block",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 859
+    },
+    {
+      "name": "rock-block-vs-gladiator-checkpoint",
+      "learner": "rock-block",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 860
+    },
+    {
+      "name": "rock-block-vs-heroes-checkpoint",
+      "learner": "rock-block",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 861
+    },
+    {
+      "name": "rock-block-vs-monarch-checkpoint",
+      "learner": "rock-block",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 862
+    },
+    {
+      "name": "rock-block-vs-morphtronic-checkpoint",
+      "learner": "rock-block",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 863
+    },
+    {
+      "name": "rock-block-vs-rock-block-checkpoint",
+      "learner": "rock-block",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 864
+    },
+    {
+      "name": "rock-block-vs-spellcaster-checkpoint",
+      "learner": "rock-block",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 865
+    },
+    {
+      "name": "rock-block-vs-countdown-checkpoint",
+      "learner": "rock-block",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 866
+    },
+    {
+      "name": "rock-block-vs-verdict-checkpoint",
+      "learner": "rock-block",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 867
+    },
+    {
+      "name": "rock-block-vs-exodia-checkpoint",
+      "learner": "rock-block",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 868
+    },
+    {
+      "name": "rock-block-vs-machina-checkpoint",
+      "learner": "rock-block",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 869
+    },
+    {
+      "name": "rock-block-vs-chaos-checkpoint",
+      "learner": "rock-block",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 870
+    },
+    {
+      "name": "rock-block-vs-macro-dd-checkpoint",
+      "learner": "rock-block",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 871
+    },
+    {
+      "name": "rock-block-vs-six-samurai-checkpoint",
+      "learner": "rock-block",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 872
+    },
+    {
+      "name": "rock-block-vs-gravekeeper-checkpoint",
+      "learner": "rock-block",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 873
+    },
+    {
+      "name": "rock-block-vs-scrap-checkpoint",
+      "learner": "rock-block",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 874
+    },
+    {
+      "name": "rock-block-vs-agents-checkpoint",
+      "learner": "rock-block",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 875
+    },
+    {
+      "name": "rock-block-vs-quickdraw-plant-checkpoint",
+      "learner": "rock-block",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 876
+    },
+    {
+      "name": "rock-block-vs-alien-checkpoint",
+      "learner": "rock-block",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 877
+    },
+    {
+      "name": "rock-block-vs-amazoness-checkpoint",
+      "learner": "rock-block",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 878
+    },
+    {
+      "name": "rock-block-vs-arcana-checkpoint",
+      "learner": "rock-block",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 879
+    },
+    {
+      "name": "rock-block-vs-batteryman-checkpoint",
+      "learner": "rock-block",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 880
+    },
+    {
+      "name": "rock-block-vs-benkei-checkpoint",
+      "learner": "rock-block",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 881
+    },
+    {
+      "name": "rock-block-vs-chain-burn-checkpoint",
+      "learner": "rock-block",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 882
+    },
+    {
+      "name": "rock-block-vs-cloudian-checkpoint",
+      "learner": "rock-block",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 883
+    },
+    {
+      "name": "rock-block-vs-counter-fairy-checkpoint",
+      "learner": "rock-block",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 884
+    },
+    {
+      "name": "rock-block-vs-dark-world-checkpoint",
+      "learner": "rock-block",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 885
+    },
+    {
+      "name": "rock-block-vs-deckout-checkpoint",
+      "learner": "rock-block",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 886
+    },
+    {
+      "name": "rock-block-vs-demise-checkpoint",
+      "learner": "rock-block",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 887
+    },
+    {
+      "name": "rock-block-vs-destiny-board-checkpoint",
+      "learner": "rock-block",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 888
+    },
+    {
+      "name": "rock-block-vs-destiny-hero-checkpoint",
+      "learner": "rock-block",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 889
+    },
+    {
+      "name": "rock-block-vs-draconic-might-checkpoint",
+      "learner": "rock-block",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 890
+    },
+    {
+      "name": "rock-block-vs-fabled-checkpoint",
+      "learner": "rock-block",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 891
+    },
+    {
+      "name": "rock-block-vs-fish-checkpoint",
+      "learner": "rock-block",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 892
+    },
+    {
+      "name": "rock-block-vs-flamvell-checkpoint",
+      "learner": "rock-block",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 893
+    },
+    {
+      "name": "rock-block-vs-fortune-lady-checkpoint",
+      "learner": "rock-block",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 894
+    },
+    {
+      "name": "rock-block-vs-garden-checkpoint",
+      "learner": "rock-block",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 895
+    },
+    {
+      "name": "rock-block-vs-gem-knight-checkpoint",
+      "learner": "rock-block",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 896
+    },
+    {
+      "name": "rock-block-vs-gemini-checkpoint",
+      "learner": "rock-block",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 897
+    },
+    {
+      "name": "rock-block-vs-genex-checkpoint",
+      "learner": "rock-block",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 898
+    },
+    {
+      "name": "rock-block-vs-gusto-checkpoint",
+      "learner": "rock-block",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 899
+    },
+    {
+      "name": "rock-block-vs-harpie-checkpoint",
+      "learner": "rock-block",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 900
+    },
+    {
+      "name": "rock-block-vs-herald-checkpoint",
+      "learner": "rock-block",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 901
+    },
+    {
+      "name": "rock-block-vs-ice-barrier-checkpoint",
+      "learner": "rock-block",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 902
+    },
+    {
+      "name": "rock-block-vs-iron-chain-checkpoint",
+      "learner": "rock-block",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 903
+    },
+    {
+      "name": "rock-block-vs-jurrac-checkpoint",
+      "learner": "rock-block",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 904
+    },
+    {
+      "name": "rock-block-vs-karakuri-checkpoint",
+      "learner": "rock-block",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 905
+    },
+    {
+      "name": "rock-block-vs-malefic-checkpoint",
+      "learner": "rock-block",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 906
+    },
+    {
+      "name": "rock-block-vs-naturia-checkpoint",
+      "learner": "rock-block",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 907
+    },
+    {
+      "name": "rock-block-vs-nordic-checkpoint",
+      "learner": "rock-block",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 908
+    },
+    {
+      "name": "rock-block-vs-nurse-checkpoint",
+      "learner": "rock-block",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 909
+    },
+    {
+      "name": "rock-block-vs-ojama-checkpoint",
+      "learner": "rock-block",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 910
+    },
+    {
+      "name": "rock-block-vs-psychic-checkpoint",
+      "learner": "rock-block",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 911
+    },
+    {
+      "name": "rock-block-vs-pyramid-checkpoint",
+      "learner": "rock-block",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 912
+    },
+    {
+      "name": "rock-block-vs-reptilianne-checkpoint",
+      "learner": "rock-block",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 913
+    },
+    {
+      "name": "rock-block-vs-spirit-checkpoint",
+      "learner": "rock-block",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 914
+    },
+    {
+      "name": "rock-block-vs-tele-dad-checkpoint",
+      "learner": "rock-block",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 915
+    },
+    {
+      "name": "rock-block-vs-toon-checkpoint",
+      "learner": "rock-block",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 916
+    },
+    {
+      "name": "rock-block-vs-venom-checkpoint",
+      "learner": "rock-block",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 917
+    },
+    {
+      "name": "rock-block-vs-volcanic-checkpoint",
+      "learner": "rock-block",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 918
+    },
+    {
+      "name": "rock-block-vs-watt-checkpoint",
+      "learner": "rock-block",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 919
+    },
+    {
+      "name": "rock-block-vs-worm-checkpoint",
+      "learner": "rock-block",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 920
+    },
+    {
+      "name": "rock-block-vs-x-saber-checkpoint",
+      "learner": "rock-block",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 921
+    },
+    {
+      "name": "rock-block-vs-zombie-checkpoint",
+      "learner": "rock-block",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 922
+    },
+    {
+      "name": "spellcaster-vs-blackwing-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 923
+    },
+    {
+      "name": "spellcaster-vs-cyber-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 924
+    },
+    {
+      "name": "spellcaster-vs-lightsworn-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 925
+    },
+    {
+      "name": "spellcaster-vs-infernity-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 926
+    },
+    {
+      "name": "spellcaster-vs-gishki-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 927
+    },
+    {
+      "name": "spellcaster-vs-burn-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 928
+    },
+    {
+      "name": "spellcaster-vs-crystal-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 929
+    },
+    {
+      "name": "spellcaster-vs-dragunity-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 930
+    },
+    {
+      "name": "spellcaster-vs-gladiator-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 931
+    },
+    {
+      "name": "spellcaster-vs-heroes-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 932
+    },
+    {
+      "name": "spellcaster-vs-monarch-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 933
+    },
+    {
+      "name": "spellcaster-vs-morphtronic-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 934
+    },
+    {
+      "name": "spellcaster-vs-rock-block-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 935
+    },
+    {
+      "name": "spellcaster-vs-spellcaster-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 936
+    },
+    {
+      "name": "spellcaster-vs-countdown-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 937
+    },
+    {
+      "name": "spellcaster-vs-verdict-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 938
+    },
+    {
+      "name": "spellcaster-vs-exodia-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 939
+    },
+    {
+      "name": "spellcaster-vs-machina-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 940
+    },
+    {
+      "name": "spellcaster-vs-chaos-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 941
+    },
+    {
+      "name": "spellcaster-vs-macro-dd-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 942
+    },
+    {
+      "name": "spellcaster-vs-six-samurai-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 943
+    },
+    {
+      "name": "spellcaster-vs-gravekeeper-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 944
+    },
+    {
+      "name": "spellcaster-vs-scrap-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 945
+    },
+    {
+      "name": "spellcaster-vs-agents-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 946
+    },
+    {
+      "name": "spellcaster-vs-quickdraw-plant-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 947
+    },
+    {
+      "name": "spellcaster-vs-alien-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 948
+    },
+    {
+      "name": "spellcaster-vs-amazoness-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 949
+    },
+    {
+      "name": "spellcaster-vs-arcana-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 950
+    },
+    {
+      "name": "spellcaster-vs-batteryman-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 951
+    },
+    {
+      "name": "spellcaster-vs-benkei-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 952
+    },
+    {
+      "name": "spellcaster-vs-chain-burn-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 953
+    },
+    {
+      "name": "spellcaster-vs-cloudian-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 954
+    },
+    {
+      "name": "spellcaster-vs-counter-fairy-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 955
+    },
+    {
+      "name": "spellcaster-vs-dark-world-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 956
+    },
+    {
+      "name": "spellcaster-vs-deckout-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 957
+    },
+    {
+      "name": "spellcaster-vs-demise-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 958
+    },
+    {
+      "name": "spellcaster-vs-destiny-board-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 959
+    },
+    {
+      "name": "spellcaster-vs-destiny-hero-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 960
+    },
+    {
+      "name": "spellcaster-vs-draconic-might-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 961
+    },
+    {
+      "name": "spellcaster-vs-fabled-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 962
+    },
+    {
+      "name": "spellcaster-vs-fish-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 963
+    },
+    {
+      "name": "spellcaster-vs-flamvell-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 964
+    },
+    {
+      "name": "spellcaster-vs-fortune-lady-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 965
+    },
+    {
+      "name": "spellcaster-vs-garden-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 966
+    },
+    {
+      "name": "spellcaster-vs-gem-knight-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 967
+    },
+    {
+      "name": "spellcaster-vs-gemini-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 968
+    },
+    {
+      "name": "spellcaster-vs-genex-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 969
+    },
+    {
+      "name": "spellcaster-vs-gusto-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 970
+    },
+    {
+      "name": "spellcaster-vs-harpie-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 971
+    },
+    {
+      "name": "spellcaster-vs-herald-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 972
+    },
+    {
+      "name": "spellcaster-vs-ice-barrier-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 973
+    },
+    {
+      "name": "spellcaster-vs-iron-chain-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 974
+    },
+    {
+      "name": "spellcaster-vs-jurrac-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 975
+    },
+    {
+      "name": "spellcaster-vs-karakuri-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 976
+    },
+    {
+      "name": "spellcaster-vs-malefic-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 977
+    },
+    {
+      "name": "spellcaster-vs-naturia-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 978
+    },
+    {
+      "name": "spellcaster-vs-nordic-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 979
+    },
+    {
+      "name": "spellcaster-vs-nurse-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 980
+    },
+    {
+      "name": "spellcaster-vs-ojama-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 981
+    },
+    {
+      "name": "spellcaster-vs-psychic-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 982
+    },
+    {
+      "name": "spellcaster-vs-pyramid-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 983
+    },
+    {
+      "name": "spellcaster-vs-reptilianne-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 984
+    },
+    {
+      "name": "spellcaster-vs-spirit-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 985
+    },
+    {
+      "name": "spellcaster-vs-tele-dad-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 986
+    },
+    {
+      "name": "spellcaster-vs-toon-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 987
+    },
+    {
+      "name": "spellcaster-vs-venom-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 988
+    },
+    {
+      "name": "spellcaster-vs-volcanic-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 989
+    },
+    {
+      "name": "spellcaster-vs-watt-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 990
+    },
+    {
+      "name": "spellcaster-vs-worm-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 991
+    },
+    {
+      "name": "spellcaster-vs-x-saber-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 992
+    },
+    {
+      "name": "spellcaster-vs-zombie-checkpoint",
+      "learner": "spellcaster",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 993
+    },
+    {
+      "name": "countdown-vs-blackwing-checkpoint",
+      "learner": "countdown",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 994
+    },
+    {
+      "name": "countdown-vs-cyber-checkpoint",
+      "learner": "countdown",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 995
+    },
+    {
+      "name": "countdown-vs-lightsworn-checkpoint",
+      "learner": "countdown",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 996
+    },
+    {
+      "name": "countdown-vs-infernity-checkpoint",
+      "learner": "countdown",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 997
+    },
+    {
+      "name": "countdown-vs-gishki-checkpoint",
+      "learner": "countdown",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 998
+    },
+    {
+      "name": "countdown-vs-burn-checkpoint",
+      "learner": "countdown",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 999
+    },
+    {
+      "name": "countdown-vs-crystal-checkpoint",
+      "learner": "countdown",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1000
+    },
+    {
+      "name": "countdown-vs-dragunity-checkpoint",
+      "learner": "countdown",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1001
+    },
+    {
+      "name": "countdown-vs-gladiator-checkpoint",
+      "learner": "countdown",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1002
+    },
+    {
+      "name": "countdown-vs-heroes-checkpoint",
+      "learner": "countdown",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1003
+    },
+    {
+      "name": "countdown-vs-monarch-checkpoint",
+      "learner": "countdown",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1004
+    },
+    {
+      "name": "countdown-vs-morphtronic-checkpoint",
+      "learner": "countdown",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1005
+    },
+    {
+      "name": "countdown-vs-rock-block-checkpoint",
+      "learner": "countdown",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1006
+    },
+    {
+      "name": "countdown-vs-spellcaster-checkpoint",
+      "learner": "countdown",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1007
+    },
+    {
+      "name": "countdown-vs-countdown-checkpoint",
+      "learner": "countdown",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1008
+    },
+    {
+      "name": "countdown-vs-verdict-checkpoint",
+      "learner": "countdown",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1009
+    },
+    {
+      "name": "countdown-vs-exodia-checkpoint",
+      "learner": "countdown",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1010
+    },
+    {
+      "name": "countdown-vs-machina-checkpoint",
+      "learner": "countdown",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1011
+    },
+    {
+      "name": "countdown-vs-chaos-checkpoint",
+      "learner": "countdown",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1012
+    },
+    {
+      "name": "countdown-vs-macro-dd-checkpoint",
+      "learner": "countdown",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1013
+    },
+    {
+      "name": "countdown-vs-six-samurai-checkpoint",
+      "learner": "countdown",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1014
+    },
+    {
+      "name": "countdown-vs-gravekeeper-checkpoint",
+      "learner": "countdown",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1015
+    },
+    {
+      "name": "countdown-vs-scrap-checkpoint",
+      "learner": "countdown",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1016
+    },
+    {
+      "name": "countdown-vs-agents-checkpoint",
+      "learner": "countdown",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1017
+    },
+    {
+      "name": "countdown-vs-quickdraw-plant-checkpoint",
+      "learner": "countdown",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1018
+    },
+    {
+      "name": "countdown-vs-alien-checkpoint",
+      "learner": "countdown",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1019
+    },
+    {
+      "name": "countdown-vs-amazoness-checkpoint",
+      "learner": "countdown",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1020
+    },
+    {
+      "name": "countdown-vs-arcana-checkpoint",
+      "learner": "countdown",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1021
+    },
+    {
+      "name": "countdown-vs-batteryman-checkpoint",
+      "learner": "countdown",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1022
+    },
+    {
+      "name": "countdown-vs-benkei-checkpoint",
+      "learner": "countdown",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1023
+    },
+    {
+      "name": "countdown-vs-chain-burn-checkpoint",
+      "learner": "countdown",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1024
+    },
+    {
+      "name": "countdown-vs-cloudian-checkpoint",
+      "learner": "countdown",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1025
+    },
+    {
+      "name": "countdown-vs-counter-fairy-checkpoint",
+      "learner": "countdown",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1026
+    },
+    {
+      "name": "countdown-vs-dark-world-checkpoint",
+      "learner": "countdown",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1027
+    },
+    {
+      "name": "countdown-vs-deckout-checkpoint",
+      "learner": "countdown",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1028
+    },
+    {
+      "name": "countdown-vs-demise-checkpoint",
+      "learner": "countdown",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1029
+    },
+    {
+      "name": "countdown-vs-destiny-board-checkpoint",
+      "learner": "countdown",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1030
+    },
+    {
+      "name": "countdown-vs-destiny-hero-checkpoint",
+      "learner": "countdown",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1031
+    },
+    {
+      "name": "countdown-vs-draconic-might-checkpoint",
+      "learner": "countdown",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1032
+    },
+    {
+      "name": "countdown-vs-fabled-checkpoint",
+      "learner": "countdown",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1033
+    },
+    {
+      "name": "countdown-vs-fish-checkpoint",
+      "learner": "countdown",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1034
+    },
+    {
+      "name": "countdown-vs-flamvell-checkpoint",
+      "learner": "countdown",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1035
+    },
+    {
+      "name": "countdown-vs-fortune-lady-checkpoint",
+      "learner": "countdown",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1036
+    },
+    {
+      "name": "countdown-vs-garden-checkpoint",
+      "learner": "countdown",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1037
+    },
+    {
+      "name": "countdown-vs-gem-knight-checkpoint",
+      "learner": "countdown",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1038
+    },
+    {
+      "name": "countdown-vs-gemini-checkpoint",
+      "learner": "countdown",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1039
+    },
+    {
+      "name": "countdown-vs-genex-checkpoint",
+      "learner": "countdown",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1040
+    },
+    {
+      "name": "countdown-vs-gusto-checkpoint",
+      "learner": "countdown",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1041
+    },
+    {
+      "name": "countdown-vs-harpie-checkpoint",
+      "learner": "countdown",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1042
+    },
+    {
+      "name": "countdown-vs-herald-checkpoint",
+      "learner": "countdown",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1043
+    },
+    {
+      "name": "countdown-vs-ice-barrier-checkpoint",
+      "learner": "countdown",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1044
+    },
+    {
+      "name": "countdown-vs-iron-chain-checkpoint",
+      "learner": "countdown",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1045
+    },
+    {
+      "name": "countdown-vs-jurrac-checkpoint",
+      "learner": "countdown",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1046
+    },
+    {
+      "name": "countdown-vs-karakuri-checkpoint",
+      "learner": "countdown",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1047
+    },
+    {
+      "name": "countdown-vs-malefic-checkpoint",
+      "learner": "countdown",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1048
+    },
+    {
+      "name": "countdown-vs-naturia-checkpoint",
+      "learner": "countdown",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1049
+    },
+    {
+      "name": "countdown-vs-nordic-checkpoint",
+      "learner": "countdown",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1050
+    },
+    {
+      "name": "countdown-vs-nurse-checkpoint",
+      "learner": "countdown",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1051
+    },
+    {
+      "name": "countdown-vs-ojama-checkpoint",
+      "learner": "countdown",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1052
+    },
+    {
+      "name": "countdown-vs-psychic-checkpoint",
+      "learner": "countdown",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1053
+    },
+    {
+      "name": "countdown-vs-pyramid-checkpoint",
+      "learner": "countdown",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1054
+    },
+    {
+      "name": "countdown-vs-reptilianne-checkpoint",
+      "learner": "countdown",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1055
+    },
+    {
+      "name": "countdown-vs-spirit-checkpoint",
+      "learner": "countdown",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1056
+    },
+    {
+      "name": "countdown-vs-tele-dad-checkpoint",
+      "learner": "countdown",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1057
+    },
+    {
+      "name": "countdown-vs-toon-checkpoint",
+      "learner": "countdown",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1058
+    },
+    {
+      "name": "countdown-vs-venom-checkpoint",
+      "learner": "countdown",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1059
+    },
+    {
+      "name": "countdown-vs-volcanic-checkpoint",
+      "learner": "countdown",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1060
+    },
+    {
+      "name": "countdown-vs-watt-checkpoint",
+      "learner": "countdown",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1061
+    },
+    {
+      "name": "countdown-vs-worm-checkpoint",
+      "learner": "countdown",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1062
+    },
+    {
+      "name": "countdown-vs-x-saber-checkpoint",
+      "learner": "countdown",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1063
+    },
+    {
+      "name": "countdown-vs-zombie-checkpoint",
+      "learner": "countdown",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1064
+    },
+    {
+      "name": "verdict-vs-blackwing-checkpoint",
+      "learner": "verdict",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1065
+    },
+    {
+      "name": "verdict-vs-cyber-checkpoint",
+      "learner": "verdict",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1066
+    },
+    {
+      "name": "verdict-vs-lightsworn-checkpoint",
+      "learner": "verdict",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1067
+    },
+    {
+      "name": "verdict-vs-infernity-checkpoint",
+      "learner": "verdict",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1068
+    },
+    {
+      "name": "verdict-vs-gishki-checkpoint",
+      "learner": "verdict",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1069
+    },
+    {
+      "name": "verdict-vs-burn-checkpoint",
+      "learner": "verdict",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1070
+    },
+    {
+      "name": "verdict-vs-crystal-checkpoint",
+      "learner": "verdict",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1071
+    },
+    {
+      "name": "verdict-vs-dragunity-checkpoint",
+      "learner": "verdict",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1072
+    },
+    {
+      "name": "verdict-vs-gladiator-checkpoint",
+      "learner": "verdict",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1073
+    },
+    {
+      "name": "verdict-vs-heroes-checkpoint",
+      "learner": "verdict",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1074
+    },
+    {
+      "name": "verdict-vs-monarch-checkpoint",
+      "learner": "verdict",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1075
+    },
+    {
+      "name": "verdict-vs-morphtronic-checkpoint",
+      "learner": "verdict",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1076
+    },
+    {
+      "name": "verdict-vs-rock-block-checkpoint",
+      "learner": "verdict",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1077
+    },
+    {
+      "name": "verdict-vs-spellcaster-checkpoint",
+      "learner": "verdict",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1078
+    },
+    {
+      "name": "verdict-vs-countdown-checkpoint",
+      "learner": "verdict",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1079
+    },
+    {
+      "name": "verdict-vs-verdict-checkpoint",
+      "learner": "verdict",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1080
+    },
+    {
+      "name": "verdict-vs-exodia-checkpoint",
+      "learner": "verdict",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1081
+    },
+    {
+      "name": "verdict-vs-machina-checkpoint",
+      "learner": "verdict",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1082
+    },
+    {
+      "name": "verdict-vs-chaos-checkpoint",
+      "learner": "verdict",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1083
+    },
+    {
+      "name": "verdict-vs-macro-dd-checkpoint",
+      "learner": "verdict",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1084
+    },
+    {
+      "name": "verdict-vs-six-samurai-checkpoint",
+      "learner": "verdict",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1085
+    },
+    {
+      "name": "verdict-vs-gravekeeper-checkpoint",
+      "learner": "verdict",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1086
+    },
+    {
+      "name": "verdict-vs-scrap-checkpoint",
+      "learner": "verdict",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1087
+    },
+    {
+      "name": "verdict-vs-agents-checkpoint",
+      "learner": "verdict",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1088
+    },
+    {
+      "name": "verdict-vs-quickdraw-plant-checkpoint",
+      "learner": "verdict",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1089
+    },
+    {
+      "name": "verdict-vs-alien-checkpoint",
+      "learner": "verdict",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1090
+    },
+    {
+      "name": "verdict-vs-amazoness-checkpoint",
+      "learner": "verdict",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1091
+    },
+    {
+      "name": "verdict-vs-arcana-checkpoint",
+      "learner": "verdict",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1092
+    },
+    {
+      "name": "verdict-vs-batteryman-checkpoint",
+      "learner": "verdict",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1093
+    },
+    {
+      "name": "verdict-vs-benkei-checkpoint",
+      "learner": "verdict",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1094
+    },
+    {
+      "name": "verdict-vs-chain-burn-checkpoint",
+      "learner": "verdict",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1095
+    },
+    {
+      "name": "verdict-vs-cloudian-checkpoint",
+      "learner": "verdict",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1096
+    },
+    {
+      "name": "verdict-vs-counter-fairy-checkpoint",
+      "learner": "verdict",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1097
+    },
+    {
+      "name": "verdict-vs-dark-world-checkpoint",
+      "learner": "verdict",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1098
+    },
+    {
+      "name": "verdict-vs-deckout-checkpoint",
+      "learner": "verdict",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1099
+    },
+    {
+      "name": "verdict-vs-demise-checkpoint",
+      "learner": "verdict",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1100
+    },
+    {
+      "name": "verdict-vs-destiny-board-checkpoint",
+      "learner": "verdict",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1101
+    },
+    {
+      "name": "verdict-vs-destiny-hero-checkpoint",
+      "learner": "verdict",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1102
+    },
+    {
+      "name": "verdict-vs-draconic-might-checkpoint",
+      "learner": "verdict",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1103
+    },
+    {
+      "name": "verdict-vs-fabled-checkpoint",
+      "learner": "verdict",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1104
+    },
+    {
+      "name": "verdict-vs-fish-checkpoint",
+      "learner": "verdict",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1105
+    },
+    {
+      "name": "verdict-vs-flamvell-checkpoint",
+      "learner": "verdict",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1106
+    },
+    {
+      "name": "verdict-vs-fortune-lady-checkpoint",
+      "learner": "verdict",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1107
+    },
+    {
+      "name": "verdict-vs-garden-checkpoint",
+      "learner": "verdict",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1108
+    },
+    {
+      "name": "verdict-vs-gem-knight-checkpoint",
+      "learner": "verdict",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1109
+    },
+    {
+      "name": "verdict-vs-gemini-checkpoint",
+      "learner": "verdict",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1110
+    },
+    {
+      "name": "verdict-vs-genex-checkpoint",
+      "learner": "verdict",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1111
+    },
+    {
+      "name": "verdict-vs-gusto-checkpoint",
+      "learner": "verdict",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1112
+    },
+    {
+      "name": "verdict-vs-harpie-checkpoint",
+      "learner": "verdict",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1113
+    },
+    {
+      "name": "verdict-vs-herald-checkpoint",
+      "learner": "verdict",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1114
+    },
+    {
+      "name": "verdict-vs-ice-barrier-checkpoint",
+      "learner": "verdict",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1115
+    },
+    {
+      "name": "verdict-vs-iron-chain-checkpoint",
+      "learner": "verdict",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1116
+    },
+    {
+      "name": "verdict-vs-jurrac-checkpoint",
+      "learner": "verdict",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1117
+    },
+    {
+      "name": "verdict-vs-karakuri-checkpoint",
+      "learner": "verdict",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1118
+    },
+    {
+      "name": "verdict-vs-malefic-checkpoint",
+      "learner": "verdict",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1119
+    },
+    {
+      "name": "verdict-vs-naturia-checkpoint",
+      "learner": "verdict",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1120
+    },
+    {
+      "name": "verdict-vs-nordic-checkpoint",
+      "learner": "verdict",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1121
+    },
+    {
+      "name": "verdict-vs-nurse-checkpoint",
+      "learner": "verdict",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1122
+    },
+    {
+      "name": "verdict-vs-ojama-checkpoint",
+      "learner": "verdict",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1123
+    },
+    {
+      "name": "verdict-vs-psychic-checkpoint",
+      "learner": "verdict",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1124
+    },
+    {
+      "name": "verdict-vs-pyramid-checkpoint",
+      "learner": "verdict",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1125
+    },
+    {
+      "name": "verdict-vs-reptilianne-checkpoint",
+      "learner": "verdict",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1126
+    },
+    {
+      "name": "verdict-vs-spirit-checkpoint",
+      "learner": "verdict",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1127
+    },
+    {
+      "name": "verdict-vs-tele-dad-checkpoint",
+      "learner": "verdict",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1128
+    },
+    {
+      "name": "verdict-vs-toon-checkpoint",
+      "learner": "verdict",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1129
+    },
+    {
+      "name": "verdict-vs-venom-checkpoint",
+      "learner": "verdict",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1130
+    },
+    {
+      "name": "verdict-vs-volcanic-checkpoint",
+      "learner": "verdict",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1131
+    },
+    {
+      "name": "verdict-vs-watt-checkpoint",
+      "learner": "verdict",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1132
+    },
+    {
+      "name": "verdict-vs-worm-checkpoint",
+      "learner": "verdict",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1133
+    },
+    {
+      "name": "verdict-vs-x-saber-checkpoint",
+      "learner": "verdict",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1134
+    },
+    {
+      "name": "verdict-vs-zombie-checkpoint",
+      "learner": "verdict",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1135
+    },
+    {
+      "name": "exodia-vs-blackwing-checkpoint",
+      "learner": "exodia",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1136
+    },
+    {
+      "name": "exodia-vs-cyber-checkpoint",
+      "learner": "exodia",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1137
+    },
+    {
+      "name": "exodia-vs-lightsworn-checkpoint",
+      "learner": "exodia",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1138
+    },
+    {
+      "name": "exodia-vs-infernity-checkpoint",
+      "learner": "exodia",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1139
+    },
+    {
+      "name": "exodia-vs-gishki-checkpoint",
+      "learner": "exodia",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1140
+    },
+    {
+      "name": "exodia-vs-burn-checkpoint",
+      "learner": "exodia",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1141
+    },
+    {
+      "name": "exodia-vs-crystal-checkpoint",
+      "learner": "exodia",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1142
+    },
+    {
+      "name": "exodia-vs-dragunity-checkpoint",
+      "learner": "exodia",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1143
+    },
+    {
+      "name": "exodia-vs-gladiator-checkpoint",
+      "learner": "exodia",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1144
+    },
+    {
+      "name": "exodia-vs-heroes-checkpoint",
+      "learner": "exodia",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1145
+    },
+    {
+      "name": "exodia-vs-monarch-checkpoint",
+      "learner": "exodia",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1146
+    },
+    {
+      "name": "exodia-vs-morphtronic-checkpoint",
+      "learner": "exodia",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1147
+    },
+    {
+      "name": "exodia-vs-rock-block-checkpoint",
+      "learner": "exodia",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1148
+    },
+    {
+      "name": "exodia-vs-spellcaster-checkpoint",
+      "learner": "exodia",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1149
+    },
+    {
+      "name": "exodia-vs-countdown-checkpoint",
+      "learner": "exodia",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1150
+    },
+    {
+      "name": "exodia-vs-verdict-checkpoint",
+      "learner": "exodia",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1151
+    },
+    {
+      "name": "exodia-vs-exodia-checkpoint",
+      "learner": "exodia",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1152
+    },
+    {
+      "name": "exodia-vs-machina-checkpoint",
+      "learner": "exodia",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1153
+    },
+    {
+      "name": "exodia-vs-chaos-checkpoint",
+      "learner": "exodia",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1154
+    },
+    {
+      "name": "exodia-vs-macro-dd-checkpoint",
+      "learner": "exodia",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1155
+    },
+    {
+      "name": "exodia-vs-six-samurai-checkpoint",
+      "learner": "exodia",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1156
+    },
+    {
+      "name": "exodia-vs-gravekeeper-checkpoint",
+      "learner": "exodia",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1157
+    },
+    {
+      "name": "exodia-vs-scrap-checkpoint",
+      "learner": "exodia",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1158
+    },
+    {
+      "name": "exodia-vs-agents-checkpoint",
+      "learner": "exodia",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1159
+    },
+    {
+      "name": "exodia-vs-quickdraw-plant-checkpoint",
+      "learner": "exodia",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1160
+    },
+    {
+      "name": "exodia-vs-alien-checkpoint",
+      "learner": "exodia",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1161
+    },
+    {
+      "name": "exodia-vs-amazoness-checkpoint",
+      "learner": "exodia",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1162
+    },
+    {
+      "name": "exodia-vs-arcana-checkpoint",
+      "learner": "exodia",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1163
+    },
+    {
+      "name": "exodia-vs-batteryman-checkpoint",
+      "learner": "exodia",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1164
+    },
+    {
+      "name": "exodia-vs-benkei-checkpoint",
+      "learner": "exodia",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1165
+    },
+    {
+      "name": "exodia-vs-chain-burn-checkpoint",
+      "learner": "exodia",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1166
+    },
+    {
+      "name": "exodia-vs-cloudian-checkpoint",
+      "learner": "exodia",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1167
+    },
+    {
+      "name": "exodia-vs-counter-fairy-checkpoint",
+      "learner": "exodia",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1168
+    },
+    {
+      "name": "exodia-vs-dark-world-checkpoint",
+      "learner": "exodia",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1169
+    },
+    {
+      "name": "exodia-vs-deckout-checkpoint",
+      "learner": "exodia",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1170
+    },
+    {
+      "name": "exodia-vs-demise-checkpoint",
+      "learner": "exodia",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1171
+    },
+    {
+      "name": "exodia-vs-destiny-board-checkpoint",
+      "learner": "exodia",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1172
+    },
+    {
+      "name": "exodia-vs-destiny-hero-checkpoint",
+      "learner": "exodia",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1173
+    },
+    {
+      "name": "exodia-vs-draconic-might-checkpoint",
+      "learner": "exodia",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1174
+    },
+    {
+      "name": "exodia-vs-fabled-checkpoint",
+      "learner": "exodia",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1175
+    },
+    {
+      "name": "exodia-vs-fish-checkpoint",
+      "learner": "exodia",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1176
+    },
+    {
+      "name": "exodia-vs-flamvell-checkpoint",
+      "learner": "exodia",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1177
+    },
+    {
+      "name": "exodia-vs-fortune-lady-checkpoint",
+      "learner": "exodia",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1178
+    },
+    {
+      "name": "exodia-vs-garden-checkpoint",
+      "learner": "exodia",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1179
+    },
+    {
+      "name": "exodia-vs-gem-knight-checkpoint",
+      "learner": "exodia",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1180
+    },
+    {
+      "name": "exodia-vs-gemini-checkpoint",
+      "learner": "exodia",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1181
+    },
+    {
+      "name": "exodia-vs-genex-checkpoint",
+      "learner": "exodia",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1182
+    },
+    {
+      "name": "exodia-vs-gusto-checkpoint",
+      "learner": "exodia",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1183
+    },
+    {
+      "name": "exodia-vs-harpie-checkpoint",
+      "learner": "exodia",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1184
+    },
+    {
+      "name": "exodia-vs-herald-checkpoint",
+      "learner": "exodia",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1185
+    },
+    {
+      "name": "exodia-vs-ice-barrier-checkpoint",
+      "learner": "exodia",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1186
+    },
+    {
+      "name": "exodia-vs-iron-chain-checkpoint",
+      "learner": "exodia",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1187
+    },
+    {
+      "name": "exodia-vs-jurrac-checkpoint",
+      "learner": "exodia",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1188
+    },
+    {
+      "name": "exodia-vs-karakuri-checkpoint",
+      "learner": "exodia",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1189
+    },
+    {
+      "name": "exodia-vs-malefic-checkpoint",
+      "learner": "exodia",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1190
+    },
+    {
+      "name": "exodia-vs-naturia-checkpoint",
+      "learner": "exodia",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1191
+    },
+    {
+      "name": "exodia-vs-nordic-checkpoint",
+      "learner": "exodia",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1192
+    },
+    {
+      "name": "exodia-vs-nurse-checkpoint",
+      "learner": "exodia",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1193
+    },
+    {
+      "name": "exodia-vs-ojama-checkpoint",
+      "learner": "exodia",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1194
+    },
+    {
+      "name": "exodia-vs-psychic-checkpoint",
+      "learner": "exodia",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1195
+    },
+    {
+      "name": "exodia-vs-pyramid-checkpoint",
+      "learner": "exodia",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1196
+    },
+    {
+      "name": "exodia-vs-reptilianne-checkpoint",
+      "learner": "exodia",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1197
+    },
+    {
+      "name": "exodia-vs-spirit-checkpoint",
+      "learner": "exodia",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1198
+    },
+    {
+      "name": "exodia-vs-tele-dad-checkpoint",
+      "learner": "exodia",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1199
+    },
+    {
+      "name": "exodia-vs-toon-checkpoint",
+      "learner": "exodia",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1200
+    },
+    {
+      "name": "exodia-vs-venom-checkpoint",
+      "learner": "exodia",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1201
+    },
+    {
+      "name": "exodia-vs-volcanic-checkpoint",
+      "learner": "exodia",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1202
+    },
+    {
+      "name": "exodia-vs-watt-checkpoint",
+      "learner": "exodia",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1203
+    },
+    {
+      "name": "exodia-vs-worm-checkpoint",
+      "learner": "exodia",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1204
+    },
+    {
+      "name": "exodia-vs-x-saber-checkpoint",
+      "learner": "exodia",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1205
+    },
+    {
+      "name": "exodia-vs-zombie-checkpoint",
+      "learner": "exodia",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1206
+    },
+    {
+      "name": "machina-vs-blackwing-checkpoint",
+      "learner": "machina",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1207
+    },
+    {
+      "name": "machina-vs-cyber-checkpoint",
+      "learner": "machina",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1208
+    },
+    {
+      "name": "machina-vs-lightsworn-checkpoint",
+      "learner": "machina",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1209
+    },
+    {
+      "name": "machina-vs-infernity-checkpoint",
+      "learner": "machina",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1210
+    },
+    {
+      "name": "machina-vs-gishki-checkpoint",
+      "learner": "machina",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1211
+    },
+    {
+      "name": "machina-vs-burn-checkpoint",
+      "learner": "machina",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1212
+    },
+    {
+      "name": "machina-vs-crystal-checkpoint",
+      "learner": "machina",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1213
+    },
+    {
+      "name": "machina-vs-dragunity-checkpoint",
+      "learner": "machina",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1214
+    },
+    {
+      "name": "machina-vs-gladiator-checkpoint",
+      "learner": "machina",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1215
+    },
+    {
+      "name": "machina-vs-heroes-checkpoint",
+      "learner": "machina",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1216
+    },
+    {
+      "name": "machina-vs-monarch-checkpoint",
+      "learner": "machina",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1217
+    },
+    {
+      "name": "machina-vs-morphtronic-checkpoint",
+      "learner": "machina",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1218
+    },
+    {
+      "name": "machina-vs-rock-block-checkpoint",
+      "learner": "machina",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1219
+    },
+    {
+      "name": "machina-vs-spellcaster-checkpoint",
+      "learner": "machina",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1220
+    },
+    {
+      "name": "machina-vs-countdown-checkpoint",
+      "learner": "machina",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1221
+    },
+    {
+      "name": "machina-vs-verdict-checkpoint",
+      "learner": "machina",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1222
+    },
+    {
+      "name": "machina-vs-exodia-checkpoint",
+      "learner": "machina",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1223
+    },
+    {
+      "name": "machina-vs-machina-checkpoint",
+      "learner": "machina",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1224
+    },
+    {
+      "name": "machina-vs-chaos-checkpoint",
+      "learner": "machina",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1225
+    },
+    {
+      "name": "machina-vs-macro-dd-checkpoint",
+      "learner": "machina",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1226
+    },
+    {
+      "name": "machina-vs-six-samurai-checkpoint",
+      "learner": "machina",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1227
+    },
+    {
+      "name": "machina-vs-gravekeeper-checkpoint",
+      "learner": "machina",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1228
+    },
+    {
+      "name": "machina-vs-scrap-checkpoint",
+      "learner": "machina",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1229
+    },
+    {
+      "name": "machina-vs-agents-checkpoint",
+      "learner": "machina",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1230
+    },
+    {
+      "name": "machina-vs-quickdraw-plant-checkpoint",
+      "learner": "machina",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1231
+    },
+    {
+      "name": "machina-vs-alien-checkpoint",
+      "learner": "machina",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1232
+    },
+    {
+      "name": "machina-vs-amazoness-checkpoint",
+      "learner": "machina",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1233
+    },
+    {
+      "name": "machina-vs-arcana-checkpoint",
+      "learner": "machina",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1234
+    },
+    {
+      "name": "machina-vs-batteryman-checkpoint",
+      "learner": "machina",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1235
+    },
+    {
+      "name": "machina-vs-benkei-checkpoint",
+      "learner": "machina",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1236
+    },
+    {
+      "name": "machina-vs-chain-burn-checkpoint",
+      "learner": "machina",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1237
+    },
+    {
+      "name": "machina-vs-cloudian-checkpoint",
+      "learner": "machina",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1238
+    },
+    {
+      "name": "machina-vs-counter-fairy-checkpoint",
+      "learner": "machina",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1239
+    },
+    {
+      "name": "machina-vs-dark-world-checkpoint",
+      "learner": "machina",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1240
+    },
+    {
+      "name": "machina-vs-deckout-checkpoint",
+      "learner": "machina",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1241
+    },
+    {
+      "name": "machina-vs-demise-checkpoint",
+      "learner": "machina",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1242
+    },
+    {
+      "name": "machina-vs-destiny-board-checkpoint",
+      "learner": "machina",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1243
+    },
+    {
+      "name": "machina-vs-destiny-hero-checkpoint",
+      "learner": "machina",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1244
+    },
+    {
+      "name": "machina-vs-draconic-might-checkpoint",
+      "learner": "machina",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1245
+    },
+    {
+      "name": "machina-vs-fabled-checkpoint",
+      "learner": "machina",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1246
+    },
+    {
+      "name": "machina-vs-fish-checkpoint",
+      "learner": "machina",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1247
+    },
+    {
+      "name": "machina-vs-flamvell-checkpoint",
+      "learner": "machina",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1248
+    },
+    {
+      "name": "machina-vs-fortune-lady-checkpoint",
+      "learner": "machina",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1249
+    },
+    {
+      "name": "machina-vs-garden-checkpoint",
+      "learner": "machina",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1250
+    },
+    {
+      "name": "machina-vs-gem-knight-checkpoint",
+      "learner": "machina",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1251
+    },
+    {
+      "name": "machina-vs-gemini-checkpoint",
+      "learner": "machina",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1252
+    },
+    {
+      "name": "machina-vs-genex-checkpoint",
+      "learner": "machina",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1253
+    },
+    {
+      "name": "machina-vs-gusto-checkpoint",
+      "learner": "machina",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1254
+    },
+    {
+      "name": "machina-vs-harpie-checkpoint",
+      "learner": "machina",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1255
+    },
+    {
+      "name": "machina-vs-herald-checkpoint",
+      "learner": "machina",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1256
+    },
+    {
+      "name": "machina-vs-ice-barrier-checkpoint",
+      "learner": "machina",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1257
+    },
+    {
+      "name": "machina-vs-iron-chain-checkpoint",
+      "learner": "machina",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1258
+    },
+    {
+      "name": "machina-vs-jurrac-checkpoint",
+      "learner": "machina",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1259
+    },
+    {
+      "name": "machina-vs-karakuri-checkpoint",
+      "learner": "machina",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1260
+    },
+    {
+      "name": "machina-vs-malefic-checkpoint",
+      "learner": "machina",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1261
+    },
+    {
+      "name": "machina-vs-naturia-checkpoint",
+      "learner": "machina",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1262
+    },
+    {
+      "name": "machina-vs-nordic-checkpoint",
+      "learner": "machina",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1263
+    },
+    {
+      "name": "machina-vs-nurse-checkpoint",
+      "learner": "machina",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1264
+    },
+    {
+      "name": "machina-vs-ojama-checkpoint",
+      "learner": "machina",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1265
+    },
+    {
+      "name": "machina-vs-psychic-checkpoint",
+      "learner": "machina",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1266
+    },
+    {
+      "name": "machina-vs-pyramid-checkpoint",
+      "learner": "machina",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1267
+    },
+    {
+      "name": "machina-vs-reptilianne-checkpoint",
+      "learner": "machina",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1268
+    },
+    {
+      "name": "machina-vs-spirit-checkpoint",
+      "learner": "machina",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1269
+    },
+    {
+      "name": "machina-vs-tele-dad-checkpoint",
+      "learner": "machina",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1270
+    },
+    {
+      "name": "machina-vs-toon-checkpoint",
+      "learner": "machina",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1271
+    },
+    {
+      "name": "machina-vs-venom-checkpoint",
+      "learner": "machina",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1272
+    },
+    {
+      "name": "machina-vs-volcanic-checkpoint",
+      "learner": "machina",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1273
+    },
+    {
+      "name": "machina-vs-watt-checkpoint",
+      "learner": "machina",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1274
+    },
+    {
+      "name": "machina-vs-worm-checkpoint",
+      "learner": "machina",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1275
+    },
+    {
+      "name": "machina-vs-x-saber-checkpoint",
+      "learner": "machina",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1276
+    },
+    {
+      "name": "machina-vs-zombie-checkpoint",
+      "learner": "machina",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1277
+    },
+    {
+      "name": "chaos-vs-blackwing-checkpoint",
+      "learner": "chaos",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1278
+    },
+    {
+      "name": "chaos-vs-cyber-checkpoint",
+      "learner": "chaos",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1279
+    },
+    {
+      "name": "chaos-vs-lightsworn-checkpoint",
+      "learner": "chaos",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1280
+    },
+    {
+      "name": "chaos-vs-infernity-checkpoint",
+      "learner": "chaos",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1281
+    },
+    {
+      "name": "chaos-vs-gishki-checkpoint",
+      "learner": "chaos",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1282
+    },
+    {
+      "name": "chaos-vs-burn-checkpoint",
+      "learner": "chaos",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1283
+    },
+    {
+      "name": "chaos-vs-crystal-checkpoint",
+      "learner": "chaos",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1284
+    },
+    {
+      "name": "chaos-vs-dragunity-checkpoint",
+      "learner": "chaos",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1285
+    },
+    {
+      "name": "chaos-vs-gladiator-checkpoint",
+      "learner": "chaos",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1286
+    },
+    {
+      "name": "chaos-vs-heroes-checkpoint",
+      "learner": "chaos",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1287
+    },
+    {
+      "name": "chaos-vs-monarch-checkpoint",
+      "learner": "chaos",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1288
+    },
+    {
+      "name": "chaos-vs-morphtronic-checkpoint",
+      "learner": "chaos",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1289
+    },
+    {
+      "name": "chaos-vs-rock-block-checkpoint",
+      "learner": "chaos",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1290
+    },
+    {
+      "name": "chaos-vs-spellcaster-checkpoint",
+      "learner": "chaos",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1291
+    },
+    {
+      "name": "chaos-vs-countdown-checkpoint",
+      "learner": "chaos",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1292
+    },
+    {
+      "name": "chaos-vs-verdict-checkpoint",
+      "learner": "chaos",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1293
+    },
+    {
+      "name": "chaos-vs-exodia-checkpoint",
+      "learner": "chaos",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1294
+    },
+    {
+      "name": "chaos-vs-machina-checkpoint",
+      "learner": "chaos",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1295
+    },
+    {
+      "name": "chaos-vs-chaos-checkpoint",
+      "learner": "chaos",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1296
+    },
+    {
+      "name": "chaos-vs-macro-dd-checkpoint",
+      "learner": "chaos",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1297
+    },
+    {
+      "name": "chaos-vs-six-samurai-checkpoint",
+      "learner": "chaos",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1298
+    },
+    {
+      "name": "chaos-vs-gravekeeper-checkpoint",
+      "learner": "chaos",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1299
+    },
+    {
+      "name": "chaos-vs-scrap-checkpoint",
+      "learner": "chaos",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1300
+    },
+    {
+      "name": "chaos-vs-agents-checkpoint",
+      "learner": "chaos",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1301
+    },
+    {
+      "name": "chaos-vs-quickdraw-plant-checkpoint",
+      "learner": "chaos",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1302
+    },
+    {
+      "name": "chaos-vs-alien-checkpoint",
+      "learner": "chaos",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1303
+    },
+    {
+      "name": "chaos-vs-amazoness-checkpoint",
+      "learner": "chaos",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1304
+    },
+    {
+      "name": "chaos-vs-arcana-checkpoint",
+      "learner": "chaos",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1305
+    },
+    {
+      "name": "chaos-vs-batteryman-checkpoint",
+      "learner": "chaos",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1306
+    },
+    {
+      "name": "chaos-vs-benkei-checkpoint",
+      "learner": "chaos",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1307
+    },
+    {
+      "name": "chaos-vs-chain-burn-checkpoint",
+      "learner": "chaos",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1308
+    },
+    {
+      "name": "chaos-vs-cloudian-checkpoint",
+      "learner": "chaos",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1309
+    },
+    {
+      "name": "chaos-vs-counter-fairy-checkpoint",
+      "learner": "chaos",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1310
+    },
+    {
+      "name": "chaos-vs-dark-world-checkpoint",
+      "learner": "chaos",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1311
+    },
+    {
+      "name": "chaos-vs-deckout-checkpoint",
+      "learner": "chaos",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1312
+    },
+    {
+      "name": "chaos-vs-demise-checkpoint",
+      "learner": "chaos",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1313
+    },
+    {
+      "name": "chaos-vs-destiny-board-checkpoint",
+      "learner": "chaos",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1314
+    },
+    {
+      "name": "chaos-vs-destiny-hero-checkpoint",
+      "learner": "chaos",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1315
+    },
+    {
+      "name": "chaos-vs-draconic-might-checkpoint",
+      "learner": "chaos",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1316
+    },
+    {
+      "name": "chaos-vs-fabled-checkpoint",
+      "learner": "chaos",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1317
+    },
+    {
+      "name": "chaos-vs-fish-checkpoint",
+      "learner": "chaos",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1318
+    },
+    {
+      "name": "chaos-vs-flamvell-checkpoint",
+      "learner": "chaos",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1319
+    },
+    {
+      "name": "chaos-vs-fortune-lady-checkpoint",
+      "learner": "chaos",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1320
+    },
+    {
+      "name": "chaos-vs-garden-checkpoint",
+      "learner": "chaos",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1321
+    },
+    {
+      "name": "chaos-vs-gem-knight-checkpoint",
+      "learner": "chaos",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1322
+    },
+    {
+      "name": "chaos-vs-gemini-checkpoint",
+      "learner": "chaos",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1323
+    },
+    {
+      "name": "chaos-vs-genex-checkpoint",
+      "learner": "chaos",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1324
+    },
+    {
+      "name": "chaos-vs-gusto-checkpoint",
+      "learner": "chaos",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1325
+    },
+    {
+      "name": "chaos-vs-harpie-checkpoint",
+      "learner": "chaos",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1326
+    },
+    {
+      "name": "chaos-vs-herald-checkpoint",
+      "learner": "chaos",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1327
+    },
+    {
+      "name": "chaos-vs-ice-barrier-checkpoint",
+      "learner": "chaos",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1328
+    },
+    {
+      "name": "chaos-vs-iron-chain-checkpoint",
+      "learner": "chaos",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1329
+    },
+    {
+      "name": "chaos-vs-jurrac-checkpoint",
+      "learner": "chaos",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1330
+    },
+    {
+      "name": "chaos-vs-karakuri-checkpoint",
+      "learner": "chaos",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1331
+    },
+    {
+      "name": "chaos-vs-malefic-checkpoint",
+      "learner": "chaos",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1332
+    },
+    {
+      "name": "chaos-vs-naturia-checkpoint",
+      "learner": "chaos",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1333
+    },
+    {
+      "name": "chaos-vs-nordic-checkpoint",
+      "learner": "chaos",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1334
+    },
+    {
+      "name": "chaos-vs-nurse-checkpoint",
+      "learner": "chaos",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1335
+    },
+    {
+      "name": "chaos-vs-ojama-checkpoint",
+      "learner": "chaos",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1336
+    },
+    {
+      "name": "chaos-vs-psychic-checkpoint",
+      "learner": "chaos",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1337
+    },
+    {
+      "name": "chaos-vs-pyramid-checkpoint",
+      "learner": "chaos",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1338
+    },
+    {
+      "name": "chaos-vs-reptilianne-checkpoint",
+      "learner": "chaos",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1339
+    },
+    {
+      "name": "chaos-vs-spirit-checkpoint",
+      "learner": "chaos",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1340
+    },
+    {
+      "name": "chaos-vs-tele-dad-checkpoint",
+      "learner": "chaos",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1341
+    },
+    {
+      "name": "chaos-vs-toon-checkpoint",
+      "learner": "chaos",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1342
+    },
+    {
+      "name": "chaos-vs-venom-checkpoint",
+      "learner": "chaos",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1343
+    },
+    {
+      "name": "chaos-vs-volcanic-checkpoint",
+      "learner": "chaos",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1344
+    },
+    {
+      "name": "chaos-vs-watt-checkpoint",
+      "learner": "chaos",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1345
+    },
+    {
+      "name": "chaos-vs-worm-checkpoint",
+      "learner": "chaos",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1346
+    },
+    {
+      "name": "chaos-vs-x-saber-checkpoint",
+      "learner": "chaos",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1347
+    },
+    {
+      "name": "chaos-vs-zombie-checkpoint",
+      "learner": "chaos",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1348
+    },
+    {
+      "name": "macro-dd-vs-blackwing-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1349
+    },
+    {
+      "name": "macro-dd-vs-cyber-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1350
+    },
+    {
+      "name": "macro-dd-vs-lightsworn-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1351
+    },
+    {
+      "name": "macro-dd-vs-infernity-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1352
+    },
+    {
+      "name": "macro-dd-vs-gishki-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1353
+    },
+    {
+      "name": "macro-dd-vs-burn-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1354
+    },
+    {
+      "name": "macro-dd-vs-crystal-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1355
+    },
+    {
+      "name": "macro-dd-vs-dragunity-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1356
+    },
+    {
+      "name": "macro-dd-vs-gladiator-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1357
+    },
+    {
+      "name": "macro-dd-vs-heroes-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1358
+    },
+    {
+      "name": "macro-dd-vs-monarch-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1359
+    },
+    {
+      "name": "macro-dd-vs-morphtronic-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1360
+    },
+    {
+      "name": "macro-dd-vs-rock-block-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1361
+    },
+    {
+      "name": "macro-dd-vs-spellcaster-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1362
+    },
+    {
+      "name": "macro-dd-vs-countdown-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1363
+    },
+    {
+      "name": "macro-dd-vs-verdict-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1364
+    },
+    {
+      "name": "macro-dd-vs-exodia-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1365
+    },
+    {
+      "name": "macro-dd-vs-machina-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1366
+    },
+    {
+      "name": "macro-dd-vs-chaos-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1367
+    },
+    {
+      "name": "macro-dd-vs-macro-dd-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1368
+    },
+    {
+      "name": "macro-dd-vs-six-samurai-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1369
+    },
+    {
+      "name": "macro-dd-vs-gravekeeper-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1370
+    },
+    {
+      "name": "macro-dd-vs-scrap-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1371
+    },
+    {
+      "name": "macro-dd-vs-agents-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1372
+    },
+    {
+      "name": "macro-dd-vs-quickdraw-plant-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1373
+    },
+    {
+      "name": "macro-dd-vs-alien-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1374
+    },
+    {
+      "name": "macro-dd-vs-amazoness-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1375
+    },
+    {
+      "name": "macro-dd-vs-arcana-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1376
+    },
+    {
+      "name": "macro-dd-vs-batteryman-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1377
+    },
+    {
+      "name": "macro-dd-vs-benkei-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1378
+    },
+    {
+      "name": "macro-dd-vs-chain-burn-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1379
+    },
+    {
+      "name": "macro-dd-vs-cloudian-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1380
+    },
+    {
+      "name": "macro-dd-vs-counter-fairy-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1381
+    },
+    {
+      "name": "macro-dd-vs-dark-world-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1382
+    },
+    {
+      "name": "macro-dd-vs-deckout-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1383
+    },
+    {
+      "name": "macro-dd-vs-demise-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1384
+    },
+    {
+      "name": "macro-dd-vs-destiny-board-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1385
+    },
+    {
+      "name": "macro-dd-vs-destiny-hero-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1386
+    },
+    {
+      "name": "macro-dd-vs-draconic-might-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1387
+    },
+    {
+      "name": "macro-dd-vs-fabled-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1388
+    },
+    {
+      "name": "macro-dd-vs-fish-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1389
+    },
+    {
+      "name": "macro-dd-vs-flamvell-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1390
+    },
+    {
+      "name": "macro-dd-vs-fortune-lady-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1391
+    },
+    {
+      "name": "macro-dd-vs-garden-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1392
+    },
+    {
+      "name": "macro-dd-vs-gem-knight-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1393
+    },
+    {
+      "name": "macro-dd-vs-gemini-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1394
+    },
+    {
+      "name": "macro-dd-vs-genex-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1395
+    },
+    {
+      "name": "macro-dd-vs-gusto-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1396
+    },
+    {
+      "name": "macro-dd-vs-harpie-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1397
+    },
+    {
+      "name": "macro-dd-vs-herald-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1398
+    },
+    {
+      "name": "macro-dd-vs-ice-barrier-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1399
+    },
+    {
+      "name": "macro-dd-vs-iron-chain-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1400
+    },
+    {
+      "name": "macro-dd-vs-jurrac-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1401
+    },
+    {
+      "name": "macro-dd-vs-karakuri-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1402
+    },
+    {
+      "name": "macro-dd-vs-malefic-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1403
+    },
+    {
+      "name": "macro-dd-vs-naturia-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1404
+    },
+    {
+      "name": "macro-dd-vs-nordic-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1405
+    },
+    {
+      "name": "macro-dd-vs-nurse-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1406
+    },
+    {
+      "name": "macro-dd-vs-ojama-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1407
+    },
+    {
+      "name": "macro-dd-vs-psychic-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1408
+    },
+    {
+      "name": "macro-dd-vs-pyramid-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1409
+    },
+    {
+      "name": "macro-dd-vs-reptilianne-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1410
+    },
+    {
+      "name": "macro-dd-vs-spirit-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1411
+    },
+    {
+      "name": "macro-dd-vs-tele-dad-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1412
+    },
+    {
+      "name": "macro-dd-vs-toon-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1413
+    },
+    {
+      "name": "macro-dd-vs-venom-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1414
+    },
+    {
+      "name": "macro-dd-vs-volcanic-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1415
+    },
+    {
+      "name": "macro-dd-vs-watt-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1416
+    },
+    {
+      "name": "macro-dd-vs-worm-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1417
+    },
+    {
+      "name": "macro-dd-vs-x-saber-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1418
+    },
+    {
+      "name": "macro-dd-vs-zombie-checkpoint",
+      "learner": "macro-dd",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1419
+    },
+    {
+      "name": "six-samurai-vs-blackwing-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "blackwing",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1420
+    },
+    {
+      "name": "six-samurai-vs-cyber-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "cyber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1421
+    },
+    {
+      "name": "six-samurai-vs-lightsworn-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "lightsworn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1422
+    },
+    {
+      "name": "six-samurai-vs-infernity-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "infernity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1423
+    },
+    {
+      "name": "six-samurai-vs-gishki-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "gishki",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1424
+    },
+    {
+      "name": "six-samurai-vs-burn-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1425
+    },
+    {
+      "name": "six-samurai-vs-crystal-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "crystal",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1426
+    },
+    {
+      "name": "six-samurai-vs-dragunity-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "dragunity",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1427
+    },
+    {
+      "name": "six-samurai-vs-gladiator-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "gladiator",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1428
+    },
+    {
+      "name": "six-samurai-vs-heroes-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "heroes",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1429
+    },
+    {
+      "name": "six-samurai-vs-monarch-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "monarch",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1430
+    },
+    {
+      "name": "six-samurai-vs-morphtronic-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "morphtronic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1431
+    },
+    {
+      "name": "six-samurai-vs-rock-block-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "rock-block",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1432
+    },
+    {
+      "name": "six-samurai-vs-spellcaster-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "spellcaster",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1433
+    },
+    {
+      "name": "six-samurai-vs-countdown-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "countdown",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1434
+    },
+    {
+      "name": "six-samurai-vs-verdict-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "verdict",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1435
+    },
+    {
+      "name": "six-samurai-vs-exodia-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "exodia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1436
+    },
+    {
+      "name": "six-samurai-vs-machina-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "machina",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1437
+    },
+    {
+      "name": "six-samurai-vs-chaos-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "chaos",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1438
+    },
+    {
+      "name": "six-samurai-vs-macro-dd-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "macro-dd",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1439
+    },
+    {
+      "name": "six-samurai-vs-six-samurai-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "six-samurai",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1440
+    },
+    {
+      "name": "six-samurai-vs-gravekeeper-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "gravekeeper",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1441
+    },
+    {
+      "name": "six-samurai-vs-scrap-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "scrap",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1442
+    },
+    {
+      "name": "six-samurai-vs-agents-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "agents",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1443
+    },
+    {
+      "name": "six-samurai-vs-quickdraw-plant-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "quickdraw-plant",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1444
+    },
+    {
+      "name": "six-samurai-vs-alien-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "alien",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1445
+    },
+    {
+      "name": "six-samurai-vs-amazoness-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "amazoness",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1446
+    },
+    {
+      "name": "six-samurai-vs-arcana-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "arcana",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1447
+    },
+    {
+      "name": "six-samurai-vs-batteryman-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "batteryman",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1448
+    },
+    {
+      "name": "six-samurai-vs-benkei-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "benkei",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1449
+    },
+    {
+      "name": "six-samurai-vs-chain-burn-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "chain-burn",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1450
+    },
+    {
+      "name": "six-samurai-vs-cloudian-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "cloudian",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1451
+    },
+    {
+      "name": "six-samurai-vs-counter-fairy-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "counter-fairy",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1452
+    },
+    {
+      "name": "six-samurai-vs-dark-world-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "dark-world",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1453
+    },
+    {
+      "name": "six-samurai-vs-deckout-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "deckout",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1454
+    },
+    {
+      "name": "six-samurai-vs-demise-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "demise",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1455
+    },
+    {
+      "name": "six-samurai-vs-destiny-board-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "destiny-board",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1456
+    },
+    {
+      "name": "six-samurai-vs-destiny-hero-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "destiny-hero",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1457
+    },
+    {
+      "name": "six-samurai-vs-draconic-might-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "draconic-might",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1458
+    },
+    {
+      "name": "six-samurai-vs-fabled-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "fabled",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1459
+    },
+    {
+      "name": "six-samurai-vs-fish-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "fish",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1460
+    },
+    {
+      "name": "six-samurai-vs-flamvell-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "flamvell",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1461
+    },
+    {
+      "name": "six-samurai-vs-fortune-lady-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "fortune-lady",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1462
+    },
+    {
+      "name": "six-samurai-vs-garden-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "garden",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1463
+    },
+    {
+      "name": "six-samurai-vs-gem-knight-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "gem-knight",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1464
+    },
+    {
+      "name": "six-samurai-vs-gemini-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "gemini",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1465
+    },
+    {
+      "name": "six-samurai-vs-genex-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "genex",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1466
+    },
+    {
+      "name": "six-samurai-vs-gusto-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "gusto",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1467
+    },
+    {
+      "name": "six-samurai-vs-harpie-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "harpie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1468
+    },
+    {
+      "name": "six-samurai-vs-herald-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "herald",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1469
+    },
+    {
+      "name": "six-samurai-vs-ice-barrier-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "ice-barrier",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1470
+    },
+    {
+      "name": "six-samurai-vs-iron-chain-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "iron-chain",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1471
+    },
+    {
+      "name": "six-samurai-vs-jurrac-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "jurrac",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1472
+    },
+    {
+      "name": "six-samurai-vs-karakuri-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "karakuri",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1473
+    },
+    {
+      "name": "six-samurai-vs-malefic-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "malefic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1474
+    },
+    {
+      "name": "six-samurai-vs-naturia-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "naturia",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1475
+    },
+    {
+      "name": "six-samurai-vs-nordic-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "nordic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1476
+    },
+    {
+      "name": "six-samurai-vs-nurse-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "nurse",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1477
+    },
+    {
+      "name": "six-samurai-vs-ojama-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "ojama",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1478
+    },
+    {
+      "name": "six-samurai-vs-psychic-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "psychic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1479
+    },
+    {
+      "name": "six-samurai-vs-pyramid-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "pyramid",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1480
+    },
+    {
+      "name": "six-samurai-vs-reptilianne-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "reptilianne",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1481
+    },
+    {
+      "name": "six-samurai-vs-spirit-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "spirit",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1482
+    },
+    {
+      "name": "six-samurai-vs-tele-dad-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "tele-dad",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1483
+    },
+    {
+      "name": "six-samurai-vs-toon-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "toon",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1484
+    },
+    {
+      "name": "six-samurai-vs-venom-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "venom",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1485
+    },
+    {
+      "name": "six-samurai-vs-volcanic-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "volcanic",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1486
+    },
+    {
+      "name": "six-samurai-vs-watt-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "watt",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1487
+    },
+    {
+      "name": "six-samurai-vs-worm-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "worm",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1488
+    },
+    {
+      "name": "six-samurai-vs-x-saber-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "x-saber",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1489
+    },
+    {
+      "name": "six-samurai-vs-zombie-checkpoint",
+      "learner": "six-samurai",
+      "opponent": "zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64,
+      "seed_index": 1490
+    }
+  ]
+}
