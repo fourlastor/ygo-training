@@ -1,8 +1,12 @@
 # A network of the seventy-one decks: their champions copied, then PPO
 
-**Status:** FUTURE
+**Status:** ACTIVE
 
 **Proposed:** 2026-10-28
+
+**Activated:** 2026-10-28, when [A network of fourteen decks](2026-10-26-fourteen-decks.md)
+was read and closed; the copy's design and readings fixed that morning and
+PPO's that afternoon, before anything was built.
 
 **Last updated:** 2026-10-28 (the copy's design and readings fixed that
 day, while the fourteen decks' mirror arms were measured, before anything
@@ -24,8 +28,9 @@ decks' pilots, kept as the answers it gave), so that a copy plays them again
 with no teacher asked (`train --copy-records`).
 
 The copy does not depend on what PPO is found to need. It is made as soon
-as the last recording is, while the fourteen decks' record is still active
-if it is: agreed on 2026-10-28, so that no time is lost waiting for it.
+as the last recording is: agreed on 2026-10-28 that it would be even while
+the fourteen decks' record was still active, so that no time was lost
+waiting for it, and that record was closed the same afternoon.
 
 ## Design (the copy's fixed on 2026-10-28, before anything was built)
 
