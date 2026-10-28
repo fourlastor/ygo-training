@@ -6,7 +6,8 @@
 
 **Last updated:** 2026-10-28 (the copy's design and readings fixed that
 day, while the fourteen decks' mirror arms were measured, before anything
-was built; PPO's to be drawn once those arms are read)
+was built, and the copy to be made before this record is active; PPO's to
+be drawn once those arms are read)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -20,6 +21,10 @@ expected on 2026-10-29, and each run's copy games are recorded once
 (`tools/record_champion.py`: in its mirror and against each of the thirteen
 decks' pilots, kept as the answers it gave), so that a copy plays them again
 with no teacher asked (`train --copy-records`).
+
+The copy does not depend on what PPO is found to need. It is made as soon
+as the last recording is, while the fourteen decks' record is still active
+if it is: agreed on 2026-10-28, so that no time is lost waiting for it.
 
 ## Design (the copy's fixed on 2026-10-28, before anything was built)
 
