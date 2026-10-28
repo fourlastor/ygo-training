@@ -22,7 +22,10 @@
 # archive is looked for there again just before it is recorded, since a look
 # can take hours. With REVERSE the list is gone through from its end: two
 # machines on one list meet in its middle, and a deck both begin before
-# either has sent it is recorded on both.
+# either has sent it is recorded on both. With BUSY, the other machine's OUT
+# (`daniele@luna:ygo-training/records-luna`), a deck whose folder is there
+# and its archive not yet is passed over: the other has begun it. A deck
+# begun here first can still be begun there.
 #
 #   WAIT=600 bash tools/record_champions.sh experiments/commands/champion-recordings.list
 set -euo pipefail
@@ -34,6 +37,7 @@ OPTIONS=${OPTIONS:-}
 TO=${TO:-}
 PULL=${PULL:-}
 REVERSE=${REVERSE:-}
+BUSY=${BUSY:-}
 # The interpreter of a machine that has no uv: the benchmark's setup leaves one.
 PYTHON=${PYTHON:-}
 python=(uv run python)
@@ -48,6 +52,16 @@ fetched() {
     rsync -q "$FROM/$2" "$kept.part" 2> /dev/null || return 1
     mv "$kept.part" "$kept"
   fi
+}
+
+# begun DECK: BUSY holds the deck's folder and not its archive. A machine
+# that does not answer has begun nothing.
+begun() {
+  case $BUSY in
+    *:*) ssh -o BatchMode=yes -o ConnectTimeout=20 "${BUSY%%:*}" \
+      "test -d '${BUSY#*:}/$1' && test ! -f '${BUSY#*:}/$1.tar'" < /dev/null 2> /dev/null ;;
+    *) [ -d "$BUSY/$1" ] && [ ! -f "$BUSY/$1.tar" ] ;;
+  esac
 }
 
 while :; do
@@ -81,6 +95,10 @@ while :; do
     if [ -n "$PULL" ] && [ -n "$TO" ] \
       && rsync -q --ignore-existing "$TO/$deck.tar" "$OUT/" < /dev/null 2> /dev/null; then
       left=$((left - 1))
+      continue
+    fi
+    # Being recorded there: its archive is pulled once it is sent.
+    if [ -n "$BUSY" ] && begun "$deck"; then
       continue
     fi
     echo "$(date '+%F %H:%M') $deck begins"
