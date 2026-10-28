@@ -108,10 +108,11 @@ def _run_evaluation_suite(
 ) -> dict[str, dict[str, Any]]:
     """Play every case of a suite: the live model's games, or its deck's
     pilot's, against the pilot of the opponent's deck or, where the case says
-    so, against the checkpoint the trainer holds.  With ``outcomes`` a case
-    also tells how each of its games ended.  With ``learner_list`` the
-    learner's seat plays the deck list of that file in place of its deck's
-    own."""
+    so, against the checkpoint the trainer holds.  A case may name several
+    opponent decks: its games are so many against each, on seeds of their
+    own, and all of them are played at once.  With ``outcomes`` a case also
+    tells how each of its games ended.  With ``learner_list`` the learner's
+    seat plays the deck list of that file in place of its deck's own."""
     if trainer.held is None and any(against_checkpoint(case) for case in suite["cases"]):
         raise ValueError(
             "The suite has a case against a checkpoint: name it with --opponent-checkpoint."
@@ -120,8 +121,8 @@ def _run_evaluation_suite(
     for index, case in enumerate(suite["cases"]):
         learner = _decks(trainer, str(case["learner"]))
         opponents = _decks(trainer, str(case["opponent"]))
-        if len(learner) != 1 or len(opponents) != 1:
-            raise ValueError(f"Evaluation case {case['name']!r} needs one learner and one opponent")
+        if len(learner) != 1 or not opponents:
+            raise ValueError(f"Evaluation case {case['name']!r} needs one learner and an opponent")
         try:
             results = trainer.evaluate_pool(
                 learner[0],
@@ -677,7 +678,7 @@ def evaluate_suite_checkpoints(args: argparse.Namespace) -> None:
         seed=args.seed,
         device=args.device,
         learner_deck=str(first_case["learner"]),
-        opponent_decks=[str(first_case["opponent"])],
+        opponent_decks=_deck_list(str(first_case["opponent"])),
         board_representation=args.board_representation,
         opponent_checkpoint=(
             None if args.opponent_checkpoint is None else str(args.opponent_checkpoint)
@@ -696,7 +697,11 @@ def evaluate_suite_checkpoints(args: argparse.Namespace) -> None:
     played_pairings = (
         None
         if learner_list is not None
-        else {(str(case["learner"]), str(case["opponent"])) for case in suite["cases"]}
+        else {
+            (str(case["learner"]), opponent)
+            for case in suite["cases"]
+            for opponent in _deck_list(str(case["opponent"])) or []
+        }
     )
     started = time.perf_counter()
     records: list[dict[str, Any]] = []
@@ -705,9 +710,10 @@ def evaluate_suite_checkpoints(args: argparse.Namespace) -> None:
         held = trainer.held_description
         folded = None if held is None else folded_pairing(held)
         if folded is not None and {
-            (str(case["opponent"]), str(case["learner"]))
+            (opponent, str(case["learner"]))
             for case in suite["cases"]
             if against_checkpoint(case)
+            for opponent in _deck_list(str(case["opponent"])) or []
         } != {folded}:
             raise ValueError(
                 f"The checkpoint held was folded for {folded[0]} against {folded[1]} "

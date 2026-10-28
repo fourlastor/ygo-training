@@ -35,14 +35,15 @@ class Trainer:
             self.against_it.append((learner, opponents, games, seed, pilot))
         return [
             {
-                "opponent": opponents[0],
+                "opponent": opponent,
                 "learner_player": index % 2,
-                "outcome": "win",
+                "outcome": "win" if opponent == opponents[0] else "loss",
                 "terminal": True,
                 "win_reason": 1,
                 "turns": 8,
                 "decisions": 30,
             }
+            for opponent in opponents
             for index in range(games)
         ]
 
@@ -152,6 +153,25 @@ def test_checkpoint_screen_can_retain_case_errors():
         name: {"error": "the duel failed", "error_type": "RuntimeError", "games_requested": games}
         for name, games in (("mirror", 4), ("monarch", 2))
     }
+
+
+def test_a_case_of_several_opponents_plays_them_all_at_once():
+    several = suite()
+    several["cases"][1]["opponent"] = "monarch, blackwing"
+    trainer = Trainer()
+
+    result = _run_evaluation_suite(trainer, several, seed=2012, outcomes=True)
+
+    # So many games against each, in one go: the pool deals each opponent
+    # seeds of its own.
+    assert trainer.played[1] == ("blackwing", ["monarch", "blackwing"], 2, 10_002_012, False)
+    found = result["monarch"]
+    assert found["games"] == 4
+    assert {name: tally["wins"] for name, tally in found["by_opponent"].items()} == {
+        "monarch": 2,
+        "blackwing": 0,
+    }
+    assert found["outcomes"] == ["win", "win", "loss", "loss"]
 
 
 def test_a_case_names_decks_of_the_pool():
