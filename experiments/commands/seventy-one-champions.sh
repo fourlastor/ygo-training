@@ -49,7 +49,7 @@
 #
 # By reckoning on the CUDA machine: the copy 20 to 30 hours, its
 # measurements 2 to 3 at seven at once; PPO some two days, a check some ten
-# minutes at seven at once, its measurements some three hours.
+# minutes at seven at once, its measurements about an hour.
 #   PARTS=copy bash experiments/commands/seventy-one-champions.sh
 #   PARTS=copy-measure AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=ppo AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
