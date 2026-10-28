@@ -8,9 +8,10 @@
 was read and closed; design and readings fixed that evening, before
 anything was built.
 
-**Last updated:** 2026-10-27 (the copy and the arm measured: the mirrors
-lost in PPO, `all71` not decided; the recipe arm held; two arms that give
-the mirrors a share of their duels, design and readings fixed and queued)
+**Last updated:** 2026-10-28 (the two arms that give the mirrors a share
+of their duels measured: a quarter kept them and was as good as the
+selfplay arm on the other pairings; half kept them better and was worse
+there)
 
 The network of four decks, its champions copied and then PPO on every
 pairing of its decks, played each mirror about as well as its champion and
@@ -194,6 +195,54 @@ of their own.
   standard errors, otherwise **not decided**.
 - Told beside them, without a mark: each arm less the copy head to head in
   the mirrors, deal by deal; each arm's curve along its updates.
+
+## The mirrors' arms: results (read on 2026-10-28)
+
+The two arms took 12.6 and 12.8 hours, trained at once; the measure 3
+hours 10 minutes, seven evaluations at once
+(`analysis/fourteen-decks/report.txt` on the CUDA machine).
+
+- **`quarter`**, a quarter of its duels in the mirrors:
+  1. **The mirrors: kept.** Head to head against each champion a mean of
+     49.1% ± 0.2%, Burn the lowest at 46.1% ± 0.5%. Blackwing 49.6%, Cyber
+     48.7%, Lightsworn 48.6%, Infernity 48.3%, Gishki 50.7%, Crystal
+     Beasts 51.5%, Dragunity 47.1%, Gladiator Beasts 50.3%, HEROes 49.6%,
+     Monarchs 46.7%, Morphtronics 49.4%, Rock-Block 49.1%, Spellcasters
+     51.8%.
+  2. **Against `all71`: not decided.** The mean over the pairings 56.8%;
+     the weakest, Lightsworn against Burn, 49.9% ± 0.5%.
+  4. **Against the selfplay arm: as good**, −0.2 ± 0.1 points over the
+     pairings against `all71`, the deals paired.
+- **`half`**, half of them:
+  1. **The mirrors: kept.** A mean of 51.1% ± 0.2%, Dragunity the lowest
+     at 48.7% ± 0.6%, Cyber the highest at 55.3%.
+  2. **Against `all71`: falls short**, on three pairings of Burn: against
+     Cyber 48.3% ± 0.9%, Lightsworn 48.6% ± 0.5% and Dragunity 48.6% ±
+     0.5%. The mean over the pairings 55.6%.
+  4. **Against the selfplay arm: worse**, −1.3 ± 0.1 points.
+
+Beside them:
+
+- Each arm less the copy head to head in the mirrors, deal by deal:
+  `quarter` +0.7 ± 0.2 points, from −3.0 (Burn), −2.1 (Monarchs) and −1.8
+  (Dragunity) to +3.8 (Spellcasters); `half` +2.7 ± 0.2, from −0.1
+  (Dragunity) to +8.2 (Cyber). The selfplay arm's was −3.5 ± 0.2.
+- Along their updates against `all71` on 64 games of each pairing, from
+  the copy's 53.0%: `quarter` at its highest 57.2% after 3,760 updates and
+  56.8% after 4,320, `half` 56.1% after 4,240 and 55.6% after 4,320, the
+  selfplay arm 57.3% and 56.7%.
+- Against the thirteen decks' pilots `quarter` 64.1% and `half` 62.5%, the
+  selfplay arm 64.1%, `all71` 58.3% on the same games (`quarter` +5.7 ±
+  0.3 points over it, `half` +4.1 ± 0.3).
+- Head to head against the network of four decks on its pairings:
+  `quarter` 47.1% ± 0.2%, `half` 46.7% ± 0.2%, the selfplay arm 45.2% ±
+  0.2%.
+
+A quarter of PPO's duels in the mirrors kept them, and the other pairings
+gained as much as when the duels were spread evenly; half took the mirrors
+over the champions, two points beyond the quarter, for 1.3 points of the
+other pairings. Still to be decided: whether this record closes on these
+readings, the seventy-one decks' PPO drawn from them.
 
 ## Beside it: luna's queue
 
