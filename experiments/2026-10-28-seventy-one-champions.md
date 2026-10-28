@@ -116,17 +116,19 @@ pairings. The seventy-one decks' PPO takes the quarter.
   decks' pace, and after each its last checkpoint is measured, the
   training paused, on the same deals every time: head to head against
   each teacher in its mirror, 128 deals from both seats (18,176 games),
-  and against `all71` on 71 of the ordered pairings, each deck against the
-  deck after it in the list and the last against the first, 256 games each
-  (18,176 games; `eval_suites/seventy-one-decks-check-pairings-checkpoint.json`).
-  The copy's last checkpoint is measured once on the same deals before PPO
+  and against `all71` on every ordered pairing, 4 games each (20,164
+  games), one case a deck against all seventy-one
+  (`eval_suites/seventy-one-decks-check-pairings-checkpoint.json`). The
+  copy's last checkpoint is measured once on the same deals before PPO
   begins. Head to head, because against `all71` the fourteen decks'
   selfplay arm held its mirrors where the copy had them while it lost them
-  head to head against the champions. Every ordered pairing at 4 games
-  each, as first agreed, was dropped before anything was built: the
-  evaluator plays a suite's cases one after the other, each waiting for
-  its slowest duel, some 5 seconds a case on the CUDA machine seven at
-  once, and 5,041 cases would take about an hour a check.
+  head to head against the champions. Some ten minutes a check by
+  reckoning, seven at once. The cases of a suite go one after the other,
+  each waiting for its slowest duel, some 5 seconds a case on the CUDA
+  machine seven at once, and 5,041 cases of one pairing each would take
+  about an hour a check: since 2026-10-28 a case may name several
+  opponents, its games all played at once, and on the processor such a
+  case plays the same games as each opponent alone.
 - **The rule**: PPO stops when the mean over the mirrors head to head, or
   the mean over the pairings against `all71`, is under the copy's by at
   least 1 point by two standard errors, the deals paired, the same of the
@@ -134,14 +136,14 @@ pairings. The seventy-one decks' PPO takes the quarter.
   checkpoints are kept, and a run so stopped can be taken on from its last.
   Where it stops for the mirrors, half of its duels in the mirrors (each
   mirror 70, each other pairing 1) is the next to try.
-- **Measured** at its end (`PARTS=ppo-measure`, seven at once, some three
-  hours by reckoning): its last checkpoint head to head against each
+- **Measured** at its end (`PARTS=ppo-measure`, seven at once, about an
+  hour by reckoning): its last checkpoint head to head against each
   teacher in its mirror, 2,048 deals from both seats; it and the copy
   against `all71` on every ordered pairing, 64 games each (322,624 games;
   `eval_suites/seventy-one-decks-pairings-quick-checkpoint-1.json` to
-  `-7.json`, one suite's deals in seven parts by the learner's deck that go
-  at once); it against the thirteen decks' pilots, 128 games each, beside
-  the copy and `all71`.
+  `-7.json`, one case a deck against all seventy-one, one suite's deals in
+  seven parts that go at once); it against the thirteen decks' pilots, 128
+  games each, beside the copy and `all71`.
 - The copy is not checked so: it imitates its teachers' recorded answers.
 
 ### Readings (fixed on 2026-10-28, before anything of PPO was built)

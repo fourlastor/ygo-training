@@ -76,15 +76,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from fourteen_decks_report import (
-    ERRORS,
-    against_pilots,
-    beats,
-    joined,
-    kept_mirrors,
-    number,
-    outcomes_of,
-)
+from fourteen_decks_report import ERRORS, against_pilots, beats, joined, kept_mirrors, number
 from seventy_one_checks import read as checks_read
 from specialist_distillation_report import shares, spent, stems
 from two_decks_report import mean, paired, told
@@ -172,21 +164,36 @@ def report(directory: Path, decks: list[str], champions: Path, teachers: Path) -
     return result
 
 
-def against_all71(folder: Path, network: str) -> dict[str, list[str]]:
-    """How each game of every ordered pairing against `all71` ended, the
-    suite's parts together."""
-    played: dict[str, list[str]] = {}
+def against_all71(folder: Path, network: str) -> dict[str, dict[str, Any]]:
+    """Each case against `all71`, the suite's parts together: how each of its
+    games ended, and its games against each opponent deck."""
+    cases: dict[str, dict[str, Any]] = {}
     for path in sorted(folder.glob(f"{network}-*.json")):
-        played.update(outcomes_of(path))
-    if not played:
+        (record,) = json.loads(path.read_text(encoding="utf8"))["records"]
+        cases.update(record["evaluation_suite"])
+    if not cases:
         raise SystemExit(f"Nothing of {network} is measured in {folder}")
-    return played
+    return cases
 
 
-def won(played: dict[str, list[str]], cases: list[str] | None = None) -> list[float]:
+def won(cases: dict[str, dict[str, Any]], names: list[str] | None = None) -> list[float]:
     """Each game won or not, in the order of the cases' names."""
-    names = played if cases is None else cases
-    return [float(game == "win") for name in sorted(names) for game in played[name]]
+    chosen = cases if names is None else names
+    return [float(game == "win") for name in sorted(chosen) for game in cases[name]["outcomes"]]
+
+
+def mirrored(cases: dict[str, dict[str, Any]], decks: list[str]) -> float:
+    """The mean over the decks of each one's share in its mirror against
+    `all71`."""
+    each = []
+    for deck in decks:
+        tallies = [
+            case["by_opponent"][deck]
+            for name, case in cases.items()
+            if name.split("-vs-")[0] == deck and deck in case["by_opponent"]
+        ]
+        each.append(sum(one["wins"] for one in tallies) / sum(one["games"] for one in tallies))
+    return mean(each)
 
 
 def pays(gap: float, error_: float) -> str:
@@ -211,7 +218,6 @@ def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
     }
     weakest = min(by_deck, key=lambda deck: by_deck[deck]["share"])
     gain = paired(won(ours), won(theirs))
-    mirrors = [f"{deck}-vs-{deck}-checkpoint" for deck in decks]
     found: dict[str, Any] = {
         "mirrors": {**kept_mirrors(heads), "each": heads},
         "against all71": {
@@ -221,10 +227,7 @@ def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
             "each": by_deck,
         },
         "against the copy": {**gain, "verdict": pays(gain["gap"], gain["error"])},
-        "mirrors against all71": {
-            "ppo": mean(won(ours, mirrors)),
-            "taught": mean(won(theirs, mirrors)),
-        },
+        "mirrors against all71": {"ppo": mirrored(ours, decks), "taught": mirrored(theirs, decks)},
         "hours": spent(directory, "ppo"),
     }
     pilots = directory / "pilots"

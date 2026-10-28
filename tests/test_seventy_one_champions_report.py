@@ -31,6 +31,20 @@ def won(wins: int) -> list[str]:
     return ["win"] * wins + ["loss"] * (DEALS - wins)
 
 
+def against_each(path: Path, wins: dict[str, int]) -> None:
+    """Each deck in the learner's seat against all71 playing each of the
+    decks in one case, winning `wins[deck]` of each opponent's games."""
+    cases = {}
+    for one, share in wins.items():
+        cases[f"{one}-vs-each-checkpoint"] = {
+            "games": DEALS * len(DECKS),
+            "outcomes": won(share) * len(DECKS),
+            "by_opponent": {other: {"games": DEALS, "wins": share} for other in DECKS},
+        }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"records": [{"evaluation_suite": cases}]}))
+
+
 def measured(out: Path, *, heads: dict[str, int] | None = None) -> Path:
     """The copy measured as the script measures it: head to head against
     each teacher at `heads` (48 where not named), against all71 in each
@@ -99,13 +113,9 @@ def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_pat
     # Cyber in the learner's seat 25 fewer each; the suite in two parts.
     for part, learners in enumerate((DECKS[:2], DECKS[2:]), start=1):
         for who, wins in (("ppo", 60), ("taught", 55)):
-            played(
+            against_each(
                 out / "pairings" / f"{who}-{part}.json",
-                {
-                    f"{one}-vs-{other}-checkpoint": won(wins - 25 * (one == "cyber"))
-                    for one in learners
-                    for other in DECKS
-                },
+                {one: wins - 25 * (one == "cyber") for one in learners},
             )
     played(
         out / "pilots" / "ppo.json",
