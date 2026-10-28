@@ -1,6 +1,6 @@
 # A network of fourteen decks: the champions copied, then PPO against itself alone
 
-**Status:** ACTIVE
+**Status:** COMPLETED
 
 **Proposed:** 2026-10-26
 
@@ -11,7 +11,7 @@ anything was built.
 **Last updated:** 2026-10-28 (the two arms that give the mirrors a share
 of their duels measured: a quarter kept them and was as good as the
 selfplay arm on the other pairings; half kept them better and was worse
-there)
+there; closed)
 
 The network of four decks, its champions copied and then PPO on every
 pairing of its decks, played each mirror about as well as its champion and
@@ -241,8 +241,19 @@ Beside them:
 A quarter of PPO's duels in the mirrors kept them, and the other pairings
 gained as much as when the duels were spread evenly; half took the mirrors
 over the champions, two points beyond the quarter, for 1.3 points of the
-other pairings. Still to be decided: whether this record closes on these
-readings, the seventy-one decks' PPO drawn from them.
+other pairings.
+
+## Conclusion (closed on 2026-10-28)
+
+The champions' copy keeps the mirrors of fourteen decks head to head
+(48.4% ± 0.1% against each champion), and PPO with every duel against
+itself loses them where the mirrors have only their share of the ordered
+pairings, 7% of its duels (44.9% ± 0.2%). A quarter of its duels in the
+mirrors keeps them (49.1% ± 0.2%) and gains as much on the other pairings;
+half takes them over the champions (51.1% ± 0.2%) for 1.3 points of the
+others. No arm was decided against `all71` on every pairing, the weakest of
+each about even. The seventy-one decks' PPO takes the quarter
+([A network of the seventy-one decks](2026-10-28-seventy-one-champions.md)).
 
 ## Beside it: luna's queue
 
