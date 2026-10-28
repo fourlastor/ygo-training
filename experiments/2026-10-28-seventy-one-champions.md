@@ -28,8 +28,8 @@ with no teacher asked (`train --copy-records`).
   [the champions' release](../models/champions.md), Countdown and Verdict
   (made on 2026-10-26), and the fifty-five being made since 2026-10-27 on
   the CUDA machine, a lent machine and a rented one (`runs/champions/DECK`
-  on the CUDA machine). A run is a champion when it
-  is over 52% by two standard errors against `all71` in its mirror. One
+  on the CUDA machine). A run is a champion when it is over 52% by two
+  standard errors against `all71` in its mirror. One
   that is not is copied all the same where it is not under `all71` by two
   standard errors (Tele-DAD: 51.0% ± 0.5%, not told apart); one under it
   would be taught by `all71` instead, its games recorded the same way.
@@ -49,13 +49,18 @@ with no teacher asked (`train --copy-records`).
   thread's last duel arena for its next duel: the same games as the
   engine the recordings were made with, played again and held to their
   digests on 2026-10-28.
-- **Measured**, on the CUDA machine, several at once through MPS: the copy's
-  last checkpoint head to head against each teacher in its mirror, 2,048
+- **Measured** (`experiments/commands/seventy-one-champions.sh`, `PARTS`
+  copy and copy-measure, the teachers held to the rule above by
+  `tools/seventy_one_teachers.py` before the copy;
+  `tools/seventy_one_champions_report.py`), on the CUDA machine, several at
+  once through MPS: the copy's last checkpoint head to head against each
+  teacher in its mirror, 2,048
   deals from both seats; it and its checkpoints after 40, 80 and 120 updates
   a deck against `all71` in each mirror, 2,048 deals from both seats, beside
   each teacher's own figure from its making; it against the thirteen decks'
-  pilots, each deck against each, 128 games, beside `all71` on the same
-  games.
+  pilots, each deck against each, 128 games
+  (`eval_suites/seventy-one-decks-against-pilots.json`), beside `all71` on
+  the same games.
 - By reckoning: some 20 to 30 hours for the copy (the games played again at
   about 3.5 seconds an update on the development machine, the step 2 to 3
   on the CUDA machine), 2 to 3 to measure.

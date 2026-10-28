@@ -1,0 +1,5544 @@
+{
+  "name": "seventy-one-decks-against-pilots",
+  "primary": "blackwing-vs-blackwing",
+  "cases": [
+    {
+      "name": "blackwing-vs-blackwing",
+      "learner": "blackwing",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-lightsworn",
+      "learner": "blackwing",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-gishki",
+      "learner": "blackwing",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-burn",
+      "learner": "blackwing",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-crystal",
+      "learner": "blackwing",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-dragunity",
+      "learner": "blackwing",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-gladiator",
+      "learner": "blackwing",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-heroes",
+      "learner": "blackwing",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-infernity",
+      "learner": "blackwing",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-monarch",
+      "learner": "blackwing",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-morphtronic",
+      "learner": "blackwing",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-rock-block",
+      "learner": "blackwing",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "blackwing-vs-spellcaster",
+      "learner": "blackwing",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-blackwing",
+      "learner": "cyber",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-lightsworn",
+      "learner": "cyber",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-gishki",
+      "learner": "cyber",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-burn",
+      "learner": "cyber",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-crystal",
+      "learner": "cyber",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-dragunity",
+      "learner": "cyber",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-gladiator",
+      "learner": "cyber",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-heroes",
+      "learner": "cyber",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-infernity",
+      "learner": "cyber",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-monarch",
+      "learner": "cyber",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-morphtronic",
+      "learner": "cyber",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-rock-block",
+      "learner": "cyber",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "cyber-vs-spellcaster",
+      "learner": "cyber",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-blackwing",
+      "learner": "lightsworn",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-lightsworn",
+      "learner": "lightsworn",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-gishki",
+      "learner": "lightsworn",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-burn",
+      "learner": "lightsworn",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-crystal",
+      "learner": "lightsworn",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-dragunity",
+      "learner": "lightsworn",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-gladiator",
+      "learner": "lightsworn",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-heroes",
+      "learner": "lightsworn",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-infernity",
+      "learner": "lightsworn",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-monarch",
+      "learner": "lightsworn",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-morphtronic",
+      "learner": "lightsworn",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-rock-block",
+      "learner": "lightsworn",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "lightsworn-vs-spellcaster",
+      "learner": "lightsworn",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-blackwing",
+      "learner": "infernity",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-lightsworn",
+      "learner": "infernity",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-gishki",
+      "learner": "infernity",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-burn",
+      "learner": "infernity",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-crystal",
+      "learner": "infernity",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-dragunity",
+      "learner": "infernity",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-gladiator",
+      "learner": "infernity",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-heroes",
+      "learner": "infernity",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-infernity",
+      "learner": "infernity",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-monarch",
+      "learner": "infernity",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-morphtronic",
+      "learner": "infernity",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-rock-block",
+      "learner": "infernity",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "infernity-vs-spellcaster",
+      "learner": "infernity",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-blackwing",
+      "learner": "gishki",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-lightsworn",
+      "learner": "gishki",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-gishki",
+      "learner": "gishki",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-burn",
+      "learner": "gishki",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-crystal",
+      "learner": "gishki",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-dragunity",
+      "learner": "gishki",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-gladiator",
+      "learner": "gishki",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-heroes",
+      "learner": "gishki",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-infernity",
+      "learner": "gishki",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-monarch",
+      "learner": "gishki",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-morphtronic",
+      "learner": "gishki",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-rock-block",
+      "learner": "gishki",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gishki-vs-spellcaster",
+      "learner": "gishki",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-blackwing",
+      "learner": "burn",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-lightsworn",
+      "learner": "burn",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-gishki",
+      "learner": "burn",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-burn",
+      "learner": "burn",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-crystal",
+      "learner": "burn",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-dragunity",
+      "learner": "burn",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-gladiator",
+      "learner": "burn",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-heroes",
+      "learner": "burn",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-infernity",
+      "learner": "burn",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-monarch",
+      "learner": "burn",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-morphtronic",
+      "learner": "burn",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-rock-block",
+      "learner": "burn",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "burn-vs-spellcaster",
+      "learner": "burn",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-blackwing",
+      "learner": "crystal",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-lightsworn",
+      "learner": "crystal",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-gishki",
+      "learner": "crystal",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-burn",
+      "learner": "crystal",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-crystal",
+      "learner": "crystal",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-dragunity",
+      "learner": "crystal",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-gladiator",
+      "learner": "crystal",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-heroes",
+      "learner": "crystal",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-infernity",
+      "learner": "crystal",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-monarch",
+      "learner": "crystal",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-morphtronic",
+      "learner": "crystal",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-rock-block",
+      "learner": "crystal",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "crystal-vs-spellcaster",
+      "learner": "crystal",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-blackwing",
+      "learner": "dragunity",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-lightsworn",
+      "learner": "dragunity",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-gishki",
+      "learner": "dragunity",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-burn",
+      "learner": "dragunity",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-crystal",
+      "learner": "dragunity",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-dragunity",
+      "learner": "dragunity",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-gladiator",
+      "learner": "dragunity",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-heroes",
+      "learner": "dragunity",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-infernity",
+      "learner": "dragunity",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-monarch",
+      "learner": "dragunity",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-morphtronic",
+      "learner": "dragunity",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-rock-block",
+      "learner": "dragunity",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "dragunity-vs-spellcaster",
+      "learner": "dragunity",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-blackwing",
+      "learner": "gladiator",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-lightsworn",
+      "learner": "gladiator",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-gishki",
+      "learner": "gladiator",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-burn",
+      "learner": "gladiator",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-crystal",
+      "learner": "gladiator",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-dragunity",
+      "learner": "gladiator",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-gladiator",
+      "learner": "gladiator",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-heroes",
+      "learner": "gladiator",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-infernity",
+      "learner": "gladiator",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-monarch",
+      "learner": "gladiator",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-morphtronic",
+      "learner": "gladiator",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-rock-block",
+      "learner": "gladiator",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gladiator-vs-spellcaster",
+      "learner": "gladiator",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-blackwing",
+      "learner": "heroes",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-lightsworn",
+      "learner": "heroes",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-gishki",
+      "learner": "heroes",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-burn",
+      "learner": "heroes",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-crystal",
+      "learner": "heroes",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-dragunity",
+      "learner": "heroes",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-gladiator",
+      "learner": "heroes",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-heroes",
+      "learner": "heroes",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-infernity",
+      "learner": "heroes",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-monarch",
+      "learner": "heroes",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-morphtronic",
+      "learner": "heroes",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-rock-block",
+      "learner": "heroes",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "heroes-vs-spellcaster",
+      "learner": "heroes",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-blackwing",
+      "learner": "monarch",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-lightsworn",
+      "learner": "monarch",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-gishki",
+      "learner": "monarch",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-burn",
+      "learner": "monarch",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-crystal",
+      "learner": "monarch",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-dragunity",
+      "learner": "monarch",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-gladiator",
+      "learner": "monarch",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-heroes",
+      "learner": "monarch",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-infernity",
+      "learner": "monarch",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-monarch",
+      "learner": "monarch",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-morphtronic",
+      "learner": "monarch",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-rock-block",
+      "learner": "monarch",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "monarch-vs-spellcaster",
+      "learner": "monarch",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-blackwing",
+      "learner": "morphtronic",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-lightsworn",
+      "learner": "morphtronic",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-gishki",
+      "learner": "morphtronic",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-burn",
+      "learner": "morphtronic",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-crystal",
+      "learner": "morphtronic",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-dragunity",
+      "learner": "morphtronic",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-gladiator",
+      "learner": "morphtronic",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-heroes",
+      "learner": "morphtronic",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-infernity",
+      "learner": "morphtronic",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-monarch",
+      "learner": "morphtronic",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-morphtronic",
+      "learner": "morphtronic",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-rock-block",
+      "learner": "morphtronic",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "morphtronic-vs-spellcaster",
+      "learner": "morphtronic",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-blackwing",
+      "learner": "rock-block",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-lightsworn",
+      "learner": "rock-block",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-gishki",
+      "learner": "rock-block",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-burn",
+      "learner": "rock-block",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-crystal",
+      "learner": "rock-block",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-dragunity",
+      "learner": "rock-block",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-gladiator",
+      "learner": "rock-block",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-heroes",
+      "learner": "rock-block",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-infernity",
+      "learner": "rock-block",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-monarch",
+      "learner": "rock-block",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-morphtronic",
+      "learner": "rock-block",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-rock-block",
+      "learner": "rock-block",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "rock-block-vs-spellcaster",
+      "learner": "rock-block",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-blackwing",
+      "learner": "spellcaster",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-lightsworn",
+      "learner": "spellcaster",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-gishki",
+      "learner": "spellcaster",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-burn",
+      "learner": "spellcaster",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-crystal",
+      "learner": "spellcaster",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-dragunity",
+      "learner": "spellcaster",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-gladiator",
+      "learner": "spellcaster",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-heroes",
+      "learner": "spellcaster",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-infernity",
+      "learner": "spellcaster",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-monarch",
+      "learner": "spellcaster",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-morphtronic",
+      "learner": "spellcaster",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-rock-block",
+      "learner": "spellcaster",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "spellcaster-vs-spellcaster",
+      "learner": "spellcaster",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-blackwing",
+      "learner": "countdown",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-lightsworn",
+      "learner": "countdown",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-gishki",
+      "learner": "countdown",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-burn",
+      "learner": "countdown",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-crystal",
+      "learner": "countdown",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-dragunity",
+      "learner": "countdown",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-gladiator",
+      "learner": "countdown",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-heroes",
+      "learner": "countdown",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-infernity",
+      "learner": "countdown",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-monarch",
+      "learner": "countdown",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-morphtronic",
+      "learner": "countdown",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-rock-block",
+      "learner": "countdown",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "countdown-vs-spellcaster",
+      "learner": "countdown",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-blackwing",
+      "learner": "verdict",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-lightsworn",
+      "learner": "verdict",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-gishki",
+      "learner": "verdict",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-burn",
+      "learner": "verdict",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-crystal",
+      "learner": "verdict",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-dragunity",
+      "learner": "verdict",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-gladiator",
+      "learner": "verdict",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-heroes",
+      "learner": "verdict",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-infernity",
+      "learner": "verdict",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-monarch",
+      "learner": "verdict",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-morphtronic",
+      "learner": "verdict",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-rock-block",
+      "learner": "verdict",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "verdict-vs-spellcaster",
+      "learner": "verdict",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-blackwing",
+      "learner": "exodia",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-lightsworn",
+      "learner": "exodia",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-gishki",
+      "learner": "exodia",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-burn",
+      "learner": "exodia",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-crystal",
+      "learner": "exodia",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-dragunity",
+      "learner": "exodia",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-gladiator",
+      "learner": "exodia",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-heroes",
+      "learner": "exodia",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-infernity",
+      "learner": "exodia",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-monarch",
+      "learner": "exodia",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-morphtronic",
+      "learner": "exodia",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-rock-block",
+      "learner": "exodia",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "exodia-vs-spellcaster",
+      "learner": "exodia",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-blackwing",
+      "learner": "machina",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-lightsworn",
+      "learner": "machina",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-gishki",
+      "learner": "machina",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-burn",
+      "learner": "machina",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-crystal",
+      "learner": "machina",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-dragunity",
+      "learner": "machina",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-gladiator",
+      "learner": "machina",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-heroes",
+      "learner": "machina",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-infernity",
+      "learner": "machina",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-monarch",
+      "learner": "machina",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-morphtronic",
+      "learner": "machina",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-rock-block",
+      "learner": "machina",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "machina-vs-spellcaster",
+      "learner": "machina",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-blackwing",
+      "learner": "chaos",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-lightsworn",
+      "learner": "chaos",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-gishki",
+      "learner": "chaos",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-burn",
+      "learner": "chaos",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-crystal",
+      "learner": "chaos",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-dragunity",
+      "learner": "chaos",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-gladiator",
+      "learner": "chaos",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-heroes",
+      "learner": "chaos",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-infernity",
+      "learner": "chaos",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-monarch",
+      "learner": "chaos",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-morphtronic",
+      "learner": "chaos",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-rock-block",
+      "learner": "chaos",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "chaos-vs-spellcaster",
+      "learner": "chaos",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-blackwing",
+      "learner": "macro-dd",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-lightsworn",
+      "learner": "macro-dd",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-gishki",
+      "learner": "macro-dd",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-burn",
+      "learner": "macro-dd",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-crystal",
+      "learner": "macro-dd",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-dragunity",
+      "learner": "macro-dd",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-gladiator",
+      "learner": "macro-dd",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-heroes",
+      "learner": "macro-dd",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-infernity",
+      "learner": "macro-dd",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-monarch",
+      "learner": "macro-dd",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-morphtronic",
+      "learner": "macro-dd",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-rock-block",
+      "learner": "macro-dd",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "macro-dd-vs-spellcaster",
+      "learner": "macro-dd",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-blackwing",
+      "learner": "six-samurai",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-lightsworn",
+      "learner": "six-samurai",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-gishki",
+      "learner": "six-samurai",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-burn",
+      "learner": "six-samurai",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-crystal",
+      "learner": "six-samurai",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-dragunity",
+      "learner": "six-samurai",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-gladiator",
+      "learner": "six-samurai",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-heroes",
+      "learner": "six-samurai",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-infernity",
+      "learner": "six-samurai",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-monarch",
+      "learner": "six-samurai",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-morphtronic",
+      "learner": "six-samurai",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-rock-block",
+      "learner": "six-samurai",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "six-samurai-vs-spellcaster",
+      "learner": "six-samurai",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-blackwing",
+      "learner": "gravekeeper",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-lightsworn",
+      "learner": "gravekeeper",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-gishki",
+      "learner": "gravekeeper",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-burn",
+      "learner": "gravekeeper",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-crystal",
+      "learner": "gravekeeper",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-dragunity",
+      "learner": "gravekeeper",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-gladiator",
+      "learner": "gravekeeper",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-heroes",
+      "learner": "gravekeeper",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-infernity",
+      "learner": "gravekeeper",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-monarch",
+      "learner": "gravekeeper",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-morphtronic",
+      "learner": "gravekeeper",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-rock-block",
+      "learner": "gravekeeper",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gravekeeper-vs-spellcaster",
+      "learner": "gravekeeper",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-blackwing",
+      "learner": "scrap",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-lightsworn",
+      "learner": "scrap",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-gishki",
+      "learner": "scrap",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-burn",
+      "learner": "scrap",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-crystal",
+      "learner": "scrap",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-dragunity",
+      "learner": "scrap",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-gladiator",
+      "learner": "scrap",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-heroes",
+      "learner": "scrap",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-infernity",
+      "learner": "scrap",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-monarch",
+      "learner": "scrap",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-morphtronic",
+      "learner": "scrap",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-rock-block",
+      "learner": "scrap",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "scrap-vs-spellcaster",
+      "learner": "scrap",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-blackwing",
+      "learner": "agents",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-lightsworn",
+      "learner": "agents",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-gishki",
+      "learner": "agents",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-burn",
+      "learner": "agents",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-crystal",
+      "learner": "agents",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-dragunity",
+      "learner": "agents",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-gladiator",
+      "learner": "agents",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-heroes",
+      "learner": "agents",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-infernity",
+      "learner": "agents",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-monarch",
+      "learner": "agents",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-morphtronic",
+      "learner": "agents",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-rock-block",
+      "learner": "agents",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "agents-vs-spellcaster",
+      "learner": "agents",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-blackwing",
+      "learner": "quickdraw-plant",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-lightsworn",
+      "learner": "quickdraw-plant",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-gishki",
+      "learner": "quickdraw-plant",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-burn",
+      "learner": "quickdraw-plant",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-crystal",
+      "learner": "quickdraw-plant",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-dragunity",
+      "learner": "quickdraw-plant",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-gladiator",
+      "learner": "quickdraw-plant",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-heroes",
+      "learner": "quickdraw-plant",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-infernity",
+      "learner": "quickdraw-plant",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-monarch",
+      "learner": "quickdraw-plant",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-morphtronic",
+      "learner": "quickdraw-plant",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-rock-block",
+      "learner": "quickdraw-plant",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "quickdraw-plant-vs-spellcaster",
+      "learner": "quickdraw-plant",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-blackwing",
+      "learner": "alien",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-lightsworn",
+      "learner": "alien",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-gishki",
+      "learner": "alien",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-burn",
+      "learner": "alien",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-crystal",
+      "learner": "alien",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-dragunity",
+      "learner": "alien",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-gladiator",
+      "learner": "alien",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-heroes",
+      "learner": "alien",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-infernity",
+      "learner": "alien",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-monarch",
+      "learner": "alien",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-morphtronic",
+      "learner": "alien",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-rock-block",
+      "learner": "alien",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "alien-vs-spellcaster",
+      "learner": "alien",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-blackwing",
+      "learner": "amazoness",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-lightsworn",
+      "learner": "amazoness",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-gishki",
+      "learner": "amazoness",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-burn",
+      "learner": "amazoness",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-crystal",
+      "learner": "amazoness",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-dragunity",
+      "learner": "amazoness",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-gladiator",
+      "learner": "amazoness",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-heroes",
+      "learner": "amazoness",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-infernity",
+      "learner": "amazoness",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-monarch",
+      "learner": "amazoness",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-morphtronic",
+      "learner": "amazoness",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-rock-block",
+      "learner": "amazoness",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "amazoness-vs-spellcaster",
+      "learner": "amazoness",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-blackwing",
+      "learner": "arcana",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-lightsworn",
+      "learner": "arcana",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-gishki",
+      "learner": "arcana",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-burn",
+      "learner": "arcana",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-crystal",
+      "learner": "arcana",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-dragunity",
+      "learner": "arcana",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-gladiator",
+      "learner": "arcana",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-heroes",
+      "learner": "arcana",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-infernity",
+      "learner": "arcana",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-monarch",
+      "learner": "arcana",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-morphtronic",
+      "learner": "arcana",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-rock-block",
+      "learner": "arcana",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "arcana-vs-spellcaster",
+      "learner": "arcana",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-blackwing",
+      "learner": "batteryman",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-lightsworn",
+      "learner": "batteryman",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-gishki",
+      "learner": "batteryman",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-burn",
+      "learner": "batteryman",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-crystal",
+      "learner": "batteryman",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-dragunity",
+      "learner": "batteryman",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-gladiator",
+      "learner": "batteryman",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-heroes",
+      "learner": "batteryman",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-infernity",
+      "learner": "batteryman",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-monarch",
+      "learner": "batteryman",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-morphtronic",
+      "learner": "batteryman",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-rock-block",
+      "learner": "batteryman",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "batteryman-vs-spellcaster",
+      "learner": "batteryman",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-blackwing",
+      "learner": "benkei",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-lightsworn",
+      "learner": "benkei",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-gishki",
+      "learner": "benkei",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-burn",
+      "learner": "benkei",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-crystal",
+      "learner": "benkei",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-dragunity",
+      "learner": "benkei",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-gladiator",
+      "learner": "benkei",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-heroes",
+      "learner": "benkei",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-infernity",
+      "learner": "benkei",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-monarch",
+      "learner": "benkei",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-morphtronic",
+      "learner": "benkei",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-rock-block",
+      "learner": "benkei",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "benkei-vs-spellcaster",
+      "learner": "benkei",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-blackwing",
+      "learner": "chain-burn",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-lightsworn",
+      "learner": "chain-burn",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-gishki",
+      "learner": "chain-burn",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-burn",
+      "learner": "chain-burn",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-crystal",
+      "learner": "chain-burn",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-dragunity",
+      "learner": "chain-burn",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-gladiator",
+      "learner": "chain-burn",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-heroes",
+      "learner": "chain-burn",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-infernity",
+      "learner": "chain-burn",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-monarch",
+      "learner": "chain-burn",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-morphtronic",
+      "learner": "chain-burn",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-rock-block",
+      "learner": "chain-burn",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "chain-burn-vs-spellcaster",
+      "learner": "chain-burn",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-blackwing",
+      "learner": "cloudian",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-lightsworn",
+      "learner": "cloudian",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-gishki",
+      "learner": "cloudian",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-burn",
+      "learner": "cloudian",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-crystal",
+      "learner": "cloudian",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-dragunity",
+      "learner": "cloudian",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-gladiator",
+      "learner": "cloudian",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-heroes",
+      "learner": "cloudian",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-infernity",
+      "learner": "cloudian",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-monarch",
+      "learner": "cloudian",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-morphtronic",
+      "learner": "cloudian",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-rock-block",
+      "learner": "cloudian",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "cloudian-vs-spellcaster",
+      "learner": "cloudian",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-blackwing",
+      "learner": "counter-fairy",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-lightsworn",
+      "learner": "counter-fairy",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-gishki",
+      "learner": "counter-fairy",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-burn",
+      "learner": "counter-fairy",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-crystal",
+      "learner": "counter-fairy",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-dragunity",
+      "learner": "counter-fairy",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-gladiator",
+      "learner": "counter-fairy",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-heroes",
+      "learner": "counter-fairy",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-infernity",
+      "learner": "counter-fairy",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-monarch",
+      "learner": "counter-fairy",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-morphtronic",
+      "learner": "counter-fairy",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-rock-block",
+      "learner": "counter-fairy",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "counter-fairy-vs-spellcaster",
+      "learner": "counter-fairy",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-blackwing",
+      "learner": "dark-world",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-lightsworn",
+      "learner": "dark-world",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-gishki",
+      "learner": "dark-world",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-burn",
+      "learner": "dark-world",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-crystal",
+      "learner": "dark-world",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-dragunity",
+      "learner": "dark-world",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-gladiator",
+      "learner": "dark-world",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-heroes",
+      "learner": "dark-world",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-infernity",
+      "learner": "dark-world",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-monarch",
+      "learner": "dark-world",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-morphtronic",
+      "learner": "dark-world",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-rock-block",
+      "learner": "dark-world",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "dark-world-vs-spellcaster",
+      "learner": "dark-world",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-blackwing",
+      "learner": "deckout",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-lightsworn",
+      "learner": "deckout",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-gishki",
+      "learner": "deckout",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-burn",
+      "learner": "deckout",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-crystal",
+      "learner": "deckout",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-dragunity",
+      "learner": "deckout",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-gladiator",
+      "learner": "deckout",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-heroes",
+      "learner": "deckout",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-infernity",
+      "learner": "deckout",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-monarch",
+      "learner": "deckout",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-morphtronic",
+      "learner": "deckout",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-rock-block",
+      "learner": "deckout",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "deckout-vs-spellcaster",
+      "learner": "deckout",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-blackwing",
+      "learner": "demise",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-lightsworn",
+      "learner": "demise",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-gishki",
+      "learner": "demise",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-burn",
+      "learner": "demise",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-crystal",
+      "learner": "demise",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-dragunity",
+      "learner": "demise",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-gladiator",
+      "learner": "demise",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-heroes",
+      "learner": "demise",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-infernity",
+      "learner": "demise",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-monarch",
+      "learner": "demise",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-morphtronic",
+      "learner": "demise",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-rock-block",
+      "learner": "demise",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "demise-vs-spellcaster",
+      "learner": "demise",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-blackwing",
+      "learner": "destiny-board",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-lightsworn",
+      "learner": "destiny-board",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-gishki",
+      "learner": "destiny-board",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-burn",
+      "learner": "destiny-board",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-crystal",
+      "learner": "destiny-board",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-dragunity",
+      "learner": "destiny-board",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-gladiator",
+      "learner": "destiny-board",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-heroes",
+      "learner": "destiny-board",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-infernity",
+      "learner": "destiny-board",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-monarch",
+      "learner": "destiny-board",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-morphtronic",
+      "learner": "destiny-board",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-rock-block",
+      "learner": "destiny-board",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "destiny-board-vs-spellcaster",
+      "learner": "destiny-board",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-blackwing",
+      "learner": "destiny-hero",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-lightsworn",
+      "learner": "destiny-hero",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-gishki",
+      "learner": "destiny-hero",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-burn",
+      "learner": "destiny-hero",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-crystal",
+      "learner": "destiny-hero",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-dragunity",
+      "learner": "destiny-hero",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-gladiator",
+      "learner": "destiny-hero",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-heroes",
+      "learner": "destiny-hero",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-infernity",
+      "learner": "destiny-hero",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-monarch",
+      "learner": "destiny-hero",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-morphtronic",
+      "learner": "destiny-hero",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-rock-block",
+      "learner": "destiny-hero",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "destiny-hero-vs-spellcaster",
+      "learner": "destiny-hero",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-blackwing",
+      "learner": "draconic-might",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-lightsworn",
+      "learner": "draconic-might",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-gishki",
+      "learner": "draconic-might",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-burn",
+      "learner": "draconic-might",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-crystal",
+      "learner": "draconic-might",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-dragunity",
+      "learner": "draconic-might",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-gladiator",
+      "learner": "draconic-might",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-heroes",
+      "learner": "draconic-might",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-infernity",
+      "learner": "draconic-might",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-monarch",
+      "learner": "draconic-might",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-morphtronic",
+      "learner": "draconic-might",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-rock-block",
+      "learner": "draconic-might",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "draconic-might-vs-spellcaster",
+      "learner": "draconic-might",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-blackwing",
+      "learner": "fabled",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-lightsworn",
+      "learner": "fabled",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-gishki",
+      "learner": "fabled",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-burn",
+      "learner": "fabled",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-crystal",
+      "learner": "fabled",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-dragunity",
+      "learner": "fabled",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-gladiator",
+      "learner": "fabled",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-heroes",
+      "learner": "fabled",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-infernity",
+      "learner": "fabled",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-monarch",
+      "learner": "fabled",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-morphtronic",
+      "learner": "fabled",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-rock-block",
+      "learner": "fabled",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "fabled-vs-spellcaster",
+      "learner": "fabled",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-blackwing",
+      "learner": "fish",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-lightsworn",
+      "learner": "fish",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-gishki",
+      "learner": "fish",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-burn",
+      "learner": "fish",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-crystal",
+      "learner": "fish",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-dragunity",
+      "learner": "fish",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-gladiator",
+      "learner": "fish",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-heroes",
+      "learner": "fish",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-infernity",
+      "learner": "fish",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-monarch",
+      "learner": "fish",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-morphtronic",
+      "learner": "fish",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-rock-block",
+      "learner": "fish",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "fish-vs-spellcaster",
+      "learner": "fish",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-blackwing",
+      "learner": "flamvell",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-lightsworn",
+      "learner": "flamvell",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-gishki",
+      "learner": "flamvell",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-burn",
+      "learner": "flamvell",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-crystal",
+      "learner": "flamvell",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-dragunity",
+      "learner": "flamvell",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-gladiator",
+      "learner": "flamvell",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-heroes",
+      "learner": "flamvell",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-infernity",
+      "learner": "flamvell",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-monarch",
+      "learner": "flamvell",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-morphtronic",
+      "learner": "flamvell",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-rock-block",
+      "learner": "flamvell",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "flamvell-vs-spellcaster",
+      "learner": "flamvell",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-blackwing",
+      "learner": "fortune-lady",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-lightsworn",
+      "learner": "fortune-lady",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-gishki",
+      "learner": "fortune-lady",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-burn",
+      "learner": "fortune-lady",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-crystal",
+      "learner": "fortune-lady",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-dragunity",
+      "learner": "fortune-lady",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-gladiator",
+      "learner": "fortune-lady",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-heroes",
+      "learner": "fortune-lady",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-infernity",
+      "learner": "fortune-lady",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-monarch",
+      "learner": "fortune-lady",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-morphtronic",
+      "learner": "fortune-lady",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-rock-block",
+      "learner": "fortune-lady",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "fortune-lady-vs-spellcaster",
+      "learner": "fortune-lady",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-blackwing",
+      "learner": "garden",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-lightsworn",
+      "learner": "garden",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-gishki",
+      "learner": "garden",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-burn",
+      "learner": "garden",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-crystal",
+      "learner": "garden",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-dragunity",
+      "learner": "garden",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-gladiator",
+      "learner": "garden",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-heroes",
+      "learner": "garden",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-infernity",
+      "learner": "garden",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-monarch",
+      "learner": "garden",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-morphtronic",
+      "learner": "garden",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-rock-block",
+      "learner": "garden",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "garden-vs-spellcaster",
+      "learner": "garden",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-blackwing",
+      "learner": "gem-knight",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-lightsworn",
+      "learner": "gem-knight",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-gishki",
+      "learner": "gem-knight",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-burn",
+      "learner": "gem-knight",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-crystal",
+      "learner": "gem-knight",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-dragunity",
+      "learner": "gem-knight",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-gladiator",
+      "learner": "gem-knight",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-heroes",
+      "learner": "gem-knight",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-infernity",
+      "learner": "gem-knight",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-monarch",
+      "learner": "gem-knight",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-morphtronic",
+      "learner": "gem-knight",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-rock-block",
+      "learner": "gem-knight",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gem-knight-vs-spellcaster",
+      "learner": "gem-knight",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-blackwing",
+      "learner": "gemini",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-lightsworn",
+      "learner": "gemini",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-gishki",
+      "learner": "gemini",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-burn",
+      "learner": "gemini",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-crystal",
+      "learner": "gemini",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-dragunity",
+      "learner": "gemini",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-gladiator",
+      "learner": "gemini",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-heroes",
+      "learner": "gemini",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-infernity",
+      "learner": "gemini",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-monarch",
+      "learner": "gemini",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-morphtronic",
+      "learner": "gemini",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-rock-block",
+      "learner": "gemini",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gemini-vs-spellcaster",
+      "learner": "gemini",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-blackwing",
+      "learner": "genex",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-lightsworn",
+      "learner": "genex",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-gishki",
+      "learner": "genex",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-burn",
+      "learner": "genex",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-crystal",
+      "learner": "genex",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-dragunity",
+      "learner": "genex",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-gladiator",
+      "learner": "genex",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-heroes",
+      "learner": "genex",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-infernity",
+      "learner": "genex",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-monarch",
+      "learner": "genex",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-morphtronic",
+      "learner": "genex",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-rock-block",
+      "learner": "genex",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "genex-vs-spellcaster",
+      "learner": "genex",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-blackwing",
+      "learner": "gusto",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-lightsworn",
+      "learner": "gusto",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-gishki",
+      "learner": "gusto",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-burn",
+      "learner": "gusto",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-crystal",
+      "learner": "gusto",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-dragunity",
+      "learner": "gusto",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-gladiator",
+      "learner": "gusto",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-heroes",
+      "learner": "gusto",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-infernity",
+      "learner": "gusto",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-monarch",
+      "learner": "gusto",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-morphtronic",
+      "learner": "gusto",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-rock-block",
+      "learner": "gusto",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "gusto-vs-spellcaster",
+      "learner": "gusto",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-blackwing",
+      "learner": "harpie",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-lightsworn",
+      "learner": "harpie",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-gishki",
+      "learner": "harpie",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-burn",
+      "learner": "harpie",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-crystal",
+      "learner": "harpie",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-dragunity",
+      "learner": "harpie",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-gladiator",
+      "learner": "harpie",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-heroes",
+      "learner": "harpie",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-infernity",
+      "learner": "harpie",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-monarch",
+      "learner": "harpie",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-morphtronic",
+      "learner": "harpie",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-rock-block",
+      "learner": "harpie",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "harpie-vs-spellcaster",
+      "learner": "harpie",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-blackwing",
+      "learner": "herald",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-lightsworn",
+      "learner": "herald",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-gishki",
+      "learner": "herald",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-burn",
+      "learner": "herald",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-crystal",
+      "learner": "herald",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-dragunity",
+      "learner": "herald",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-gladiator",
+      "learner": "herald",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-heroes",
+      "learner": "herald",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-infernity",
+      "learner": "herald",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-monarch",
+      "learner": "herald",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-morphtronic",
+      "learner": "herald",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-rock-block",
+      "learner": "herald",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "herald-vs-spellcaster",
+      "learner": "herald",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-blackwing",
+      "learner": "ice-barrier",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-lightsworn",
+      "learner": "ice-barrier",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-gishki",
+      "learner": "ice-barrier",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-burn",
+      "learner": "ice-barrier",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-crystal",
+      "learner": "ice-barrier",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-dragunity",
+      "learner": "ice-barrier",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-gladiator",
+      "learner": "ice-barrier",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-heroes",
+      "learner": "ice-barrier",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-infernity",
+      "learner": "ice-barrier",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-monarch",
+      "learner": "ice-barrier",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-morphtronic",
+      "learner": "ice-barrier",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-rock-block",
+      "learner": "ice-barrier",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "ice-barrier-vs-spellcaster",
+      "learner": "ice-barrier",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-blackwing",
+      "learner": "iron-chain",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-lightsworn",
+      "learner": "iron-chain",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-gishki",
+      "learner": "iron-chain",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-burn",
+      "learner": "iron-chain",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-crystal",
+      "learner": "iron-chain",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-dragunity",
+      "learner": "iron-chain",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-gladiator",
+      "learner": "iron-chain",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-heroes",
+      "learner": "iron-chain",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-infernity",
+      "learner": "iron-chain",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-monarch",
+      "learner": "iron-chain",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-morphtronic",
+      "learner": "iron-chain",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-rock-block",
+      "learner": "iron-chain",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "iron-chain-vs-spellcaster",
+      "learner": "iron-chain",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-blackwing",
+      "learner": "jurrac",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-lightsworn",
+      "learner": "jurrac",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-gishki",
+      "learner": "jurrac",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-burn",
+      "learner": "jurrac",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-crystal",
+      "learner": "jurrac",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-dragunity",
+      "learner": "jurrac",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-gladiator",
+      "learner": "jurrac",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-heroes",
+      "learner": "jurrac",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-infernity",
+      "learner": "jurrac",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-monarch",
+      "learner": "jurrac",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-morphtronic",
+      "learner": "jurrac",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-rock-block",
+      "learner": "jurrac",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "jurrac-vs-spellcaster",
+      "learner": "jurrac",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-blackwing",
+      "learner": "karakuri",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-lightsworn",
+      "learner": "karakuri",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-gishki",
+      "learner": "karakuri",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-burn",
+      "learner": "karakuri",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-crystal",
+      "learner": "karakuri",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-dragunity",
+      "learner": "karakuri",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-gladiator",
+      "learner": "karakuri",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-heroes",
+      "learner": "karakuri",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-infernity",
+      "learner": "karakuri",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-monarch",
+      "learner": "karakuri",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-morphtronic",
+      "learner": "karakuri",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-rock-block",
+      "learner": "karakuri",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "karakuri-vs-spellcaster",
+      "learner": "karakuri",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-blackwing",
+      "learner": "malefic",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-lightsworn",
+      "learner": "malefic",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-gishki",
+      "learner": "malefic",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-burn",
+      "learner": "malefic",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-crystal",
+      "learner": "malefic",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-dragunity",
+      "learner": "malefic",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-gladiator",
+      "learner": "malefic",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-heroes",
+      "learner": "malefic",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-infernity",
+      "learner": "malefic",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-monarch",
+      "learner": "malefic",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-morphtronic",
+      "learner": "malefic",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-rock-block",
+      "learner": "malefic",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "malefic-vs-spellcaster",
+      "learner": "malefic",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-blackwing",
+      "learner": "naturia",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-lightsworn",
+      "learner": "naturia",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-gishki",
+      "learner": "naturia",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-burn",
+      "learner": "naturia",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-crystal",
+      "learner": "naturia",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-dragunity",
+      "learner": "naturia",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-gladiator",
+      "learner": "naturia",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-heroes",
+      "learner": "naturia",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-infernity",
+      "learner": "naturia",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-monarch",
+      "learner": "naturia",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-morphtronic",
+      "learner": "naturia",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-rock-block",
+      "learner": "naturia",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "naturia-vs-spellcaster",
+      "learner": "naturia",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-blackwing",
+      "learner": "nordic",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-lightsworn",
+      "learner": "nordic",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-gishki",
+      "learner": "nordic",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-burn",
+      "learner": "nordic",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-crystal",
+      "learner": "nordic",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-dragunity",
+      "learner": "nordic",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-gladiator",
+      "learner": "nordic",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-heroes",
+      "learner": "nordic",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-infernity",
+      "learner": "nordic",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-monarch",
+      "learner": "nordic",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-morphtronic",
+      "learner": "nordic",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-rock-block",
+      "learner": "nordic",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "nordic-vs-spellcaster",
+      "learner": "nordic",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-blackwing",
+      "learner": "nurse",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-lightsworn",
+      "learner": "nurse",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-gishki",
+      "learner": "nurse",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-burn",
+      "learner": "nurse",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-crystal",
+      "learner": "nurse",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-dragunity",
+      "learner": "nurse",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-gladiator",
+      "learner": "nurse",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-heroes",
+      "learner": "nurse",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-infernity",
+      "learner": "nurse",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-monarch",
+      "learner": "nurse",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-morphtronic",
+      "learner": "nurse",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-rock-block",
+      "learner": "nurse",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "nurse-vs-spellcaster",
+      "learner": "nurse",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-blackwing",
+      "learner": "ojama",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-lightsworn",
+      "learner": "ojama",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-gishki",
+      "learner": "ojama",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-burn",
+      "learner": "ojama",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-crystal",
+      "learner": "ojama",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-dragunity",
+      "learner": "ojama",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-gladiator",
+      "learner": "ojama",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-heroes",
+      "learner": "ojama",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-infernity",
+      "learner": "ojama",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-monarch",
+      "learner": "ojama",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-morphtronic",
+      "learner": "ojama",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-rock-block",
+      "learner": "ojama",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "ojama-vs-spellcaster",
+      "learner": "ojama",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-blackwing",
+      "learner": "psychic",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-lightsworn",
+      "learner": "psychic",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-gishki",
+      "learner": "psychic",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-burn",
+      "learner": "psychic",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-crystal",
+      "learner": "psychic",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-dragunity",
+      "learner": "psychic",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-gladiator",
+      "learner": "psychic",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-heroes",
+      "learner": "psychic",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-infernity",
+      "learner": "psychic",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-monarch",
+      "learner": "psychic",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-morphtronic",
+      "learner": "psychic",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-rock-block",
+      "learner": "psychic",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "psychic-vs-spellcaster",
+      "learner": "psychic",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-blackwing",
+      "learner": "pyramid",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-lightsworn",
+      "learner": "pyramid",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-gishki",
+      "learner": "pyramid",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-burn",
+      "learner": "pyramid",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-crystal",
+      "learner": "pyramid",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-dragunity",
+      "learner": "pyramid",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-gladiator",
+      "learner": "pyramid",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-heroes",
+      "learner": "pyramid",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-infernity",
+      "learner": "pyramid",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-monarch",
+      "learner": "pyramid",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-morphtronic",
+      "learner": "pyramid",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-rock-block",
+      "learner": "pyramid",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "pyramid-vs-spellcaster",
+      "learner": "pyramid",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-blackwing",
+      "learner": "reptilianne",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-lightsworn",
+      "learner": "reptilianne",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-gishki",
+      "learner": "reptilianne",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-burn",
+      "learner": "reptilianne",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-crystal",
+      "learner": "reptilianne",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-dragunity",
+      "learner": "reptilianne",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-gladiator",
+      "learner": "reptilianne",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-heroes",
+      "learner": "reptilianne",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-infernity",
+      "learner": "reptilianne",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-monarch",
+      "learner": "reptilianne",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-morphtronic",
+      "learner": "reptilianne",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-rock-block",
+      "learner": "reptilianne",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "reptilianne-vs-spellcaster",
+      "learner": "reptilianne",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-blackwing",
+      "learner": "spirit",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-lightsworn",
+      "learner": "spirit",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-gishki",
+      "learner": "spirit",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-burn",
+      "learner": "spirit",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-crystal",
+      "learner": "spirit",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-dragunity",
+      "learner": "spirit",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-gladiator",
+      "learner": "spirit",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-heroes",
+      "learner": "spirit",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-infernity",
+      "learner": "spirit",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-monarch",
+      "learner": "spirit",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-morphtronic",
+      "learner": "spirit",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-rock-block",
+      "learner": "spirit",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "spirit-vs-spellcaster",
+      "learner": "spirit",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-blackwing",
+      "learner": "tele-dad",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-lightsworn",
+      "learner": "tele-dad",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-gishki",
+      "learner": "tele-dad",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-burn",
+      "learner": "tele-dad",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-crystal",
+      "learner": "tele-dad",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-dragunity",
+      "learner": "tele-dad",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-gladiator",
+      "learner": "tele-dad",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-heroes",
+      "learner": "tele-dad",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-infernity",
+      "learner": "tele-dad",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-monarch",
+      "learner": "tele-dad",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-morphtronic",
+      "learner": "tele-dad",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-rock-block",
+      "learner": "tele-dad",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "tele-dad-vs-spellcaster",
+      "learner": "tele-dad",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-blackwing",
+      "learner": "toon",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-lightsworn",
+      "learner": "toon",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-gishki",
+      "learner": "toon",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-burn",
+      "learner": "toon",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-crystal",
+      "learner": "toon",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-dragunity",
+      "learner": "toon",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-gladiator",
+      "learner": "toon",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-heroes",
+      "learner": "toon",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-infernity",
+      "learner": "toon",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-monarch",
+      "learner": "toon",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-morphtronic",
+      "learner": "toon",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-rock-block",
+      "learner": "toon",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "toon-vs-spellcaster",
+      "learner": "toon",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-blackwing",
+      "learner": "venom",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-lightsworn",
+      "learner": "venom",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-gishki",
+      "learner": "venom",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-burn",
+      "learner": "venom",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-crystal",
+      "learner": "venom",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-dragunity",
+      "learner": "venom",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-gladiator",
+      "learner": "venom",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-heroes",
+      "learner": "venom",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-infernity",
+      "learner": "venom",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-monarch",
+      "learner": "venom",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-morphtronic",
+      "learner": "venom",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-rock-block",
+      "learner": "venom",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "venom-vs-spellcaster",
+      "learner": "venom",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-blackwing",
+      "learner": "volcanic",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-lightsworn",
+      "learner": "volcanic",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-gishki",
+      "learner": "volcanic",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-burn",
+      "learner": "volcanic",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-crystal",
+      "learner": "volcanic",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-dragunity",
+      "learner": "volcanic",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-gladiator",
+      "learner": "volcanic",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-heroes",
+      "learner": "volcanic",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-infernity",
+      "learner": "volcanic",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-monarch",
+      "learner": "volcanic",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-morphtronic",
+      "learner": "volcanic",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-rock-block",
+      "learner": "volcanic",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "volcanic-vs-spellcaster",
+      "learner": "volcanic",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-blackwing",
+      "learner": "watt",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-lightsworn",
+      "learner": "watt",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-gishki",
+      "learner": "watt",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-burn",
+      "learner": "watt",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-crystal",
+      "learner": "watt",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-dragunity",
+      "learner": "watt",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-gladiator",
+      "learner": "watt",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-heroes",
+      "learner": "watt",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-infernity",
+      "learner": "watt",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-monarch",
+      "learner": "watt",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-morphtronic",
+      "learner": "watt",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-rock-block",
+      "learner": "watt",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "watt-vs-spellcaster",
+      "learner": "watt",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-blackwing",
+      "learner": "worm",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-lightsworn",
+      "learner": "worm",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-gishki",
+      "learner": "worm",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-burn",
+      "learner": "worm",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-crystal",
+      "learner": "worm",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-dragunity",
+      "learner": "worm",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-gladiator",
+      "learner": "worm",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-heroes",
+      "learner": "worm",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-infernity",
+      "learner": "worm",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-monarch",
+      "learner": "worm",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-morphtronic",
+      "learner": "worm",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-rock-block",
+      "learner": "worm",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "worm-vs-spellcaster",
+      "learner": "worm",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-blackwing",
+      "learner": "x-saber",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-lightsworn",
+      "learner": "x-saber",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-gishki",
+      "learner": "x-saber",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-burn",
+      "learner": "x-saber",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-crystal",
+      "learner": "x-saber",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-dragunity",
+      "learner": "x-saber",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-gladiator",
+      "learner": "x-saber",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-heroes",
+      "learner": "x-saber",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-infernity",
+      "learner": "x-saber",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-monarch",
+      "learner": "x-saber",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-morphtronic",
+      "learner": "x-saber",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-rock-block",
+      "learner": "x-saber",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "x-saber-vs-spellcaster",
+      "learner": "x-saber",
+      "opponent": "spellcaster",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-blackwing",
+      "learner": "zombie",
+      "opponent": "blackwing",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-lightsworn",
+      "learner": "zombie",
+      "opponent": "lightsworn",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-gishki",
+      "learner": "zombie",
+      "opponent": "gishki",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-burn",
+      "learner": "zombie",
+      "opponent": "burn",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-crystal",
+      "learner": "zombie",
+      "opponent": "crystal",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-dragunity",
+      "learner": "zombie",
+      "opponent": "dragunity",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-gladiator",
+      "learner": "zombie",
+      "opponent": "gladiator",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-heroes",
+      "learner": "zombie",
+      "opponent": "heroes",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-infernity",
+      "learner": "zombie",
+      "opponent": "infernity",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-monarch",
+      "learner": "zombie",
+      "opponent": "monarch",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-morphtronic",
+      "learner": "zombie",
+      "opponent": "morphtronic",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-rock-block",
+      "learner": "zombie",
+      "opponent": "rock-block",
+      "games": 128
+    },
+    {
+      "name": "zombie-vs-spellcaster",
+      "learner": "zombie",
+      "opponent": "spellcaster",
+      "games": 128
+    }
+  ]
+}
