@@ -8,10 +8,10 @@
 was read and closed; the copy's design and readings fixed that morning and
 PPO's that afternoon, before anything was built.
 
-**Last updated:** 2026-10-28 (the copy's design and readings fixed that
-day, while the fourteen decks' mirror arms were measured, before anything
-was built, and the copy to be made before this record is active; PPO's
-fixed that afternoon, once those arms were read, and built)
+**Last updated:** 2026-10-29 (every deck's run made and recorded,
+Gem-Knight's not a champion either and none under `all71`; the copy's
+checkpoints kept every 142 updates, not 160, once its first start was
+refused)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -21,8 +21,8 @@ champion, the lowest 47.1%), and PPO with every duel against itself lost
 them (44.9%) while it gained on the other pairings; of two arms that gave
 the mirrors a share of PPO's duels, read on 2026-10-28, a quarter kept
 them at no cost to the other pairings. A run of the
-champions' recipe is being made for every deck of the seventy-one, the last
-expected on 2026-10-29, and each run's copy games are recorded once
+champions' recipe was made for every deck of the seventy-one, the last on
+2026-10-29, and each run's copy games were recorded once
 (`tools/record_champion.py`: in its mirror and against each of the thirteen
 decks' pilots, kept as the answers it gave), so that a copy plays them again
 with no teacher asked (`train --copy-records`).
@@ -37,12 +37,13 @@ waiting for it, and that record was closed the same afternoon.
 - **The decks and their teachers**: the seventy-one decks of the pool, each
   taught by its run's last checkpoint: the fourteen of
   [the champions' release](../models/champions.md), Countdown and Verdict
-  (made on 2026-10-26), and the fifty-five being made since 2026-10-27 on
-  the CUDA machine, a lent machine and a rented one (`runs/champions/DECK`
-  on the CUDA machine). A run is a champion when it is over 52% by two
-  standard errors against `all71` in its mirror. One
+  (made on 2026-10-26), and the fifty-five made from 2026-10-27 to
+  2026-10-29 on the CUDA machine, a lent machine and a rented one
+  (`runs/champions/DECK` on the CUDA machine). A run is a champion when it
+  is over 52% by two standard errors against `all71` in its mirror. One
   that is not is copied all the same where it is not under `all71` by two
-  standard errors (Tele-DAD: 51.0% ± 0.5%, not told apart); one under it
+  standard errors (Tele-DAD, 51.0% ± 0.5%, and Gem-Knight, 50.3% ± 0.5%,
+  not told apart; the other sixty-five are champions); one under it
   would be taught by `all71` instead, its games recorded the same way.
 - **The copy (`taught`)**: one network of the seventy-one decks from
   scratch, seed 2012, each deck's games its teacher's recorded games played
@@ -56,10 +57,14 @@ waiting for it, and that record was closed the same afternoon.
   update's duels 260 in the mirrors, both seats imitated, and 260 against
   the thirteen decks' pilots. The copy takes 41,600 of each deck's 44,000
   recorded mirror games and 3,200 of the 4,000 against each pilot. A
-  checkpoint every 160 updates. At the commit whose engine keeps each
-  thread's last duel arena for its next duel: the same games as the
-  engine the recordings were made with, played again and held to their
-  digests on 2026-10-28.
+  checkpoint kept every 142 updates, two a deck, so that each point
+  measured below is one: every 160 at first, refused at the copy's start
+  on 2026-10-29 by the command's own check, 160 dividing none of 2,840,
+  5,680 and 8,520. The trainer saves every update and keeps every 142nd
+  and the latest, so the step changes no game and no update. At the
+  commit whose engine keeps each thread's last duel arena for its next
+  duel: the same games as the engine the recordings were made with,
+  played again and held to their digests on 2026-10-28.
 - **Measured** (`experiments/commands/seventy-one-champions.sh`, `PARTS`
   copy and copy-measure, the teachers held to the rule above by
   `tools/seventy_one_teachers.py` before the copy;

@@ -69,7 +69,8 @@ RELEASE=${RELEASE:-blackwing,cyber,lightsworn,infernity}
 TEACHERS_MEASURED=${TEACHERS_MEASURED:-analysis/fourteen-decks/teachers}
 THIRTEEN=${THIRTEEN:-blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster}
 COPY=${COPY:-11360}
-COPY_STEP=${COPY_STEP:-160}
+# Two updates a deck: each point of CURVE is a checkpoint kept.
+COPY_STEP=${COPY_STEP:-142}
 ITSELF=${ITSELF:-260}
 SEED=${SEED:-2012}
 COPY_SLOTS=${COPY_SLOTS:-26}
