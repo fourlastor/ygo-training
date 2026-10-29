@@ -30,9 +30,9 @@ ATTACK, TOGGLE, MAIN2, YES, NO = 7, 21, 9, 13, 14
 ATTACK_TARGET = 22
 UP_ATTACK, UP_DEFENSE, DOWN_DEFENSE = 0x1, 0x4, 0x8
 ATTACKER, BEATEN, BIGGER, WALL = 1001, 2002, 3003, 4004
-# Attackers whose texts make something of a battle, and two tricks.
-BOOSTED, RECRUITER, GLADIATOR, BLACKWING, MACHINE = 5005, 6006, 7007, 8008, 8009
-KALUT, LIMITER = 9009, 9010
+# Attackers whose texts make something of a battle, and tricks.
+BOOSTED, RECRUITER, GLADIATOR, BLACKWING, MACHINE, CASTER = 5005, 6006, 7007, 8008, 8009, 8010
+KALUT, LIMITER, MOON, EVACUATION, INDOMITABLE, CIRCLE = 9009, 9010, 9011, 9012, 9013, 9014
 HAND = 2
 
 BATTLE_STEP, DAMAGE, MAIN_2 = 5, 6, 9
@@ -51,13 +51,18 @@ BATTLES = tool.Battles(
     printed={
         BOOSTED: tool.Printed(boost=300),
         RECRUITER: tool.Printed(gains=True),
-        GLADIATOR: tool.Printed(tags_out=True),
+        GLADIATOR: tool.Printed(setcodes=(tool.GLADIATOR_BEAST,), tags_out=True),
         BLACKWING: tool.Printed(setcodes=(tool.BLACKWING,)),
         MACHINE: tool.Printed(race=tool.MACHINE),
+        CASTER: tool.Printed(race=tool.SPELLCASTER),
     },
     tricks={
         KALUT: tool.TRICKS["Blackwing - Kalut the Moon Shadow"],
         LIMITER: tool.TRICKS["Limiter Removal"],
+        MOON: tool.TRICKS["Book of Moon"],
+        EVACUATION: tool.TRICKS["Compulsory Evacuation Device"],
+        INDOMITABLE: tool.TRICKS["Indomitable Gladiator Beast"],
+        CIRCLE: tool.TRICKS["Magician's Circle"],
     },
     hand=HAND,
 )
@@ -209,6 +214,21 @@ def test_the_cards_texts_make_a_lost_battle_planned_or_armed_and_add_a_boost():
     assert BATTLES.kind(BLACKWING, 1600, stronger, [(KALUT, False)]) == tool.STRONGER
     assert BATTLES.kind(ATTACKER, 1600, stronger, [(KALUT, True)]) == tool.STRONGER
     assert BATTLES.kind(MACHINE, 1600, stronger, [(LIMITER, False)]) == tool.ARMED
+    # Book of Moon turns a target where its ATK counts, not a wall.
+    wall = (WALL, UP_DEFENSE, 0, 2000)
+    assert BATTLES.kind(ATTACKER, 1600, stronger, [(MOON, True)]) == tool.ARMED
+    assert BATTLES.kind(ATTACKER, 1600, wall, [(MOON, True)]) == tool.STRONGER
+    # A Trap only once set.
+    assert BATTLES.kind(ATTACKER, 1600, wall, [(EVACUATION, False)]) == tool.ARMED
+    assert BATTLES.kind(ATTACKER, 1600, wall, [(EVACUATION, True)]) == tool.STRONGER
+    # A raise counts where it is enough, on an attacker it raises.
+    assert BATTLES.kind(GLADIATOR, 1600, stronger, [(INDOMITABLE, True)]) == tool.ARMED
+    bigger = (BIGGER, UP_ATTACK, 2200, 0)
+    assert BATTLES.kind(GLADIATOR, 1600, bigger, [(INDOMITABLE, True)]) == tool.STRONGER
+    assert BATTLES.kind(ATTACKER, 1600, stronger, [(INDOMITABLE, True)]) == tool.STRONGER
+    # Magician's Circle when a Spellcaster declares the attack.
+    assert BATTLES.kind(CASTER, 1600, stronger, [(CIRCLE, False)]) == tool.ARMED
+    assert BATTLES.kind(ATTACKER, 1600, stronger, [(CIRCLE, False)]) == tool.STRONGER
     # A face-down target stays one.
     assert BATTLES.kind(RECRUITER, 1400, (0, DOWN_DEFENSE, 0, 0), []) == tool.FACE_DOWN
 
@@ -236,8 +256,10 @@ def test_the_rules_read_the_texts_of_the_fourteen_decks_cards():
     # Its counters go at the end of the Battle Phase: no gain.
     assert not card("Mythical Beast Cerberus").tags_out
     assert not card("Thunder King Rai-Oh").gains
-    assert {names["Honest"], names["Blackwing - Kalut the Moon Shadow"]} <= set(battles.tricks)
+    assert {names[name] for name in tool.TRICKS} <= set(battles.tricks)
     assert tool.BLACKWING in card("Blackwing - Gale the Whirlwind").setcodes
+    assert tool.GLADIATOR_BEAST in card("Gladiator Beast Bestiari").setcodes
+    assert card("Breaker the Magical Warrior").race == tool.SPELLCASTER
 
 
 def test_the_board_is_read_to_its_length_and_by_player():

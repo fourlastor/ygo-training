@@ -26,8 +26,10 @@ the difference.  Such an attack is *planned* when the attacker's text gains
 from the battle (its battle decided at the start of the Damage Step, an effect
 when it is destroyed by battle or leaves the field, a Crystal Beast placed as
 a Spell, a Gladiator Beast that tags out after a battle it survives), and
-*armed* when the seat holds a trick of its deck that raises that attacker in
-the battle (`TRICKS`); the bar is on the stronger ones alone.  How each attack
+*armed* when the seat holds, where it can use it, a trick of its deck that can
+turn that battle (`TRICKS`: one that raises the attacker, lowers the target or
+turns its position, takes it away, or makes the attack's declaration pay); the
+bar is on the stronger ones alone.  How each attack
 came out is read at the seat's next decision of the turn once the battle is
 over, whether the attacker is still on the field and whether its player has
 lost LP, so that a stronger target that did not win shows.  Where the engine
@@ -124,8 +126,10 @@ TAG_OUT = re.compile(
     r"At the end of the Battle Phase, if this card (?:attacked|battled)[^.]*?: You can shuffle it into the Deck",
     re.IGNORECASE,
 )
-# OCGCore's LIGHT and Machine, and the Blackwings' set code.
-LIGHT, MACHINE, BLACKWING = 0x10, 0x20, 0x33
+# OCGCore's LIGHT, Spellcaster and Machine, and the set codes of the
+# Blackwings and the Gladiator Beasts.
+LIGHT, SPELLCASTER, MACHINE = 0x10, 0x2, 0x20
+BLACKWING, GLADIATOR_BEAST = 0x33, 0x1019
 
 
 def combat(value: float) -> int:
@@ -194,24 +198,66 @@ class Printed:
     tags_out: bool = False
 
 
-# The battle tricks of the fourteen decks' lists (a scan of 2026-10-29): held
-# in the hand, or also set, each raises an attacker of its kind in the battle.
-TRICKS: dict[str, tuple[bool, Callable[[Printed], bool]]] = {
-    "Blackwing - Kalut the Moon Shadow": (False, lambda card: BLACKWING in card.setcodes),
-    "Honest": (False, lambda card: card.attribute == LIGHT),
-    "Limiter Removal": (True, lambda card: card.race == MACHINE),
+@dataclass(frozen=True)
+class Trick:
+    """A card that can turn a battle the numbers say is lost: whether the seat
+    can use it from its hand, and set in its Spell & Trap Zone, and the
+    battles it turns, of an attacker at an ATK (its own boost added) and a
+    target."""
+
+    from_hand: bool
+    from_zone: bool
+    turns: Callable[[Printed, int, tuple[int, int, int, int]], bool]
+
+
+def _anywhere(card: Printed, attack: int, target: tuple[int, int, int, int]) -> bool:
+    return True
+
+
+def _in_attack(card: Printed, attack: int, target: tuple[int, int, int, int]) -> bool:
+    return bool(target[1] & FACE_UP_ATTACK)
+
+
+# The battle tricks of the fourteen decks' lists (a scan of 2026-10-29 of
+# their hand effects, Quick-Play Spells and Traps), each usable in the seat's
+# own Battle Phase.  Mystical Space Typhoon and Twister, which could take an
+# equip from the target, are left out: the view does not tell what raises a
+# monster.
+TRICKS: dict[str, Trick] = {
+    # Raise the attacker.
+    "Blackwing - Kalut the Moon Shadow": Trick(
+        True, False, lambda card, attack, target: BLACKWING in card.setcodes
+    ),
+    "Honest": Trick(True, False, lambda card, attack, target: card.attribute == LIGHT),
+    "Limiter Removal": Trick(True, True, lambda card, attack, target: card.race == MACHINE),
+    "Indomitable Gladiator Beast": Trick(
+        True,
+        True,
+        lambda card, attack, target: (
+            GLADIATOR_BEAST in card.setcodes and target_kind(attack + 500, *target) != STRONGER
+        ),
+    ),
+    "Forbidden Chalice": Trick(
+        True, True, lambda card, attack, target: target_kind(attack + 400, *target) != STRONGER
+    ),
+    # Halve the target's ATK, or turn it face-down, where its ATK counts.
+    "Shrink": Trick(True, True, _in_attack),
+    "Book of Moon": Trick(True, True, _in_attack),
+    # Change its position, or take it, so that the attack is replayed.
+    "Enemy Controller": Trick(True, True, _anywhere),
+    "Magical Dimension": Trick(True, True, _anywhere),
+    "Super Polymerization": Trick(True, True, _anywhere),
+    "Compulsory Evacuation Device": Trick(False, True, _anywhere),
+    "Icarus Attack": Trick(False, True, _anywhere),
+    # A Spellcaster from the Deck for each player when one declares an attack.
+    "Magician's Circle": Trick(False, True, lambda card, attack, target: card.race == SPELLCASTER),
 }
 
 
 class Battles:
     """What the cards' texts make of an attack the numbers say is lost."""
 
-    def __init__(
-        self,
-        printed: dict[int, Printed],
-        tricks: dict[int, tuple[bool, Callable[[Printed], bool]]],
-        hand: int,
-    ) -> None:
+    def __init__(self, printed: dict[int, Printed], tricks: dict[int, Trick], hand: int) -> None:
         self.printed = printed
         self.tricks = tricks
         self.hand = hand
@@ -262,14 +308,16 @@ class Battles:
         """What a target is to an attacker of ``attack`` ATK, by the numbers
         the seat sees and by the cards' texts."""
         card = self.printed.get(attacker, Printed())
-        found = target_kind(attack + card.boost, *target)
+        attack += card.boost
+        found = target_kind(attack, *target)
         if found != STRONGER:
             return found
         if card.gains or (card.tags_out and target[1] & FACE_UP_DEFENSE):
             return PLANNED
         for code, in_hand in held:
-            set_too, raises = self.tricks[code]
-            if (in_hand or set_too) and raises(card):
+            trick = self.tricks[code]
+            usable = trick.from_hand if in_hand else trick.from_zone
+            if usable and trick.turns(card, attack, target):
                 return ARMED
         return STRONGER
 
