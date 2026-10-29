@@ -9,8 +9,9 @@
 `suites` writes each deck's mirror suite against a checkpoint with its games
 set to so many: the deals of every check in the mirrors.
 
-`read` reads what `PARTS=ppo` of `experiments/commands/seventy-one-champions.sh`
-leaves in the checks' folder: for the copy, `copy/`, and for each check,
+`read` reads what `PARTS=copy-check` and `PARTS=ppo` of
+`experiments/commands/seventy-one-champions.sh` leave in the checks' folder:
+for the copy, `copy/`, and for each check,
 `POINT/` by the updates of PPO it was made after, a pair `DECK.plays.json`
 and `DECK.held.json` for each deck, the network head to head against that
 deck's teacher in its mirror, and `pairings.json`, it against `all71` on the

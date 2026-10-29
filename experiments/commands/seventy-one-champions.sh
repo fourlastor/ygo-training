@@ -25,6 +25,10 @@
 # the copy's metrics; then the report (tools/seventy_one_champions_report.py,
 # the teachers of RELEASE told by their measurements in TEACHERS_MEASURED).
 #
+# copy-check. Into OUT/checks/copy: the copy's last checkpoint as PPO's
+# checks measure it (below), so that it is known before PPO is begun; ppo
+# begins by the same and finds it made.
+#
 # ppo. PPO on from the copy's last checkpoint for PPO updates at RATE, every
 # duel of an update against itself and none against a pilot, a quarter of
 # them in the mirrors (--self-play-weights from RUNS/ppo.weights.json: each
@@ -52,6 +56,7 @@
 # minutes at seven at once, its measurements about an hour.
 #   PARTS=copy bash experiments/commands/seventy-one-champions.sh
 #   PARTS=copy-measure AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
+#   PARTS=copy-check AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=ppo AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=ppo-measure AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 set -euo pipefail
@@ -60,7 +65,7 @@ WORKERS=${WORKERS:-24}
 THREADS=${THREADS:-20}
 SLOTS=${SLOTS:-16}
 DUELS=${DUELS:-520}
-PARTS=${PARTS:-copy copy-measure ppo ppo-measure}
+PARTS=${PARTS:-copy copy-measure copy-check ppo ppo-measure}
 # Each deck and its run's last checkpoint, which teaches it.
 LIST=${LIST:-experiments/commands/champion-recordings.list}
 RECORDS=${RECORDS:-../records}
@@ -112,9 +117,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
-    copy | copy-measure | ppo | ppo-measure) ;;
+    copy | copy-measure | copy-check | ppo | ppo-measure) ;;
     *)
-      echo "PARTS names copy, copy-measure, ppo and ppo-measure, not $part" >&2
+      echo "PARTS names copy, copy-measure, copy-check, ppo and ppo-measure, not $part" >&2
       exit 1
       ;;
   esac
@@ -262,6 +267,12 @@ weights() {
   done
   (IFS=,; echo "{${entries[*]}}") > "$file"
 }
+# suited: each deck's mirror suite of the checks, CHECK_DEALS deals, into
+# OUT/checks/suites.
+suited() {
+  "${python[@]}" tools/seventy_one_checks.py suites --decks "$DECKS" --suites "$SUITES" \
+    --games "$CHECK_DEALS" --into "$OUT/checks/suites"
+}
 # checked NAME NETWORK: the network as PPO's checks measure it, into
 # OUT/checks/NAME: against all71 on the checks' pairings, and head to head
 # against each teacher in its mirror.
@@ -341,6 +352,18 @@ if [[ " $PARTS " == *" copy-measure "* ]]; then
   reported
 fi
 
+if [[ " $PARTS " == *" copy-check "* ]]; then
+  for path in "$copied" $(for deck in "${decks[@]}"; do teacher "$deck"; done); do
+    if [ ! -f "$path" ]; then
+      echo "Missing $path: the copy is checked when it and its teachers are made" >&2
+      exit 1
+    fi
+  done
+  suited
+  checked copy "$copied"
+  heeded
+fi
+
 if [[ " $PARTS " == *" ppo "* ]]; then
   for path in "$copied" $(for deck in "${decks[@]}"; do teacher "$deck"; done); do
     if [ ! -f "$path" ]; then
@@ -349,8 +372,7 @@ if [[ " $PARTS " == *" ppo "* ]]; then
     fi
   done
   weights "$RUNS/ppo.weights.json" "$MIRROR_WEIGHT" "$OTHER_WEIGHT"
-  "${python[@]}" tools/seventy_one_checks.py suites --decks "$DECKS" --suites "$SUITES" \
-    --games "$CHECK_DEALS" --into "$OUT/checks/suites"
+  suited
   checked copy "$copied"
   for point in $CHECKS; do
     echo "$(date +%H:%M) ppo to $point"

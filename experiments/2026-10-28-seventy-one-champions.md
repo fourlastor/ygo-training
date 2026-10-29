@@ -93,7 +93,14 @@ waiting for it, and that record was closed the same afternoon.
 
 Told beside it, without a mark: each mirror against `all71` less its
 teacher's figure; the copy along its updates; against the pilots beside
-`all71`.
+`all71`. Added on 2026-10-29, while the copy was made: the copy as PPO's
+checks measure it (below), against `all71` on every ordered pairing and
+head to head in the mirrors, before PPO is decided on. The copy has played
+its mirrors and the thirteen decks' pilots alone, and is not expected to
+hold the other pairings: a network of fourteen decks lost its whole lead
+over `all71` against the decks it had never met (+5.0 ± 0.4 points
+against the thirteen decks' pilots, −0.2 ± 0.3 against the other
+fifty-seven's; `tools/attack_targets.py`, measured on 2026-10-29).
 
 ## PPO (design and readings fixed on 2026-10-28, once the fourteen decks' mirror arms were read, before anything was built)
 
@@ -125,7 +132,9 @@ pairings. The seventy-one decks' PPO takes the quarter.
   games), one case a deck against all seventy-one
   (`eval_suites/seventy-one-decks-check-pairings-checkpoint.json`). The
   copy's last checkpoint is measured once on the same deals before PPO
-  begins. Head to head, because against `all71` the fourteen decks'
+  begins: since 2026-10-29 a part of its own (`PARTS=copy-check`), queued
+  behind the copy's measurements, which PPO's part finds made. Head to
+  head, because against `all71` the fourteen decks'
   selfplay arm held its mirrors where the copy had them while it lost them
   head to head against the champions. Some ten minutes a check by
   reckoning, seven at once. The cases of a suite go one after the other,
