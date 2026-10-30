@@ -51,10 +51,14 @@ The readings of PPO, by its last checkpoint, fixed on 2026-10-28 once the
 fourteen decks' mirror arms were read, before anything of it was built:
 
 1. The mirrors kept, by the copy's rule.
-2. Against `all71`, deck by deck: each deck's share, played by the network
-   against `all71` playing each of the seventy-one decks: it beats all71
-   when every deck is over 50% by two standard errors, falls short when one
-   is at most 50% by two standard errors, and is otherwise not decided.
+2. Against `all71`, deck by deck: each deck's share from both seats, the
+   network playing it against `all71` playing each of the seventy-one decks
+   and playing each of the others against `all71` playing it, so that what
+   a deck is worth cancels (amended on 2026-10-30, before PPO began: from
+   the learner's seat alone the reading told the deck more than the
+   network): it beats all71 when every deck is over 50% by two standard
+   errors, falls short when one is at most 50% by two standard errors, and
+   is otherwise not decided.
 3. Against the copy: the mean over the ordered pairings against `all71`,
    the deals paired: PPO pays when it is at least 1 point over the copy by
    two standard errors, does not pay when it is at most 1 point over it by
@@ -196,6 +200,22 @@ def mirrored(cases: dict[str, dict[str, Any]], decks: list[str]) -> float:
     return mean(each)
 
 
+def both_seats(cases: dict[str, dict[str, Any]], decks: list[str]) -> dict[str, dict[str, Any]]:
+    """Each deck's games against `all71` from both seats: those the network
+    played it and those it played against it. Level with `all71`, a deck and
+    the deck it meets win as much between the two seatings of their pairing
+    as they lose, whatever each is worth."""
+    each = {}
+    for deck in decks:
+        games: list[float] = []
+        for name, case in cases.items():
+            for opponent, tally in case["by_opponent"].items():
+                if deck in (name.split("-vs-")[0], opponent):
+                    games += [1.0] * tally["wins"] + [0.0] * (tally["games"] - tally["wins"])
+        each[deck] = told(games)
+    return each
+
+
 def pays(gap: float, error_: float) -> str:
     """PPO's reading 3."""
     if gap - ERRORS * error_ >= PAYS:
@@ -212,10 +232,7 @@ def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
     theirs = against_all71(directory / "pairings", "taught")
     if sorted(ours) != sorted(theirs):
         raise SystemExit("PPO and the copy were played on other pairings")
-    by_deck = {
-        deck: told(won(ours, [name for name in ours if name.split("-vs-")[0] == deck]))
-        for deck in decks
-    }
+    by_deck = both_seats(ours, decks)
     weakest = min(by_deck, key=lambda deck: by_deck[deck]["share"])
     gain = paired(won(ours), won(theirs))
     found: dict[str, Any] = {
@@ -262,9 +279,9 @@ def ppo_shown(found: dict[str, Any]) -> list[str]:
             + (f"; at most 45% by two standard errors: {', '.join(floor)}" if floor else "")
         ),
         (
-            f"  2. Against all71: {against['verdict']}. Deck by deck, the mean over the pairings "
-            f"{against['mean']:.1%}, the weakest {against['weakest']} {weakest['share']:.1%} ± "
-            f"{weakest['error']:.1%}"
+            f"  2. Against all71: {against['verdict']}. Each deck from both seats, the mean over "
+            f"the pairings {against['mean']:.1%}, the weakest {against['weakest']} "
+            f"{weakest['share']:.1%} ± {weakest['error']:.1%}"
         ),
         (
             f"  3. Against the copy: {gain['verdict']}, {100 * gain['gap']:+.1f} ± "
@@ -273,7 +290,7 @@ def ppo_shown(found: dict[str, Any]) -> list[str]:
         "Beside them:",
         "  Head to head against each teacher: "
         + ", ".join(f"{deck} {one['share']:.1%}" for deck, one in each.items()),
-        "  Against all71, each deck over its pairings: "
+        "  Against all71, each deck from both seats: "
         + ", ".join(f"{deck} {one['share']:.1%}" for deck, one in against["each"].items()),
         (
             f"  The mirrors against all71 {found['mirrors against all71']['ppo']:.1%}, the copy "

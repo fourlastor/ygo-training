@@ -129,7 +129,8 @@ def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_pat
     assert found["mirrors"]["verdict"] == "kept"
     against = found["against all71"]
     assert against["weakest"] == "cyber"
-    assert against["each"]["cyber"]["share"] == pytest.approx(0.35)
+    # 35 of each hundred in the learner's seat, 60 of those it is played against.
+    assert against["each"]["cyber"]["share"] == pytest.approx((3 * 35 + 2 * 60) / 500)
     assert against["verdict"] == "falls short"
     assert found["against the copy"]["gap"] == pytest.approx(0.05)
     assert found["against the copy"]["verdict"] == "pays"
@@ -144,6 +145,27 @@ def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_pat
     assert "2. Against all71: falls short" in shown
     assert "3. Against the copy: pays, +5.0" in shown
     assert "Its check after 2,880 updates against the copy's: the mirrors +0.0" in shown
+
+
+def test_a_deck_is_read_from_both_seats_so_that_what_it_is_worth_cancels():
+    # Level with all71, Cyber the weak deck: it wins 30 of a hundred against
+    # the others whoever plays it, and they 70 against it.
+    def wins(learner: str, opponent: str) -> int:
+        if learner == opponent:
+            return 50
+        return {"cyber": 30}.get(learner, 70 if opponent == "cyber" else 50)
+
+    cases = {
+        f"{one}-vs-each-checkpoint": {
+            "by_opponent": {other: {"games": DEALS, "wins": wins(one, other)} for other in DECKS}
+        }
+        for one in DECKS
+    }
+
+    found = tool.both_seats(cases, DECKS)
+
+    assert all(one["share"] == pytest.approx(0.5) for one in found.values())
+    assert found["cyber"]["deals"] == (2 * len(DECKS) - 1) * DEALS
 
 
 @pytest.mark.parametrize(
