@@ -92,6 +92,44 @@ def test_the_pairings_stop_it_and_a_stop_once_passed_is_told(tmp_path):
     assert "The rule met after 5,760 updates, by the pairings" in tool.shown(result)
 
 
+def test_the_games_against_all71_are_told_by_the_opponents_deck(tmp_path):
+    suite = {
+        "cases": [
+            {
+                "name": f"{deck}-vs-each-checkpoint",
+                "learner": deck,
+                "opponent": ",".join(DECKS),
+                "games": 2,
+            }
+            for deck in DECKS
+        ]
+    }
+    win, loss = "win", "loss"
+    games = {
+        "blackwing-vs-each-checkpoint": [win, win, win, loss, loss, loss],
+        "cyber-vs-each-checkpoint": [loss, loss, win, win, loss, loss],
+        "lightsworn-vs-each-checkpoint": [loss, loss, win, win, win, win],
+    }
+    played(tmp_path / "copy" / "pairings.json", games)
+    played(tmp_path / "2880" / "pairings.json", {name: [win] * 6 for name in games})
+
+    result = tool.opponents(tmp_path, suite, {"cyber"})
+
+    assert [name for name in result] == ["copy", "2880"]
+    copy = result["copy"]
+    assert (copy["mirror"]["share"], copy["mirror"]["games"]) == (1.0, 6)
+    assert (copy["met"]["share"], copy["met"]["games"]) == (0.75, 4)
+    assert (copy["others"]["share"], copy["others"]["games"]) == (0.0, 8)
+    assert result["2880"]["others"]["share"] == 1.0
+    told = tool.shown_opponents(result)
+    assert "The copy: its mirror 100.0%" in told and "the others 0.0%" in told
+    assert "After 2,880 updates:" in told
+
+    played(tmp_path / "copy" / "pairings.json", {name: [win] * 4 for name in games})
+    with pytest.raises(SystemExit, match="4 games of 6"):
+        tool.opponents(tmp_path, suite, {"cyber"})
+
+
 def test_only_the_copy_goes_on(tmp_path):
     result = tool.read(checks(tmp_path), DECKS)
 
