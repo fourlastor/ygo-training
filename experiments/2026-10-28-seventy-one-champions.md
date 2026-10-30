@@ -8,10 +8,9 @@
 was read and closed; the copy's design and readings fixed that morning and
 PPO's that afternoon, before anything was built.
 
-**Last updated:** 2026-10-29 (every deck's run made and recorded,
-Gem-Knight's not a champion either and none under `all71`; the copy's
-checkpoints kept every 142 updates, not 160, once its first start was
-refused)
+**Last updated:** 2026-10-30 (the copy read: reading 1 lost, 46.9% ± 0.1%
+head to head; 60.2% against `all71` in the mirrors, 45.7% ± 0.4% over every
+ordered pairing; PPO not queued)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -179,3 +178,79 @@ By PPO's last checkpoint:
 Told beside them, without a mark: each check, and its gain over the copy
 against `all71`; the mirrors against `all71` beside the copy's; against
 the pilots beside the copy and `all71`; the hours.
+
+## The copy: results (read on 2026-10-30)
+
+The copy took 35.3 hours, from 2026-10-29 05:03 to 2026-10-30 16:25, with no
+update holding a failed duel (`analysis/seventy-one-champions/report.txt` and
+`checks/report.txt` on the CUDA machine). Its measurements took two and a half
+hours at seven at once. Five of their 712 files, four of Cloudian's points
+against `all71` and one of Exodia's, ran out of the card's memory, and were
+played again two at a time the same evening; no other file was touched, none
+of the five head to head. `evaluate-suite` goes on past a case that fails, so
+the command now plays such a file again and fails its run by name (commit
+5fa832b6). Two evaluations of Cloudian's mirror alone hold 11.8 of the card's
+12.3 GB, which seven at once may meet again in `ppo-measure`.
+
+1. **The teachers: lost.** The copy's last checkpoint head to head against
+   each teacher in its mirror, 2,048 deals from both seats: a mean of 46.9%
+   ± 0.1%, under the mark of 48%, and five mirrors at most 45% by two
+   standard errors: `destiny-hero` 42.3% ± 0.7%, `zombie` 42.5%, `deckout`
+   43.3%, `pyramid` 43.6%, `arcana` 43.7%. The highest `countdown` 50.0%,
+   `destiny-board` 49.7%, `exodia` 49.2%.
+
+Beside it:
+
+- The same fourteen decks and teachers, deal by deal: 46.4% where the
+  fourteen decks' copy had 48.4%, −2.0 ± 0.2 points, from −0.2 (Lightsworn)
+  to −3.1 (Burn), at the same 160 updates a deck.
+- The teachers' answers in the games imitated, on those fourteen decks at
+  the same updates a deck (each copy's metrics): 95.4% against the fourteen
+  decks' copy's 96.1% at 20 to 40 updates a deck, 96.2% against 97.4% at 140
+  to 160. The gap is there early and does not close: over the last 20 updates
+  a deck this copy gained 0.04 points and that one 0.07. The same network
+  fits each of seventy-one decks less well than each of fourteen, on the same
+  games of each; what limits it, its size or a rate held at 3e-4 through five
+  times the steps, was not measured.
+- The stronger the teacher, the more of it lost: over the seventy-one decks,
+  head to head against the teacher's own figure against `all71`, r = −0.53.
+  The third of the teachers strongest against `all71` (68.5%) 45.8%, the
+  weakest third (56.1%) 47.7%.
+- Against `all71` in each mirror along the copy: 58.6% after 2,840 updates,
+  59.5% after 5,680, 60.2% after 8,520 and after 11,360, so nothing gained in
+  its last 40 updates a deck. After 11,360, 1.9 ± 0.1 points under the
+  teachers' figures, from +0.9 (`gemini`) to −4.3 (`arcana`, `herald`,
+  `pyramid`). Sixty-nine of the seventy-one over 50%; Gem-Knight 47.9%
+  under it by two standard errors, Tele-DAD 48.9% not told apart.
+- Against the thirteen decks' pilots 59.0%, `all71` 59.7% on the same games:
+  −0.7 ± 0.1 points.
+- The copy on PPO's checks' deals (`checks/copy`), what PPO will be read
+  against: head to head 47.1%; against `all71` over all 5,041 ordered
+  pairings, 4 games each, 45.7% ± 0.4%. By how many of a pairing's two decks
+  are among the thirteen whose pilots the copy played, both seats of each, so
+  that what a deck is worth cancels (`tools/seventy_one_checks.py pairings`):
+
+  | Pairing | Against `all71` | Games |
+  |---|---|---|
+  | A mirror | 57.0% ± 2.9% | 284 |
+  | Both decks met | 50.3% ± 2.0% | 624 |
+  | One met | 47.8% ± 0.6% | 6,032 |
+  | Neither met | 44.2% ± 0.4% | 13,224 |
+
+  The fourteen decks' copy stood at 51.0% on its other pairings, every deck
+  of which it had met.
+- Each deck over its pairings from both seats, 564 games a deck: none over
+  50% by two standard errors, thirty under, from 29.1% (`deckout`) to 52.1%
+  (Crystal Beasts). The four lowest win by other means than battle: `deckout`
+  29.1%, `chain-burn` 37.2%, `countdown` 37.8%, `exodia` 38.7%.
+
+PPO's reading 2 as fixed on 2026-10-28 reads each deck from the learner's seat
+alone, and the check shows that this reads the deck more than the network:
+`arcana` 10.6%, with which `all71` itself wins 24.3% against the copy, and
+twenty-four decks under 50% by two standard errors, twenty over. No network
+near `all71` could meet it. The fourteen decks' reading 2 took the mean of a
+pairing's two seatings, and that was lost when the reading was cut to deck by
+deck. Each deck's pairings from both seats would restore it, on the same
+games. To be settled before PPO is read.
+
+**Current next step:** PPO is built and not queued, and waits on this reading.
