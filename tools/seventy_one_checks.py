@@ -76,16 +76,21 @@ def won(path: Path) -> list[float]:
     return [float(game == "win") for name in sorted(played) for game in played[name]]
 
 
-def check(folder: Path, copy: Path, decks: list[str]) -> dict[str, Any]:
-    """A check against the copy's on the same deals: each mirror head to
-    head, and the pairings against `all71`."""
+def mirrors_against(folder: Path, copy: Path, decks: list[str]) -> dict[str, Any]:
+    """Each mirror head to head against the copy's on the same deals."""
     each = {deck: paired(shares(folder / deck), shares(copy / deck)) for deck in decks}
-    mirrors = {
+    return {
         "share": mean([mean(shares(folder / deck)) for deck in decks]),
         "gap": mean([one["gap"] for one in each.values()]),
         "error": joined([one["error"] for one in each.values()]),
         "each": each,
     }
+
+
+def check(folder: Path, copy: Path, decks: list[str]) -> dict[str, Any]:
+    """A check against the copy's on the same deals: each mirror head to
+    head, and the pairings against `all71`."""
+    mirrors = mirrors_against(folder, copy, decks)
     ours = won(folder / "pairings.json")
     pairings = {"share": mean(ours), **paired(ours, won(copy / "pairings.json"))}
     for found in (mirrors, pairings):

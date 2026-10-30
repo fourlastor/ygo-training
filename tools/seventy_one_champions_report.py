@@ -63,10 +63,16 @@ fourteen decks' mirror arms were read, before anything of it was built:
    the deals paired: PPO pays when it is at least 1 point over the copy by
    two standard errors, does not pay when it is at most 1 point over it by
    two standard errors, and is otherwise not decided.
+4. The mirrors against the copy: the mean over the mirrors head to head
+   against each teacher, the deals paired: PPO has raised them when it is at
+   least 1 point over the copy by two standard errors, has not when it is at
+   most 1 point over it by two standard errors, and it is otherwise not
+   decided (added on 2026-10-30, before PPO's first check: reading 1 can be
+   lost with PPO closing the gap).
 
-Told beside them, without a mark: the mirrors against `all71` beside the
-copy's; against the pilots beside the copy and `all71`; each check; the
-hours.
+Told beside them, without a mark: each mirror less the copy's; the mirrors
+against `all71` beside the copy's; against the pilots beside the copy and
+`all71`; each check; the hours.
 """
 
 from __future__ import annotations
@@ -81,12 +87,13 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fourteen_decks_report import ERRORS, against_pilots, beats, joined, kept_mirrors, number
+from seventy_one_checks import mirrors_against
 from seventy_one_checks import read as checks_read
 from specialist_distillation_report import shares, spent, stems
 from two_decks_report import mean, paired, told
 
-# PPO's reading 3: over the copy by so much.
-PAYS = 0.01
+# PPO's readings 3 and 4: over the copy by so much.
+OVER = 0.01
 
 
 def teacher_figure(deck: str, champions: Path, teachers: Path) -> dict[str, Any] | None:
@@ -216,13 +223,23 @@ def both_seats(cases: dict[str, dict[str, Any]], decks: list[str]) -> dict[str, 
     return each
 
 
+def over_the_copy(gap: float, error_: float, met: str, not_met: str) -> str:
+    """PPO's readings 3 and 4, each by its own words."""
+    if gap - ERRORS * error_ >= OVER:
+        return met
+    if gap + ERRORS * error_ <= OVER:
+        return not_met
+    return "not decided"
+
+
 def pays(gap: float, error_: float) -> str:
     """PPO's reading 3."""
-    if gap - ERRORS * error_ >= PAYS:
-        return "pays"
-    if gap + ERRORS * error_ <= PAYS:
-        return "does not pay"
-    return "not decided"
+    return over_the_copy(gap, error_, "pays", "does not pay")
+
+
+def raised(gap: float, error_: float) -> str:
+    """PPO's reading 4."""
+    return over_the_copy(gap, error_, "raised", "not raised")
 
 
 def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
@@ -235,6 +252,7 @@ def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
     by_deck = both_seats(ours, decks)
     weakest = min(by_deck, key=lambda deck: by_deck[deck]["share"])
     gain = paired(won(ours), won(theirs))
+    lifted = mirrors_against(directory / "heads-ppo", directory / "heads-taught", decks)
     found: dict[str, Any] = {
         "mirrors": {**kept_mirrors(heads), "each": heads},
         "against all71": {
@@ -244,6 +262,7 @@ def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
             "each": by_deck,
         },
         "against the copy": {**gain, "verdict": pays(gain["gap"], gain["error"])},
+        "mirrors against the copy": {**lifted, "verdict": raised(lifted["gap"], lifted["error"])},
         "mirrors against all71": {"ppo": mirrored(ours, decks), "taught": mirrored(theirs, decks)},
         "hours": spent(directory, "ppo"),
     }
@@ -266,6 +285,7 @@ def ppo_report(directory: Path, decks: list[str]) -> dict[str, Any]:
 
 def ppo_shown(found: dict[str, Any]) -> list[str]:
     mirrors, against, gain = found["mirrors"], found["against all71"], found["against the copy"]
+    lifted = found["mirrors against the copy"]
     each = mirrors["each"]
     lowest = min(each, key=lambda deck: each[deck]["share"])
     floor = mirrors["under the floor"]
@@ -287,9 +307,15 @@ def ppo_shown(found: dict[str, Any]) -> list[str]:
             f"  3. Against the copy: {gain['verdict']}, {100 * gain['gap']:+.1f} ± "
             f"{100 * gain['error']:.1f} points over the pairings against all71, the deals paired"
         ),
+        (
+            f"  4. The mirrors against the copy: {lifted['verdict']}, {100 * lifted['gap']:+.1f} ± "
+            f"{100 * lifted['error']:.1f} points head to head, the deals paired"
+        ),
         "Beside them:",
         "  Head to head against each teacher: "
         + ", ".join(f"{deck} {one['share']:.1%}" for deck, one in each.items()),
+        "  Each mirror less the copy's: "
+        + ", ".join(f"{deck} {100 * one['gap']:+.1f}" for deck, one in lifted["each"].items()),
         "  Against all71, each deck from both seats: "
         + ", ".join(f"{deck} {one['share']:.1%}" for deck, one in against["each"].items()),
         (

@@ -134,6 +134,10 @@ def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_pat
     assert against["verdict"] == "falls short"
     assert found["against the copy"]["gap"] == pytest.approx(0.05)
     assert found["against the copy"]["verdict"] == "pays"
+    # 50 head to head where the copy had 48, on the same deals.
+    lifted = found["mirrors against the copy"]
+    assert lifted["gap"] == pytest.approx(0.02)
+    assert lifted["verdict"] == "not decided"
     assert found["mirrors against all71"]["ppo"] == pytest.approx((0.60 + 0.35 + 0.60) / 3)
     assert found["mirrors against all71"]["taught"] == pytest.approx((0.55 + 0.30 + 0.55) / 3)
     assert found["pilots"]["mean"] == pytest.approx(0.75)
@@ -144,6 +148,8 @@ def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_pat
     assert "PPO, by its last checkpoint:" in shown
     assert "2. Against all71: falls short" in shown
     assert "3. Against the copy: pays, +5.0" in shown
+    assert "4. The mirrors against the copy: not decided, +2.0" in shown
+    assert "Each mirror less the copy's: blackwing +2.0" in shown
     assert "Its check after 2,880 updates against the copy's: the mirrors +0.0" in shown
 
 
@@ -174,3 +180,11 @@ def test_a_deck_is_read_from_both_seats_so_that_what_it_is_worth_cancels():
 )
 def test_ppo_pays_by_a_point_over_the_copy(gap, error, verdict):
     assert tool.pays(gap, error) == verdict
+
+
+@pytest.mark.parametrize(
+    ("gap", "error", "verdict"),
+    [(0.03, 0.005, "raised"), (0.005, 0.002, "not raised"), (0.012, 0.004, "not decided")],
+)
+def test_ppo_raises_the_mirrors_by_a_point_over_the_copy(gap, error, verdict):
+    assert tool.raised(gap, error) == verdict

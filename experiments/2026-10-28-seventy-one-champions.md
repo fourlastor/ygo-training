@@ -10,7 +10,7 @@ PPO's that afternoon, before anything was built.
 
 **Last updated:** 2026-10-30 (the copy read: reading 1 lost, 46.9% ± 0.1%
 head to head; 60.2% against `all71` in the mirrors, 45.7% ± 0.4% over every
-ordered pairing; PPO's reading 2 amended and PPO queued)
+ordered pairing; PPO's reading 2 amended, its reading 4 added, PPO queued)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -184,10 +184,24 @@ By PPO's last checkpoint:
    `all71`, the deals paired: **pays** when PPO is at least 1 point over
    the copy by two standard errors, **does not pay** when it is at most 1
    point over it by two standard errors, otherwise **not decided**.
+4. *The mirrors against the copy*: the mean over the mirrors head to head
+   against each teacher, the games of reading 1, the deals paired with the
+   copy's: **raised** when PPO is at least 1 point over the copy by two
+   standard errors, **not raised** when it is at most 1 point over it by two
+   standard errors, otherwise **not decided**. Added on 2026-10-30, with PPO
+   begun and before its first check, on games already played for reading 1.
+   Reading 1 asks of PPO some 1.3 points over the copy where the fourteen
+   decks' `quarter` gained 0.7 over theirs, so it can be lost with PPO
+   closing the gap, and this tells the two apart. Raised, the network holds
+   better play of the mirrors than the copy reached, so that its size was
+   not what stopped the copy there, and more PPO or half of the duels in the
+   mirrors is next to try. Not raised says nothing of its size, and a wider
+   network is next to try.
 
 Told beside them, without a mark: each check, and its gain over the copy
-against `all71`; the mirrors against `all71` beside the copy's; against
-the pilots beside the copy and `all71`; the hours.
+against `all71`; each mirror less the copy's; the mirrors against `all71`
+beside the copy's; against the pilots beside the copy and `all71`; the
+hours.
 
 ## The copy: results (read on 2026-10-30)
 
