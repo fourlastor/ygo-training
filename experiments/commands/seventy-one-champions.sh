@@ -192,12 +192,17 @@ unpacked() {
     rmdir "$into"
   done
 }
+# failed FILE: whether evaluate-suite, which goes on past a case that fails,
+# left a case's error in FILE where its games would be.
+failed() {
+  grep -q '"error_type"' "$1"
+}
 # played FILE SUITE OPTION...: what the options name on a suite, with how
 # each game ended, into FILE.json, at once with others where AT_ONCE says.
 played() {
   # A file being played beside others is not there yet: it is not played
-  # twice.
-  if [ ! -f "$1.json" ] && [ -z "${queued[$1]:-}" ]; then
+  # twice. One that holds a failed case is played again.
+  if { [ ! -f "$1.json" ] || failed "$1.json"; } && [ -z "${queued[$1]:-}" ]; then
     queued[$1]=1
     at_once "$(basename "$(dirname "$1")")-$(basename "$1")" playing "$@"
   fi
@@ -211,6 +216,10 @@ playing() {
   "${python[@]}" -m ygo_training evaluate-suite "$@" --device "$DEVICE" \
     --workers "$WORKERS" --pool-threads "$THREADS" --pool-slots "$SLOTS" --seed "$SEED" \
     --suite "$suite" --output "$file.json.part" > /dev/null
+  if failed "$file.json.part"; then
+    echo "A case of $file failed: $file.json.part" >&2
+    return 1
+  fi
   mv "$file.json.part" "$file.json"
   echo "$(date +%H:%M) $file"
 }
