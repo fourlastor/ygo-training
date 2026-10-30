@@ -10,7 +10,7 @@ PPO's that afternoon, before anything was built.
 
 **Last updated:** 2026-10-30 (the copy read: reading 1 lost, 46.9% ± 0.1%
 head to head; 60.2% against `all71` in the mirrors, 45.7% ± 0.4% over every
-ordered pairing; PPO not queued)
+ordered pairing; PPO's reading 2 amended and PPO queued)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -120,7 +120,13 @@ pairings. The seventy-one decks' PPO takes the quarter.
   update than at fourteen, and 21,900 updates are the fourteen decks'
   4,320 by the deck. Some two days by reckoning, at the fourteen decks'
   pace. Neither of the fourteen decks' arms had a duel against the pilots,
-  and both stayed 4 to 6 points over `all71` against them.
+  and both stayed 4 to 6 points over `all71` against them. An update's
+  duels are whole, and those a share leaves over go to the largest
+  remainders: read from the allocation on 2026-10-30, before PPO began,
+  each mirror has 2 duels an update and each other pairing 0.076, in a
+  different draw each update, so that 27.3% of the duels are in the mirrors
+  and not the quarter reckoned (some 43,800 duels of each mirror and 1,670
+  of each other pairing, against 40,100 and 1,720). The weights stand.
 - **The checks**, so that a run that gets worse is not left to run for
   days: PPO is trained in stretches to 2,880, 5,760, 8,640, 11,520,
   14,400, 17,280 and 20,160 updates, some six hours each at the fourteen
@@ -164,12 +170,16 @@ pairings. The seventy-one decks' PPO takes the quarter.
 By PPO's last checkpoint:
 
 1. *The mirrors kept*: the copy's reading 1.
-2. *Against `all71`, deck by deck*: each deck's share, played by the
-   network against `all71` playing each of the seventy-one decks (4,544
-   games a deck): **beats all71** when every deck is over 50% by two
-   standard errors, **falls short** when one is at most 50% by two
-   standard errors, otherwise **not decided**. Every pairing on its own, as
-   the fourteen decks were read, would take some 15 million games.
+2. *Against `all71`, deck by deck*: each deck's share from both seats, the
+   network playing it against `all71` playing each of the seventy-one decks
+   and playing each of the others against `all71` playing it (9,024 games a
+   deck): **beats all71** when every deck is over 50% by two standard
+   errors, **falls short** when one is at most 50% by two standard errors,
+   otherwise **not decided**. Every pairing on its own, as the fourteen
+   decks were read, would take some 15 million games. Amended on
+   2026-10-30, before PPO began: fixed as each deck in the learner's seat
+   alone (4,544 games a deck), it told the deck more than the network (the
+   copy's results, below). On the same games.
 3. *PPO against the copy*: the mean over the ordered pairings against
    `all71`, the deals paired: **pays** when PPO is at least 1 point over
    the copy by two standard errors, **does not pay** when it is at most 1
@@ -250,7 +260,14 @@ alone, and the check shows that this reads the deck more than the network:
 twenty-four decks under 50% by two standard errors, twenty over. No network
 near `all71` could meet it. The fourteen decks' reading 2 took the mean of a
 pairing's two seatings, and that was lost when the reading was cut to deck by
-deck. Each deck's pairings from both seats would restore it, on the same
-games. To be settled before PPO is read.
+deck. It was amended on 2026-10-30, before PPO began, to each deck from both
+seats: level with `all71`, a deck and the deck it meets win between the two
+seatings of their pairing as much as they lose, whatever each is worth. The
+games played do not change.
 
-**Current next step:** PPO is built and not queued, and waits on this reading.
+**Current next step:** PPO, decided on 2026-10-30 once this reading was seen,
+is queued on the CUDA machine that evening, its measurements behind it. A check
+tells a gap of about a point from none, two standard errors of a gap being 0.8
+points in the mirrors and 1.0 over the pairings, and the fourteen decks'
+`quarter` gained 0.7 in the mirrors over its whole length, so that a check
+without a gap does not say the mirrors stand still.
