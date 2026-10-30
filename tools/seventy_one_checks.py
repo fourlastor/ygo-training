@@ -5,7 +5,7 @@
         --suites eval_suites --games 128 --into analysis/seventy-one-champions/checks/suites
     uv run python tools/seventy_one_checks.py read analysis/seventy-one-champions/checks \\
         --decks blackwing,cyber,...
-    uv run python tools/seventy_one_checks.py opponents analysis/seventy-one-champions/checks \\
+    uv run python tools/seventy_one_checks.py pairings analysis/seventy-one-champions/checks \\
         --met blackwing,lightsworn,...
 
 `suites` writes each deck's mirror suite against a checkpoint with its games
@@ -25,10 +25,12 @@ mean over the mirrors head to head, or the mean over the pairings against
 deals paired, the same of the two at two checks in a row. `read` says so of
 the last check and ends with 3.
 
-`opponents` tells the games against `all71` of the copy and of each check by
-the opponent's deck: the deck's own mirror, the decks `--met` names, the copy's
-pilots, which it has played against, and the others. Beside the rule, and no
-part of it.
+`pairings` tells the games against `all71` of the copy and of each check by
+how many of a pairing's two decks `--met` names, the decks whose pilots the
+copy played: both, one or neither, and the mirrors apart. Each group holds both
+seats of its pairings, so that what a deck is worth cancels: told by the
+opponent's deck alone, the groups would differ by their decks and not only by
+the network. Beside the rule, and no part of it.
 """
 
 from __future__ import annotations
@@ -52,9 +54,9 @@ MARGIN = 0.01
 IN_A_ROW = 2
 MEASURES = ("mirrors", "pairings")
 STOPPED = 3
-# The opponent's deck to a deck of a check's pairings.
-MIRROR, MET, OTHERS = "mirror", "met", "others"
-TOLD = {MIRROR: "its mirror", MET: "the decks it met", OTHERS: "the others"}
+# A check's pairings, by how many of their two decks were met.
+MIRRORS, BOTH, ONE, NEITHER = "mirrors", "both", "one", "neither"
+TOLD = {MIRRORS: "the mirrors", BOTH: "both met", ONE: "one met", NEITHER: "neither met"}
 
 
 def suites(decks: list[str], source: Path, games: int, into: Path) -> None:
@@ -147,11 +149,19 @@ def shown(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def met_of(learner: str, opponent: str, met: set[str]) -> str:
+    """How many of a pairing's two decks were met, the same from either seat."""
+    if learner == opponent:
+        return MIRRORS
+    return (NEITHER, ONE, BOTH)[(learner in met) + (opponent in met)]
+
+
 def against(path: Path, suite: dict[str, Any], met: set[str]) -> dict[str, dict[str, float]]:
-    """A network's games against `all71` by the opponent's deck. A case's
-    games are so many against each deck it names, in the order it names them."""
+    """A network's games against `all71` by how many of each pairing's two
+    decks were met. A case's games are so many against each deck it names, in
+    the order it names them."""
     played = outcomes_of(path)
-    games: dict[str, list[float]] = {MIRROR: [], MET: [], OTHERS: []}
+    games: dict[str, list[float]] = {MIRRORS: [], BOTH: [], ONE: [], NEITHER: []}
     for case in suite["cases"]:
         count = int(case["games"])
         ended = played[case["name"]]
@@ -159,7 +169,7 @@ def against(path: Path, suite: dict[str, Any], met: set[str]) -> dict[str, dict[
         if len(ended) != count * len(names):
             raise SystemExit(f"{case['name']}: {len(ended)} games of {count * len(names)}")
         for place, deck in enumerate(names):
-            group = MIRROR if deck == case["learner"] else MET if deck in met else OTHERS
+            group = met_of(case["learner"], deck, met)
             games[group] += [float(game == "win") for game in ended[place * count :][:count]]
     return {
         group: {"share": mean(won), "error": error(won), "games": len(won)}
@@ -168,14 +178,15 @@ def against(path: Path, suite: dict[str, Any], met: set[str]) -> dict[str, dict[
     }
 
 
-def opponents(directory: Path, suite: dict[str, Any], met: set[str]) -> dict[str, Any]:
-    """The copy's and each check's games against `all71` by the opponent's deck."""
+def pairings(directory: Path, suite: dict[str, Any], met: set[str]) -> dict[str, Any]:
+    """The copy's and each check's games against `all71` by how many of each
+    pairing's two decks were met."""
     names = ["copy", *map(str, checks_of(directory))]
     return {name: against(directory / name / "pairings.json", suite, met) for name in names}
 
 
-def shown_opponents(result: dict[str, Any]) -> str:
-    lines = ["Against all71 on the check's pairings, by the opponent's deck:"]
+def shown_pairings(result: dict[str, Any]) -> str:
+    lines = ["Against all71 on the check's pairings, both seats of each, by the decks met:"]
     for name, groups in result.items():
         told = ", ".join(
             f"{TOLD[group]} {one['share']:.1%} ± {one['error']:.1%} ({one['games']:,} games)"
@@ -199,19 +210,19 @@ def main() -> None:
     reading.add_argument("directory", type=Path)
     reading.add_argument("--decks", required=True)
     reading.add_argument("--output", type=Path)
-    told = commands.add_parser("opponents")
+    told = commands.add_parser("pairings")
     told.add_argument("directory", type=Path)
     told.add_argument("--met", required=True)
     told.add_argument(
-        "--pairings",
+        "--suite",
         type=Path,
         default=Path("eval_suites/seventy-one-decks-check-pairings-checkpoint.json"),
     )
     args = parser.parse_args()
-    if args.command == "opponents":
-        suite = json.loads(args.pairings.read_text(encoding="utf8"))
+    if args.command == "pairings":
+        suite = json.loads(args.suite.read_text(encoding="utf8"))
         met = {deck.strip() for deck in args.met.split(",") if deck.strip()}
-        print(shown_opponents(opponents(args.directory, suite, met)))
+        print(shown_pairings(pairings(args.directory, suite, met)))
         return
     decks = [deck.strip() for deck in args.decks.split(",") if deck.strip()]
     if args.command == "suites":

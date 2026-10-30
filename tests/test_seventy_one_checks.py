@@ -92,7 +92,7 @@ def test_the_pairings_stop_it_and_a_stop_once_passed_is_told(tmp_path):
     assert "The rule met after 5,760 updates, by the pairings" in tool.shown(result)
 
 
-def test_the_games_against_all71_are_told_by_the_opponents_deck(tmp_path):
+def test_the_games_against_all71_are_told_by_how_many_of_the_two_decks_were_met(tmp_path):
     suite = {
         "cases": [
             {
@@ -113,21 +113,40 @@ def test_the_games_against_all71_are_told_by_the_opponents_deck(tmp_path):
     played(tmp_path / "copy" / "pairings.json", games)
     played(tmp_path / "2880" / "pairings.json", {name: [win] * 6 for name in games})
 
-    result = tool.opponents(tmp_path, suite, {"cyber"})
+    result = tool.pairings(tmp_path, suite, {"cyber"})
 
     assert [name for name in result] == ["copy", "2880"]
     copy = result["copy"]
-    assert (copy["mirror"]["share"], copy["mirror"]["games"]) == (1.0, 6)
-    assert (copy["met"]["share"], copy["met"]["games"]) == (0.75, 4)
-    assert (copy["others"]["share"], copy["others"]["games"]) == (0.0, 8)
-    assert result["2880"]["others"]["share"] == 1.0
-    told = tool.shown_opponents(result)
-    assert "The copy: its mirror 100.0%" in told and "the others 0.0%" in told
+    assert (copy["mirrors"]["share"], copy["mirrors"]["games"]) == (1.0, 6)
+    # Both seats of each pairing: blackwing and lightsworn with cyber, and the
+    # two without it.
+    assert (copy["one"]["share"], copy["one"]["games"]) == (0.375, 8)
+    assert (copy["neither"]["share"], copy["neither"]["games"]) == (0.0, 4)
+    assert "both" not in copy
+    assert result["2880"]["neither"]["share"] == 1.0
+    told = tool.shown_pairings(result)
+    assert "The copy: the mirrors 100.0%" in told and "neither met 0.0%" in told
     assert "After 2,880 updates:" in told
+
+    copy = tool.pairings(tmp_path, suite, {"cyber", "lightsworn"})["copy"]
+    assert (copy["both"]["share"], copy["both"]["games"]) == (0.5, 4)
+    assert (copy["one"]["share"], copy["one"]["games"]) == (0.125, 8)
+    assert "neither" not in copy
 
     played(tmp_path / "copy" / "pairings.json", {name: [win] * 4 for name in games})
     with pytest.raises(SystemExit, match="4 games of 6"):
-        tool.opponents(tmp_path, suite, {"cyber"})
+        tool.pairings(tmp_path, suite, {"cyber"})
+
+
+def test_a_pairing_is_told_the_same_from_either_seat():
+    for one, other in (
+        ("blackwing", "cyber"),
+        ("cyber", "lightsworn"),
+        ("blackwing", "lightsworn"),
+    ):
+        for met in ({"cyber"}, {"cyber", "lightsworn"}, set()):
+            assert tool.met_of(one, other, met) == tool.met_of(other, one, met)
+    assert tool.met_of("cyber", "cyber", set()) == "mirrors"
 
 
 def test_only_the_copy_goes_on(tmp_path):
