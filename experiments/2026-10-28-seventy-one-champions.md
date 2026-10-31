@@ -12,7 +12,9 @@ PPO's that afternoon, before anything was built.
 the mirrors head to head 44.6%, 2.5 ± 0.4 points under the copy, every ordered
 pairing against `all71` 50.6%, 5.0 ± 0.4 points over it; the mirrors along the
 runs read the same day: `quarter` never fell by the rule, and PPO's fall is
-`selfplay`'s, so that it is not taken on)
+`selfplay`'s; the mean of PPO's weights read the same day: the mirrors raised
+2.0 ± 0.4 points and the pairings 1.0 ± 0.3 over its last checkpoint, with no
+training)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -424,5 +426,33 @@ checkpoint's on the same deals.
   where a run goes as well as shake it where it stands, and it is weighed
   against a wider network.
 
-**Current next step:** the mean of PPO's weights, then the design of what it
-calls for.
+#### Read on 2026-10-31
+
+Played on the CUDA machine from 16:15 to 16:26, 143 files with no failed case
+(`analysis/seventy-one-champions/checks/mean/report.txt`), the network
+`runs/seventy-one-champions/ppo-mean/model-17039.pt`.
+
+| On the check's deals | The copy | PPO's last checkpoint | The mean of its weights |
+| --- | --- | --- | --- |
+| The mirrors head to head against the teachers | 47.1% | 44.6% | 46.6% |
+| Every ordered pairing against `all71` | 45.7% | 50.6% | 51.6% |
+
+- **The mirrors are raised**: 2.0 ± 0.4 points over PPO's last checkpoint, 1.3 by
+  two standard errors. Its pairings are over that checkpoint too, by 1.0 ± 0.3.
+- The mean has back 2.0 of the 2.5 points PPO's last checkpoint had lost to the
+  copy in the mirrors. It stands 0.5 ± 0.4 under the copy, which PPO's rule would
+  not have stopped, and 5.9 ± 0.3 over it on the pairings.
+- Told beside the rule, against `all71`, by how many of a pairing's two decks
+  the copy met: neither 50.9% (± 0.4), one 52.7% (± 0.6), both 53.2% (± 2.0), the
+  mirrors 59.2% (± 2.9). Each deck from both seats on the check's 564 games, by
+  reading 2's rule: eight over 50% and one under, the lowest `chain-burn` 45.7%.
+  The mirrors against the copy: the thirteen decks it met −1.5 ± 0.9, the others
+  −0.2 ± 0.4.
+
+The noise of the updates cost most of what PPO's checkpoints lost in the
+mirrors, and a little over the pairings as well. PPO's stop was read on single
+checkpoints, each one a draw of that noise. The mean gives what a lower rate was
+to test, with no training and no slow-down.
+
+**Current next step:** by the rule above, a run at PPO's rate read by a mean of
+its weights, designed beside the lower rate.
