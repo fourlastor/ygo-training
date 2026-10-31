@@ -54,6 +54,11 @@
 # fourteen decks' measurements in FOURTEEN_OUT and PPO's checks
 # (tools/seventy_one_checks.py along).
 #
+# mean. The mean of the weights of PPO's checkpoints from MEAN_FROM to MEAN_TO
+# updates, every STEP, into RUNS/ppo-mean (tools/mean_checkpoint.py), measured
+# as a check into OUT/checks/mean, then what it says against PPO's check after
+# MEAN_AGAINST (tools/seventy_one_checks.py mean).
+#
 # AT_ONCE: how many of the measurements go at a time, through an MPS server
 # on a card (experiments/commands/at-once.sh), what each writes in
 # OUT/logs; 1, the default, one after the other.
@@ -67,6 +72,7 @@
 #   PARTS=ppo AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=ppo-measure AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=along AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
+#   PARTS=mean AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 set -euo pipefail
 DEVICE=${DEVICE:-cuda}
 WORKERS=${WORKERS:-24}
@@ -115,6 +121,11 @@ FOURTEEN=${FOURTEEN:-cyber,$THIRTEEN}
 FOURTEEN_COPY=${FOURTEEN_COPY:-2240}
 FOURTEEN_RUNS=${FOURTEEN_RUNS:-runs/fourteen-decks}
 FOURTEEN_OUT=${FOURTEEN_OUT:-analysis/fourteen-decks}
+# The mean of PPO's weights: from and to these of its updates, against its check
+# after MEAN_AGAINST.
+MEAN_FROM=${MEAN_FROM:-2800}
+MEAN_TO=${MEAN_TO:-5680}
+MEAN_AGAINST=${MEAN_AGAINST:-5760}
 NETWORK=${NETWORK:-runs/seventy-one-decks/all71/checkpoints/model-27599.pt}
 RUNS=${RUNS:-runs/seventy-one-champions}
 OUT=${OUT:-analysis/seventy-one-champions}
@@ -134,9 +145,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
-    copy | copy-measure | copy-check | ppo | ppo-measure | along) ;;
+    copy | copy-measure | copy-check | ppo | ppo-measure | along | mean) ;;
     *)
-      echo "PARTS names copy, copy-measure, copy-check, ppo, ppo-measure and along, not $part" >&2
+      echo "PARTS names copy, copy-measure, copy-check, ppo, ppo-measure, along and mean, not $part" >&2
       exit 1
       ;;
   esac
@@ -457,4 +468,23 @@ if [[ " $PARTS " == *" along "* ]]; then
   all_done
   "${python[@]}" tools/seventy_one_checks.py along "$OUT" --decks "$DECKS" \
     --fourteen "$FOURTEEN_OUT" --fourteen-decks "$FOURTEEN" | tee "$OUT/along/report.txt"
+fi
+
+if [[ " $PARTS " == *" mean "* ]]; then
+  meaned=$RUNS/ppo-mean/$(basename "$(checkpoint "$RUNS/ppo" "$COPY" "$MEAN_TO")")
+  kept=()
+  for ((point = MEAN_FROM; point <= MEAN_TO; point += STEP)); do
+    kept+=("$(checkpoint "$RUNS/ppo" "$COPY" "$point")")
+  done
+  for path in "${kept[@]}"; do
+    if [ ! -f "$path" ]; then
+      echo "Missing $path: the mean is of checkpoints PPO kept" >&2
+      exit 1
+    fi
+  done
+  [ -f "$meaned" ] || "${python[@]}" tools/mean_checkpoint.py "${kept[@]}" --output "$meaned"
+  suited
+  checked mean "$meaned"
+  "${python[@]}" tools/seventy_one_checks.py mean "$OUT/checks" --decks "$DECKS" \
+    --against "$MEAN_AGAINST" | tee "$OUT/checks/mean/report.txt"
 fi

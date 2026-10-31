@@ -390,4 +390,39 @@ tests whether the noise of an update is what costs the mirrors, and it is
 expected to want more updates for the same gain. Its design and readings are
 to be fixed before it is built.
 
-**Current next step:** the design of a run at a lower rate.
+### The mean of PPO's weights (fixed on 2026-10-31, before any of it was played)
+
+Agreed once the mirrors along the runs were read, before a lower rate is
+designed. At a fifth of the rate, if gain goes with rate and updates, a run
+would take some 14,400 updates, 38 hours, to gain what PPO's first 2,880 did,
+and part of what it asks can be asked of checkpoints already kept. PPO's mirrors
+stand about where they stood from 2,080 updates on, so that what its later
+checkpoints share is where the run stands, and what differs between them is in
+good part the noise of their updates. The mean of their weights keeps the first
+and little of the second, with no training.
+
+The network is the mean, weight by weight, of the thirteen checkpoints PPO kept
+every 240 updates from 2,800 to 5,680, `model-14159.pt` to `model-17039.pt`
+(`tools/mean_checkpoint.py`, `PARTS=mean`, seven at once, some fifteen minutes by
+reckoning). It is measured as a check is, on the checks' deals, less PPO's last
+checkpoint's on the same deals.
+
+- The mirrors head to head are **raised** when at least 1 point over PPO's last
+  checkpoint by two standard errors and **not raised** when at most 1 point over
+  it by two standard errors. Between the two they are **not told**, and the mean
+  and PPO's last checkpoint are played again on 512 deals of each mirror, about
+  an hour and a half.
+- Where its pairings against `all71` are under PPO's last checkpoint's by at
+  least 1 point by two standard errors, the mean has broken the network, the
+  checkpoints being too far apart to be meaned. The test then says nothing and a
+  lower rate goes ahead as agreed.
+- Raised: the noise of the updates is costing the mirrors. A run at PPO's rate
+  that keeps a running mean of its weights is designed beside the lower rate,
+  since it would not want more updates.
+- Not raised: the noise about where the run stands costs less than a point of
+  the 2.5. A lower rate is then a long shot, not ruled out, since noise can steer
+  where a run goes as well as shake it where it stands, and it is weighed
+  against a wider network.
+
+**Current next step:** the mean of PPO's weights, then the design of what it
+calls for.

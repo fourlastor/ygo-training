@@ -10,6 +10,8 @@
     uv run python tools/seventy_one_checks.py along analysis/seventy-one-champions \\
         --decks blackwing,cyber,... --fourteen analysis/fourteen-decks \\
         --fourteen-decks blackwing,cyber,...
+    uv run python tools/seventy_one_checks.py mean analysis/seventy-one-champions/checks \\
+        --decks blackwing,cyber,... --against 5760
 
 `suites` writes each deck's mirror suite against a checkpoint with its games
 set to so many: the deals of every check in the mirrors.
@@ -39,6 +41,14 @@ the network. Beside the rule, and no part of it.
 mirrors moved along PPO, on the checks' deals, and along the fourteen decks'
 arms, on the deals they were read on, each less its copy's. Beside the rule,
 and no part of it.
+
+`mean` reads what `PARTS=mean` leaves in `mean/` of the checks' folder: the
+mean of PPO's weights, measured as a check, less PPO's check `--against` on the
+same deals. Fixed on 2026-10-31 before it was played: the mirrors are raised when
+at least 1 point over it by two standard errors, and not raised when at most 1
+point over it by two standard errors; where the pairings against `all71` are
+under it by at least 1 point by two standard errors the mean has broken the
+network, and the mirrors say nothing.
 """
 
 from __future__ import annotations
@@ -260,6 +270,35 @@ def shown_along(runs: dict[str, dict[int, dict[str, Any]]]) -> str:
     return "\n".join(lines)
 
 
+def mean_of_weights(directory: Path, against: int, decks: list[str]) -> dict[str, Any]:
+    """The mean of PPO's weights against its check `against`, by the rule of
+    the mean."""
+    found = check(directory / "mean", directory / str(against), decks)
+    mirrors = found["mirrors"]
+    if mirrors["gap"] - ERRORS * mirrors["error"] >= MARGIN:
+        found["told"] = "raised"
+    elif mirrors["gap"] + ERRORS * mirrors["error"] <= MARGIN:
+        found["told"] = "not raised"
+    else:
+        found["told"] = "not told"
+    return found
+
+
+def shown_mean(found: dict[str, Any], against: int) -> str:
+    lines = [f"The mean of PPO's weights against it after {against:,} updates, on the same deals:"]
+    for measure in MEASURES:
+        one = found[measure]
+        lines.append(
+            f"  The {measure} {one['share']:.1%} ({100 * one['gap']:+.1f} ± "
+            f"{100 * one['error']:.1f} points)"
+        )
+    if found["pairings"]["under"]:
+        lines.append("The pairings are under it: the mean has broken the network.")
+    else:
+        lines.append(f"The mirrors: {found['told']}.")
+    return "\n".join(lines)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     commands = parser.add_subparsers(dest="command", required=True)
@@ -285,6 +324,10 @@ def main() -> None:
     walked.add_argument("--decks", required=True)
     walked.add_argument("--fourteen", type=Path, required=True)
     walked.add_argument("--fourteen-decks", required=True)
+    averaged = commands.add_parser("mean")
+    averaged.add_argument("directory", type=Path)
+    averaged.add_argument("--decks", required=True)
+    averaged.add_argument("--against", type=int, required=True)
     args = parser.parse_args()
     if args.command == "pairings":
         suite = json.loads(args.suite.read_text(encoding="utf8"))
@@ -298,6 +341,9 @@ def main() -> None:
     if args.command == "along":
         fourteen_decks = [deck.strip() for deck in args.fourteen_decks.split(",") if deck.strip()]
         print(shown_along(runs_along(args.directory, args.fourteen, decks, fourteen_decks)))
+        return
+    if args.command == "mean":
+        print(shown_mean(mean_of_weights(args.directory, args.against, decks), args.against))
         return
     result = read(args.directory, decks)
     if args.output is not None:

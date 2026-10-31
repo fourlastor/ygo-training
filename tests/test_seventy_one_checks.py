@@ -179,3 +179,34 @@ def test_the_mirrors_are_told_along_each_run_against_its_copy(tmp_path):
     assert runs["quarter"][640]["gap"] == pytest.approx(-0.05)
     assert runs["quarter"][tool.ARM_UPDATES]["gap"] == pytest.approx(0.01)
     assert "    After 640 updates: 45.0% (-5.0 ± " in tool.shown_along(runs)
+
+
+@pytest.mark.parametrize(
+    ("mirrors", "told"), [(60, "raised"), (50, "not raised"), (52, "not told")]
+)
+def test_the_mean_is_read_against_the_check_it_is_of(tmp_path, mirrors, told):
+    directory = checks(tmp_path, (5760, 50, 50))
+    checked(directory / "mean", mirrors, 50)
+
+    found = tool.mean_of_weights(directory, 5760, DECKS)
+
+    assert found["mirrors"]["gap"] == pytest.approx((mirrors - 50) / 100)
+    assert found["told"] == told
+    assert tool.shown_mean(found, 5760).endswith(f"The mirrors: {told}.")
+
+
+def test_a_mean_that_broke_the_network_says_nothing_of_the_mirrors(tmp_path):
+    directory = checks(tmp_path, (5760, 50, 50))
+    checked(directory / "mean", 60, 40)
+
+    found = tool.mean_of_weights(directory, 5760, DECKS)
+
+    assert found["pairings"]["under"]
+    assert tool.shown_mean(found, 5760).endswith("the mean has broken the network.")
+
+
+def test_the_mean_is_not_taken_for_a_check(tmp_path):
+    directory = checks(tmp_path, (2880, 50, 50))
+    checked(directory / "mean", 60, 60)
+
+    assert tool.checks_of(directory) == [2880]
