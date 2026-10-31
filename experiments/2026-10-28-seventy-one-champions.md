@@ -10,7 +10,9 @@ PPO's that afternoon, before anything was built.
 
 **Last updated:** 2026-10-31 (PPO stopped by its checks after 5,760 updates:
 the mirrors head to head 44.6%, 2.5 ± 0.4 points under the copy, every ordered
-pairing against `all71` 50.6%, 5.0 ± 0.4 points over it)
+pairing against `all71` 50.6%, 5.0 ± 0.4 points over it; the mirrors along the
+runs read the same day: `quarter` never fell by the rule, and PPO's fall is
+`selfplay`'s, so that it is not taken on)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -347,5 +349,45 @@ a fall that comes early and then stands is what noise against a weak pull would
 look like, which has not been shown. More duels an update would not change that
 by themselves, an update being cut into some 160 minibatches of 512 decisions.
 
-**Current next step:** the mirrors along the runs, queued on the CUDA machine
-on 2026-10-31; what follows the stop is decided on them.
+#### Read on 2026-10-31
+
+Played on the CUDA machine from 14:41 to 15:55, 904 files with no failed case
+(`analysis/seventy-one-champions/along/report.txt`). Head to head, in points
+against each run's own copy on the same deals, each run with its duels of each
+mirror an update:
+
+| After updates | `half` (18.6) | `quarter` (9.3) | `selfplay` (2.65) | PPO, the fourteen decks (2) | PPO, the seventy-one (2) |
+| --- | --- | --- | --- | --- | --- |
+| 160 | −0.0 ± 0.2 | −0.9 ± 0.2 | −2.3 ± 0.2 | −0.5 ± 0.8 | −1.2 ± 0.3 |
+| 640 | +0.3 ± 0.2 | −1.2 ± 0.2 | −2.9 ± 0.2 | −2.7 ± 0.8 | −1.9 ± 0.4 |
+| 1,120 | +0.6 ± 0.2 | −1.0 ± 0.2 | −2.9 ± 0.2 | | |
+| 1,360 | | | | −3.7 ± 0.9 | −1.6 ± 0.4 |
+| 2,080 | +1.4 ± 0.2 | −0.7 ± 0.2 | −2.8 ± 0.2 | −3.2 ± 0.8 | −2.4 ± 0.4 |
+| 2,880 | | | | −4.5 ± 0.9 | −2.2 ± 0.4 |
+| 4,320 | +2.7 ± 0.2 | +0.7 ± 0.2 | −3.5 ± 0.2 | | |
+| 5,760 | | | | −4.3 ± 0.9 | −2.5 ± 0.4 |
+
+- **`quarter` never fell**, by the rule: at its lowest, after 640 updates, it is
+  0.8 points under by two standard errors, where the line is 1. It did stand
+  about a point under for its first 2,080 updates, and only its last 2,240 took
+  it over the copy.
+- That is not PPO's fall. On the same fourteen decks PPO stood 3.2 to 4.5 points
+  under from 1,360 updates on, and its curve is `selfplay`'s, which lost 2.3 of
+  its 3.5 points in its first 160 updates and did not come back in 4,320. PPO is
+  not taken on from its last checkpoint.
+- PPO fell soon, as `selfplay` did: over the seventy-one decks 1.2 points after
+  160 updates and 1.9 after 640. From 2,080 updates on its gap moves by no more
+  than a check can tell.
+- The more duels of each mirror, the higher the arm at every point. After 640
+  updates a straight line in the logarithm of the duels through `selfplay` and
+  `quarter` puts 4 of each mirror, which half of the duels would give here, at
+  about −2.4 on the fourteen decks, some 0.6 points over `selfplay`: half of the
+  duels alone is not reckoned to hold them. That line is a reckoning, not a
+  measurement.
+
+A lower rate is the next to try, agreed on 2026-10-31 once this was read. It
+tests whether the noise of an update is what costs the mirrors, and it is
+expected to want more updates for the same gain. Its design and readings are
+to be fixed before it is built.
+
+**Current next step:** the design of a run at a lower rate.
