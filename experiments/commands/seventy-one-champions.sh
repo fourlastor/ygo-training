@@ -47,6 +47,13 @@
 # parts that go at once); it against the pilots; its metrics; then the
 # report.
 #
+# along. Into OUT/along, on checkpoints already kept and with no training, how
+# the mirrors moved head to head against each teacher: each of the fourteen
+# decks' ARMS after each of ARMS_ALONG, on the deals they were read on, and PPO
+# after each of ALONG, on the checks' deals; then what they say, beside the
+# fourteen decks' measurements in FOURTEEN_OUT and PPO's checks
+# (tools/seventy_one_checks.py along).
+#
 # AT_ONCE: how many of the measurements go at a time, through an MPS server
 # on a card (experiments/commands/at-once.sh), what each writes in
 # OUT/logs; 1, the default, one after the other.
@@ -59,6 +66,7 @@
 #   PARTS=copy-check AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=ppo AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=ppo-measure AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
+#   PARTS=along AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 set -euo pipefail
 DEVICE=${DEVICE:-cuda}
 WORKERS=${WORKERS:-24}
@@ -98,6 +106,15 @@ CHECKS=${CHECKS:-2880 5760 8640 11520 14400 17280 20160}
 CHECK_DEALS=${CHECK_DEALS:-128}
 CHECK_PAIRINGS=${CHECK_PAIRINGS:-eval_suites/seventy-one-decks-check-pairings-checkpoint.json}
 EARLY_STOP=${EARLY_STOP:-1}
+# The mirrors along the runs: the points of PPO and of the fourteen decks' arms,
+# which began after FOURTEEN_COPY updates.
+ALONG=${ALONG:-160 640 1360 2080}
+ARMS=${ARMS:-quarter selfplay half}
+ARMS_ALONG=${ARMS_ALONG:-160 640 1120 2080}
+FOURTEEN=${FOURTEEN:-cyber,$THIRTEEN}
+FOURTEEN_COPY=${FOURTEEN_COPY:-2240}
+FOURTEEN_RUNS=${FOURTEEN_RUNS:-runs/fourteen-decks}
+FOURTEEN_OUT=${FOURTEEN_OUT:-analysis/fourteen-decks}
 NETWORK=${NETWORK:-runs/seventy-one-decks/all71/checkpoints/model-27599.pt}
 RUNS=${RUNS:-runs/seventy-one-champions}
 OUT=${OUT:-analysis/seventy-one-champions}
@@ -117,9 +134,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
-    copy | copy-measure | copy-check | ppo | ppo-measure) ;;
+    copy | copy-measure | copy-check | ppo | ppo-measure | along) ;;
     *)
-      echo "PARTS names copy, copy-measure, copy-check, ppo and ppo-measure, not $part" >&2
+      echo "PARTS names copy, copy-measure, copy-check, ppo, ppo-measure and along, not $part" >&2
       exit 1
       ;;
   esac
@@ -418,4 +435,26 @@ if [[ " $PARTS " == *" ppo-measure "* ]]; then
   cp "$RUNS/ppo/metrics.jsonl" "$OUT/ppo.metrics.jsonl"
   cp "$RUNS/ppo/run.json" "$OUT/ppo.run.json"
   reported
+fi
+
+if [[ " $PARTS " == *" along "* ]]; then
+  suited
+  for arm in $ARMS; do
+    for point in $ARMS_ALONG; do
+      for deck in ${FOURTEEN//,/ }; do
+        pair "$OUT/along/$arm/$point/$deck" \
+          "$(checkpoint "$FOURTEEN_RUNS/$arm" "$FOURTEEN_COPY" "$point")" "$(teacher "$deck")" \
+          "$SUITES/$deck-against-checkpoint.json"
+      done
+    done
+  done
+  for point in $ALONG; do
+    for deck in "${decks[@]}"; do
+      pair "$OUT/along/ppo/$point/$deck" "$(checkpoint "$RUNS/ppo" "$COPY" "$point")" \
+        "$(teacher "$deck")" "$OUT/checks/suites/$deck.json"
+    done
+  done
+  all_done
+  "${python[@]}" tools/seventy_one_checks.py along "$OUT" --decks "$DECKS" \
+    --fourteen "$FOURTEEN_OUT" --fourteen-decks "$FOURTEEN" | tee "$OUT/along/report.txt"
 fi

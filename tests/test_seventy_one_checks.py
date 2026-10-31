@@ -154,3 +154,28 @@ def test_only_the_copy_goes_on(tmp_path):
 
     assert result["checks"] == {} and not result["stop"]
     assert result["copy"]["mirrors"] == pytest.approx(0.5)
+
+
+def test_the_mirrors_are_told_along_each_run_against_its_copy(tmp_path):
+    directory = tmp_path / "ours"
+    checks(directory / "checks", (2880, 44, 52))
+    for point, mirrors in ((640, 46), (160, 49)):
+        for deck in DECKS:
+            pair(directory / "along" / "ppo" / str(point) / deck, mirrors)
+    fourteen = tmp_path / "fourteen"
+    two = DECKS[:2]
+    for deck in two:
+        pair(fourteen / "heads-taught" / deck, 50)
+        for arm in tool.ARMS:
+            pair(fourteen / f"heads-{arm}" / deck, 51)
+            pair(directory / "along" / arm / "640" / deck, 45)
+
+    runs = tool.runs_along(directory, fourteen, DECKS, two)
+
+    assert list(runs["PPO"]) == [160, 640, 2880]
+    assert runs["PPO"][640]["gap"] == pytest.approx(-0.04)
+    assert runs["PPO, the fourteen decks"][2880]["gap"] == pytest.approx(-0.06)
+    assert list(runs["quarter"]) == [640, tool.ARM_UPDATES]
+    assert runs["quarter"][640]["gap"] == pytest.approx(-0.05)
+    assert runs["quarter"][tool.ARM_UPDATES]["gap"] == pytest.approx(0.01)
+    assert "    After 640 updates: 45.0% (-5.0 ± " in tool.shown_along(runs)

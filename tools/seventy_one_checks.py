@@ -7,6 +7,9 @@
         --decks blackwing,cyber,...
     uv run python tools/seventy_one_checks.py pairings analysis/seventy-one-champions/checks \\
         --met blackwing,lightsworn,...
+    uv run python tools/seventy_one_checks.py along analysis/seventy-one-champions \\
+        --decks blackwing,cyber,... --fourteen analysis/fourteen-decks \\
+        --fourteen-decks blackwing,cyber,...
 
 `suites` writes each deck's mirror suite against a checkpoint with its games
 set to so many: the deals of every check in the mirrors.
@@ -31,6 +34,11 @@ copy played: both, one or neither, and the mirrors apart. Each group holds both
 seats of its pairings, so that what a deck is worth cancels: told by the
 opponent's deck alone, the groups would differ by their decks and not only by
 the network. Beside the rule, and no part of it.
+
+`along` reads what `PARTS=along` leaves in `along/`, `RUN/POINT/`: how the
+mirrors moved along PPO, on the checks' deals, and along the fourteen decks'
+arms, on the deals they were read on, each less its copy's. Beside the rule,
+and no part of it.
 """
 
 from __future__ import annotations
@@ -57,6 +65,9 @@ STOPPED = 3
 # A check's pairings, by how many of their two decks were met.
 MIRRORS, BOTH, ONE, NEITHER = "mirrors", "both", "one", "neither"
 TOLD = {MIRRORS: "the mirrors", BOTH: "both met", ONE: "one met", NEITHER: "neither met"}
+# The fourteen decks' arms, and the updates they ended at.
+ARMS = ("selfplay", "quarter", "half")
+ARM_UPDATES = 4320
 
 
 def suites(decks: list[str], source: Path, games: int, into: Path) -> None:
@@ -87,6 +98,11 @@ def mirrors_against(folder: Path, copy: Path, decks: list[str]) -> dict[str, Any
     }
 
 
+def under(found: dict[str, Any]) -> bool:
+    """Under the copy's by at least 1 point by two standard errors."""
+    return found["gap"] + ERRORS * found["error"] <= -MARGIN
+
+
 def check(folder: Path, copy: Path, decks: list[str]) -> dict[str, Any]:
     """A check against the copy's on the same deals: each mirror head to
     head, and the pairings against `all71`."""
@@ -94,7 +110,7 @@ def check(folder: Path, copy: Path, decks: list[str]) -> dict[str, Any]:
     ours = won(folder / "pairings.json")
     pairings = {"share": mean(ours), **paired(ours, won(copy / "pairings.json"))}
     for found in (mirrors, pairings):
-        found["under"] = found["gap"] + ERRORS * found["error"] <= -MARGIN
+        found["under"] = under(found)
     return {"mirrors": mirrors, "pairings": pairings}
 
 
@@ -203,6 +219,47 @@ def shown_pairings(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def along(folder: Path, copy: Path, decks: list[str]) -> dict[int, dict[str, Any]]:
+    """The mirrors after each point of a run in a folder, against its copy's
+    on the same deals."""
+    return {point: mirrors_against(folder / str(point), copy, decks) for point in checks_of(folder)}
+
+
+def runs_along(
+    directory: Path, fourteen: Path, decks: list[str], fourteen_decks: list[str]
+) -> dict[str, dict[int, dict[str, Any]]]:
+    """The mirrors along PPO, its checks among its points, over all its decks
+    and over the fourteen; and along each of the fourteen decks' arms, where it
+    ended among its points."""
+    copy = directory / "checks" / "copy"
+    runs = {}
+    for name, told in (("PPO", decks), ("PPO, the fourteen decks", fourteen_decks)):
+        points = {
+            **along(directory / "along" / "ppo", copy, told),
+            **along(directory / "checks", copy, told),
+        }
+        runs[name] = dict(sorted(points.items()))
+    theirs = fourteen / "heads-taught"
+    for arm in ARMS:
+        runs[arm] = {
+            **along(directory / "along" / arm, theirs, fourteen_decks),
+            ARM_UPDATES: mirrors_against(fourteen / f"heads-{arm}", theirs, fourteen_decks),
+        }
+    return runs
+
+
+def shown_along(runs: dict[str, dict[int, dict[str, Any]]]) -> str:
+    lines = ["The mirrors head to head along each run, less its copy's on the same deals:"]
+    for name, points in runs.items():
+        lines.append(f"  {name}:")
+        for point, one in points.items():
+            lines.append(
+                f"    After {point:,} updates: {one['share']:.1%} ({100 * one['gap']:+.1f} ± "
+                f"{100 * one['error']:.1f} points{', under' if under(one) else ''})"
+            )
+    return "\n".join(lines)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     commands = parser.add_subparsers(dest="command", required=True)
@@ -223,6 +280,11 @@ def main() -> None:
         type=Path,
         default=Path("eval_suites/seventy-one-decks-check-pairings-checkpoint.json"),
     )
+    walked = commands.add_parser("along")
+    walked.add_argument("directory", type=Path)
+    walked.add_argument("--decks", required=True)
+    walked.add_argument("--fourteen", type=Path, required=True)
+    walked.add_argument("--fourteen-decks", required=True)
     args = parser.parse_args()
     if args.command == "pairings":
         suite = json.loads(args.suite.read_text(encoding="utf8"))
@@ -232,6 +294,10 @@ def main() -> None:
     decks = [deck.strip() for deck in args.decks.split(",") if deck.strip()]
     if args.command == "suites":
         suites(decks, args.suites, args.games, args.into)
+        return
+    if args.command == "along":
+        fourteen_decks = [deck.strip() for deck in args.fourteen_decks.split(",") if deck.strip()]
+        print(shown_along(runs_along(args.directory, args.fourteen, decks, fourteen_decks)))
         return
     result = read(args.directory, decks)
     if args.output is not None:

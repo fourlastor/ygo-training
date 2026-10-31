@@ -319,9 +319,33 @@ Beside the rule:
   of the 43,800 reckoned, `selfplay` 11,400 by its end and `quarter` some
   40,100.
 
-**Current next step:** what follows the stop is to be decided. The design's
-next to try is half of the duels in the mirrors (each mirror 70, each other
-pairing 1). No head to head was measured along the fourteen decks' arms, so
-that it is not known whether `quarter` fell and came back or never fell; that,
-this run's own fall along its kept checkpoints and `selfplay`'s are proposed
-first, about an hour on checkpoints already made.
+### The mirrors along the runs (fixed on 2026-10-31, before any of it was played)
+
+The design's next to try is half of the duels in the mirrors (each mirror 70,
+each other pairing 1). No head to head was measured along the fourteen decks'
+arms, so that it is not known whether `quarter` fell and came back or never
+fell. Decided first, on checkpoints already kept and with no training
+(`PARTS=along`, seven at once, about an hour and a half by reckoning): each of
+`quarter`, `selfplay` and `half` after 160, 640, 1,120 and 2,080 of its 4,320
+updates, head to head against each of the fourteen teachers on the 2,048 deals
+of its reading, less the fourteen decks' copy deal by deal; and PPO after 160,
+640, 1,360 and 2,080 updates on the checks' deals, less the copy's.
+
+- Of `quarter`: **it fell and came back** when at any of the four points it is
+  under its copy by at least 1 point by two standard errors, the line of PPO's
+  rule; **it never fell** when it is at none.
+- Fell and came back: the stop says little of where PPO would have ended, and
+  PPO is taken on from its last checkpoint. Never fell: the fall here is not
+  one `quarter` had and got over, half of the duels (4 of each mirror an update)
+  may not be enough, and a lower rate or a wider network is weighed against it.
+- Told beside them, without a mark: how soon PPO and `selfplay` fell.
+
+A lower rate comes in because an update of 520 duels in the seventy-one decks'
+mix was about 2.5% signal ([The signal of an update](2026-10-22-update-signal.md):
+a noise scale of 20,018 ± 6,347 duels on `all71`, 758 ± 96 on one matchup), and
+a fall that comes early and then stands is what noise against a weak pull would
+look like, which has not been shown. More duels an update would not change that
+by themselves, an update being cut into some 160 minibatches of 512 decisions.
+
+**Current next step:** the mirrors along the runs, queued on the CUDA machine
+on 2026-10-31; what follows the stop is decided on them.
