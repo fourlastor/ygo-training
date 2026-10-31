@@ -218,7 +218,7 @@ against `all71` and one of Exodia's, ran out of the card's memory, and were
 played again two at a time the same evening; no other file was touched, none
 of the five head to head. `evaluate-suite` goes on past a case that fails, so
 the command now plays such a file again and fails its run by name (commit
-5fa832b6). Two evaluations of Cloudian's mirror alone hold 11.8 of the card's
+717b7596). Two evaluations of Cloudian's mirror alone hold 11.8 of the card's
 12.3 GB, which seven at once may meet again in `ppo-measure`.
 
 1. **The teachers: lost.** The copy's last checkpoint head to head against
