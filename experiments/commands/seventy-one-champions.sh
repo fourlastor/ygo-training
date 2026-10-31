@@ -2,8 +2,9 @@
 # A network of the seventy-one decks
 # (experiments/2026-10-28-seventy-one-champions.md): each deck's run of the
 # champions' recipe copied into one network from its recorded games, then
-# PPO with every duel against itself, a quarter of them in the mirrors,
-# checked as it trains. Run from the repository root on the CUDA machine.
+# PPO with every duel against itself, half of them in the mirrors from its
+# 5,761st update, a quarter before it, checked as it trains. Run from the
+# repository root on the CUDA machine.
 # PARTS names what is made, in its order:
 #
 # copy. taught: one network of the seventy-one decks from scratch, each
@@ -30,22 +31,26 @@
 # begins by the same and finds it made.
 #
 # ppo. PPO on from the copy's last checkpoint for PPO updates at RATE, every
-# duel of an update against itself and none against a pilot, a quarter of
-# them in the mirrors (--self-play-weights from RUNS/ppo.weights.json: each
-# mirror MIRROR_WEIGHT, each other ordered pairing OTHER_WEIGHT), with the
-# fourteen decks' arms' settings; a checkpoint every STEP. It is trained in
-# stretches to each of CHECKS, and after each its last checkpoint is checked,
-# the training paused, on the deals the copy was checked on before it, into
+# duel of an update against itself and none against a pilot, half of them
+# in the mirrors (--self-play-weights from RUNS/ppo.weights.json: each
+# mirror MIRROR_WEIGHT, each other ordered pairing OTHER_WEIGHT, which was
+# 3, a quarter of them, for its first 5,760 updates), with the fourteen
+# decks' arms' settings; a checkpoint every STEP. It is trained in
+# stretches to each of CHECKS, and after each the mean of the weights of its
+# last MEAN_KEPT kept checkpoints (RUNS/ppo-mean/POINT.pt) is checked, the
+# training paused, on the deals the copy was checked on before it, into
 # OUT/checks: head to head against each teacher in its mirror on CHECK_DEALS
 # deals from both seats, and against all71 on CHECK_PAIRINGS. Where the
-# mirrors or the pairings are under the copy at two checks in a row
-# (tools/seventy_one_checks.py), it stops, unless EARLY_STOP is 0.
+# mirrors or the pairings are under the copy at two of these checks in a row
+# (tools/seventy_one_checks.py), it stops, unless EARLY_STOP is 0. Its checks
+# after 2,880 and 5,760 updates read its last checkpoint, and it stopped by
+# them on 2026-10-31: it goes on from there, and they do not count.
 #
-# ppo-measure. Into OUT: PPO's last checkpoint head to head against each
-# teacher in its mirror; it and the copy against all71 on every ordered
-# pairing (QUICK-1.json to QUICK-QUICK_PARTS.json, the deals of one suite in
-# parts that go at once); it against the pilots; its metrics; then the
-# report.
+# ppo-measure. Into OUT: the mean of PPO's last MEAN_KEPT kept checkpoints head
+# to head against each teacher in its mirror; it and the copy against all71 on
+# every ordered pairing (QUICK-1.json to QUICK-QUICK_PARTS.json, the deals of
+# one suite in parts that go at once); it against the pilots; PPO's metrics;
+# then the report.
 #
 # along. Into OUT/along, on checkpoints already kept and with no training, how
 # the mirrors moved head to head against each teacher: each of the fourteen
@@ -98,22 +103,24 @@ COPY_STEP=${COPY_STEP:-142}
 ITSELF=${ITSELF:-260}
 SEED=${SEED:-2012}
 COPY_SLOTS=${COPY_SLOTS:-26}
-# PPO: the fourteen decks' 4,320 updates by the deck, a quarter of its duels
-# in the mirrors.
+# PPO: the fourteen decks' 4,320 updates by the deck, half of its duels in
+# the mirrors.
 PPO=${PPO:-21900}
 STEP=${STEP:-240}
 RATE=${RATE:-1e-4}
 MIRROR_WEIGHT=${MIRROR_WEIGHT:-70}
-OTHER_WEIGHT=${OTHER_WEIGHT:-3}
+OTHER_WEIGHT=${OTHER_WEIGHT:-1}
 # fast's settings, the fourteen decks' arms': two updates' duels in flight,
 # the pool's slots to hold them, minibatches of 512, the calls as they are in
 # two groups.
 IN_FLIGHT=${IN_FLIGHT:-1040}
 FAST_SLOTS=${FAST_SLOTS:-52}
 MINIBATCH=${MINIBATCH:-512}
-# PPO's checks: after so many of its updates, on so many deals of each mirror
-# and against all71 on these pairings.
-CHECKS=${CHECKS:-2880 5760 8640 11520 14400 17280 20160}
+# PPO's checks: after so many of its updates, of the mean of so many of its
+# kept checkpoints, on so many deals of each mirror and against all71 on these
+# pairings.
+CHECKS=${CHECKS:-8640 11520 14400 17280 20160}
+MEAN_KEPT=${MEAN_KEPT:-13}
 CHECK_DEALS=${CHECK_DEALS:-128}
 CHECK_PAIRINGS=${CHECK_PAIRINGS:-eval_suites/seventy-one-decks-check-pairings-checkpoint.json}
 EARLY_STOP=${EARLY_STOP:-1}
@@ -327,11 +334,11 @@ checked() {
   done
   all_done
 }
-# meaned NAME NETWORK FROM TO: the mean of the weights of PPO's checkpoints from
-# FROM to TO updates, every STEP, into NETWORK, measured as a check as NAME.
+# meaned NETWORK FROM TO: the mean of the weights of PPO's checkpoints from FROM
+# to TO updates, every STEP, into NETWORK.
 meaned() {
-  local name=$1 network=$2 point path kept=()
-  for ((point = $3; point <= $4; point += STEP)); do
+  local network=$1 point path kept=()
+  for ((point = $2; point <= $3; point += STEP)); do
     kept+=("$(checkpoint "$RUNS/ppo" "$COPY" "$point")")
   done
   for path in "${kept[@]}"; do
@@ -341,14 +348,21 @@ meaned() {
     fi
   done
   [ -f "$network" ] || "${python[@]}" tools/mean_checkpoint.py "${kept[@]}" --output "$network"
-  checked "$name" "$network"
 }
-# heeded: what PPO's checks say so far, and PPO stopped where its last two
-# checks meet the rule, unless EARLY_STOP is 0.
+# lately POINT: the mean of the last MEAN_KEPT checkpoints PPO kept by POINT
+# updates, which it keeps at multiples of STEP counted from its copy's start,
+# into RUNS/ppo-mean/POINT.pt.
+lately() {
+  local last=$(($1 - (COPY + $1) % STEP))
+  meaned "$RUNS/ppo-mean/$1.pt" $((last - (MEAN_KEPT - 1) * STEP)) "$last"
+}
+# heeded: what PPO's checks of a mean say so far, and PPO stopped where its last
+# two meet the rule, unless EARLY_STOP is 0.
 heeded() {
   local said=0
   "${python[@]}" tools/seventy_one_checks.py read "$OUT/checks" --decks "$DECKS" \
-    --output "$OUT/checks/report.json" > "$OUT/checks/report.txt" || said=$?
+    --first "${CHECKS%% *}" --output "$OUT/checks/report.json" > "$OUT/checks/report.txt" ||
+    said=$?
   cat "$OUT/checks/report.txt"
   if ((said == 3 && EARLY_STOP)); then
     echo "PPO stops by its checks: $OUT/checks/report.txt (EARLY_STOP=0 goes on)" >&2
@@ -366,7 +380,7 @@ reported() {
 }
 
 copied=$(checkpoint "$RUNS/taught" 0 "$COPY")
-trained=$(checkpoint "$RUNS/ppo" "$COPY" "$PPO")
+trained=$RUNS/ppo-mean/$PPO.pt
 fast=(
   --pool-slots "$FAST_SLOTS" --rollout-estimates kept
   --duels-in-flight "$IN_FLIGHT" --minibatch "$MINIBATCH" --inference-graphs 0 --pool-groups 2
@@ -437,12 +451,14 @@ if [[ " $PARTS " == *" ppo "* ]]; then
     echo "$(date +%H:%M) ppo to $point"
     made ppo "$COPY" "$point" "$STEP" "${fast[@]}" --self-play-duels "$DUELS" \
       --self-play-weights "$RUNS/ppo.weights.json"
-    checked "$point" "$(checkpoint "$RUNS/ppo" "$COPY" "$point")"
+    lately "$point"
+    checked "$point" "$RUNS/ppo-mean/$point.pt"
     heeded
   done
   echo "$(date +%H:%M) ppo to $PPO"
   made ppo "$COPY" "$PPO" "$STEP" "${fast[@]}" --self-play-duels "$DUELS" \
     --self-play-weights "$RUNS/ppo.weights.json"
+  lately "$PPO"
   echo "$(date +%H:%M) ppo ends"
 fi
 
@@ -494,8 +510,9 @@ fi
 
 if [[ " $PARTS " == *" mean "* ]]; then
   suited
-  meaned mean "$RUNS/ppo-mean/$(basename "$(checkpoint "$RUNS/ppo" "$COPY" "$MEAN_TO")")" \
-    "$MEAN_FROM" "$MEAN_TO"
+  network=$RUNS/ppo-mean/$(basename "$(checkpoint "$RUNS/ppo" "$COPY" "$MEAN_TO")")
+  meaned "$network" "$MEAN_FROM" "$MEAN_TO"
+  checked mean "$network"
   "${python[@]}" tools/seventy_one_checks.py mean "$OUT/checks" --decks "$DECKS" \
     --against "$MEAN_AGAINST" | tee "$OUT/checks/mean/report.txt"
 fi
@@ -503,7 +520,8 @@ fi
 if [[ " $PARTS " == *" means "* ]]; then
   suited
   for window in $WINDOWS; do
-    meaned "mean-$window" "$RUNS/ppo-mean/$window.pt" "${window%-*}" "${window#*-}"
+    meaned "$RUNS/ppo-mean/$window.pt" "${window%-*}" "${window#*-}"
+    checked "mean-$window" "$RUNS/ppo-mean/$window.pt"
   done
   "${python[@]}" tools/seventy_one_checks.py means "$OUT/checks" --decks "$DECKS" \
     --windows "${WINDOWS// /,}" | tee "$OUT/checks/means-report.txt"

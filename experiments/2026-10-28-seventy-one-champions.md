@@ -14,7 +14,8 @@ pairing against `all71` 50.6%, 5.0 ± 0.4 points over it; the mirrors along the
 runs read the same day: `quarter` never fell by the rule, and PPO's fall is
 `selfplay`'s; the mean of PPO's weights read the same day: the mirrors raised
 2.0 ± 0.4 points and the pairings 1.0 ± 0.3 over its last checkpoint, with no
-training)
+training; the means along it: the mirrors not rising, the pairings rising, so
+that it goes on with half of its duels in the mirrors, read by such a mean)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -478,5 +479,47 @@ deals.
 - Told beside, without a mark: the pairings in the four windows, and the last
   window against the mean of thirteen, which says how long a mean has to be.
 
-**Current next step:** the means along PPO, queued on the CUDA machine on
-2026-10-31; PPO goes on as they say.
+#### Read on 2026-10-31
+
+Played on the CUDA machine from 16:43 to 17:28, 572 files with no failed case
+(`analysis/seventy-one-champions/checks/means-report.txt`). Each mean against the
+copy on the check's deals, in points:
+
+| PPO's updates | The mirrors head to head | The pairings against `all71` |
+| --- | --- | --- |
+| 160 to 1,360 | −0.4 ± 0.4 | +3.9 ± 0.3 |
+| 1,600 to 2,800 | −1.1 ± 0.4 | +5.1 ± 0.3 |
+| 3,040 to 4,240 | −0.6 ± 0.4 | +5.5 ± 0.3 |
+| 4,480 to 5,680 | −0.8 ± 0.4 | +6.1 ± 0.3 |
+
+- **Not rising**: the last window's mirrors are 0.4 ± 0.4 points over the
+  second's.
+- With the noise out the mirrors have not moved since PPO's first window. What
+  single checkpoints showed falling in its first updates was the noise coming
+  in, and with it out they stand under a point below the copy.
+- With the noise out the pairings were still gaining when PPO stopped, 1.0 ± 0.3
+  points from the second window to the last, where its two checks had moved by
+  no more than a check can tell.
+- A mean of six is about as good as a mean of thirteen: the last window against
+  the mean of thirteen is −0.3 ± 0.3 points in the mirrors and +0.2 ± 0.3 over
+  the pairings.
+
+## PPO goes on (decided on 2026-10-31 by the means along it)
+
+As that rule says, PPO goes on from `model-17119.pt`, in the same run and at its
+rate, with half of its duels in the mirrors: each mirror 70 and each other
+ordered pairing 1, drawn from the allocation as 4 of each mirror an update, 284
+of the 520, where it had 2 and 142. It goes on to the 21,900 updates it set out
+for, 16,140 more, some 43 hours at 9.5 seconds an update.
+
+- Its checks after 8,640, 11,520, 14,400, 17,280 and 20,160 updates read the mean
+  of its last thirteen kept checkpoints, on the same deals, against the copy.
+- The rule that stops it counts these checks alone, the same rule of two in a
+  row, so that the second, after 11,520 updates, is the first that can stop it.
+  The checks after 2,880 and 5,760 updates read single checkpoints and do not
+  count.
+- Its four readings are read by the mean of its last thirteen kept checkpoints
+  where they named its last checkpoint: a single checkpoint carries the noise of
+  its last updates, and the mean is the network that would be kept.
+
+**Current next step:** PPO, queued on the CUDA machine on 2026-10-31.

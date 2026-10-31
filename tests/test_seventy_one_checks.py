@@ -83,6 +83,18 @@ def test_one_check_under_or_the_two_in_turn_do_not_stop_it(tmp_path):
     assert tool.shown(result).endswith("Go on.")
 
 
+def test_the_rule_counts_from_the_first_check_it_is_told_of(tmp_path):
+    directory = checks(tmp_path, (2880, 40, 50), (5760, 40, 50), (8640, 40, 50))
+
+    # Under at all three: the two before it do not make a second in a row.
+    result = tool.read(directory, DECKS, first=8640)
+    assert list(result["checks"]) == [8640]
+    assert result["met"] == [] and not result["stop"]
+
+    checked(directory / "11520", 40, 50)
+    assert tool.read(directory, DECKS, first=8640)["met"] == [{"after": 11520, "by": "mirrors"}]
+
+
 def test_the_pairings_stop_it_and_a_stop_once_passed_is_told(tmp_path):
     result = tool.read(checks(tmp_path, (2880, 50, 40), (5760, 50, 40), (8640, 50, 50)), DECKS)
 

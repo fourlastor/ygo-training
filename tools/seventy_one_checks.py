@@ -30,7 +30,8 @@ The rule, fixed on 2026-10-28 before anything was built: PPO stops when the
 mean over the mirrors head to head, or the mean over the pairings against
 `all71`, is under the copy's by at least 1 point by two standard errors, the
 deals paired, the same of the two at two checks in a row. `read` says so of
-the last check and ends with 3.
+the last check and ends with 3. `--first` names the first check it counts: from
+2026-10-31 a check reads a mean of PPO's checkpoints, and those before it do not.
 
 `pairings` tells the games against `all71` of the copy and of each check by
 how many of a pairing's two decks `--met` names, the decks whose pilots the
@@ -141,9 +142,9 @@ def checks_of(directory: Path) -> list[int]:
     )
 
 
-def read(directory: Path, decks: list[str]) -> dict[str, Any]:
+def read(directory: Path, decks: list[str], first: int = 0) -> dict[str, Any]:
     copy = directory / "copy"
-    points = checks_of(directory)
+    points = [point for point in checks_of(directory) if point >= first]
     checks = {point: check(directory / str(point), copy, decks) for point in points}
     # Where the rule was met, check by check, and whether the last check meets it.
     met = []
@@ -359,6 +360,7 @@ def main() -> None:
     reading = commands.add_parser("read")
     reading.add_argument("directory", type=Path)
     reading.add_argument("--decks", required=True)
+    reading.add_argument("--first", type=int, default=0)
     reading.add_argument("--output", type=Path)
     told = commands.add_parser("pairings")
     told.add_argument("directory", type=Path)
@@ -401,7 +403,7 @@ def main() -> None:
     if args.command == "means":
         print(shown_means(means(args.directory, args.windows.split(","), decks)))
         return
-    result = read(args.directory, decks)
+    result = read(args.directory, decks, args.first)
     if args.output is not None:
         args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf8")
     print(shown(result))

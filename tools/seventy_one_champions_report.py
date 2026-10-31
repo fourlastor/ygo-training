@@ -47,7 +47,8 @@ Told beside it, without a mark: each mirror against `all71` less its
 teacher's figure; the copy along its updates; against the pilots beside
 `all71`; the hours.
 
-The readings of PPO, by its last checkpoint, fixed on 2026-10-28 once the
+The readings of PPO, by its last checkpoint (from 2026-10-31 the mean of its
+last thirteen kept checkpoints), fixed on 2026-10-28 once the
 fourteen decks' mirror arms were read, before anything of it was built:
 
 1. The mirrors kept, by the copy's rule.
