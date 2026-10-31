@@ -208,5 +208,29 @@ def test_a_mean_that_broke_the_network_says_nothing_of_the_mirrors(tmp_path):
 def test_the_mean_is_not_taken_for_a_check(tmp_path):
     directory = checks(tmp_path, (2880, 50, 50))
     checked(directory / "mean", 60, 60)
+    checked(directory / "mean-160-1360", 60, 60)
 
     assert tool.checks_of(directory) == [2880]
+
+
+@pytest.mark.parametrize(("last", "rising"), [(60, True), (50, False), (40, False)])
+def test_the_means_are_rising_when_the_last_is_over_the_second_by_two_errors(
+    tmp_path, last, rising
+):
+    directory = checks(tmp_path)
+    checked(directory / "mean", 50, 50)
+    windows = ["160-1360", "1600-2800", "3040-4240", "4480-5680"]
+    # The first over them all: it is left out of the rule.
+    for window, mirrors in zip(windows, (70, 50, 55, last), strict=True):
+        checked(directory / f"mean-{window}", mirrors, 52)
+
+    result = tool.means(directory, windows, DECKS)
+
+    assert list(result["along"]) == windows
+    assert result["along"]["160-1360"]["mirrors"]["gap"] == pytest.approx(0.20)
+    assert result["rise"]["mirrors"]["gap"] == pytest.approx((last - 50) / 100)
+    assert result["rising"] == rising
+    assert result["against_the_mean"]["mirrors"]["gap"] == pytest.approx((last - 50) / 100)
+    told = tool.shown_means(result)
+    assert "  Updates 1600-2800: the mirrors 50.0% (+0.0 ± " in told
+    assert told.endswith(f"{'rising' if rising else 'not rising'}.")

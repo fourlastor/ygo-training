@@ -59,6 +59,10 @@
 # as a check into OUT/checks/mean, then what it says against PPO's check after
 # MEAN_AGAINST (tools/seventy_one_checks.py mean).
 #
+# means. The same along PPO: for each of WINDOWS, the first and last of its
+# updates, the mean into RUNS/ppo-mean/WINDOW.pt, measured as a check into
+# OUT/checks/mean-WINDOW, then what they say (tools/seventy_one_checks.py means).
+#
 # AT_ONCE: how many of the measurements go at a time, through an MPS server
 # on a card (experiments/commands/at-once.sh), what each writes in
 # OUT/logs; 1, the default, one after the other.
@@ -73,6 +77,7 @@
 #   PARTS=ppo-measure AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=along AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 #   PARTS=mean AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
+#   PARTS=means AT_ONCE=7 bash experiments/commands/seventy-one-champions.sh
 set -euo pipefail
 DEVICE=${DEVICE:-cuda}
 WORKERS=${WORKERS:-24}
@@ -126,6 +131,7 @@ FOURTEEN_OUT=${FOURTEEN_OUT:-analysis/fourteen-decks}
 MEAN_FROM=${MEAN_FROM:-2800}
 MEAN_TO=${MEAN_TO:-5680}
 MEAN_AGAINST=${MEAN_AGAINST:-5760}
+WINDOWS=${WINDOWS:-160-1360 1600-2800 3040-4240 4480-5680}
 NETWORK=${NETWORK:-runs/seventy-one-decks/all71/checkpoints/model-27599.pt}
 RUNS=${RUNS:-runs/seventy-one-champions}
 OUT=${OUT:-analysis/seventy-one-champions}
@@ -145,9 +151,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/at-once.sh"
 
 for part in $PARTS; do
   case $part in
-    copy | copy-measure | copy-check | ppo | ppo-measure | along | mean) ;;
+    copy | copy-measure | copy-check | ppo | ppo-measure | along | mean | means) ;;
     *)
-      echo "PARTS names copy, copy-measure, copy-check, ppo, ppo-measure, along and mean, not $part" >&2
+      echo "PARTS names copy, copy-measure, copy-check, ppo, ppo-measure, along, mean and means, not $part" >&2
       exit 1
       ;;
   esac
@@ -321,6 +327,22 @@ checked() {
   done
   all_done
 }
+# meaned NAME NETWORK FROM TO: the mean of the weights of PPO's checkpoints from
+# FROM to TO updates, every STEP, into NETWORK, measured as a check as NAME.
+meaned() {
+  local name=$1 network=$2 point path kept=()
+  for ((point = $3; point <= $4; point += STEP)); do
+    kept+=("$(checkpoint "$RUNS/ppo" "$COPY" "$point")")
+  done
+  for path in "${kept[@]}"; do
+    if [ ! -f "$path" ]; then
+      echo "Missing $path: the mean is of checkpoints PPO kept" >&2
+      exit 1
+    fi
+  done
+  [ -f "$network" ] || "${python[@]}" tools/mean_checkpoint.py "${kept[@]}" --output "$network"
+  checked "$name" "$network"
+}
 # heeded: what PPO's checks say so far, and PPO stopped where its last two
 # checks meet the rule, unless EARLY_STOP is 0.
 heeded() {
@@ -471,20 +493,18 @@ if [[ " $PARTS " == *" along "* ]]; then
 fi
 
 if [[ " $PARTS " == *" mean "* ]]; then
-  meaned=$RUNS/ppo-mean/$(basename "$(checkpoint "$RUNS/ppo" "$COPY" "$MEAN_TO")")
-  kept=()
-  for ((point = MEAN_FROM; point <= MEAN_TO; point += STEP)); do
-    kept+=("$(checkpoint "$RUNS/ppo" "$COPY" "$point")")
-  done
-  for path in "${kept[@]}"; do
-    if [ ! -f "$path" ]; then
-      echo "Missing $path: the mean is of checkpoints PPO kept" >&2
-      exit 1
-    fi
-  done
-  [ -f "$meaned" ] || "${python[@]}" tools/mean_checkpoint.py "${kept[@]}" --output "$meaned"
   suited
-  checked mean "$meaned"
+  meaned mean "$RUNS/ppo-mean/$(basename "$(checkpoint "$RUNS/ppo" "$COPY" "$MEAN_TO")")" \
+    "$MEAN_FROM" "$MEAN_TO"
   "${python[@]}" tools/seventy_one_checks.py mean "$OUT/checks" --decks "$DECKS" \
     --against "$MEAN_AGAINST" | tee "$OUT/checks/mean/report.txt"
+fi
+
+if [[ " $PARTS " == *" means "* ]]; then
+  suited
+  for window in $WINDOWS; do
+    meaned "mean-$window" "$RUNS/ppo-mean/$window.pt" "${window%-*}" "${window#*-}"
+  done
+  "${python[@]}" tools/seventy_one_checks.py means "$OUT/checks" --decks "$DECKS" \
+    --windows "${WINDOWS// /,}" | tee "$OUT/checks/means-report.txt"
 fi

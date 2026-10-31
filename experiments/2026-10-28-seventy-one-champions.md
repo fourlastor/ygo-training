@@ -454,5 +454,29 @@ mirrors, and a little over the pairings as well. PPO's stop was read on single
 checkpoints, each one a draw of that noise. The mean gives what a lower rate was
 to test, with no training and no slow-down.
 
-**Current next step:** by the rule above, a run at PPO's rate read by a mean of
-its weights, designed beside the lower rate.
+### The means along PPO (fixed on 2026-10-31, before any of it was played)
+
+The mean gives what a lower rate was to test with no slow-down and no change to
+the trainer, kept checkpoints being meaned after the fact, so that a lower rate
+is kept for if what follows fails. What a single checkpoint read of the mirrors
+along PPO was largely noise, so that it is not known whether the run, with the
+noise out, was still gaining in them when it stopped. Asked of checkpoints
+already kept, with no training (`PARTS=means`, seven at once, about 45 minutes
+by reckoning): the mean of the weights of six consecutive kept checkpoints in
+each of four windows of PPO's updates, 160 to 1,360, 1,600 to 2,800, 3,040 to
+4,240 and 4,480 to 5,680, each measured as a check, against the copy on the same
+deals.
+
+- The mirrors head to head of the last window less the second's, deal by deal:
+  **rising** when the last is over the second by two standard errors, **not
+  rising** otherwise. The first window is left out, PPO's early fall being in it.
+- Rising: PPO goes on from its last checkpoint at its rate and mix.
+- Not rising: more updates at this mix do not lift the mirrors, and PPO goes on
+  from its last checkpoint with half of the duels in the mirrors.
+- Either way its checks read the mean of its last thirteen kept checkpoints and
+  no longer a single checkpoint.
+- Told beside, without a mark: the pairings in the four windows, and the last
+  window against the mean of thirteen, which says how long a mean has to be.
+
+**Current next step:** the means along PPO, queued on the CUDA machine on
+2026-10-31; PPO goes on as they say.

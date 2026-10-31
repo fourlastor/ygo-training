@@ -12,6 +12,8 @@
         --fourteen-decks blackwing,cyber,...
     uv run python tools/seventy_one_checks.py mean analysis/seventy-one-champions/checks \\
         --decks blackwing,cyber,... --against 5760
+    uv run python tools/seventy_one_checks.py means analysis/seventy-one-champions/checks \\
+        --decks blackwing,cyber,... --windows 160-1360,1600-2800,3040-4240,4480-5680
 
 `suites` writes each deck's mirror suite against a checkpoint with its games
 set to so many: the deals of every check in the mirrors.
@@ -49,6 +51,14 @@ at least 1 point over it by two standard errors, and not raised when at most 1
 point over it by two standard errors; where the pairings against `all71` are
 under it by at least 1 point by two standard errors the mean has broken the
 network, and the mirrors say nothing.
+
+`means` reads what `PARTS=means` leaves in the checks' folder: the mean of
+PPO's weights in each of its windows, `mean-WINDOW/`, against the copy, with the
+noise of its updates out as a single check's cannot be. Fixed on 2026-10-31
+before they were played: the mirrors are rising when those of the last window
+are over the second's by two standard errors, the deals paired, and not rising
+otherwise. The first is left out of that, the first updates' fall being in it.
+Told beside: the last window against `mean/`, how long a mean has to be.
 """
 
 from __future__ import annotations
@@ -299,6 +309,45 @@ def shown_mean(found: dict[str, Any], against: int) -> str:
     return "\n".join(lines)
 
 
+def means(directory: Path, windows: list[str], decks: list[str]) -> dict[str, Any]:
+    """The mean of PPO's weights in each window against the copy, the last
+    against the second by the rule of the means, and the last against `mean/`."""
+    last, second = directory / f"mean-{windows[-1]}", directory / f"mean-{windows[1]}"
+    rise = check(last, second, decks)
+    return {
+        "along": {
+            window: check(directory / f"mean-{window}", directory / "copy", decks)
+            for window in windows
+        },
+        "rise": rise,
+        "rising": rise["mirrors"]["gap"] - ERRORS * rise["mirrors"]["error"] > 0,
+        "against_the_mean": check(last, directory / "mean", decks),
+    }
+
+
+def told_of(found: dict[str, Any]) -> str:
+    """A check's two measures, each with its gap."""
+    return ", ".join(
+        f"the {measure} {found[measure]['share']:.1%} ({100 * found[measure]['gap']:+.1f} ± "
+        f"{100 * found[measure]['error']:.1f} points)"
+        for measure in MEASURES
+    )
+
+
+def shown_means(result: dict[str, Any]) -> str:
+    windows = list(result["along"])
+    lines = ["The means of PPO's weights along it, against the copy's on the same deals:"]
+    for window, found in result["along"].items():
+        lines.append(f"  Updates {window}: {told_of(found)}")
+    lines.append(f"Its last window against its second: {told_of(result['rise'])}")
+    lines.append(f"Its last window against the longer mean: {told_of(result['against_the_mean'])}")
+    lines.append(
+        f"The mirrors of {windows[-1]} over those of {windows[1]}: "
+        f"{'rising' if result['rising'] else 'not rising'}."
+    )
+    return "\n".join(lines)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     commands = parser.add_subparsers(dest="command", required=True)
@@ -328,6 +377,10 @@ def main() -> None:
     averaged.add_argument("directory", type=Path)
     averaged.add_argument("--decks", required=True)
     averaged.add_argument("--against", type=int, required=True)
+    alongside = commands.add_parser("means")
+    alongside.add_argument("directory", type=Path)
+    alongside.add_argument("--decks", required=True)
+    alongside.add_argument("--windows", required=True)
     args = parser.parse_args()
     if args.command == "pairings":
         suite = json.loads(args.suite.read_text(encoding="utf8"))
@@ -344,6 +397,9 @@ def main() -> None:
         return
     if args.command == "mean":
         print(shown_mean(mean_of_weights(args.directory, args.against, decks), args.against))
+        return
+    if args.command == "means":
+        print(shown_means(means(args.directory, args.windows.split(","), decks)))
         return
     result = read(args.directory, decks)
     if args.output is not None:
