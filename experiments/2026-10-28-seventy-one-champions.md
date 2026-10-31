@@ -8,9 +8,9 @@
 was read and closed; the copy's design and readings fixed that morning and
 PPO's that afternoon, before anything was built.
 
-**Last updated:** 2026-10-30 (the copy read: reading 1 lost, 46.9% ± 0.1%
-head to head; 60.2% against `all71` in the mirrors, 45.7% ± 0.4% over every
-ordered pairing; PPO's reading 2 amended, its reading 4 added, PPO queued)
+**Last updated:** 2026-10-31 (PPO stopped by its checks after 5,760 updates:
+the mirrors head to head 44.6%, 2.5 ± 0.4 points under the copy, every ordered
+pairing against `all71` 50.6%, 5.0 ± 0.4 points over it)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -279,9 +279,49 @@ seats: level with `all71`, a deck and the deck it meets win between the two
 seatings of their pairing as much as they lose, whatever each is worth. The
 games played do not change.
 
-**Current next step:** PPO, decided on 2026-10-30 once this reading was seen,
-is queued on the CUDA machine that evening, its measurements behind it. A check
-tells a gap of about a point from none, two standard errors of a gap being 0.8
-points in the mirrors and 1.0 over the pairings, and the fourteen decks'
-`quarter` gained 0.7 in the mirrors over its whole length, so that a check
-without a gap does not say the mirrors stand still.
+## PPO: stopped by its checks (2026-10-31)
+
+PPO was decided on 2026-10-30 once the copy's reading was seen, and ran on the
+CUDA machine from that evening at 22:48 to 2026-10-31 14:28, 9.5 seconds an
+update and twelve minutes a check, with no update holding a failed duel
+(`analysis/seventy-one-champions/checks/report.txt`). The rule was met after
+5,760 updates, by the mirrors, at the second check. Its checkpoints are kept,
+the last `model-17119.pt`. Its four readings, which ask for the last
+checkpoint of the whole run, were not read, and its measurements were
+cancelled.
+
+| On the check's deals | The copy | After 2,880 updates | After 5,760 updates |
+| --- | --- | --- | --- |
+| The mirrors head to head against the teachers | 47.1% | 44.9% (−2.2 ± 0.4 points) | 44.6% (−2.5 ± 0.4 points) |
+| Every ordered pairing against `all71` | 45.7% | 50.1% (+4.4 ± 0.3 points) | 50.6% (+5.0 ± 0.4 points) |
+
+Beside the rule:
+
+- Told by how many of a pairing's two decks the copy met, both seats of each,
+  at the copy and the two checks: neither 44.2%, 49.5%, 50.5% (± 0.4); one
+  47.8%, 50.9%, 50.6% (± 0.6); both 50.3%, 51.8%, 50.8% (± 2.0); the mirrors
+  against `all71` 57.0%, 59.9%, 57.4% (± 2.9).
+- Each deck from both seats on the check's 564 games, by reading 2's rule: the
+  copy none over 50% and thirty under, the lowest `deckout` 29.1%; after 2,880
+  updates two over and three under, the lowest `chain-burn` 42.2%; after 5,760
+  one over and none under, the lowest `countdown` and `deckout` 47.0%.
+- Against `all71` PPO took most of its gain in the first stretch, where
+  the decks the copy never met gained most, and by the second every group of
+  pairings stood about 50.5%. The second stretch moved neither the mirrors nor
+  the pairings by more than a check can tell.
+- On the fourteen decks of the earlier network the mirrors fell 4.3 points on
+  128 deals, where over its 4,320 updates that network's `selfplay` fell 3.5 ±
+  0.2 and `quarter` gained 0.7 ± 0.2. The mirrors' share of the duels was
+  `quarter`'s, but not their duels an update: each mirror had 2 here, 2.65 in
+  `selfplay`, 9.3 in `quarter` and 18.6 in `half`, and half of the duels here
+  would give it 4 (drawn from the allocation). Whether that or the number of
+  duels decides is open: each mirror had played 11,520 duels when PPO stopped,
+  of the 43,800 reckoned, `selfplay` 11,400 by its end and `quarter` some
+  40,100.
+
+**Current next step:** what follows the stop is to be decided. The design's
+next to try is half of the duels in the mirrors (each mirror 70, each other
+pairing 1). No head to head was measured along the fourteen decks' arms, so
+that it is not known whether `quarter` fell and came back or never fell; that,
+this run's own fall along its kept checkpoints and `selfplay`'s are proposed
+first, about an hour on checkpoints already made.
