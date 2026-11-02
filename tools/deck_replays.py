@@ -15,8 +15,9 @@ without them, on every deal from both seats, each network taking its first
 choice. The other seat is `--other`, or NETWORK again where none is named, or
 with `--pilots` the pilot of the deck there; NETWORK `pilot` answers as the
 pilot of its own deck would. `--force CODE` makes NETWORK play a card wherever
-it may, and `--as-pilot CODE,...` wherever its pilot would: the same deals
-without them say what a habit costs.
+it may, `--as-pilot CODE,...` wherever its pilot would, and `--refuse CODE,...`
+answer no wherever a card asks: the same deals without them say what a habit
+costs.
 
 `card` tells the wins, how the games ended, and what the network did with the
 cards; `paired` the wins of one file less another's, deal by deal, a deal being
@@ -58,6 +59,7 @@ def played(
     deals: int,
     force: set[int],
     as_pilot: set[int],
+    refuse: set[int] = frozenset(),
 ) -> list[dict[str, Any]]:
     """Every deal of ``deck`` against each of ``against``, from both seats."""
     from ygo_training import checkpoints
@@ -79,6 +81,12 @@ def played(
     def activates(choice: dict[str, Any]) -> int:
         """The card a choice activates, or 0."""
         if names[int(choice["kind"])] != "Activate":
+            return 0
+        return int((choice.get("card") or {}).get("code") or 0)
+
+    def refuses(choice: dict[str, Any]) -> int:
+        """The card a choice says no to, or 0."""
+        if names[int(choice["kind"])] != "No":
             return 0
         return int((choice.get("card") or {}).get("code") or 0)
 
@@ -134,7 +142,7 @@ def played(
                     if guide is not None and activates(choices[int(guide)]) in as_pilot:
                         answer = int(guide)
                     for place, choice in enumerate(choices):
-                        if activates(choice) in force:
+                        if activates(choice) in force or refuses(choice) in refuse:
                             answer = place
                 choice = choices[answer]
                 game["moves"].append(
@@ -306,6 +314,7 @@ def main() -> None:
     play.add_argument("--deals", type=int, required=True)
     play.add_argument("--force", default="")
     play.add_argument("--as-pilot", default="")
+    play.add_argument("--refuse", default="")
     play.add_argument("--output", type=Path, required=True)
     card = parts.add_parser("card")
     card.add_argument("files", type=Path, nargs="+")
@@ -327,6 +336,7 @@ def main() -> None:
             args.deals,
             codes_of(args.force),
             codes_of(args.as_pilot),
+            codes_of(args.refuse),
         )
         args.output.write_text("".join(json.dumps(game) + "\n" for game in games), encoding="utf8")
     elif args.part == "card":
