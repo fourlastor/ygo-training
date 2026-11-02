@@ -327,7 +327,9 @@ measured beyond that mirror.
 
 Not measured: whether `all71`'s gap to `half` on the thirteen closes with
 more updates (it came 1.3 points closer over its last 6,120); an arm holding
-out some of the new decks; why PPO takes Countdown down.
+out some of the new decks; why PPO takes Countdown down (read on replays on
+2026-11-02: it withholds Final Countdown,
+[the seventy-one champions' record](2026-10-28-seventy-one-champions.md#countdown-told-beside-the-readings)).
 
 ## The duels it cut (found on 2026-10-22)
 

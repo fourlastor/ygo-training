@@ -8,14 +8,15 @@
 was read and closed; the copy's design and readings fixed that morning and
 PPO's that afternoon, before anything was built.
 
-**Last updated:** 2026-10-31 (PPO stopped by its checks after 5,760 updates:
-the mirrors head to head 44.6%, 2.5 ± 0.4 points under the copy, every ordered
-pairing against `all71` 50.6%, 5.0 ± 0.4 points over it; the mirrors along the
-runs read the same day: `quarter` never fell by the rule, and PPO's fall is
-`selfplay`'s; the mean of PPO's weights read the same day: the mirrors raised
-2.0 ± 0.4 points and the pairings 1.0 ± 0.3 over its last checkpoint, with no
-training; the means along it: the mirrors not rising, the pairings rising, so
-that it goes on with half of its duels in the mirrors, read by such a mean)
+**Last updated:** 2026-11-02 (PPO ended and was read by the mean of its last
+thirteen kept checkpoints: the mirrors lost by `deckout` and `arcana`, their mean
+50.4%; against `all71` not decided, sixty-six decks over 50% by two standard
+errors, five level and none under; 7.6 ± 0.1 points over the copy on the pairings
+and 3.5 ± 0.1 in the mirrors; why PPO took Countdown down and what `arcana`'s
+mirror turns on read on replays. Before that, on 2026-10-31: PPO stopped by its
+checks after 5,760 updates, under the copy in the mirrors, went on with half of
+its duels in them, read by such a mean, once the mean of its weights had raised
+them with no training)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
 each deck's mirror about as well as its champion and beats `all71` on every
@@ -522,4 +523,176 @@ for, 16,140 more, some 43 hours at 9.5 seconds an update.
   where they named its last checkpoint: a single checkpoint carries the noise of
   its last updates, and the mean is the network that would be kept.
 
-**Current next step:** PPO, queued on the CUDA machine on 2026-10-31.
+## PPO: results (read on 2026-11-02)
+
+PPO ended its 21,900 updates on 2026-11-02 at 14:47, no check of the mean stopping
+it, and took 59.5 hours. Its readings are by the mean of its last thirteen kept
+checkpoints (`runs/seventy-one-champions/ppo-mean/21900.pt`, those from 19,840 to
+21,760 updates). The measure went four at once and not seven, in 1 hour 50
+minutes: seven filled the card's 12.3 GB on the pairing files, which take 2 to
+5 GB each. No case failed.
+
+1. *The mirrors kept*: **lost**, by two mirrors. The mean over the seventy-one is
+   50.4% ± 0.1%, well over the 48% asked, and sixty-nine are clear of the floor
+   (the nearest `pyramid` 45.6%, `destiny-hero` and `rock-block` 46.1%, each
+   ± 0.7%), but `deckout` is at 40.6% and `arcana` at 41.7%, each ± 0.7%, at
+   most 45% by two standard errors.
+2. *Against `all71`, deck by deck*: **not decided**. The mean over the pairings
+   is 53.4%, and sixty-six decks are over 50% by two standard errors, which on
+   9,024 games asks 51.05%. Five are not: `malefic` and `macro-dd` 50.0%,
+   `chain-burn` and `exodia` 50.4%, `watt` 50.8%, each ± 0.5%. None is at most
+   50% by two standard errors.
+3. *PPO against the copy*: **pays**, 7.6 ± 0.1 points over it on every ordered
+   pairing against `all71`, the deals paired.
+4. *The mirrors against the copy*: **raised**, 3.5 ± 0.1 points over it, the
+   deals paired: the network holds better play of the mirrors than the copy
+   reached, so that its size was not what stopped the copy there.
+
+Beside them, without a mark:
+
+| Check, by the mean of its last thirteen | Mirrors | Over the copy | Pairings | Over the copy |
+|---|---|---|---|---|
+| 8,640 updates | 48.0% | +1.0 ± 0.4 | 52.4% | +6.7 ± 0.3 |
+| 11,520 | 48.5% | +1.4 ± 0.4 | 52.4% | +6.7 ± 0.3 |
+| 14,400 | 49.4% | +2.4 ± 0.4 | 52.8% | +7.1 ± 0.3 |
+| 17,280 | 49.8% | +2.7 ± 0.4 | 53.3% | +7.6 ± 0.3 |
+| 20,160 | 50.7% | +3.7 ± 0.4 | 53.3% | +7.6 ± 0.3 |
+
+- Half of the duels in the mirrors raised them at no cost to the pairings, which
+  went on rising until 17,280 updates and stood still after it (+0.0 ± 0.3 points
+  from there to 20,160, the mirrors +0.9 ± 0.3).
+- Each mirror less the copy's: fifty-one over it by two standard errors, the
+  most `cyber` +12.4 ± 1.0, `karakuri` +10.5 ± 1.0 and `gem-knight` +10.0 ± 0.8;
+  two under it, `deckout` −2.7 ± 1.0 and `arcana` −2.1 ± 0.9, the games paired.
+- The mirrors against `all71` 65.0%, the copy 59.8%.
+- Against the thirteen decks' pilots 62.0%, the copy 59.0% (+3.0 ± 0.1 points)
+  and `all71` 59.7% (+2.4 ± 0.1), the games paired. Forty-six decks over the copy
+  by two standard errors, the most `deckout` 60.3% against 49.6% (+10.7 ± 1.4);
+  two under it, `watt` 21.9% against 27.9% (−6.0 ± 1.1) and `fortune-lady` 39.4%
+  against 42.2% (−2.8 ± 1.1).
+- A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
+  ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
+  2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
+  0.7% on reading 1's: a check's deals do not change, so that a deck low on them
+  stays low from one check to the next.
+
+### Countdown, told beside the readings
+
+As agreed on 2026-10-26. Its mirror 50.3% (the copy 50.0%), 54.1% against `all71`
+from both seats, 75.7% against the pilots (the copy 74.2%, `all71` 67.2%). The
+mirror tells networks apart little: the copy and PPO have the same result in
+96.2% of its games, where they have in 68.6% of `arcana`'s.
+
+That Countdown fell in PPO was left open by
+[the seventy-one decks](2026-10-19-seventy-one-decks.md). Replays say why, read on
+2026-11-01 and 2026-11-02 on 832 games of the deck against the thirteen decks'
+pilots, 32 deals of each from both seats, each player taking its first choice
+(`tools/deck_replays.py`):
+
+| Player | Wins | Turns | Lost by deck-out | Final Countdown played | Offered, never played |
+|---|---|---|---|---|---|
+| The pilot | 87.0% | 25.7 | 10 | 98.1% of games | 0 games |
+| Its champion | 84.5% | 27.3 | 39 | 87.0% | 83 |
+| `all71`'s copy | 82.3% | 25.2 | 14 | 96.3% | 3 |
+| PPO's last mean | 77.4% | 28.5 | 66 | 79.4% | 140 |
+| PPO's last mean, the card forced | 77.5% | 24.4 | 11 | 96.3% | 0 |
+| The copy | 74.2% | 26.4 | 51 | 84.0% | 100 |
+| PPO's mean at 11,520 | 72.4% | 28.8 | 86 | 74.2% | 159 |
+| `all71` | 64.2% | 34.1 | 150 | 58.8% | 273 |
+
+- PPO withholds the card. `all71` is 18.1 ± 1.7 points under its own copy, and
+  made to play the card wherever it may it gains 9.7 ± 1.4 of them, about half
+  of its fall; the rest was not found.
+- The credit tells why: in the mean at 11,520's self-play the card stands 56
+  transactions before the end of a game, and the credit at the steps it was
+  played less at those it was passed over is −0.059 ± 0.017 at the trainer's
+  fade of 0.95, −0.045 ± 0.025 at 0.98, +0.003 ± 0.029 at 0.99 and +0.186 ±
+  0.049 at none: only with almost no fade does the card pay. Slowing the fade
+  has its price, Blackwing's mirror needing 758, 1,401 and 4,049 duels at 0.95,
+  0.98 and 1 for the same signal
+  ([the update's signal](2026-10-22-update-signal.md)).
+- This run's PPO did not take the deck down. The last mean still withholds the
+  card, and that no longer costs anything measured: forcing it adds +0.1 ± 1.2
+  points (at 11,520 +2.3 ± 1.3), where it swaps 55 losses by deck-out for 54 on
+  life points. The last mean is 3.2 ± 1.6 points over the copy and 5.0 ± 1.4
+  over the mean at 11,520; the deck's share against `all71` rose all through
+  the half of the duels in the mirrors. Why was not tested.
+- What it lacks now lies elsewhere: 7.1 ± 1.5 points under its champion, and the
+  card forced 7.0 ± 1.5, most of it there since the copy (10.3 under the
+  champion).
+
+### `deckout`'s mirror
+
+The games end by deck-out in 94.4% of the mirror, in 10.7 turns on average, and
+5.6% are drawn, which the reading counts as not won, so that level with its
+champion would be some 47.2% where the network has 40.6%, 43.0% of the games
+decided. The deck is not what fell: against the pilots it gained the most of any.
+
+On 1,024 games against its champion on deals of their own, played on 2026-11-02,
+PPO's last mean wins 40.8%, the copy 41.7% and the mean at 11,520 36.5%: 4.3 ±
+1.9 points back from there. Reading 1's games put it 2.7 ± 1.0 under the copy, so
+that the mirror fell and came part of the way back. It plays its draw cards 2.14
+times a game (the copy 2.57, the mean at 11,520 1.98), of them Upstart Goblin,
+Jar of Greed and Legacy of Yata-Garasu 1.32 times (the copy 1.88, the mean at
+11,520 1.11), and made to play them as the pilot would it gains +1.4 ± 1.8 points
+(at 11,520 +2.8 ± 1.7). Unlike Countdown's card these do not turn with the fade:
+the credit of the draw cards of the mean at 11,520 in the mirror is −0.046 at 0.95
+and −0.067 at none, so that the horizon does not explain them.
+
+### `arcana`'s mirror
+
+The games are stalls more than any other mirror's: 42.1 turns on average, 39.2% of
+them ending by deck-out, and on 512 games against its champion (256 deals from
+both seats, `tools/deck_replays.py`) 40.2% run past 60 turns, nearly all to about
+turn 70 with both Decks spent. A player draws on the first turn of the duel, so
+that seat 0 runs out first and seat 1 wins a plain race. On reading 1's games seat
+1 wins, of those ended by deck-out, 74.8% ± 2.2% with the network there, 88.2% ±
+1.5% with the copy, and 90.9% ± 1.4% and 92.4% ± 1.2% with the champion against
+each. The wins by deck-out fell by 119 of the 4,096 games from the copy's, 2.9
+points, more than the whole of the mirror's 2.1 ± 0.9.
+
+One answer decides that race. Shining Angel's Special Summon from the Deck, which
+a player may refuse (`Yes` or `No` at its question, not an activation), is the
+only thing in the list that takes a card from a Deck, and one card lost is the
+one turn seat 1 was ahead. Over the replays below, 2,048 games, seat 1 won all of
+the 713 races it did not pull in, whoever sat there. In the 1,024 played as the
+networks play them it pulled in 82 and won 23% of those.
+
+| Seat 1, of the races | Pulled in | Asked, said yes |
+|---|---|---|
+| PPO's last mean | 29 of 93 (31%) | 96% of 169 |
+| The copy | 21 of 115 (18%) | 79% of 94 |
+| Its champion, against the mean | 11 of 96 (11%) | 88% of 75 |
+| Its champion, against the copy | 21 of 119 (18%) | 85% of 65 |
+
+Refusing is no better. Made to answer no wherever the Angel asks, the mean wins
+94.7% of the games of 60 turns and over from seat 1, against 68.7%, and loses it
+back in the short ones (under 30 turns 45.3% and 23.1% from its two seats, against
+60.0% and 30.1%): 40.0% in all, 1.2 ± 1.4 points under the same deals as it plays
+them, the copy +1.0 ± 0.9. The pull is what wins the short games, and what costs
+the race is making it in a game that turns out a stall, some 50 turns before the
+end. That is a judgement and not a habit to take away, and the mirror is where it
+shows: the deck stands at 52.4% against `all71` from both seats, and 33.3% against
+the pilots with the copy at 33.6%.
+
+## What the run says
+
+- One network of the seventy-one decks plays their mirrors as well as their
+  champions on average, 50.4%, where the copy stood 3.5 points under that, and is
+  level with or over `all71` on every deck, 53.4% over the pairings where the copy
+  had 45.7%.
+- What it does not do, by the readings fixed before it was built: keep two of the
+  mirrors, and beat `all71` on five of the decks.
+- The three decks read on replays, Countdown, `deckout` and `arcana`, each turn on
+  an answer whose worth comes long after it. In none does playing it the other way
+  by rule gain anything measured: forcing Final Countdown +0.1 ± 1.2 points,
+  `deckout`'s draw cards as the pilot would +1.4 ± 1.8, refusing the Angel −1.2 ±
+  1.4. Imitation of the pilot was the candidate for Countdown because of its card,
+  and the card has nothing left to give back. The term reaches all of a deck's
+  answers, so that it could still close some of the 9.6 ± 1.5 points Countdown
+  stands under its pilot against the pilots, a gain no reading asks for.
+
+**Current next step:** closing this record and what follows it are to be decided.
+Bringing imitation back for Countdown, agreed on 2026-11-01 as possible if the rest
+held, has lost its case by the numbers above; extending the pool is what was to
+come after it.
