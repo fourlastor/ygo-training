@@ -580,7 +580,15 @@ Beside them, without a mark:
   checks' games to 50.8%, and its mirror held, −0.7 ± 0.6 points. Waiting is no hole
   in the network either: played by the copy against PPO's last mean at the 71 decks,
   16 deals of each from both seats, the deck wins 14.5%, in 12.2 turns, and played by
-  the mean itself 19.5%, 5.0 ± 0.7 points more. The plan beats the pilots alone.
+  the mean itself 19.5%, 5.0 ± 0.7 points more. The plan beats rule-based play and
+  not the networks. A rule-based deck none of these networks met says the same: the
+  starter deck of a game that seats them, going first in every game, on 640 deals. The
+  deck wins 7.8% played by PPO's mean, 26.9% by `all71` and 23.6% by its own pilot,
+  19.1 ± 1.8 points under `all71`, and its wins on life points are 42 for both, its
+  wins by deck-out 8 against 130. `all71`, which had half of its duels against the
+  pilots, keeps the plan. It is `watt`'s alone: over the 71 decks against the pilots
+  PPO has 2,420 wins by deck-out and the copy 2,430, and no other deck loses them and
+  falls.
 - A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
   ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
   2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
