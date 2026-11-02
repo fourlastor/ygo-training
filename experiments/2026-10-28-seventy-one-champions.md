@@ -651,6 +651,36 @@ that seat 0 runs out first and seat 1 wins a plain race. On reading 1's games se
 each. The wins by deck-out fell by 119 of the 4,096 games from the copy's, 2.9
 points, more than the whole of the mirror's 2.1 ± 0.9.
 
+What stalls them is The Fool, read on the same 512 games played again with both
+sides' boards kept. Arcana Force 0 - The Fool has 0 ATK and DEF and cannot be
+destroyed by battle. Set, it stands in Defense Position, where an attack on it
+costs neither side anything, and while it stands its controller takes no direct
+attack, so that one of them keeps its controller's life out of reach of any
+board. The list has three, and against them one Fissure, which takes only a
+face-up monster, and one Shield Crush. From turn 30 of the games of 60 turns and
+over, one side or both have it in Defense at 98% of the moments read, usually one.
+That side holds 2.8 monsters, 1.85 of them Fools and 0.1 in Attack, and 3.7 more
+monsters in a hand of 6.3; the side facing it holds 4.4, 3.7 in Attack, the
+strongest of 3,871 ATK on average, a Ruler at 75% of the moments. Of the 37 attacks
+a game after turn 30, 84% go into The Fool, and the median game then passes 42
+turns with no life point lost.
+
+The board does not decide what follows. Classed at turn 45, seat 1 won 160 of 200
+of those games: 73 of 85 when walled, 48 of 70 when facing the wall, 39 of 44 with
+both walled. The side with nothing on the field but The Fool is not losing slowly.
+
+The stall is learned, and it is the mirror's: against the other decks `arcana`
+lasts 18.7 turns, 6.6% ending by deck-out. Pilot against pilot on 256 games, 6.2%
+reach 60 turns, 2.3% end by deck-out and seat 0 wins 56.2%; the champion against
+itself 48.4%, 48.4% and 33.6%; PPO's last mean against itself 39.1%, 36.7% and
+42.2%. All of them Set The Fool. The pilot's walled side plays on, a hand of 2.2
+and 0.7 monsters in Attack, where a network's stops playing monsters at all. Why
+the pilot's Fools thin out after turn 30 was not read. Withheld removal does not
+explain the stall: the pilot plays Fissure every time it may where the networks
+leave it in 10% to 16% of games, but made to play Fissure and Shield Crush wherever
+it may, the mean reaches 60 turns as often (41.6% of games against 40.2%) and
+stands 1.8 ± 1.5 points lower.
+
 One answer decides that race. Shining Angel's Special Summon from the Deck, which
 a player may refuse (`Yes` or `No` at its question, not an activation), is the
 only thing in the list that takes a card from a Deck, and one card lost is the
