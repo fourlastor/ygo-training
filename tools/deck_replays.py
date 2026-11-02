@@ -9,6 +9,9 @@ in them: why PPO takes a deck down where a card pays late
     uv run python tools/deck_replays.py card countdown.jsonl --cards 95308449
     uv run python tools/deck_replays.py paired forced.jsonl countdown.jsonl
     uv run python tools/deck_replays.py credit countdown.jsonl --cards 95308449
+    uv run python tools/deck_replays.py play NETWORK --deck arcana --wall 62892347 \\
+        --plays-on --brief --other OTHER --deals 512 --output held.jsonl
+    uv run python tools/deck_replays.py wall mirror.jsonl decks.jsonl
 
 `play` seats NETWORK at the deck against each deck of `--against`, its mirror
 without them, on every deal from both seats, each network taking its first
@@ -17,11 +20,17 @@ with `--pilots` the pilot of the deck there; NETWORK `pilot` answers as the
 pilot of its own deck would. `--force CODE` makes NETWORK play a card wherever
 it may, `--as-pilot CODE,...` wherever its pilot would, and `--refuse CODE,...`
 answer no wherever a card asks: the same deals without them say what a habit
-costs.
+costs. `--wall CODE` names a monster a side may hide behind, and keeps what each
+network did at its own Main Phases, with `--plays-on` NETWORK made to summon or
+set a monster wherever its pilot would while the wall stands in Defense on its
+side, and with `--never-set` to answer otherwise where it would Set the wall.
+`--brief` leaves out the answers themselves, `--first-deal` where the deals begin.
 
 `card` tells the wins, how the games ended, and what the network did with the
-cards; `paired` the wins of one file less another's, deal by deal, a deal being
-both of its seats; `credit` the credit the cards get as the trainer works it, a
+cards; `wall` what it did behind the wall, a turn held back being one in which
+it could put another monster on the field, its pilot would and it did not;
+`paired` the wins of one file less another's, deal by deal, a deal being both of
+its seats, and from each seat; `credit` the credit the cards get as the trainer works it, a
 step being one of the network's transactions: the mean at the steps they were
 played less the mean at the steps they could have been and were not, with the
 credit fading by each of `FADES`, and its standard error by resampling games.
@@ -48,6 +57,8 @@ FIRST_SEED = 900000
 FADES = (0.95, 0.98, 0.99, 1.0)
 RESAMPLES = 400
 REASONS = {1: "life points", 2: "deck-out", 17: "a card's own win"}
+# The answers that put a monster on the field.
+SUMMONS = ("NormalSummon", "SetMonster", "SpecialSummon")
 
 
 def played(
@@ -60,6 +71,11 @@ def played(
     force: set[int],
     as_pilot: set[int],
     refuse: set[int] = frozenset(),
+    first_deal: int = 0,
+    wall: int = 0,
+    plays_on: bool = False,
+    never_set: bool = False,
+    brief: bool = False,
 ) -> list[dict[str, Any]]:
     """Every deal of ``deck`` against each of ``against``, from both seats."""
     from ygo_training import checkpoints
@@ -90,10 +106,40 @@ def played(
             return 0
         return int((choice.get("card") or {}).get("code") or 0)
 
+    locations = environment.vocabulary["location"]
+    positions = environment.vocabulary["position"]
+    phases = environment.vocabulary["phase"]
+    defense = {positions["FaceUpDefense"], positions["FaceDownDefense"]}
+    main = {phases["Main1"], phases["Main2"]}
+
+    def summons(choice: dict[str, Any]) -> bool:
+        """Whether a choice puts on the field a monster other than the wall."""
+        code = int((choice.get("card") or {}).get("code") or 0)
+        return names[int(choice["kind"])] in SUMMONS and code != wall
+
+    def sets_wall(choice: dict[str, Any]) -> bool:
+        code = int((choice.get("card") or {}).get("code") or 0)
+        return names[int(choice["kind"])] == "SetMonster" and code == wall
+
+    def field(view: dict[str, Any]) -> list[dict[str, Any]]:
+        """The monsters on the side of a view."""
+        return [
+            card
+            for card in view["cards"]
+            if card["controller"] == 0 and card["location"] == locations["MonsterZone"]
+        ]
+
+    def own_main(view: dict[str, Any]) -> bool:
+        return int(view["turn_player"]) == 0 and int(view["phase"]) in main
+
+    def walls(view: dict[str, Any]) -> int:
+        """How many of the wall stand in Defense on the side of a view."""
+        return sum(card["code"] == wall and card["position"] in defense for card in field(view))
+
     caller = {"control": "caller"}
     games = []
     for rival in against:
-        for deal in range(deals):
+        for deal in range(first_deal, first_deal + deals):
             for seat in (0, 1):
                 seats = [caller, caller]
                 if pilots:
@@ -111,6 +157,7 @@ def played(
                         "names": ("network", "other") if seat == 0 else ("other", "network"),
                         "episode": environment.start(setup),
                         "moves": [],
+                        "rows": [],
                         "over": None,
                         "pending": None,
                     }
@@ -137,14 +184,41 @@ def played(
                     answer = int(scores[row][: len(choices)].argmax())
                 else:
                     answer = int(view["label"])
+                guide = view["pilot"]
+                behind = walls(view) if wall and own_main(view) else 0
                 if name == "network":
-                    guide = view["pilot"]
+                    if never_set and name in models and sets_wall(choices[answer]):
+                        others = [p for p, one in enumerate(choices) if not sets_wall(one)]
+                        if others:
+                            answer = max(others, key=lambda p: float(scores[row][p]))
                     if guide is not None and activates(choices[int(guide)]) in as_pilot:
                         answer = int(guide)
                     for place, choice in enumerate(choices):
                         if activates(choice) in force or refuses(choice) in refuse:
                             answer = place
+                    if plays_on and behind and guide is not None and summons(choices[int(guide)]):
+                        answer = int(guide)
                 choice = choices[answer]
+                if behind:
+                    game["rows"].append(
+                        [
+                            name == "network",
+                            int(view["turn"]),
+                            any(summons(one) for one in choices),
+                            summons(choice),
+                            guide is not None and summons(choices[int(guide)]),
+                            int(view["piles"][1][0]),
+                            sum(
+                                card["code"] != wall
+                                and card["position"] == positions["FaceUpAttack"]
+                                for card in field(view)
+                            ),
+                        ]
+                    )
+                game["episode"].choose(answer)
+                game["pending"] = None
+                if brief:
+                    continue
                 game["moves"].append(
                     {
                         "by": name,
@@ -157,12 +231,10 @@ def played(
                         "offered": sorted({activates(one) for one in choices} - {0}),
                     }
                 )
-                game["episode"].choose(answer)
-                game["pending"] = None
         live = [game for game in live if game["over"] is None]
     for game in games:
         game["episode"].close()
-    keys = ("deal", "seat", "other", "names", "moves", "over")
+    keys = ("deal", "seat", "other", "names", "moves", "rows", "over")
     return [{key: game[key] for key in keys} for game in games]
 
 
@@ -222,6 +294,87 @@ def paired(one: list[dict[str, Any]], two: list[dict[str, Any]]) -> tuple[float,
     centre = mean(gaps)
     spread = sum((gap - centre) ** 2 for gap in gaps) / max(len(gaps) - 1, 1)
     return centre, math.sqrt(spread / max(len(gaps), 1)), len(gaps)
+
+
+def from_each_seat(
+    one: list[dict[str, Any]], two: list[dict[str, Any]]
+) -> dict[int, tuple[float, float]]:
+    """The wins of ``one`` less those of ``two`` from each seat, with its standard error."""
+    second = {(game["other"], game["deal"], game["seat"]): float(won(game)) for game in two}
+    told = {}
+    for seat in (0, 1):
+        gaps = [
+            float(won(game)) - second[(game["other"], game["deal"], seat)]
+            for game in one
+            if game["seat"] == seat
+        ]
+        centre = mean(gaps)
+        spread = sum((gap - centre) ** 2 for gap in gaps) / max(len(gaps) - 1, 1)
+        told[seat] = (centre, math.sqrt(spread / max(len(gaps), 1)))
+    return told
+
+
+def wall_turns(game: dict[str, Any], network: bool) -> list[dict[str, Any]]:
+    """A side's turns with the wall in Defense on its side: whether it could put
+    another monster on the field, whether it did and whether its pilot would."""
+    turns: dict[int, list[list[Any]]] = {}
+    for row in game.get("rows", []):
+        if row[0] == network:
+            turns.setdefault(row[1], []).append(row)
+    return [
+        {
+            "could": any(row[2] for row in rows),
+            "did": any(row[3] for row in rows),
+            "would": any(row[4] for row in rows),
+            "hand": rows[0][5],
+            "attackers": rows[0][6],
+        }
+        for rows in turns.values()
+    ]
+
+
+def held_back(games: list[dict[str, Any]], network: bool = True) -> dict[str, float]:
+    """What a side did behind the wall over ``games``. A turn held back is one in
+    which it could put another monster on the field, its pilot would and it did
+    not; its share is of the turns it could, its error by resampling games."""
+    tallies = []
+    hand = attackers = turns = 0
+    for game in games:
+        found = wall_turns(game, network)
+        could = [turn for turn in found if turn["could"]]
+        tallies.append(
+            (
+                len(could),
+                sum(turn["did"] for turn in could),
+                sum(turn["would"] for turn in could),
+                sum(turn["would"] and not turn["did"] for turn in could),
+            )
+        )
+        turns += len(found)
+        hand += sum(turn["hand"] for turn in found)
+        attackers += sum(turn["attackers"] for turn in found)
+
+    def share(rows: list[tuple[int, int, int, int]], place: int) -> float:
+        return sum(row[place] for row in rows) / max(sum(row[0] for row in rows), 1)
+
+    drawn = random.Random(7)
+    samples = [
+        share([tallies[drawn.randrange(len(tallies))] for _ in tallies], 3)
+        for _ in range(RESAMPLES)
+    ]
+    centre = mean(samples)
+    return {
+        "games": len(games),
+        "behind": sum(row[0] > 0 for row in tallies) / max(len(games), 1),
+        "turns": turns / max(len(games), 1),
+        "could": sum(row[0] for row in tallies) / max(len(games), 1),
+        "did": share(tallies, 1),
+        "would": share(tallies, 2),
+        "held back": share(tallies, 3),
+        "error": math.sqrt(sum((one - centre) ** 2 for one in samples) / (RESAMPLES - 1)),
+        "hand": hand / max(turns, 1),
+        "attackers": attackers / max(turns, 1),
+    }
 
 
 def steps(game: dict[str, Any]) -> list[dict[str, Any]]:
@@ -315,10 +468,17 @@ def main() -> None:
     play.add_argument("--force", default="")
     play.add_argument("--as-pilot", default="")
     play.add_argument("--refuse", default="")
+    play.add_argument("--first-deal", type=int, default=0)
+    play.add_argument("--wall", type=int, default=0)
+    play.add_argument("--plays-on", action="store_true")
+    play.add_argument("--never-set", action="store_true")
+    play.add_argument("--brief", action="store_true")
     play.add_argument("--output", type=Path, required=True)
     card = parts.add_parser("card")
     card.add_argument("files", type=Path, nargs="+")
     card.add_argument("--cards", required=True)
+    behind = parts.add_parser("wall")
+    behind.add_argument("files", type=Path, nargs="+")
     pair = parts.add_parser("paired")
     pair.add_argument("one", type=Path)
     pair.add_argument("two", type=Path)
@@ -337,6 +497,11 @@ def main() -> None:
             codes_of(args.force),
             codes_of(args.as_pilot),
             codes_of(args.refuse),
+            args.first_deal,
+            args.wall,
+            args.plays_on,
+            args.never_set,
+            args.brief,
         )
         args.output.write_text("".join(json.dumps(game) + "\n" for game in games), encoding="utf8")
     elif args.part == "card":
@@ -348,12 +513,27 @@ def main() -> None:
                 f"{told['uses']:.2f} a game, offered and never played in {told['passed_over']}; "
                 f"{told['ends']}"
             )
+    elif args.part == "wall":
+        for path in args.files:
+            games = read(path)
+            told = held_back(games)
+            print(
+                f"{path.name}: {told['games']} games, {100 * mean([float(won(g)) for g in games]):.1f}% "
+                f"won, behind the wall in {100 * told['behind']:.1f}% of them, {told['turns']:.2f} "
+                f"turns a game, {told['could']:.2f} it could summon; of those it did in "
+                f"{100 * told['did']:.1f}%, its pilot would in {100 * told['would']:.1f}%, held "
+                f"back {100 * told['held back']:.1f}% ± {100 * told['error']:.1f}%; hand "
+                f"{told['hand']:.2f}, {told['attackers']:.2f} attackers"
+            )
     elif args.part == "paired":
-        gap, error, deals = paired(read(args.one), read(args.two))
+        one, two = read(args.one), read(args.two)
+        gap, error, deals = paired(one, two)
         print(
             f"{args.one.name} less {args.two.name}: "
             f"{100 * gap:+.1f} ± {100 * error:.1f} points on {deals} deals"
         )
+        for seat, (gap, error) in from_each_seat(one, two).items():
+            print(f"  from seat {seat}: {100 * gap:+.1f} ± {100 * error:.1f}")
     else:
         for path in args.files:
             told, times, before = edges(read(path), codes_of(args.cards))

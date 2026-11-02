@@ -103,3 +103,44 @@ def test_the_edge_is_of_the_steps_a_card_was_played_over_those_it_was_passed_by(
     edge, error = told[1.0]
     assert edge == pytest.approx(2.0, abs=0.01)
     assert math.isfinite(error)
+
+
+def behind(turn: int, could: bool, did: bool, would: bool, network: bool = True) -> list:
+    return [network, turn, could, did, would, 6, 0]
+
+
+def test_a_turn_held_back_is_one_its_pilot_would_have_summoned_in():
+    rows = [
+        # Held back: it could, its pilot would, and it did not, at either answer.
+        behind(10, True, False, True),
+        behind(10, True, False, False),
+        # It did, at the turn's second answer.
+        behind(12, True, False, True),
+        behind(12, True, True, True),
+        # Nothing to summon: not a turn that counts.
+        behind(14, False, False, False),
+        # The other side's.
+        behind(16, True, False, True, network=False),
+    ]
+    told = tool.held_back([{**game([], 0), "rows": rows}])
+    assert told["behind"] == 1.0
+    assert told["turns"] == 3.0
+    assert told["could"] == 2.0
+    assert told["did"] == pytest.approx(0.5)
+    assert told["would"] == 1.0
+    assert told["held back"] == pytest.approx(0.5)
+    assert tool.held_back([{**game([], 0), "rows": rows}], network=False)["held back"] == 1.0
+
+
+def test_a_game_with_no_wall_counts_for_nothing_held_back():
+    told = tool.held_back([{**game([], 0), "rows": []}])
+    assert told["behind"] == 0.0
+    assert told["held back"] == 0.0
+
+
+def test_the_gap_is_told_from_each_seat():
+    one = [game([], 0, 0, 0), game([], 1, 1, 0), game([], 0, 0, 1), game([], 0, 1, 1)]
+    two = [game([], 1, 0, 0), game([], 1, 1, 0), game([], 0, 0, 1), game([], 1, 1, 1)]
+    told = tool.from_each_seat(one, two)
+    assert told[0][0] == pytest.approx(0.5)
+    assert told[1][0] == pytest.approx(-0.5)

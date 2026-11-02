@@ -705,6 +705,32 @@ end. That is a judgement and not a habit to take away, and the mirror is where i
 shows: the deck stands at 52.4% against `all71` from both seats, and 33.3% against
 the pilots with the copy at 33.6%.
 
+### The Fool's habit (fixed on 2026-11-02, before any of it was played)
+
+Whether what the networks do behind The Fool is worth anything, and whether it
+belongs to the mirror. PPO's last mean at `arcana`, from both seats, on deals of
+their own (`experiments/commands/arcana-fool.sh`, `tools/deck_replays.py`), against
+three sets of opponents: its champion in the mirror, 2,048 deals (4,096 games);
+`all71` at each of the seventy other decks, 32 deals (4,480 games); each of the
+thirteen decks' pilots, 64 deals (1,664 games). Only a smoke test of the script
+came first, on a few deals with the copy in `all71`'s place.
+
+- *The habit*: a turn held back is one of its own with The Fool in Defense on its
+  side in which it could put another monster on the field, its pilot would, and it
+  does not. Its share is of the turns it could.
+- *Where*: **everywhere** when the share against the other decks is at least half
+  the mirror's by two standard errors, **the mirror's** when it is at most a quarter
+  of it by two standard errors, otherwise **in part**. The pilots' set is told
+  beside it.
+- *Held out*: the same deals with the network made to summon or set a monster
+  wherever its pilot would while The Fool stands in Defense on its side. In each
+  set, the deals paired, the habit is **useful** when holding it out costs at least
+  1 point by two standard errors, **damaging** when that gains at least 1 point by
+  two standard errors, **neutral** when the change is within 1 point either way by
+  two standard errors, and otherwise **not decided**.
+- Told beside, by the same words: the same deals with the network answering
+  otherwise where it would Set The Fool, the wall itself held out.
+
 ## What the run says
 
 - One network of the seventy-one decks plays their mirrors as well as their
