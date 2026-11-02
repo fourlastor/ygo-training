@@ -570,7 +570,14 @@ Beside them, without a mark:
   and `all71` 59.7% (+2.4 ± 0.1), the games paired. Forty-six decks over the copy
   by two standard errors, the most `deckout` 60.3% against 49.6% (+10.7 ± 1.4);
   two under it, `watt` 21.9% against 27.9% (−6.0 ± 1.1) and `fortune-lady` 39.4%
-  against 42.2% (−2.8 ± 1.1).
+  against 42.2% (−2.8 ± 1.1). `watt` fell by a change of plan, read on 320 games
+  against the five pilots it lost most to, 32 fresh deals of each from both seats
+  (`tools/deck_replays.py`): the copy Sets its monsters and waits, 27.8 turns a game
+  and 65 of its 120 wins by deck-out, and PPO, which met no pilot, summons and
+  attacks, 12.2 turns and 2 of 77 wins by deck-out, 13.4 ± 3.1 points under it and
+  23.1 ± 4.5 from seat 1, which a waiting game suits. Against the networks the same
+  change pays: from both seats against `all71` the deck went from 46.1% on the
+  checks' games to 50.8%, and its mirror held, −0.7 ± 0.6 points.
 - A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
   ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
   2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
