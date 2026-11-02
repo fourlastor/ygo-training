@@ -1,0 +1,90 @@
+{
+  "name": "next-batch-pairings-checkpoint",
+  "primary": "game-0013-vs-each-checkpoint",
+  "cases": [
+    {
+      "name": "game-0013-vs-each-checkpoint",
+      "learner": "game-0013",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0014-vs-each-checkpoint",
+      "learner": "game-0014",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0015-vs-each-checkpoint",
+      "learner": "game-0015",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0016-vs-each-checkpoint",
+      "learner": "game-0016",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0017-vs-each-checkpoint",
+      "learner": "game-0017",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0018-vs-each-checkpoint",
+      "learner": "game-0018",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0019-vs-each-checkpoint",
+      "learner": "game-0019",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0020-vs-each-checkpoint",
+      "learner": "game-0020",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0021-vs-each-checkpoint",
+      "learner": "game-0021",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0022-vs-each-checkpoint",
+      "learner": "game-0022",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0023-vs-each-checkpoint",
+      "learner": "game-0023",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    },
+    {
+      "name": "game-0024-vs-each-checkpoint",
+      "learner": "game-0024",
+      "opponent": "blackwing,cyber,lightsworn,infernity,gishki,burn,crystal,dragunity,gladiator,heroes,monarch,morphtronic,rock-block,spellcaster,countdown,verdict,exodia,machina,chaos,macro-dd,six-samurai,gravekeeper,scrap,agents,quickdraw-plant,alien,amazoness,arcana,batteryman,benkei,chain-burn,cloudian,counter-fairy,dark-world,deckout,demise,destiny-board,destiny-hero,draconic-might,fabled,fish,flamvell,fortune-lady,garden,gem-knight,gemini,genex,gusto,harpie,herald,ice-barrier,iron-chain,jurrac,karakuri,malefic,naturia,nordic,nurse,ojama,psychic,pyramid,reptilianne,spirit,tele-dad,toon,venom,volcanic,watt,worm,x-saber,zombie",
+      "opponent_policy": "checkpoint",
+      "games": 64
+    }
+  ]
+}
