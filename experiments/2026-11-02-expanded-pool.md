@@ -99,6 +99,20 @@ the pool grows. Each batch gives a network to keep, and the batches stop when wh
 they add flattens. How many games a new deck takes from where the network stands
 has never been measured, and it sets all of this.
 
+What that thin spread cost was read on 2026-11-03: `seventy-one-champions` against
+`fourteen-decks` on the fourteen decks, each against each, 32 deals from both seats,
+12,544 games. Both had the same copy, 160 updates a deck, and some 321,000 games a
+deck of PPO, the fourteen at 9,257 duels of each pairing and the seventy-one at 1,205.
+`fourteen-decks` wins 52.0% ± 0.4%, 51.6% ± 0.5% with Cyber in neither seat, and plays
+each of the fourteen decks better than the other does, from Crystal Beasts by 0.8
+points to Cyber by 10.4, each ± 2.3. It leads against the pilots on all fourteen, by
+2.5 points on average. The two are level in the mirrors against the champions (49.1%
+and 49.4%) and against a deck neither met (56.6% and 56.7% of the 640 deals of each of
+thirteen decks). So the spread cost about two points of a head to head, on matchups
+the narrower network saw 7.7 times as often, against the 57 decks it gained. Giving
+all 71 decks that volume of each pairing would take some 49 million duels, 10 to 11
+days on the CUDA machine.
+
 ## The first batch test (design and readings fixed on 2026-11-02, before anything was built)
 
 - **Decks**: the first twelve of the games' Decks by the new cards they bring,
