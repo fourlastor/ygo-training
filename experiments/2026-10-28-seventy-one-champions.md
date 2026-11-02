@@ -608,7 +608,21 @@ Beside them, without a mark:
   its Deck each End Phase, so that one on the field from the deck's first turns
   empties it by turn 25 to 31, where the later group lost about ten cards at most
   other than by drawing. The duels' boards were not kept, so that neither group's
-  cause is measured.
+  cause is measured. What the plan rests on is a rule of the pilots: a Set monster
+  they cannot see is attacked only from 1,900 ATK, known bonuses counted, a few named
+  cards aside. Built with that line lower and nothing else changed, on the same 320
+  deals, the copy's `watt` wins 37.5% with 65 wins by deck-out at 1,900, 18.8% and 11
+  at 1,400, 13.8% and 2 at 600 and 13.4% and 1 with no line, and PPO's mean 24.1%,
+  21.6% and 22.2% at the first three: its 13.4 ± 3.2 points under the copy become 2.8
+  ± 2.4 over it at 1,400 and 8.4 ± 2.3 at 600. `watt`'s fall was the copy's use of
+  that rule. Elsewhere the rule is worth little. All 71 pilots against all 71 decks,
+  16 deals of each pairing on the same seeds, gain 0.85 ± 0.07 points at 600, 0.79 ±
+  0.07 at 1,400, 0.74 ± 0.08 with no line and 0.77 ± 0.08 at 600 with the strongest
+  attacker first instead of the weakest, `herald` gaining about 10 points and no other
+  deck over 3.5. On 7,384 games of the 71 decks against the 13 reference pilots, the
+  networks Setting about a quarter of their monsters, PPO's mean falls 0.4 ± 0.2
+  points at 600 and the copy 0.8 ± 0.3, so that the readings against the pilots stand.
+  The pinned pilots were left as they are, the builds made apart (`analysis/set-bar/`).
 - A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
   ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
   2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
