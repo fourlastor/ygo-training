@@ -1,6 +1,6 @@
 # A network of the seventy-one decks: their champions copied, then PPO
 
-**Status:** ACTIVE
+**Status:** COMPLETED
 
 **Proposed:** 2026-10-28
 
@@ -13,9 +13,10 @@ thirteen kept checkpoints: the mirrors lost by `deckout` and `arcana`, their mea
 50.4%; against `all71` not decided, sixty-six decks over 50% by two standard
 errors, five level and none under; 7.6 ± 0.1 points over the copy on the pairings
 and 3.5 ± 0.1 in the mirrors; why PPO took Countdown down and what `arcana`'s
-mirror turns on read on replays. Before that, on 2026-10-31: PPO stopped by its
-checks after 5,760 updates, under the copy in the mirrors, went on with half of
-its duels in them, read by such a mean, once the mean of its weights had raised
+mirror turns on read on replays, The Fool's habit found to be everywhere and worth
+having; the network released; closed. Before that, on 2026-10-31: PPO stopped by
+its checks after 5,760 updates, under the copy in the mirrors, went on with half
+of its duels in them, read by such a mean, once the mean of its weights had raised
 them with no training)
 
 The goal since 2026-10-24 is one network of all seventy-one decks that plays
@@ -527,7 +528,7 @@ for, 16,140 more, some 43 hours at 9.5 seconds an update.
 
 PPO ended its 21,900 updates on 2026-11-02 at 14:47, no check of the mean stopping
 it, and took 59.5 hours. Its readings are by the mean of its last thirteen kept
-checkpoints (`runs/seventy-one-champions/ppo-mean/21900.pt`, those from 19,840 to
+checkpoints (`runs/seventy-one-champions/ppo-mean/21900.pt`, those from 18,880 to
 21,760 updates). The measure went four at once and not seven, in 1 hour 50
 minutes: seven filled the card's 12.3 GB on the pairing files, which take 2 to
 5 GB each. No case failed.
@@ -731,7 +732,40 @@ came first, on a few deals with the copy in `all71`'s place.
 - Told beside, by the same words: the same deals with the network answering
   otherwise where it would Set The Fool, the wall itself held out.
 
-## What the run says
+#### Read on 2026-11-02
+
+Played on the CUDA machine in 18 minutes, 30,720 games. *Where*: **everywhere**.
+The share of turns held back against the other decks is 0.76 of the mirror's, over
+half of it by 13.2 ± 1.4 points.
+
+| Against | Behind The Fool in | Turns it could summon, a game | It did | Its pilot would | Held back |
+|---|---|---|---|---|---|
+| Its champion, in the mirror | 61.9% of games | 6.68 | 15.7% | 60.0% | 49.9% ± 0.8% |
+| `all71`, at the other decks | 41.0% | 2.60 | 13.9% | 47.3% | 38.1% ± 1.3% |
+| The pilots | 46.8% | 5.64 | 7.2% | 56.0% | 51.0% ± 1.7% |
+
+The stall itself stays mostly the mirror's: 39.7% of the mirror's games reach 60
+turns, 12.5% of those against the pilots and 3.7% of those against `all71`.
+
+*Held out*, in points of `arcana`'s share, the deals paired:
+
+| Against | `arcana` wins | Held out | From seat 0 | From seat 1 | Reading | The wall held out |
+|---|---|---|---|---|---|---|
+| Its champion, in the mirror | 42.3% | −1.4 ± 0.5 | +0.9 ± 0.7 | −3.7 ± 0.8 | not decided | −12.4 ± 0.7, useful |
+| `all71`, at the other decks | 16.8% | −0.9 ± 0.3 | −0.9 ± 0.5 | −0.8 ± 0.4 | not decided | −4.4 ± 0.4, useful |
+| The pilots | 34.9% | −5.9 ± 0.8 | −5.6 ± 1.1 | −6.1 ± 1.0 | **useful** | −19.1 ± 1.1, useful |
+
+The habit is worth having. Holding it out gains nowhere: it is useful by the rule
+against the pilots, and in the other two sets it costs something by two standard
+errors, though not 1 point by two standard errors. In the mirror the seats tell
+why: playing on costs seat 1, which hiding wins the race for, 3.7 ± 0.8 points, and
+costs seat 0, which loses the race whatever it does, nothing measured. What costs
+`arcana` its mirror is not the habit. The answer held out for is the pilot's, the
+one alternative measured, and a better play may lie between the two. The 16.8%
+against `all71` is the deck's own weakness from its seat: reading 2's 52.4% is read
+from both seats, where what a deck is worth cancels.
+
+## Conclusion (closed on 2026-11-02)
 
 - One network of the seventy-one decks plays their mirrors as well as their
   champions on average, 50.4%, where the copy stood 3.5 points under that, and is
@@ -748,7 +782,13 @@ came first, on a few deals with the copy in `all71`'s place.
   answers, so that it could still close some of the 9.6 ± 1.5 points Countdown
   stands under its pilot against the pilots, a gain no reading asks for.
 
-**Current next step:** closing this record and what follows it are to be decided.
-Bringing imitation back for Countdown, agreed on 2026-11-01 as possible if the rest
-held, has lost its case by the numbers above; extending the pool is what was to
-come after it.
+- `arcana`'s habit behind The Fool is no quirk of its mirror and no fault: it is
+  everywhere and worth having, and the stall it leads to in the mirror is a stall
+  the rules hand to seat 1. What loses the mirror is giving that race away.
+
+The network, the mean of PPO's last thirteen kept checkpoints, is released as
+[seventy-one-champions](../models/seventy-one-champions.md). The record was closed
+on 2026-11-02 whichever way the habit read, as agreed before it was played, with
+reading 1 lost and reading 2 not decided. Bringing imitation back for Countdown,
+agreed on 2026-11-01 as possible if the rest held, was dropped the same day. What
+follows is [The expanded pool](2026-11-02-expanded-pool.md).
