@@ -32,6 +32,7 @@ import shlex
 import signal
 import subprocess
 import sys
+import time
 import uuid
 from pathlib import Path
 from typing import Any
@@ -43,6 +44,9 @@ LOW_HOURS = 3.0
 FINISHED_DAYS = 30
 FAILED_DAYS = 365
 NAME = re.compile(r"[a-z0-9]+(-[a-z0-9]+)*")
+# How long a task told to stop has: what a command runs at once is given half
+# a minute (experiments/commands/at-once.sh).
+STOP_SECONDS = 90
 
 
 def checkout() -> Path:
@@ -131,6 +135,21 @@ def stopped(process: subprocess.Popen) -> None:
         signal.signal(signal.SIGTERM, previous)
 
 
+def stop_told(_number: int, _frame: Any) -> None:
+    """The horse told to stop its task (`told_to_stop`): `run` stops the
+    command as it does at a timeout."""
+    raise RuntimeError("told to stop")
+
+
+def told_to_stop(job: str) -> bool:
+    """Whether the horse that runs ``job`` could be told to stop it."""
+    try:
+        os.kill(int((logs() / f"{job}.horse").read_text()), signal.SIGTERM)
+    except (OSError, ValueError):
+        return False
+    return True
+
+
 def now() -> str:
     return dt.datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %z")
 
@@ -163,6 +182,9 @@ def run(task: dict[str, Any]) -> dict[str, Any]:
             stdout=told,
             stderr=subprocess.STDOUT,
         )
+        horse = logs() / f"{job}.horse"
+        horse.write_text(str(os.getpid()))
+        previous = signal.signal(signal.SIGTERM, stop_told)
         try:
             code = process.wait()
         except BaseException:
@@ -170,6 +192,9 @@ def run(task: dict[str, Any]) -> dict[str, Any]:
             stopped(process)
             told.write(f"{now()} stopped\n")
             raise
+        finally:
+            signal.signal(signal.SIGTERM, previous)
+            horse.unlink(missing_ok=True)
         told.write(f"{now()} exited {code}\n")
     if code:
         raise RuntimeError(f"{task['name']} exited {code}: {log}")
@@ -252,8 +277,18 @@ def cancel(args: argparse.Namespace) -> None:
     redis = connection()
     job = Job.fetch(args.job, connection=redis)
     if job.get_status() == "started":
-        # The worker stops the job's process group: its command with it.
-        send_stop_job_command(redis, job.id)
+        # The horse first, which stops the command as it does at a timeout:
+        # the worker's stop kills their process group outright, so that the
+        # command cannot stop what it runs in groups of its own
+        # (experiments/commands/at-once.sh). That stop is for a task that
+        # does not end when told.
+        if told_to_stop(job.id):
+            waited = 0
+            while job.get_status(refresh=True) == "started" and waited < STOP_SECONDS:
+                time.sleep(1)
+                waited += 1
+        if job.get_status(refresh=True) == "started":
+            send_stop_job_command(redis, job.id)
         print(f"{job.id}: stopped")
     else:
         job.cancel()

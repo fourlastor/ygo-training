@@ -135,6 +135,47 @@ def test_a_stopped_task_takes_what_its_command_started_with_it(tmp_path):
         raise AssertionError("the command's own child went on")
 
 
+def test_a_task_told_to_stop_lets_its_command_stop_what_runs_in_a_group_of_its_own(place):
+    """As `at_once` runs things (experiments/commands/at-once.sh): the command
+    hears the stop, which reaches its run through the command alone."""
+    checkout, commits, logs = place
+    started = checkout / "started.pid"
+    command = (
+        f"set -m; sleep 60 & run=$!; set +m; trap 'kill -- -$run; exit 130' TERM; "
+        f"echo $run > {started}; wait"
+    )
+    child = os.fork()
+    if child == 0:
+        try:
+            os.setpgrp()
+            tool.run(task(commits[0], command))
+            os._exit(2)
+        except RuntimeError:
+            os._exit(0)
+        except BaseException:  # noqa: BLE001 - a forked child never returns into the tests
+            os._exit(3)
+    while not started.exists() or not started.read_text().strip():
+        time.sleep(0.05)
+    while not (logs / "try-1.horse").exists():
+        time.sleep(0.05)
+    assert tool.told_to_stop("try-1")
+    _, status = os.waitpid(child, 0)
+    assert os.waitstatus_to_exitcode(status) == 0
+    assert "stopped" in (logs / "try-1.log").read_text()
+    assert not (logs / "try-1.horse").exists()
+    assert not tool.told_to_stop("try-1")
+    pid = int(started.read_text())
+    for _ in range(100):
+        try:
+            os.kill(pid, 0)
+        except ProcessLookupError:
+            break
+        time.sleep(0.05)
+    else:
+        os.kill(pid, 9)
+        raise AssertionError("what the command ran in a group of its own went on")
+
+
 def test_a_tasks_command_is_what_comes_after_the_double_dash(monkeypatch):
     seen = []
     monkeypatch.setattr(tool, "add", seen.append)

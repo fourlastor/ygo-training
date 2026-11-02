@@ -54,7 +54,8 @@ ssh daniele@luna ygo-training/queue/luna-queue requeue champions-gishki-1a2b3c
   for a task before them, failed, and the last ten finished.
 - `log JOB`: the end of a task's log (`~/ygo-training/queue/logs/JOB.log`),
   which holds what it was told and everything it printed.
-- `cancel JOB`: out of the queue, or stopped where it runs.
+- `cancel JOB`: out of the queue, or stopped where it runs, with what its
+  command runs at once: it returns when they are gone.
 - `requeue JOB`: a failed or stopped task, queued again.
 
 The dashboard, from here: `ssh -L 9181:127.0.0.1:9181 daniele@luna`, then
