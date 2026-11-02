@@ -292,7 +292,7 @@ def ppo_shown(found: dict[str, Any]) -> list[str]:
     floor = mirrors["under the floor"]
     weakest = against["each"][against["weakest"]]
     lines = [
-        "PPO, by its last checkpoint:",
+        "PPO, by the mean of its last thirteen kept checkpoints:",
         (
             f"  1. The mirrors: {mirrors['verdict']}. Head to head against each teacher in its "
             f"mirror, the mean {mirrors['mean']:.1%} ± {mirrors['error']:.1%}, the lowest "

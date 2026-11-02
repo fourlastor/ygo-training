@@ -145,7 +145,7 @@ def test_ppo_is_read_by_its_mirrors_its_decks_against_all71_and_the_copy(tmp_pat
     assert found["pilots"]["against all71"]["gap"] == pytest.approx(0.15)
     assert list(found["checks"]["checks"]) == [2880]
     shown = tool.shown(result, DECKS)
-    assert "PPO, by its last checkpoint:" in shown
+    assert "PPO, by the mean of its last thirteen kept checkpoints:" in shown
     assert "2. Against all71: falls short" in shown
     assert "3. Against the copy: pays, +5.0" in shown
     assert "4. The mirrors against the copy: not decided, +2.0" in shown
