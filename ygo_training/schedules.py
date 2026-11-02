@@ -18,9 +18,7 @@ POLICY_WORKER_STRIDE = POLICY_SEQUENCE_LIMIT
 DUEL_DECISION_BITS = 20
 
 
-def allocate_balanced_opponents(
-    opponents: list[str], episodes: int, *, seed: int
-) -> list[str]:
+def allocate_balanced_opponents(opponents: list[str], episodes: int, *, seed: int) -> list[str]:
     """Allocate an exact, shuffled, worker-independent opponent population."""
     if episodes < 0:
         raise ValueError("episodes must be non-negative")
@@ -33,9 +31,7 @@ def allocate_balanced_opponents(
     random.Random(seed ^ 0x52454D41).shuffle(extra_order)
     extras = set(extra_order[:remainder])
     assignments = [
-        opponent
-        for opponent in opponents
-        for _ in range(base + int(opponent in extras))
+        opponent for opponent in opponents for _ in range(base + int(opponent in extras))
     ]
     random.Random(seed).shuffle(assignments)
     return assignments
@@ -55,23 +51,36 @@ def allocate_balanced_pairs(
 def allocate_weighted_pairs(
     weights: dict[tuple[str, str], float], episodes: int, *, seed: int
 ) -> list[tuple[str, str]]:
-    """Allocate an exact, shuffled population of the pairs of ``weights``:
-    each pair as often as its share of the weights, the duels a share leaves
-    over going to the largest remainders, ties broken by the seed."""
+    """Allocate an exact, shuffled population of the pairs of ``weights``, each
+    pair as often as its share of the weights: the whole duels of its share,
+    and one more with the chance of what is left of it. Two pairs of different
+    weights each with less than a duel to their share keep their proportion
+    over the updates, where the larger taking every duel left would leave the
+    smaller none (experiments/2026-11-02-expanded-pool.md)."""
     if episodes < 0:
         raise ValueError("episodes must be non-negative")
     total = sum(weights.values())
     if not weights or total <= 0 or min(weights.values()) < 0:
         raise ValueError("pairs are weighted by numbers not below zero, not all zero")
     pairs = sorted(weights)
+    drawing = random.Random(seed ^ 0x52454D41)
     order = list(range(len(pairs)))
-    random.Random(seed ^ 0x52454D41).shuffle(order)
+    drawing.shuffle(order)
     exact = [episodes * weights[pair] / total for pair in pairs]
     counts = [int(share) for share in exact]
     left = episodes - sum(counts)
-    # The largest remainders first, and among equal ones the seed's order.
-    ranked = sorted(order, key=lambda place: counts[place] - exact[place])
-    for place in ranked[:left]:
+    # One draw shared out along the pairs in the seed's order: as many duels as
+    # are left, each pair's chance of one what is left of its share.
+    mark = drawing.random()
+    reached = 0.0
+    for place in order:
+        reached += exact[place] - counts[place]
+        while left and reached > mark:
+            counts[place] += 1
+            left -= 1
+            mark += 1.0
+    # What rounding left over goes to the largest shares.
+    for place in sorted(order, key=lambda place: -exact[place])[:left]:
         counts[place] += 1
     drawn = [pair for pair, count in zip(pairs, counts, strict=True) for _ in range(count)]
     random.Random(seed).shuffle(drawn)

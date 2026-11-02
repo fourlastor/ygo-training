@@ -13,6 +13,7 @@ from ygo_training.schedules import (
     allocate_episodes,
     allocate_matchup_seats,
     allocate_other_seats,
+    allocate_weighted_pairs,
     episode_offsets,
     rollout_games,
 )
@@ -438,9 +439,9 @@ def test_an_updates_duels_are_shared_out_by_who_sits_in_the_other_seat():
 
 
 def test_duels_against_itself_shared_out_by_the_weights_of_the_pairs():
-    """Each ordered pair as often as its share of the weights, what is left
-    over to the largest remainders; a pair of weight zero none; the duels
-    against the pilots the same, in the same places, as without weights."""
+    """Each ordered pair as often as its share of the weights; a pair of weight
+    zero none; the duels against the pilots the same, in the same places, as
+    without weights."""
     learners = ["blackwing", "cyber", "lightsworn", "infernity"]
     opponents = ["monarch", "burn", "heroes"]
     weights = {(own, other): 1.0 for own in learners for other in learners}
@@ -469,6 +470,38 @@ def test_duels_against_itself_shared_out_by_the_weights_of_the_pairs():
         allocate_matchup_seats(
             learners, opponents, 8, itself=4, seed=7, weights={("cyber", "cyber"): 0.0}
         )
+
+
+def test_pairs_of_less_than_a_duel_an_update_keep_their_proportions_over_the_updates():
+    """As the first batch test's mix: 3/4 of the duels with a new deck in a seat, 1/4
+    between old decks, every pair with less than a duel an update to its share."""
+    new = [f"new-{place}" for place in range(12)]
+    old = [f"old-{place}" for place in range(71)]
+    weights = {(own, other): 5.0 for own in old for other in old}
+    for own in new:
+        for other in old:
+            weights[(own, other)] = weights[(other, own)] = 38.0
+        for other in new:
+            weights[(own, other)] = 76.0
+    told = Counter()
+    seats = Counter()
+    updates = 300
+    for seed in range(updates):
+        drawn = allocate_weighted_pairs(weights, 520, seed=seed)
+        assert len(drawn) == 520
+        for own, other in drawn:
+            told[own in new, other in new] += 1
+            seats[own] += 1
+            seats[other] += 1
+    duels = 520 * updates
+    assert (told[True, False] + told[False, True]) / duels == pytest.approx(0.6416, abs=0.01)
+    assert told[True, True] / duels == pytest.approx(0.1084, abs=0.01)
+    assert told[False, False] / duels == pytest.approx(0.25, abs=0.01)
+    assert sum(seats[deck] for deck in new) / (12 * updates) == pytest.approx(37.2, abs=0.5)
+    assert sum(seats[deck] for deck in old) / (71 * updates) == pytest.approx(8.36, abs=0.2)
+    assert allocate_weighted_pairs(weights, 520, seed=3) == allocate_weighted_pairs(
+        weights, 520, seed=3
+    )
 
 
 def test_an_updates_metrics_say_the_weights_its_duels_against_itself_had():

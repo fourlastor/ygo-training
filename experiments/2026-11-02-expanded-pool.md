@@ -109,7 +109,14 @@ has never been measured, and it sets all of this.
   against a pilot, for 4,320 updates, some 12 hours. Three quarters of the duels have
   a new deck in one seat and any of the 83 decks in the other, a quarter are between
   the old decks: 37 games a new deck and 8.4 an old deck an update. A checkpoint
-  every 60 updates.
+  every 60 updates. Its first start was stopped after some 20 updates, before it
+  counted for anything: `allocate_weighted_pairs` gave every duel left over to the
+  largest remainders, so that of pairs each with less than a duel to its share the
+  largest took them all, 55 games a new deck, 5 an old deck and none between old
+  decks. A pair's share is now its whole duels and one more with the chance of what
+  is left of it, which keeps the weights' proportions over the updates. By the same
+  rule the mirrors of the seventy-one decks had 27.3% of their duels and not a
+  quarter.
 - **Measured** after 540, 1,080, 2,160 and 4,320 updates, some 20,000, 40,000, 80,000
   and 160,000 games a new deck, each by the mean of its last six kept checkpoints,
   and at the start by `seventy-one-champions` itself: each new deck against the
