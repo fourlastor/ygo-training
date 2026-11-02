@@ -86,8 +86,63 @@ second: a network that plays well beyond the decks it was made on.
   points under it, the deals paired, over it by two standard errors on eight of the
   twelve and under it on none. So the generic pilot has nothing to teach it there.
 
-**Current next step:** the design and readings of its first experiment, fixed
-before anything is built. The games' Decks are the way to the pool and the
-tournament lists are not. Those Decks have no pilots, and the network starts ahead
-of the generic one, so that the first experiment teaches them from where the
-network stands.
+## How the pool is taken on
+
+The cost of a network grows with its decks and not with their pairings. PPO of the
+seventy-one decks played some 1,200 duels of each pairing that was no mirror and
+gained 7.6 points over all of them, where one matchup alone takes hundreds of
+thousands: it learns decks and cards, not matchups. So the decks are taken on in
+batches of some fifty, most duels with a new deck in one seat and the other drawn
+from all of them, and with no share kept for the mirrors. Both seats of a duel teach
+the network, so that the older decks go on being trained, at a share that falls as
+the pool grows. Each batch gives a network to keep, and the batches stop when what
+they add flattens. How many games a new deck takes from where the network stands
+has never been measured, and it sets all of this.
+
+## The first batch test (design and readings fixed on 2026-11-02, before anything was built)
+
+- **Decks**: the first twelve of the games' Decks by the new cards they bring,
+  `game-0001` to `game-0012`, 316 new cards; the next twelve held out. The games'
+  character names go nowhere tracked.
+- **Run**: PPO from `seventy-one-champions` at 1e-4, with its optimizer fresh, 520
+  duels an update at the settings of `fast`, every duel against itself and none
+  against a pilot, for 4,320 updates, some 12 hours. Three quarters of the duels have
+  a new deck in one seat and any of the 83 decks in the other, a quarter are between
+  the old decks: 37 games a new deck and 8.4 an old deck an update. A checkpoint
+  every 60 updates.
+- **Measured** after 540, 1,080, 2,160 and 4,320 updates, some 20,000, 40,000, 80,000
+  and 160,000 games a new deck, each by the mean of its last six kept checkpoints,
+  and at the start by `seventy-one-champions` itself: each new deck against the
+  frozen network at each of the 71 decks, 64 games a pairing from both seats (4,544
+  a deck, `eval_suites/first-batch-pairings-checkpoint.json`), and every ordered
+  pairing of the 71 decks head to head against the frozen network, 4 games each
+  (20,164 games). Against the frozen network because these decks have no pilot or
+  champion to be read against, and it plays the 71 decks at a level that does not
+  move.
+
+Readings:
+
+1. *A new deck learns from here*: the mean over the twelve of each deck's share
+   against the frozen network after 2,160 updates, less its share at the start, the
+   deals paired: **learns** when at least 5 points by two standard errors, **does
+   not** when at most 2 points by two standard errors, otherwise **not decided**.
+2. *How many games a deck takes*: the fewest of the first three points whose gain is
+   within 2 points of the last point's by two standard errors, the deals paired, sets
+   a batch's budget. Where none is, the decks are still rising at 160,000 games.
+3. *The old decks hold*: the trained network head to head against the frozen one on
+   the 71 decks' pairings after 4,320 updates: **hold** when at least 49% by two
+   standard errors, **slip** when at most 49% by two standard errors, otherwise **not
+   decided**.
+
+Told beside them, without a mark, after 4,320 updates: the next twelve Decks against
+the frozen network as the first twelve, trained on nothing, to tell whether what was
+learnt carries over; the old mirrors head to head against their champions, 128 deals
+from both seats; the new decks against the thirteen decks' pilots, beside the 19.9%
+they start from; the hours.
+
+If the new decks learn and the old ones hold, the batches go on at reading 2's budget.
+If the old decks slip, their share goes up, or a term holding the network to itself
+on them is tried, as `decklight` reports. If the new decks do not learn, the
+champions' recipe is tried on them.
+
+**Current next step:** the test, built and queued on the CUDA machine on 2026-11-02.
