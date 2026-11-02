@@ -78,7 +78,16 @@ second: a network that plays well beyond the decks it was made on.
   the specialists' gains kept and the earlier decks unchanged, from a weak base and
   against its own previous release. Not tried here.
 
+- **Where the network stands on a Deck it never met**: the twelve Decks that bring
+  the most new cards, 316 between them, chosen from the 1,907 different lists whole
+  in the pool, each against the thirteen decks' pilots on 32 deals from both seats,
+  nothing trained (`analysis/game-decks-probe.py`, 9,984 games an arm, none failed):
+  `seventy-one-champions` wins 19.9% and the policies' generic pilot 14.4%, 5.5 ± 0.4
+  points under it, the deals paired, over it by two standard errors on eight of the
+  twelve and under it on none. So the generic pilot has nothing to teach it there.
+
 **Current next step:** the design and readings of its first experiment, fixed
 before anything is built. The games' Decks are the way to the pool and the
-tournament lists are not, and those Decks have no pilots, so that neither imitation
-nor the champions' recipe applies to them as they stand.
+tournament lists are not. Those Decks have no pilots, and the network starts ahead
+of the generic one, so that the first experiment teaches them from where the
+network stands.
