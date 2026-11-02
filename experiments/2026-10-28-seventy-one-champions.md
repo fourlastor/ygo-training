@@ -593,6 +593,22 @@ Beside them, without a mark:
   won on life points, none past 18 turns, the deck weak whichever played it. Six
   duels can tell little by their score, the rule-based deck winning all six about one
   time in four, and in the four against the pilot and `all71` `watt` went first.
+  The plan leans on a card no pilot rates. Wattcastle, a Field Spell `watt` runs
+  twice, takes 1,000 ATK for good from any monster that attacks a Watt monster. Only
+  `watt`'s own pilot names it, so by the rules the others share it rates 900 face-up,
+  under the 1,200 of any Set card and the 1,500 a face-up card needs for their
+  Mystical Space Typhoon, and nothing weighs the loss before an attack. Whether it is
+  played by turn 4 falls to the deal, 105 of the copy's 320 games and 108 of PPO's
+  against the 32.3% of two copies among seven cards of 40, and on those games, within
+  pilot and seat, it is worth the copy 17.1 ± 5.4 points of wins and 11.9 ± 4.8 of
+  wins by deck-out, and PPO 12.5 ± 4.9 of wins and 0.5 ± 1.5 of deck-outs: the card
+  wins against pilots under either plan, and only waiting turns it into deck-outs.
+  The starter deck's 130 deck-outs against `all71` come in two groups, 71 by turn 31
+  and 57 from turn 50 on, two between. Jain, Lightsworn Paladin sends two cards from
+  its Deck each End Phase, so that one on the field from the deck's first turns
+  empties it by turn 25 to 31, where the later group lost about ten cards at most
+  other than by drawing. The duels' boards were not kept, so that neither group's
+  cause is measured.
 - A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
   ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
   2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
