@@ -588,7 +588,11 @@ Beside them, without a mark:
   wins by deck-out 8 against 130. `all71`, which had half of its duels against the
   pilots, keeps the plan. It is `watt`'s alone: over the 71 decks against the pilots
   PPO has 2,420 wins by deck-out and the copy 2,430, and no other deck loses them and
-  falls.
+  falls. Against a person it did not matter: six duels with that starter deck on
+  2026-11-02, two each against `watt` played by its pilot, `all71` and PPO's mean, all
+  won on life points, none past 18 turns, the deck weak whichever played it. Six
+  duels can tell little by their score, the rule-based deck winning all six about one
+  time in four, and in the four against the pilot and `all71` `watt` went first.
 - A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
   ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
   2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
