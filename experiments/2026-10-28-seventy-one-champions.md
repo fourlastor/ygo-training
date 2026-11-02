@@ -577,7 +577,10 @@ Beside them, without a mark:
   attacks, 12.2 turns and 2 of 77 wins by deck-out, 13.4 ± 3.1 points under it and
   23.1 ± 4.5 from seat 1, which a waiting game suits. Against the networks the same
   change pays: from both seats against `all71` the deck went from 46.1% on the
-  checks' games to 50.8%, and its mirror held, −0.7 ± 0.6 points.
+  checks' games to 50.8%, and its mirror held, −0.7 ± 0.6 points. Waiting is no hole
+  in the network either: played by the copy against PPO's last mean at the 71 decks,
+  16 deals of each from both seats, the deck wins 14.5%, in 12.2 turns, and played by
+  the mean itself 19.5%, 5.0 ± 0.7 points more. The plan beats the pilots alone.
 - A deck's figure at a check told little. `macro-dd` stood at 45.6% to 45.7%
   ± 2.1% from both seats at the last three checks and is 50.0% ± 0.5% on reading
   2's games, and `rock-block`'s mirror at 40.2% at the last check is 46.1% ±
