@@ -5,7 +5,7 @@
 //! with the bench's digest of every question and answer.
 
 use std::cell::RefCell;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::sync::Arc;
 
@@ -293,6 +293,39 @@ fn a_list_read_from_a_file_is_played_by_its_decks_pilot() {
     missing.lists[1] = Some(root().join("decks/no such list.ydk"));
     let error = environment.start(&missing).err().expect("the list cannot be read");
     assert!(error.contains("no such list.ydk"), "{error}");
+}
+
+#[test]
+fn a_folder_of_lists_adds_decks_that_the_generic_policy_pilots() {
+    let folder = std::env::temp_dir().join(format!("ygo-env-lists-{}", std::process::id()));
+    std::fs::create_dir_all(&folder).unwrap();
+    let list = folder.join("game-test.ydk");
+    let variant = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../data/decks/darker-than-black.ydk");
+    std::fs::copy(variant, &list).unwrap();
+    let decks = std::env::join_paths([root().join("decks"), folder.clone()]).unwrap();
+    let scripts = root().join("vendor/CardScripts");
+    let environment = Environment::open(&cards(), &scripts, Path::new(&decks)).unwrap();
+    assert!(environment.catalog().iter().any(|entry| entry.id == "game-test"));
+    let pilots = || [seat(Control::Pilot, false, false), seat(Control::Pilot, false, false)];
+    let (seed, ids) = DUELS[0];
+    // The deck by its name is its list with the generic policy in the seat.
+    let by_name = setup(seed, ["game-test", ids[1]], pilots());
+    let (_, _, named) = play(&environment, &by_name, |_| unreachable!());
+    let mut by_list = setup(seed, ids, pilots());
+    by_list.lists[0] = Some(list.clone());
+    by_list.seats[0].policy = Some("generic".to_owned());
+    let (_, _, listed) = play(&environment, &by_list, |_| unreachable!());
+    assert_eq!(played(&named), played(&listed));
+    // And the policies' decks are played as ever beside it.
+    for (seed, ids) in DUELS {
+        let (_, _, over) = play(&environment, &setup(seed, ids, pilots()), |_| unreachable!());
+        assert_eq!(played(&over), bench(&environment, seed, ids), "seed {seed}, {ids:?}");
+    }
+    // A list by the name of a deck or a policy is refused.
+    std::fs::copy(&list, folder.join("blackwing.ydk")).unwrap();
+    let error = Environment::open(&cards(), &scripts, Path::new(&decks)).err().expect("a name taken");
+    assert!(error.contains("blackwing.ydk"), "{error}");
+    std::fs::remove_dir_all(&folder).unwrap();
 }
 
 /// What two reports of the same decisions have in common.

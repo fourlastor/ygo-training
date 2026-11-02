@@ -29,6 +29,9 @@ POLICIES_DIRECTORY = "native/ygo-policies"
 CARDS_DATABASE = f"{POLICIES_DIRECTORY}/vendor/BabelCdb/cards.cdb"
 CARD_SCRIPTS = f"{POLICIES_DIRECTORY}/vendor/CardScripts"
 DECKS_DIRECTORY = f"{POLICIES_DIRECTORY}/decks"
+# Lists no policy was written for, each a deck named by its file, the generic
+# policy its pilot: the Decks of the games of the era, under neutral names.
+GAME_DECKS = "data/decks/games"
 LIBRARY = "target/release/libygo_env.so"
 BUILD_COMMAND = "cargo build --release"
 
@@ -153,6 +156,20 @@ def pool(root: str | Path = ".") -> dict[str, str]:
     return {str(entry["id"]): str(entry["deck"]) for entry in entries}
 
 
+def listed(root: str | Path = ".") -> list[str]:
+    """The decks of `GAME_DECKS`, which can be seated as the pool's can."""
+    return sorted(path.stem for path in (Path(root).resolve() / GAME_DECKS).glob("*.ydk"))
+
+
+def deck_folders(root: Path) -> bytes:
+    """The folders of the deck lists, as the library takes them: the policies', and
+    `GAME_DECKS` where the root has them."""
+    folders = [root / DECKS_DIRECTORY]
+    if (root / GAME_DECKS).is_dir():
+        folders.append(root / GAME_DECKS)
+    return os.pathsep.join(map(str, folders)).encode()
+
+
 class Environment:
     """The engine with its cards and scripts, and the decks of the pool."""
 
@@ -163,7 +180,7 @@ class Environment:
         handle = self._lib.ygo_env_open(
             str(root / CARDS_DATABASE).encode(),
             str(root / CARD_SCRIPTS).encode(),
-            str(root / DECKS_DIRECTORY).encode(),
+            deck_folders(root),
         )
         if not handle:
             raise self._error("cannot open the environment")

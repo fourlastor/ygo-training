@@ -30,7 +30,7 @@ from .checkpoints import (
 )
 from .config import TrainerConfig
 from .critic import SightedCritic, drawn, transaction_roots
-from .environment import pool
+from .environment import listed, pool
 from .graphs import Graphs
 from .model import PolicyValueNet
 from .optimization import DIAGNOSTIC_STEP_KEYS, PpoOptimizer
@@ -190,13 +190,13 @@ class PpoTrainer(Trainer):
             self.device,
         )
         # Policy id -> name of its deck list.
-        self.decks = pool(self.root)
+        self.decks = {**pool(self.root), **{name: name for name in listed(self.root)}}
         for name in [*config.learners, *(config.opponent_decks or [])]:
             if name not in self.decks:
                 raise ValueError(f"Unknown deck: {name}")
         # The decks the learner meets in rollouts: every other one unless told.
         self.opponents = config.opponent_decks or sorted(
-            name for name in self.decks if name != config.learner_deck
+            name for name in pool(self.root) if name != config.learner_deck
         )
         # The recorded duels the imitation-only updates imitate, if any.
         self.recorded: list[RecordedGame] | None = None

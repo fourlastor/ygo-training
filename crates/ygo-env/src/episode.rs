@@ -18,7 +18,7 @@
 //! takes it.
 
 use std::cell::RefCell;
-use std::collections::{HashMap, VecDeque};
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::sync::Arc;
@@ -197,13 +197,17 @@ pub struct Environment {
     pub(crate) cards: PathBuf,
     pub(crate) decks: HashMap<String, Deck>,
     catalog: Vec<Entry>,
+    /// The decks no policy was written for.
+    unwritten: HashSet<String>,
     /// Printed card data.
     features: Features,
 }
 
 impl Environment {
     /// `cards` is the card database, `scripts` the card scripts and `decks`
-    /// the folder of the policies' deck lists.
+    /// the folder of the policies' deck lists, then, as a search path has
+    /// them, any folders of lists no policy was written for: each `.ydk` a
+    /// deck named by its file, the generic policy its pilot.
     pub fn open(cards: &Path, scripts: &Path, decks: &Path) -> Result<Self> {
         let core = Core::open(None, cards, scripts)?;
         let db: Arc<dyn CardDatabase> =
@@ -211,8 +215,10 @@ impl Environment {
         let features = features::open(cards)?;
         let mut lists = HashMap::new();
         let mut catalog = Vec::new();
+        let mut folders = std::env::split_paths(decks);
+        let policies = folders.next().ok_or("no folder of deck lists")?;
         for entry in registry::POLICIES {
-            let deck = Deck::load(&decks.join(format!("{}.ydk", entry.deck)))?;
+            let deck = Deck::load(&policies.join(format!("{}.ydk", entry.deck)))?;
             catalog.push(Entry {
                 id: entry.id.to_owned(),
                 deck: entry.deck.to_owned(),
@@ -221,7 +227,33 @@ impl Environment {
             });
             lists.insert(entry.id.to_owned(), deck);
         }
-        Ok(Environment { core, db, cards: cards.to_owned(), decks: lists, catalog, features })
+        let mut unwritten = HashSet::new();
+        for folder in folders {
+            let found = std::fs::read_dir(&folder).map_err(|e| format!("{}: {e}", folder.display()))?;
+            let mut files = found.filter_map(|entry| Some(entry.ok()?.path())).collect::<Vec<_>>();
+            files.retain(|file| file.extension().is_some_and(|extension| extension == "ydk"));
+            files.sort();
+            for file in files {
+                let id = file.file_stem().unwrap_or_default().to_string_lossy().into_owned();
+                if lists.contains_key(&id) || registry::create(&id, db.clone()).is_some() {
+                    return Err(format!("{}: there is a deck or a policy of that name", file.display()));
+                }
+                let deck = Deck::load(&file)?;
+                catalog.push(Entry { id: id.clone(), deck: id.clone(), main: deck.main.clone(), extra: deck.extra.clone() });
+                lists.insert(id.clone(), deck);
+                unwritten.insert(id);
+            }
+        }
+        Ok(Environment { core, db, cards: cards.to_owned(), decks: lists, catalog, unwritten, features })
+    }
+
+    /// The policy that pilots `deck`, where a seat names none.
+    fn pilot<'a>(&self, deck: &'a str) -> &'a str {
+        if self.unwritten.contains(deck) {
+            "generic"
+        } else {
+            deck
+        }
     }
 
     /// A decision as the arrays the policy reads.
@@ -286,8 +318,8 @@ impl Environment {
             }
             // Asked alongside a search's seat, the deck's own.
             let id = match seat.control {
-                Control::Search => setup.decks[player].as_str(),
-                _ => seat.policy.as_deref().unwrap_or(&setup.decks[player]),
+                Control::Search => self.pilot(&setup.decks[player]),
+                _ => seat.policy.as_deref().unwrap_or(self.pilot(&setup.decks[player])),
             };
             let pilot = if seat.control == Control::Pilot || !seat.alone {
                 // The bench seeds seat `p` with `seed + p`.

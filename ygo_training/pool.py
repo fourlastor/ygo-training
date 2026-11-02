@@ -36,10 +36,10 @@ import numpy as np
 from .environment import (
     CARD_SCRIPTS,
     CARDS_DATABASE,
-    DECKS_DIRECTORY,
     DuelError,
     Environment,
     _load,
+    deck_folders,
     library_path,
 )
 from .schedules import OTHER_SEATS, duel_sample_seed, keeps_label
@@ -117,7 +117,7 @@ class DuelPool:
         self._handle = self._lib.ygo_pool_open(
             str(root / CARDS_DATABASE).encode(),
             str(root / CARD_SCRIPTS).encode(),
-            str(root / DECKS_DIRECTORY).encode(),
+            deck_folders(root),
             int(threads),
             int(slots),
             int(shared),
