@@ -183,7 +183,10 @@ def test_a_checkpoint_takes_its_name_once_its_update_is_evaluated(tmp_path, monk
         [*first, "model-00001.pt", "model-00001.pt.json", "model-00002.pt", "model-00002.pt.json"],
         [(0, True), (1, True), (2, True)],
     )
-    assert json.loads(run.config_path.read_text())["model_calls"] == {**asked, "inference_graphs": 8}
+    assert json.loads(run.config_path.read_text())["model_calls"] == {
+        **asked,
+        "inference_graphs": 8,
+    }
     assert there[2:] == [["model-00000.pt"], ["model-00000.pt", "model-00001.pt"]]
 
 
@@ -420,7 +423,9 @@ def test_a_learner_of_several_decks_is_evaluated_on_the_screen_of_each(tmp_path)
 def test_train_entropy_coefficient_defaults_to_the_trusted_value():
     base = ["train", "--run", "runs/x", "--learner", "blackwing"]
     assert parser().parse_args(base).entropy_coefficient == 0.01
-    assert parser().parse_args([*base, "--entropy-coefficient", "0.001"]).entropy_coefficient == 0.001
+    assert (
+        parser().parse_args([*base, "--entropy-coefficient", "0.001"]).entropy_coefficient == 0.001
+    )
 
 
 def test_training_seed_defaults_to_the_evaluation_seed():

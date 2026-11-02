@@ -111,9 +111,7 @@ def report(summary: dict[str, Any], *, moves: int) -> str:
         )
     lines.append(f"   deviations by decision: {summary['deviations_by_decision']}")
     for move in summary["deviations"][:moves]:
-        lines.append(
-            f"   {move['count']:5d}  {move['decision']}: {move['from']}  ->  {move['to']}"
-        )
+        lines.append(f"   {move['count']:5d}  {move['decision']}: {move['from']}  ->  {move['to']}")
     return "\n".join(lines)
 
 

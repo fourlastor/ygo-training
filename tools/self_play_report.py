@@ -762,13 +762,19 @@ def arms(
         )
     if since is not None:
         further = gained(folder, last, since)
-        told = f"  Since its checkpoint after {since} updates, {TITLES[ITSELF]} has gained on itself: "
+        told = (
+            f"  Since its checkpoint after {since} updates, {TITLES[ITSELF]} has gained on itself: "
+        )
         if further is None:
             print(told + "not measured")
         else:
             readings["gained"] = further
             verdict = (
-                "yes" if further["better"] else "no: it loses to it" if further["worse"] else "not shown"
+                "yes"
+                if further["better"]
+                else "no: it loses to it"
+                if further["worse"]
+                else "not shown"
             )
             print(
                 told + f"{verdict} ({percent(further['share'])} ± {100 * further['error']:.1f} of "

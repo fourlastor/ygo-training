@@ -136,7 +136,9 @@ class Kept:
         self.sizes.append(size)
         for name, value in tensor.items():
             known = self.widest.get(name, value.shape[1:])
-            self.widest[name] = tuple(max(pair) for pair in zip(known, value.shape[1:], strict=True))
+            self.widest[name] = tuple(
+                max(pair) for pair in zip(known, value.shape[1:], strict=True)
+            )
         if of_class(size) not in self.batches:
             self.batches[of_class(size)] = {
                 name: value.detach().cpu().numpy().copy() for name, value in tensor.items()
@@ -192,7 +194,9 @@ class Call:
 
     def probability(self) -> None:
         with torch.no_grad():
-            self.log_probs = torch.distributions.Categorical(logits=self.logits).log_prob(self.drawn)
+            self.log_probs = torch.distributions.Categorical(logits=self.logits).log_prob(
+                self.drawn
+            )
 
     def back(self) -> None:
         self.drawn.cpu().numpy()
@@ -286,7 +290,9 @@ def launched(call: Call, answers: int = 20) -> dict[str, Any]:
     }
 
 
-def same_numbers(one: tuple[torch.Tensor, ...], other: tuple[torch.Tensor, ...]) -> tuple[bool, float]:
+def same_numbers(
+    one: tuple[torch.Tensor, ...], other: tuple[torch.Tensor, ...]
+) -> tuple[bool, float]:
     """Whether two answers are the same numbers, and how far apart they are
     at most where both are finite (an answer that is none has no score)."""
     same, apart = True, 0.0
@@ -377,7 +383,9 @@ def in_one_copy(call: Call, repeats: int) -> dict[str, Any]:
     here = np.zeros(length, dtype=np.uint8)
     there = torch.zeros(length, dtype=torch.uint8, device=device)
     views = {
-        name: there[start:end].view(torch.from_numpy(call.arrays[name]).dtype).view(call.arrays[name].shape)
+        name: there[start:end]
+        .view(torch.from_numpy(call.arrays[name]).dtype)
+        .view(call.arrays[name].shape)
         for name, (start, end) in places.items()
     }
 
@@ -389,7 +397,8 @@ def in_one_copy(call: Call, repeats: int) -> dict[str, Any]:
     took = timed(device, repeats, work)
     waited(device)
     same = all(
-        bool(torch.equal(view.cpu(), torch.from_numpy(call.arrays[name]))) for name, view in views.items()
+        bool(torch.equal(view.cpu(), torch.from_numpy(call.arrays[name])))
+        for name, view in views.items()
     )
     return {"took": took, "same": same, "bytes": length, "arrays": len(places)}
 
@@ -405,7 +414,9 @@ def widest(batches: dict[int, dict[str, np.ndarray]]) -> dict[str, tuple[int, ..
     return shapes
 
 
-def filled(arrays: dict[str, np.ndarray], shapes: dict[str, tuple[int, ...]]) -> dict[str, np.ndarray]:
+def filled(
+    arrays: dict[str, np.ndarray], shapes: dict[str, tuple[int, ...]]
+) -> dict[str, np.ndarray]:
     """A batch with every array filled out with zeros to ``shapes``: what the
     library makes of its decisions in a batch whose longest rows are that
     long (the library fills with zeros, and an answer that is none is
@@ -428,7 +439,11 @@ def filled_out(own: Call, wide: Call, repeats: int) -> dict[str, Any]:
     answers = logits.shape[1]
     same, apart = same_numbers((logits, values), (more[:, :answers], same_values))
     none = bool(torch.isinf(more[:, answers:]).all())
-    return {"answer": timed(wide.device, repeats, wide.answer), "same": same and none, "apart": apart}
+    return {
+        "answer": timed(wide.device, repeats, wide.answer),
+        "same": same and none,
+        "apart": apart,
+    }
 
 
 def headers() -> bool:
@@ -662,7 +677,9 @@ def recorded_step(
             told["replay"] = timed(device, repeats, graph.replay)
         except Exception as error:  # noqa: BLE001 - told in the report
             told["replay"] = None
-            told["waits"] = f"while it was recorded: {type(error).__name__}: {' '.join(str(error).split())[:200]}"
+            told["waits"] = (
+                f"while it was recorded: {type(error).__name__}: {' '.join(str(error).split())[:200]}"
+            )
     told["plain"] = timed(device, repeats, lambda: step(*plain))
     told["able"] = timed(device, repeats, lambda: step(*able))
     return told
@@ -732,7 +749,9 @@ def last_report(found: dict[str, Any]) -> list[str]:
         for largest, took in way["calls"].items():
             plain = found["calls"][largest]
             line = f"{named(largest):>12} {plain['size']:>6} {plain['whole']:>8.2f} "
-            out.append(line + (f"{took:>8.2f}" if isinstance(took, float) else f"       -   {took}"))
+            out.append(
+                line + (f"{took:>8.2f}" if isinstance(took, float) else f"       -   {took}")
+            )
         told = way["told"]
         out += [
             "",
@@ -759,7 +778,11 @@ def last_report(found: dict[str, Any]) -> list[str]:
             if isinstance(step, str):
                 out.append(f"    not made: {step}")
                 continue
-            able = "the same weights" if step["able_same"] else f"weights {step['able_apart']:.1e} apart at most"
+            able = (
+                "the same weights"
+                if step["able_same"]
+                else f"weights {step['able_apart']:.1e} apart at most"
+            )
             out += [
                 f"    step by step, as training makes it          {step['plain']:>8.2f}",
                 f"    with an optimizer that can be recorded       {step['able']:>8.2f}   {able} after three steps",
@@ -768,7 +791,10 @@ def last_report(found: dict[str, Any]) -> list[str]:
                 out.append(f"    not recorded, a step waits for the card: {step['waits']}")
             elif step["replay"] is not None:
                 numbers = []
-                for name, where in (("same", "on its batch"), ("another", "on another of its sizes")):
+                for name, where in (
+                    ("same", "on its batch"),
+                    ("another", "on another of its sizes"),
+                ):
                     numbers.append(
                         f"the weights of the steps one by one {where}"
                         if step[name]
@@ -845,7 +871,11 @@ def graphs_report(played: dict[str, Any], found: dict[str, Any]) -> list[str]:
         kept.append(graph["keeps"] / 2**20)
         numbers = "yes" if graph["same"] else f"NO, {graph['apart']:.1e} apart at most"
         if graph["turned"] is not None:
-            numbers += ", and for its rows turned round" if graph["turned"] else ", NOT for its rows turned round"
+            numbers += (
+                ", and for its rows turned round"
+                if graph["turned"]
+                else ", NOT for its rows turned round"
+            )
         out.append(
             f"{named(largest):>12} {told['size']:>6} {told['answer']:>11.2f} {graph['replay']:>9.2f} "
             f"{told['card']:>12.2f} {graph['place']:>9.2f} {one:>8} {told['whole']:>8.2f} "
@@ -919,7 +949,9 @@ def compiled_report(played: dict[str, Any], found: dict[str, Any], failed: list[
                 if not graph["same"] or graph["turned"] is False:
                     numbers += "; its replay NOT its own answer"
             elif isinstance(graph, str):
-                failed.append(f"  {named(largest)}, the graph of the model compiled, {way}: {graph}")
+                failed.append(
+                    f"  {named(largest)}, the graph of the model compiled, {way}: {graph}"
+                )
             shortest += len(inside) * shorter / 1000
             out.append(
                 f"{named(largest):>12} {told['size']:>6} {answer:>11} {call['answer']:>9.2f} {replay:>9} "
@@ -1078,11 +1110,17 @@ def report(args: argparse.Namespace, played: dict[str, Any], found: dict[str, An
         out.append(
             f"  an answer calls {counted['called']:,.0f} operations of PyTorch, which make "
             f"{counted['operations']:,.0f} with those they call"
-            + (f", and launches {counted['on_card']:,.0f} kernels and copies on the card" if counted["on_card"] else "")
+            + (
+                f", and launches {counted['on_card']:,.0f} kernels and copies on the card"
+                if counted["on_card"]
+                else ""
+            )
         )
         out.append(
             "  the most called: "
-            + ", ".join(f"{name.removeprefix('aten::')} {count:.0f}" for name, count in counted["most"])
+            + ", ".join(
+                f"{name.removeprefix('aten::')} {count:.0f}" for name, count in counted["most"]
+            )
         )
     out += graphs_report(played, found)
     if args.device != "cuda":
@@ -1127,7 +1165,13 @@ def main() -> None:
     )  # fmt: skip
     with PpoTrainer(ROOT, config) as trainer:
         device = trainer.device
-        load(args.checkpoint, trainer.model, None, map_location=device, expected_board_representation=board)
+        load(
+            args.checkpoint,
+            trainer.model,
+            None,
+            map_location=device,
+            expected_board_representation=board,
+        )
         model = trainer.model
         kept = Kept()
         watching = model.register_forward_pre_hook(kept)
@@ -1140,7 +1184,9 @@ def main() -> None:
         }
         watching.remove()
         found: dict[str, Any] = {"calls": {}, "apart": {}}
-        calls = {largest: Call(model, device, arrays) for largest, arrays in sorted(kept.batches.items())}
+        calls = {
+            largest: Call(model, device, arrays) for largest, arrays in sorted(kept.batches.items())
+        }
         for largest, call in calls.items():
             found["calls"][largest] = {"size": call.size, **call.measured(args.repeats)}
         # The batch in one copy, and on a card the answer replayed from a graph.
@@ -1155,7 +1201,9 @@ def main() -> None:
             for largest, arrays in sorted(kept.batches.items())
         }
         found["filled"] = {
-            largest: tried(filled_out, calls[largest], call, args.repeats) if isinstance(call, Call) else call
+            largest: tried(filled_out, calls[largest], call, args.repeats)
+            if isinstance(call, Call)
+            else call
             for largest, call in wide.items()
         }
         found["graphs"], found["wide_graphs"] = {}, {}
@@ -1176,16 +1224,23 @@ def main() -> None:
         elif args.compile:
             # A step of a pass is timed at the batch nearest a minibatch's 256 decisions.
             sized = {largest: call for largest, call in wide.items() if isinstance(call, Call)}
-            nearest = min(sized, key=lambda largest: abs(sized[largest].size - 256)) if sized else None
+            nearest = (
+                min(sized, key=lambda largest: abs(sized[largest].size - 256)) if sized else None
+            )
             few = max(10, args.repeats // 10)
             steps: dict[str, Any] = {}
             if nearest is not None:
                 steps = {
-                    "as a pass has it, the batch at its own sizes": tried(stepped, calls[nearest], model, few),
+                    "as a pass has it, the batch at its own sizes": tried(
+                        stepped, calls[nearest], model, few
+                    ),
                     "the batch filled out": tried(stepped, sized[nearest], model, few),
                 }
             found["compiled"] = {}
-            for way, lstm_too in (("the LSTM with the rest", True), ("the LSTM left to cuDNN", False)):
+            for way, lstm_too in (
+                ("the LSTM with the rest", True),
+                ("the LSTM left to cuDNN", False),
+            ):
                 answerer = tried(compiling, model, lstm_too)
                 if isinstance(answerer, str):
                     found["compiled"][way] = answerer
@@ -1233,7 +1288,9 @@ def main() -> None:
                 ("The tables looked up as the model looks them up", False),
                 ("The tables looked up by index_select", True),
             ):
-                found["step_graphs"]["ways"][label] = tried(recorded_step, sized[nearest], few, lookups)
+                found["step_graphs"]["ways"][label] = tried(
+                    recorded_step, sized[nearest], few, lookups
+                )
         more = last_report(found)
         print("\n".join(more), flush=True)
         if args.output:

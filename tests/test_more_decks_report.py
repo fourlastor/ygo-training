@@ -11,7 +11,9 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("more_decks_report", ROOT / "tools/more_decks_report.py")
+spec = importlib.util.spec_from_file_location(
+    "more_decks_report", ROOT / "tools/more_decks_report.py"
+)
 tool = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
 spec.loader.exec_module(tool)
@@ -79,11 +81,21 @@ def screen(folder: Path, size: int, deck: str, copy: int, three: int, seed: int 
 def pilot(folder: Path, deck: str, count: int) -> None:
     (folder / "screens").mkdir(parents=True, exist_ok=True)
     (folder / "screens" / f"pilot.{deck}.json").write_text(
-        json.dumps({"seed": 2012, "records": [{"checkpoint_label": "pilot", "evaluation_suite": suite(deck, count)}]})
+        json.dumps(
+            {
+                "seed": 2012,
+                "records": [{"checkpoint_label": "pilot", "evaluation_suite": suite(deck, count)}],
+            }
+        )
     )
 
 
-def measured(folder: Path, cost: tuple[int, int] = (110, 118), largest: tuple[int, int] = (60, 70), pilots: int = 65) -> Path:
+def measured(
+    folder: Path,
+    cost: tuple[int, int] = (110, 118),
+    largest: tuple[int, int] = (60, 70),
+    pilots: int = 65,
+) -> Path:
     """Blackwing's network wins 120 of 200 held-out deals, the others what
     `cost` says; the network of all three decks wins `largest` (its copy,
     its last three) of each screen's hundred games, where each pilot wins
@@ -115,7 +127,10 @@ def test_the_readings_are_taken_by_their_marks(tmp_path, capsys):
     over = found["readings"]["pilots"]
     assert over["gap"] == pytest.approx(0.05) and (over["over"], over["under"]) == (True, False)
     told = capsys.readouterr().out
-    assert "1. decks-02 on blackwing, beside decks-01: worse (-5.0 ± 1.5 on the held-out deals)" in told
+    assert (
+        "1. decks-02 on blackwing, beside decks-01: worse (-5.0 ± 1.5 on the held-out deals)"
+        in told
+    )
     assert "1. decks-03 on blackwing, beside decks-01: not shown worse (-1.0" in told
     assert "2. decks-03 has gained on its copy: yes (+10.0" in told and "300 games" in told
     assert "3. decks-03 is over the decks' own pilots: yes (+5.0" in told
@@ -132,7 +147,10 @@ def test_a_network_under_its_copy_and_its_pilots_is_told_so(tmp_path):
     gained = found["readings"]["gained"]
     assert gained["gap"] == pytest.approx(-0.01) and gained["gained"] is False
     pilots = found["readings"]["pilots"]
-    assert pilots["gap"] == pytest.approx(-0.06) and (pilots["over"], pilots["under"]) == (False, True)
+    assert pilots["gap"] == pytest.approx(-0.06) and (pilots["over"], pilots["under"]) == (
+        False,
+        True,
+    )
 
 
 def test_what_is_not_there_is_not_read_and_what_differs_is_refused(tmp_path, capsys):
@@ -179,7 +197,10 @@ def test_how_fast_each_learns_is_told_by_updates_and_by_seats(tmp_path, capsys):
                     "fingerprint": "deals",
                     "games": 200,
                     "checkpoints": [
-                        {"checkpoint_step": step, "deals": {"outcomes": won(100 if name == tool.COPY else 120, 200)}}
+                        {
+                            "checkpoint_step": step,
+                            "deals": {"outcomes": won(100 if name == tool.COPY else 120, 200)},
+                        }
                         for name, step in wanted.items()
                     ],
                 }
@@ -191,7 +212,10 @@ def test_how_fast_each_learns_is_told_by_updates_and_by_seats(tmp_path, capsys):
                     "fingerprint": "deals",
                     "games": 200,
                     "checkpoints": [
-                        {"checkpoint_step": size * 2 + point, "deals": {"outcomes": won(count, 200)}}
+                        {
+                            "checkpoint_step": size * 2 + point,
+                            "deals": {"outcomes": won(count, 200)},
+                        }
                         for point, count in wins.items()
                     ],
                 }
@@ -219,6 +243,9 @@ def test_how_fast_each_learns_is_told_by_updates_and_by_seats(tmp_path, capsys):
     assert one["4"]["seats"] == 4 * 78
     assert found["networks"]["decks-02"]["curve"]["4"]["seats"] == 4 * 39
     told = capsys.readouterr().out
-    assert "How fast each learns: the held-out deals of blackwing, by its updates of PPO (0 is its copy)." in told
+    assert (
+        "How fast each learns: the held-out deals of blackwing, by its updates of PPO (0 is its copy)."
+        in told
+    )
     assert "         2     55.0%     52.0%" in told
     assert "The same by the seats of blackwing it had played by then, in thousands." in told

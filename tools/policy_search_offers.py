@@ -141,10 +141,7 @@ def rates(decisions: Path, search: Path, cards: Path) -> None:
         for deviation in row["search"]["deviations"]:
             to = deviation["to"]
             chosen[held_out][key(deviation["kind"], to["kind"], to.get("code"))] += 1
-    rate = {
-        kind: (chosen[0][kind] / counts[0]) / (offers[kind] / len(games))
-        for kind in offers
-    }
+    rate = {kind: (chosen[0][kind] / counts[0]) / (offers[kind] / len(games)) for kind in offers}
     print(
         f"{len(games)} traced games, {len(strict) / len(games):.1f} decisions a game the strict search "
         f"examines, {len(offers)} kinds of alternative, {full / len(games):.0f} first-stage playouts a game"
@@ -155,9 +152,13 @@ def rates(decisions: Path, search: Path, cards: Path) -> None:
     print("most often taken (offered at least once in five games):")
     regular = [kind for kind in offers if offers[kind] / len(games) >= 0.2]
     for kind in sorted(regular, key=lambda k: -rate[k])[:10]:
-        print(f"   {offers[kind] / len(games):6.2f}   {100 * rate[kind]:5.1f}%   {pretty(kind, names)}")
+        print(
+            f"   {offers[kind] / len(games):6.2f}   {100 * rate[kind]:5.1f}%   {pretty(kind, names)}"
+        )
     print("a gate on the kinds taken at least this often (three or more times in the first half):")
-    print("   rate   kinds   decisions a game   first-stage playouts   overrides kept: first half, second half")
+    print(
+        "   rate   kinds   decisions a game   first-stage playouts   overrides kept: first half, second half"
+    )
     for threshold in (0.0, 0.01, 0.02, 0.03, 0.05):
         gate = {kind for kind in offers if chosen[0][kind] >= 3 and rate[kind] >= threshold}
         cost = searched = 0

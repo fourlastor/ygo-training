@@ -83,8 +83,7 @@ def decision_advantage_metrics(
         indices = [
             index
             for index, sample in enumerate(samples)
-            if sample.step.get("prompt_type") == prompt
-            and sample.step.get("action_kind") == kind
+            if sample.step.get("prompt_type") == prompt and sample.step.get("action_kind") == kind
         ]
         metrics[f"{name}_samples"] = float(len(indices))
         if not indices:
@@ -96,9 +95,7 @@ def decision_advantage_metrics(
         metrics[f"{name}_positive_advantage_fraction"] = float((raw[indices] > 0).float().mean())
         metrics[f"{name}_value_mean"] = sum(float(s.step["value"]) for s in steps) / len(steps)
         metrics[f"{name}_return_mean"] = sum(s.return_ for s in steps) / len(steps)
-        metrics[f"{name}_terminal_return_mean"] = sum(s.terminal_return for s in steps) / len(
-            steps
-        )
+        metrics[f"{name}_terminal_return_mean"] = sum(s.terminal_return for s in steps) / len(steps)
         metrics[f"{name}_probability_mean"] = sum(
             math.exp(float(s.step["log_prob"])) for s in steps
         ) / len(steps)
@@ -168,9 +165,7 @@ class PpoOptimizer:
         by_seat: dict[tuple[object, int], list[int]] = {}
         for index in starts:
             step = steps[index]
-            by_seat.setdefault((step["_transaction_key"][0], int(step["player"])), []).append(
-                index
-            )
+            by_seat.setdefault((step["_transaction_key"][0], int(step["player"])), []).append(index)
         drawn = random.Random(
             (int(self.config.seed) * 1_000_003 + self._shuffle_update * 10_007) ^ 0x56414C55
         )
@@ -251,7 +246,9 @@ class PpoOptimizer:
                         for name, value in (objective.card_parts or {}).items():
                             observed[name].append(value)
                     if objective.imitation_loss is not None:
-                        total_loss = total_loss + teacher_imitation_weight * objective.imitation_loss
+                        total_loss = (
+                            total_loss + teacher_imitation_weight * objective.imitation_loss
+                        )
                         observed["teacher_imitation_loss"].append(
                             float(objective.imitation_loss.detach())
                         )
@@ -388,9 +385,7 @@ class PpoOptimizer:
             # overwrite another trajectory's grouping key.
             steps = [dict(step) for step in trajectory["steps"]]
             for step_index, step in enumerate(steps):
-                step["_transaction_key"] = self._transaction_key(
-                    trajectory_index, step_index, step
-                )
+                step["_transaction_key"] = self._transaction_key(trajectory_index, step_index, step)
             grouped: dict[object, int] = defaultdict(int)
             for step in steps:
                 grouped[step["_transaction_key"]] += 1
@@ -524,9 +519,7 @@ class PpoOptimizer:
             # The head against how its seat's duel ended, at every
             # transaction of games it has not trained on: what the returns
             # above are only when nothing of them is the head's own estimate.
-            "duel_outcome_explained_variance": self._explained_variance(
-                all_outcomes, all_values
-            ),
+            "duel_outcome_explained_variance": self._explained_variance(all_outcomes, all_values),
             "duel_outcome_correlation": self._correlation(all_outcomes, all_values),
         }
         if self.config.upgo:
@@ -550,9 +543,7 @@ class PpoOptimizer:
             for step_index, step in enumerate(trajectory["steps"]):
                 if not step.get("teacher"):
                     continue
-                step["_transaction_key"] = self._transaction_key(
-                    trajectory_index, step_index, step
-                )
+                step["_transaction_key"] = self._transaction_key(trajectory_index, step_index, step)
                 samples.append(step)
                 decks.append(seat_deck(trajectory, step, self.config.learner_deck))
                 value_targets.append(
@@ -889,9 +880,7 @@ class PpoOptimizer:
             positions = torch.tensor([item[0] for item in teacher_targets], device=self.device)
             targets = torch.tensor([item[1] for item in teacher_targets], device=self.device)
             teacher_steps = [chunk[int(position)] for position in positions]
-            imitation_loss = self._joint_imitation_loss(
-                logits[positions], targets, teacher_steps
-            )
+            imitation_loss = self._joint_imitation_loss(logits[positions], targets, teacher_steps)
         return ObjectiveBatch(
             components,
             imitation_loss,

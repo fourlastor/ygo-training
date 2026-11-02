@@ -68,7 +68,9 @@ def test_the_load_is_the_runs_own_threads_and_the_cards_share(monkeypatch):
         "card_busy": 20.0,
         "card_gib": 3.0,
     }
-    assert tool.load([(0.0, 100, 1000, 0.0, None), (2.0, 150, 1200, 1.0, None)])["card_busy"] is None
+    assert (
+        tool.load([(0.0, 100, 1000, 0.0, None), (2.0, 150, 1200, 1.0, None)])["card_busy"] is None
+    )
     assert tool.load([(0.0, 100, 1000, 0.0, None)])["runs_busy"] is None
 
 
@@ -153,21 +155,35 @@ def test_the_table_sets_runs_at_once_beside_one_alone():
     # How a run's duels are taken forward is in the header and in its command.
     assert "duels each in every run, 3 updates" in told[2]
     assert "in every run, in 2 groups, 3 updates" in tool.report(settings(groups=2), "", [])[2]
-    split = settings(groups=2, groups_over=128, workers=4, learner="blackwing", opponents="burn", rate="1e-4")
+    split = settings(
+        groups=2, groups_over=128, workers=4, learner="blackwing", opponents="burn", rate="1e-4"
+    )
     header = tool.report(split, "", [])[2]
     assert "in 2 groups while their rounds hold more than 128 decisions, 3 updates" in header
     asked = tool.command(split, Path("a/run"))
-    assert asked[asked.index("--pool-groups") :][:4] == ["--pool-groups", "2", "--pool-groups-over", "128"]
+    assert asked[asked.index("--pool-groups") :][:4] == [
+        "--pool-groups",
+        "2",
+        "--pool-groups-over",
+        "128",
+    ]
     # One group is named too: what a run takes where nothing is named is
     # another way on a card.
     whole = tool.command(settings(**{**vars(split), "groups": 1, "groups_over": 0}), Path("a/run"))
-    assert whole[whole.index("--pool-groups") :][:4] == ["--pool-groups", "1", "--pool-groups-over", "0"]
+    assert whole[whole.index("--pool-groups") :][:4] == [
+        "--pool-groups",
+        "1",
+        "--pool-groups-over",
+        "0",
+    ]
 
 
 @pytest.mark.parametrize("keep", [False, True])
 def test_runs_are_made_at_once_and_their_checkpoints_removed(tmp_path, monkeypatch, keep):
     monkeypatch.setattr(
-        tool, "command", lambda args, run: [sys.executable, "-c", RUN, str(run), str(args.updates), "0"]
+        tool,
+        "command",
+        lambda args, run: [sys.executable, "-c", RUN, str(run), str(args.updates), "0"],
     )
     found = tool.together(settings(keep=keep), 2, tmp_path)
     assert found["count"] == 2 and found["failed"] == []
@@ -180,7 +196,9 @@ def test_runs_are_made_at_once_and_their_checkpoints_removed(tmp_path, monkeypat
 
 def test_a_run_that_fails_is_named(tmp_path, monkeypatch):
     monkeypatch.setattr(
-        tool, "command", lambda args, run: [sys.executable, "-c", RUN, str(run), str(args.updates), "3"]
+        tool,
+        "command",
+        lambda args, run: [sys.executable, "-c", RUN, str(run), str(args.updates), "3"],
     )
     assert tool.together(settings(), 1, tmp_path)["failed"] == [str(tmp_path / "1-1")]
 
@@ -247,19 +265,30 @@ def test_the_calls_of_a_run_and_those_answered_from_graphs_are_told(tmp_path, mo
         {"an_update": 1400.0, "from_graphs": 0.25, "graphs_failed": True},
     ]}  # fmt: skip
     line = tool.calls_told([failed])[0]
-    assert line.startswith("3 at once: 1,200 to 1,400 calls of the model an update, 25% to 50% of them")
+    assert line.startswith(
+        "3 at once: 1,200 to 1,400 calls of the model an update, 25% to 50% of them"
+    )
     assert "THE GRAPHS FAILED in a run" in line
     # A run that told nothing of its calls leaves its count out; an old report has none.
     assert tool.calls_told([{"count": 1, "calls": [None]}, {"count": 2}]) == []
     # The header and a run's command say how the calls are answered.
-    asked = settings(graphs=128, groups=2, groups_over=64, workers=4, learner="blackwing", opponents="burn", rate="1e-4")
+    asked = settings(
+        graphs=128,
+        groups=2,
+        groups_over=64,
+        workers=4,
+        learner="blackwing",
+        opponents="burn",
+        rate="1e-4",
+    )
     header = tool.report(asked, "", [])[2]
     assert (
         "in 2 groups while their rounds hold more than 64 decisions, calls of up to 128 decisions "
         "from CUDA graphs, 3 updates" in header
     )
-    assert "in every run, calls of up to 128 decisions from CUDA graphs, 3 updates" in (
-        tool.report(settings(graphs=128), "", [])[2]
+    assert (
+        "in every run, calls of up to 128 decisions from CUDA graphs, 3 updates"
+        in (tool.report(settings(graphs=128), "", [])[2])
     )
     told = command(asked, Path("a/run"))
     assert told[told.index("--inference-graphs") :][:2] == ["--inference-graphs", "128"]
@@ -272,18 +301,43 @@ def test_several_reports_are_set_beside_each_other(tmp_path):
         (tmp_path / name).mkdir()
         path = tmp_path / name / "plain.json"
         path.write_text(
-            json.dumps([{"count": 1, "runs": [run(update)], "failed": [], "games": [[games, "b"]]}]),
+            json.dumps(
+                [{"count": 1, "runs": [run(update)], "failed": [], "games": [[games, "b"]]}]
+            ),
             encoding="utf8",
         )
         return path
 
-    three = [kept("one-group", 20.0), kept("graphs", 16.0), kept("graphs-two-groups", 15.0, games="other")]
+    three = [
+        kept("one-group", 20.0),
+        kept("graphs", 16.0),
+        kept("graphs-two-groups", 15.0, games="other"),
+    ]
     told = tool.beside(*three)
     assert told[1].split() == ["at", "once", *["one-group", "graphs", "graphs-two-groups"] * 3]
-    assert told[2].split() == ["1", "93,600", "117,000", "124,800", "1.00", "1.00", "1.00", "20.0", "16.0", "15.0"]
+    assert told[2].split() == [
+        "1",
+        "93,600",
+        "117,000",
+        "124,800",
+        "1.00",
+        "1.00",
+        "1.00",
+        "20.0",
+        "16.0",
+        "15.0",
+    ]
     # The figures stay under their names.
-    assert told[2].index("124,800") + len("124,800") == told[1].index("graphs-two-groups") + len("graphs-two-groups")
-    assert told[-1] == "The run alone did NOT play the same games as graphs-two-groups as it did as one-group."
-    assert tool.beside(*three[:2])[-1] == "The run alone played the same games both ways, update for update."
+    assert told[2].index("124,800") + len("124,800") == told[1].index("graphs-two-groups") + len(
+        "graphs-two-groups"
+    )
+    assert (
+        told[-1]
+        == "The run alone did NOT play the same games as graphs-two-groups as it did as one-group."
+    )
+    assert (
+        tool.beside(*three[:2])[-1]
+        == "The run alone played the same games both ways, update for update."
+    )
     same = tool.beside(three[0], three[1], three[1])
     assert same[-1] == "The run alone played the same games every way, update for update."

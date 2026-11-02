@@ -55,8 +55,7 @@ def scored(
     table of EDOPro, in a duel read again): the scores of their answers and
     their values, the views packed into one batch by the library."""
     batch = {
-        name: torch.from_numpy(array).to(device)
-        for name, array in environment.batch(views).items()
+        name: torch.from_numpy(array).to(device) for name, array in environment.batch(views).items()
     }
     with torch.no_grad():
         return model(batch)

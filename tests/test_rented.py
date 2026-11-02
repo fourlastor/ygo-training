@@ -117,7 +117,9 @@ def test_a_command_is_left_running_watched_and_waited_for(rented):
 def test_what_was_written_there_is_brought_back(rented):
     script, _, here, there = rented
     assert script("send").returncode == 0
-    made = script("run", "bash", "-c", "mkdir -p out/deep && echo found > 'out/deep/a file.txt' && pwd")
+    made = script(
+        "run", "bash", "-c", "mkdir -p out/deep && echo found > 'out/deep/a file.txt' && pwd"
+    )
     assert made.returncode == 0 and made.stdout.strip() == str(there)
     assert script("fetch", "out/").returncode == 0
     assert (here / "out/deep/a file.txt").read_text(encoding="utf8") == "found\n"

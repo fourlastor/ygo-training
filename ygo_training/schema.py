@@ -262,9 +262,7 @@ def validate_packed_policy_input(packed: Mapping[str, Any]) -> None:
             )
         shape = spec["shape"]
         if value.ndim != len(shape):
-            raise ValueError(
-                f"Packed field {key!r} has rank {value.ndim}, expected {len(shape)}"
-            )
+            raise ValueError(f"Packed field {key!r} has rank {value.ndim}, expected {len(shape)}")
         for axis, expected in enumerate(shape):
             actual = int(value.shape[axis])
             if isinstance(expected, int):

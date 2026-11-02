@@ -73,7 +73,9 @@ def played():
     with PpoTrainer(ROOT, config()) as trainer:
         given: list[dict[str, np.ndarray]] = []
         watching = trainer.model.register_forward_pre_hook(
-            lambda _module, asked: given.append({name: value.numpy().copy() for name, value in asked[0].items()})
+            lambda _module, asked: given.append(
+                {name: value.numpy().copy() for name, value in asked[0].items()}
+            )
         )
         trajectories, _ = trainer.collect()
         watching.remove()
@@ -88,13 +90,19 @@ def test_the_counts_and_the_widths_a_call_is_filled_out_to():
     assert axes("state_card") == ("state",) and axes("state_lengths") == ("state",)
     # No deck list since format 15: no array of one follows a width.
     assert set(WIDTHS) == {"state", "history", "action", "members"}
-    assert axes("action_member_value") == ("action", "members") and axes("action_mask") == ("action",)
+    assert axes("action_member_value") == ("action", "members") and axes("action_mask") == (
+        "action",
+    )
     assert axes("history_scalars") == ("history",)
     assert axes("context_card") == () and axes("scalars") == () and axes("phase") == ()
     # An axis that is not there is not filled out: one number a decision stays one.
     assert fixed("state_lengths", (5,), WIDTHS) == ()
     assert fixed("state_numeric", (5, 7, 6), WIDTHS) == (WIDTHS["state"], 6)
-    assert fixed("action_member_categories", (5, 3, 1, 8), WIDTHS) == (WIDTHS["action"], WIDTHS["members"], 8)
+    assert fixed("action_member_categories", (5, 3, 1, 8), WIDTHS) == (
+        WIDTHS["action"],
+        WIDTHS["members"],
+        8,
+    )
     assert fixed("context_numeric", (5, 4, 6), WIDTHS) == (4, 6)
     with pytest.raises(ValueError, match="one decision at least"):
         Graphs(torch.nn.Identity(), "cpu", largest=0)
@@ -151,15 +159,24 @@ def test_calls_are_answered_at_the_fixed_sizes_with_the_models_numbers(played):
     assert sorted(graphs.sized) == sorted({count for count in (1, 2, 4) if count in graphs.sized})
     # What a wider call left in a batch does not reach the next one: a call
     # is answered as by graphs that never held another.
-    small = min((batch for batch in given if len(batch["phase"]) == 1), key=lambda batch: batch["state_card"].shape[1])
+    small = min(
+        (batch for batch in given if len(batch["phase"]) == 1),
+        key=lambda batch: batch["state_card"].shape[1],
+    )
     fresh = Graphs(model, "cpu", largest=4)
     first = [made.clone() for made in fresh.answer(small)]
     again = graphs.answer(small)
-    assert again is not None and all(torch.equal(one, other) for one, other in zip(again, first, strict=True))
+    assert again is not None and all(
+        torch.equal(one, other) for one, other in zip(again, first, strict=True)
+    )
     # A call wider than the sizes fixed, or of more decisions, is not answered here.
-    narrow = Graphs(model, "cpu", largest=4, widths={**WIDTHS, "state": small["state_card"].shape[1] - 1})
+    narrow = Graphs(
+        model, "cpu", largest=4, widths={**WIDTHS, "state": small["state_card"].shape[1] - 1}
+    )
     assert not narrow.fits(small) and narrow.answer(small) is None and narrow.failed is None
-    assert graphs.answer({name: np.concatenate([array] * 5) for name, array in small.items()}) is None
+    assert (
+        graphs.answer({name: np.concatenate([array] * 5) for name, array in small.items()}) is None
+    )
 
 
 class Standing(Graphs):
@@ -216,7 +233,9 @@ def test_a_replay_is_held_against_the_model_once_an_update(played):
     # answered as they are from there, and the reason is kept.
     graphs.stale = True
     graphs.begin_update()
-    other = next(batch for batch in calls if not np.array_equal(batch["scalars"], calls[-1]["scalars"]))
+    other = next(
+        batch for batch in calls if not np.array_equal(batch["scalars"], calls[-1]["scalars"])
+    )
     assert graphs.answer(other) is None
     assert graphs.failed is not None and "was not the model's answer" in graphs.failed
     assert graphs.answer(calls[0]) is None
@@ -230,8 +249,12 @@ def test_how_the_model_is_asked_follows_the_device_where_it_is_not_named():
     pooled = {"pool_threads": 20, "pool_slots": 16}
     fastest = Calls(groups=2, groups_over=GROUPS_OVER, graphs=160)
     assert GROUPS_OVER == 64
-    assert TrainerConfig(**pooled).calls("cuda") == fastest == TrainerConfig(**pooled).calls("cuda:0")
-    assert TrainerConfig(**pooled).calls("cpu") == Calls() == Calls(groups=1, groups_over=0, graphs=0)
+    assert (
+        TrainerConfig(**pooled).calls("cuda") == fastest == TrainerConfig(**pooled).calls("cuda:0")
+    )
+    assert (
+        TrainerConfig(**pooled).calls("cpu") == Calls() == Calls(groups=1, groups_over=0, graphs=0)
+    )
     assert TrainerConfig().calls("cuda") == Calls(2, GROUPS_OVER, 8)
     # A thread's duels that do not share out in two, or one queue for all the
     # threads: one group, and the graphs all the same.
@@ -257,7 +280,12 @@ def test_an_updates_games_through_the_fixed_sizes_are_the_games():
     """The games, their figures and the update after them are those of the
     calls answered as they are; and with the duels in two groups too."""
     torch.set_num_threads(2)
-    calls = ("inference_batches", "mean_inference_batch", "max_inference_batch", "pool_grouped_batches")
+    calls = (
+        "inference_batches",
+        "mean_inference_batch",
+        "max_inference_batch",
+        "pool_grouped_batches",
+    )
 
     def played_(metrics: dict) -> dict:
         return {
@@ -269,16 +297,19 @@ def test_an_updates_games_through_the_fixed_sizes_are_the_games():
     def course(trajectories: list[dict]) -> list[dict]:
         dropped = ("packed", "row", "log_prob", "value")
         return [
-            {**game, "steps": [{k: v for k, v in step.items() if k not in dropped} for step in game["steps"]]}
+            {
+                **game,
+                "steps": [
+                    {k: v for k, v in step.items() if k not in dropped} for step in game["steps"]
+                ],
+            }
             for game in trajectories
         ]
 
     with (
         PpoTrainer(ROOT, config()) as plain,
         PpoTrainer(ROOT, config(inference_graphs=4)) as graphed,
-        PpoTrainer(
-            ROOT, config(inference_graphs=4, pool_groups=2, pool_groups_over=5)
-        ) as both,
+        PpoTrainer(ROOT, config(inference_graphs=4, pool_groups=2, pool_groups_over=5)) as both,
     ):
         assert plain.graphs is None and graphed.graphs is not None and not graphed.graphs.records
         whole, asked = plain.collect()
@@ -286,14 +317,24 @@ def test_an_updates_games_through_the_fixed_sizes_are_the_games():
         split, grouped = both.collect()
         assert course(fixed_) == course(whole) == course(split)
         estimates = [
-            [step[name] for game in games for step in game["steps"] for name in ("log_prob", "value")]
+            [
+                step[name]
+                for game in games
+                for step in game["steps"]
+                for name in ("log_prob", "value")
+            ]
             for games in (fixed_, split, whole)
         ]
         assert estimates[0] == pytest.approx(estimates[2], abs=1e-4)
         assert estimates[1] == pytest.approx(estimates[2], abs=1e-4)
         # The calls of up to four decisions went through the fixed sizes, the others not.
         assert "pool_graph_batches" not in asked
-        assert 0 < through["pool_graph_batches"] < through["inference_batches"] == asked["inference_batches"]
+        assert (
+            0
+            < through["pool_graph_batches"]
+            < through["inference_batches"]
+            == asked["inference_batches"]
+        )
         assert through["pool_graph_failed"] == 0.0 and graphed.graphs.failed is None
         assert graphed.graphs.told["answered"] == through["pool_graph_batches"]
         # In two groups a group's round is four decisions at most.
@@ -303,7 +344,9 @@ def test_an_updates_games_through_the_fixed_sizes_are_the_games():
         first, second, third = plain.train_update(), graphed.train_update(), both.train_update()
         assert played_(second) == played_(first) == played_(third)
         for other in (graphed, both):
-            assert value_fingerprint(other.model.state_dict()) == value_fingerprint(plain.model.state_dict())
+            assert value_fingerprint(other.model.state_dict()) == value_fingerprint(
+                plain.model.state_dict()
+            )
             assert value_fingerprint(other.optimizer.state_dict()) == value_fingerprint(
                 plain.optimizer.state_dict()
             )
@@ -330,7 +373,12 @@ def test_the_way_of_a_card_with_a_checkpoint_held_and_duels_against_itself(tmp_p
         "opponent_checkpoint": str(checkpoint),
         "opponent_checkpoint_duels": 4,
     }
-    calls = ("inference_batches", "mean_inference_batch", "max_inference_batch", "pool_grouped_batches")
+    calls = (
+        "inference_batches",
+        "mean_inference_batch",
+        "max_inference_batch",
+        "pool_grouped_batches",
+    )
 
     def played_(metrics: dict) -> dict:
         return {
@@ -342,7 +390,12 @@ def test_the_way_of_a_card_with_a_checkpoint_held_and_duels_against_itself(tmp_p
     def course(trajectories: list[dict]) -> list[dict]:
         dropped = ("packed", "row", "log_prob", "value")
         return [
-            {**game, "steps": [{k: v for k, v in step.items() if k not in dropped} for step in game["steps"]]}
+            {
+                **game,
+                "steps": [
+                    {k: v for k, v in step.items() if k not in dropped} for step in game["steps"]
+                ],
+            }
             for game in trajectories
         ]
 
@@ -355,7 +408,10 @@ def test_the_way_of_a_card_with_a_checkpoint_held_and_duels_against_itself(tmp_p
         assert plain.calls == Calls() and fast.calls == Calls(groups=2, groups_over=3, graphs=4)
         whole, asked = plain.collect()
         split, grouped = fast.collect()
-        assert sorted(game["other"] for game in whole) == ["checkpoint"] * 4 + ["pilot"] * 4 + ["self"] * 4
+        assert (
+            sorted(game["other"] for game in whole)
+            == ["checkpoint"] * 4 + ["pilot"] * 4 + ["self"] * 4
+        )
         assert course(split) == course(whole)
         assert grouped["held_decisions"] == asked["held_decisions"] > 10
         assert grouped["decisions"] == asked["decisions"] > 200
@@ -365,7 +421,9 @@ def test_the_way_of_a_card_with_a_checkpoint_held_and_duels_against_itself(tmp_p
             trainer._pool().forget()
         first, second = plain.train_update(), fast.train_update()
         assert played_(second) == played_(first)
-        assert value_fingerprint(fast.model.state_dict()) == value_fingerprint(plain.model.state_dict())
+        assert value_fingerprint(fast.model.state_dict()) == value_fingerprint(
+            plain.model.state_dict()
+        )
         assert value_fingerprint(fast.optimizer.state_dict()) == value_fingerprint(
             plain.optimizer.state_dict()
         )

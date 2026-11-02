@@ -77,7 +77,9 @@ def steps(size: int, copy: int, updates: int, step: int) -> dict[str, int]:
 
 def outcomes(cases: dict[str, Any]) -> list[float]:
     """Whether each game was won, the cases in the order of their names."""
-    return [float(outcome == "win") for case in sorted(cases) for outcome in cases[case]["outcomes"]]
+    return [
+        float(outcome == "win") for case in sorted(cases) for outcome in cases[case]["outcomes"]
+    ]
 
 
 def held(directory: Path, size: int, wanted: dict[str, int]) -> tuple[dict[str, list[float]], Any]:
@@ -99,7 +101,9 @@ def held(directory: Path, size: int, wanted: dict[str, int]) -> tuple[dict[str, 
     return games, (found.get("fingerprint"), found.get("games"))
 
 
-def screened(directory: Path, file: str, wanted: dict[str, int] | None) -> tuple[dict[str, list[float]], Any]:
+def screened(
+    directory: Path, file: str, wanted: dict[str, int] | None
+) -> tuple[dict[str, list[float]], Any]:
     """Checkpoints, or the pilot, on a deck's screen, by what they are called
     (the pilot by PILOT), and what tells the games."""
     path = directory / "screens" / f"{file}.json"
@@ -115,7 +119,9 @@ def screened(directory: Path, file: str, wanted: dict[str, int] | None) -> tuple
     dealt = (found.get("seed"), tuple((case, cases[case].get("games")) for case in sorted(cases)))
     if wanted is None:
         return {PILOT: outcomes(cases)}, dealt
-    by_step = {int(record["checkpoint_step"]): outcomes(record["evaluation_suite"]) for record in records}
+    by_step = {
+        int(record["checkpoint_step"]): outcomes(record["evaluation_suite"]) for record in records
+    }
     games = {}
     for name, step in wanted.items():
         if step not in by_step:
@@ -144,7 +150,9 @@ def curve(directory: Path, size: int, copy: int, step: int) -> dict[int, float]:
     found = json.loads(path.read_text(encoding="utf8"))
     copied = size * copy
     return {
-        int(point["checkpoint_step"]) - copied: mean([float(o == "win") for o in point["deals"]["outcomes"]])
+        int(point["checkpoint_step"]) - copied: mean(
+            [float(o == "win") for o in point["deals"]["outcomes"]]
+        )
         for point in found["checkpoints"]
         if (int(point["checkpoint_step"]) - copied) % step == 0
     }
@@ -157,7 +165,9 @@ def seats(directory: Path, size: int, deck: str) -> dict[int, float]:
     if not path.is_file():
         return {}
     taken, played = {}, 0.0
-    rows = [json.loads(line) for line in path.read_text(encoding="utf8").splitlines() if line.strip()]
+    rows = [
+        json.loads(line) for line in path.read_text(encoding="utf8").splitlines() if line.strip()
+    ]
     for update, row in enumerate(rows, start=1):
         if size == 1:
             # One deck: every duel against a pilot is one seat of it, and
@@ -193,7 +203,11 @@ def report(
         + ", ".join(map(str, read_by))
         + " updates of PPO, and the last three together."
     )
-    print(f"  {'Network':<10}{'Its copy':>10}" + "".join(f"{point:>8}" for point in read_by) + f"{'The three':>11}")
+    print(
+        f"  {'Network':<10}{'Its copy':>10}"
+        + "".join(f"{point:>8}" for point in read_by)
+        + f"{'The three':>11}"
+    )
     for size in sizes:
         wanted = steps(size, copy, updates, step)
         games, dealt = held(directory, size, wanted)
@@ -227,12 +241,17 @@ def report(
         curves[size] = dict(sorted(along.items()))
     if curves:
         points_of = sorted({point for along in curves.values() for point in along})
-        print(f"How fast each learns: the held-out deals of {decks[0]}, by its updates of PPO (0 is its copy).")
+        print(
+            f"How fast each learns: the held-out deals of {decks[0]}, by its updates of PPO (0 is its copy)."
+        )
         print(f"  {'Updates':>8}" + "".join(f"{network(size):>10}" for size in curves))
         for point in points_of:
             print(
                 f"  {point:>8}"
-                + "".join(f"{percent(curves[size].get(point)) if point in curves[size] else '':>10}" for size in curves)
+                + "".join(
+                    f"{percent(curves[size].get(point)) if point in curves[size] else '':>10}"
+                    for size in curves
+                )
             )
         print(f"The same by the seats of {decks[0]} it had played by then, in thousands.")
         for size, along in curves.items():
@@ -262,15 +281,21 @@ def report(
         for size in sizes:
             if size <= decks.index(deck):
                 continue
-            games, dealt = screened(directory, f"{network(size)}.{deck}", steps(size, copy, updates, step))
+            games, dealt = screened(
+                directory, f"{network(size)}.{deck}", steps(size, copy, updates, step)
+            )
             if not games:
                 continue
             dealt_here.add(dealt)
             found[network(size)] = {COPY: games[COPY], "three": last_three(games, updates, step)}
         if len(dealt_here) > 1:
-            raise SystemExit(f"{directory}/screens: {deck} is not measured on the same games throughout")
+            raise SystemExit(
+                f"{directory}/screens: {deck} is not measured on the same games throughout"
+            )
         screens[deck] = found
-    print("Each deck's screen: its pilot, and every network of the deck, its copy / its last three.")
+    print(
+        "Each deck's screen: its pilot, and every network of the deck, its copy / its last three."
+    )
     print(f"  {'Deck':<13}{'Pilot':>8}" + "".join(f"{network(size):>16}" for size in sizes))
     for deck, found in screens.items():
         line = f"  {deck:<13}{percent(mean(found[PILOT])) if PILOT in found else '-':>8}"
@@ -279,13 +304,17 @@ def report(
             line += f"{'' if told is None else percent(mean(told[COPY])) + ' / ' + percent(mean(told['three'])):>16}"
         print(line)
         result.setdefault("screens", {})[deck] = {
-            name: (mean(told) if name == PILOT else {key: mean(values) for key, values in told.items()})
+            name: (
+                mean(told) if name == PILOT else {key: mean(values) for key, values in told.items()}
+            )
             for name, told in found.items()
         }
     print()
 
     readings: dict[str, Any] = {}
-    print(f"The readings, by each network's checkpoints after {', '.join(map(str, read_by))} updates of PPO:")
+    print(
+        f"The readings, by each network's checkpoints after {', '.join(map(str, read_by))} updates of PPO:"
+    )
     # 1. What more decks cost the first deck.
     first = heldout.get(sizes[0])
     costs = {}

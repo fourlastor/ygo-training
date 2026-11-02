@@ -359,12 +359,22 @@ def test_a_search_evaluation_shows_what_following_the_lead_head_is_worth():
 
     assert "  following its lead head by 10 points: 1/1 (100.0%), 4 first choices left" in lines
     assert any(
-        "of the first choices tried, 1 where the pilot's answer wins outright: -50.0 a game"
-        in line
+        "of the first choices tried, 1 where the pilot's answer wins outright: -50.0 a game" in line
         for line in lines
     )
     header = next(line for line in lines if "following the lead head" in line)
-    assert header.split()[4:] == ["changed", "a", "game", "others", "sum", "a", "game", "gain", "a", "game"]
+    assert header.split()[4:] == [
+        "changed",
+        "a",
+        "game",
+        "others",
+        "sum",
+        "a",
+        "game",
+        "gain",
+        "a",
+        "game",
+    ]
     by_ten = next(line for line in lines if line.strip().startswith("by 10 points"))
     # One first choice left, for an answer 25 points ahead; the other answer
     # it gives is its own first choice, 50 behind.
@@ -376,7 +386,6 @@ def test_a_search_evaluation_shows_what_following_the_lead_head_is_worth():
     assert lines[apart].split()[3:] == titles
     assert lines[apart + 2].split()[3:] == ["1:", "+25.0", "0:", "+0.0", "0:", "+0.0"]
     assert "the head over 3 alternatives" in lines[-1] and "correlate at" in lines[-1]
-
 
 
 def test_a_search_evaluation_shows_what_the_value_head_tells():

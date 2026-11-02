@@ -248,14 +248,22 @@ def test_a_learner_of_several_decks_meets_itself_with_any_two_of_them():
     assert Counter(seats) == {"self": 36, "pilot": 24}
     # Against itself: each of the nine pairs four times, so that a seat has
     # each deck as often, and two decks meet twice as often as one itself.
-    itself = Counter((own, other) for own, other, seat in zip(owns, others, seats) if seat == "self")
+    itself = Counter(
+        (own, other) for own, other, seat in zip(owns, others, seats) if seat == "self"
+    )
     assert itself == {(own, other): 4 for own in learners for other in learners}
     # Against the pilots: each of the twelve pairings twice.
-    piloted = Counter((own, other) for own, other, seat in zip(owns, others, seats) if seat != "self")
+    piloted = Counter(
+        (own, other) for own, other, seat in zip(owns, others, seats) if seat != "self"
+    )
     assert piloted == {(own, other): 2 for own in learners for other in opponents}
     # Not one kind after the other, and other duels for another seed.
     assert seats != sorted(seats) and seats != sorted(seats, reverse=True)
-    assert allocate_matchup_seats(learners, opponents, 60, itself=36, seed=8) != (owns, others, seats)
+    assert allocate_matchup_seats(learners, opponents, 60, itself=36, seed=8) != (
+        owns,
+        others,
+        seats,
+    )
     # To within a game where the duels do not share out evenly.
     uneven = allocate_matchup_seats(learners, opponents, 31, itself=11, seed=7)
     against = Counter(zip(uneven[0], uneven[1], uneven[2]))

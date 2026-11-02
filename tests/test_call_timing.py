@@ -43,7 +43,10 @@ def test_the_first_batch_of_each_class_is_kept_as_the_pool_gave_it():
         )
     assert kept.sizes == [3, 5, 40, 3]
     assert sorted(kept.batches) == [8, 64]
-    assert kept.batches[8]["scalars"].shape == (3, 2) and kept.batches[64]["scalars"].dtype.name == "float32"
+    assert (
+        kept.batches[8]["scalars"].shape == (3, 2)
+        and kept.batches[64]["scalars"].dtype.name == "float32"
+    )
     # The widest every array was in any call, kept or not, its decisions aside.
     assert kept.widest == {"history_lengths": (), "scalars": (2,), "action_member_card": (9, 3)}
 
@@ -54,7 +57,14 @@ def test_a_part_is_timed_and_the_report_weighs_a_call_by_its_class():
         checkpoint=Path("a/checkpoint.pt"), device="cpu", itself=260, duels=520, pool_threads=20,
         pool_slots=16, repeats=200,
     )  # fmt: skip
-    parts = {"seeds": 0.01, "card": 0.5, "answer": 1.5, "draw": 0.2, "probability": 0.1, "back": 0.05}
+    parts = {
+        "seeds": 0.01,
+        "card": 0.5,
+        "answer": 1.5,
+        "draw": 0.2,
+        "probability": 0.1,
+        "back": 0.05,
+    }
     found = {
         "calls": {
             8: {"size": 4, "whole": 2.0, **parts},
@@ -63,7 +73,12 @@ def test_a_part_is_timed_and_the_report_weighs_a_call_by_its_class():
         "apart": {
             4: {
                 "encoders": [("_history", 1, 0.3), ("_card_representation", 6, 0.9)],
-                "launched": {"called": 321.0, "operations": 2096.0, "on_card": 410.0, "most": [("aten::embedding", 62.0)]},
+                "launched": {
+                    "called": 321.0,
+                    "operations": 2096.0,
+                    "on_card": 410.0,
+                    "most": [("aten::embedding", 62.0)],
+                },
             },
             320: {"encoders": [("_history", 1, 0.7)], "launched": "RuntimeError: no profiler"},
         },
@@ -73,7 +88,21 @@ def test_a_part_is_timed_and_the_report_weighs_a_call_by_its_class():
     assert "260 of them against itself" in told[1] and "676 decisions in 5 calls" in told[2]
     lines = {line.split("  ")[0] or line.strip().split("  ")[0]: line for line in told}
     small = next(line for line in told if line.strip().startswith("2 to 8"))
-    assert small.split() == ["2", "to", "8", "2", "6", "4", "2.00", "0.01", "0.50", "1.50", "0.20", "0.10", "0.05"]
+    assert small.split() == [
+        "2",
+        "to",
+        "8",
+        "2",
+        "6",
+        "4",
+        "2.00",
+        "0.01",
+        "0.50",
+        "1.50",
+        "0.20",
+        "0.10",
+        "0.05",
+    ]
     large = next(line for line in told if line.strip().startswith("257 to 512"))
     assert large.split()[:7] == ["257", "to", "512", "2", "620", "320", "8.00"]
     # Two calls of 2 ms and two of 8 ms; the call of 50 has no class that was timed.
@@ -121,7 +150,14 @@ def test_a_try_that_fails_is_told_and_the_report_stands_without_it():
 
     assert tool.tried(failing, 1, 2) == "RuntimeError: the stream is capturing"
     assert tool.tried(lambda value: {"took": value}, 3) == {"took": 3}
-    parts = {"seeds": 0.01, "card": 0.5, "answer": 1.5, "draw": 0.2, "probability": 0.1, "back": 0.05}
+    parts = {
+        "seeds": 0.01,
+        "card": 0.5,
+        "answer": 1.5,
+        "draw": 0.2,
+        "probability": 0.1,
+        "back": 0.05,
+    }
     found = {
         "calls": {
             8: {"size": 4, "whole": 2.0, **parts},
@@ -149,11 +185,28 @@ def test_a_try_that_fails_is_told_and_the_report_stands_without_it():
         "yes,", "and", "for", "its", "rows", "turned", "round",
     ]  # fmt: skip
     middle = next(line for line in told if line.strip().startswith("9 to 32"))
-    assert middle.split() == ["9", "to", "32", "20", "1.50", "-", "0.50", "-", "other", "2.50", "-", "not", "recorded"]
+    assert middle.split() == [
+        "9",
+        "to",
+        "32",
+        "20",
+        "1.50",
+        "-",
+        "0.50",
+        "-",
+        "other",
+        "2.50",
+        "-",
+        "not",
+        "recorded",
+    ]
     large = next(line for line in told if line.strip().startswith("257 to 512"))
     assert large.split()[3:11] == ["320", "1.50", "7.00", "0.50", "1.10", "-", "8.00", "9.00"]
     assert large.endswith("NO, 2.5e-07 apart at most, NOT for its rows turned round")
-    assert "Recording a graph took 12 to 30 ms, and one keeps 3.0 to 40.0 MiB of the card's memory." in told
+    assert (
+        "Recording a graph took 12 to 30 ms, and one keeps 3.0 to 40.0 MiB of the card's memory."
+        in told
+    )
     # 500 calls at 1 ms for 2 ms by a graph; the others the plain way, which is the shorter there.
     line = next(line for line in told if line.startswith("By those"))
     assert "take 0.52 s with a graph wherever it is the shorter way, where they take 1.02 s" in line
@@ -163,7 +216,9 @@ def test_a_try_that_fails_is_told_and_the_report_stands_without_it():
         "  257 to 512, in one copy: ValueError: no view",
     ]
     # A processor's report has the copies and no graph.
-    alone = tool.graphs_report(played, {"calls": found["calls"], "graphs": {}, "copies": {8: found["copies"][8]}})
+    alone = tool.graphs_report(
+        played, {"calls": found["calls"], "graphs": {}, "copies": {8: found["copies"][8]}}
+    )
     assert any(line.split()[-2:] == ["not", "recorded"] for line in alone)
     assert not any(line.startswith(("By those", "Recording")) for line in alone)
 
@@ -236,7 +291,12 @@ def test_a_batch_is_filled_out_to_the_widest_and_keeps_its_answers():
         "action_member_card": np.ones((3, 3, 2), dtype=np.int64),
     }
     shapes = tool.widest({1: small, 8: large})
-    assert shapes == {"history_lengths": (), "scalars": (2,), "action_mask": (3,), "action_member_card": (3, 2)}
+    assert shapes == {
+        "history_lengths": (),
+        "scalars": (2,),
+        "action_mask": (3,),
+        "action_member_card": (3, 2),
+    }
     wide = tool.filled(small, shapes)
     # Zeros to the right of what was there, an answer that is none among them.
     assert wide["action_mask"].tolist() == [[True, True, False]]
@@ -245,7 +305,9 @@ def test_a_batch_is_filled_out_to_the_widest_and_keeps_its_answers():
     assert tool.filled(large, shapes)["action_member_card"].shape == (3, 3, 2)
 
     def model(given: dict[str, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:
-        scores = given["action_member_card"].sum(-1).to(torch.float32) * given["scalars"].sum(-1, keepdim=True)
+        scores = given["action_member_card"].sum(-1).to(torch.float32) * given["scalars"].sum(
+            -1, keepdim=True
+        )
         return scores.masked_fill(~given["action_mask"], float("-inf")), given["scalars"].sum(-1)
 
     own, wider = tool.Call(model, "cpu", small), tool.Call(model, "cpu", wide)
@@ -254,7 +316,10 @@ def test_a_batch_is_filled_out_to_the_widest_and_keeps_its_answers():
 
     def careless(given: dict[str, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:
         # Scores an answer that is none, and reads the width of its batch.
-        scores = given["action_member_card"].sum(-1).to(torch.float32) + 0.25 * given["action_mask"].shape[1]
+        scores = (
+            given["action_member_card"].sum(-1).to(torch.float32)
+            + 0.25 * given["action_mask"].shape[1]
+        )
         return scores, given["scalars"].sum(-1)
 
     told = tool.filled_out(tool.Call(careless, "cpu", small), tool.Call(careless, "cpu", wide), 3)
@@ -262,7 +327,14 @@ def test_a_batch_is_filled_out_to_the_widest_and_keeps_its_answers():
 
 
 def test_the_batches_filled_out_have_a_table_of_their_own():
-    parts = {"seeds": 0.01, "card": 0.5, "answer": 1.5, "draw": 0.2, "probability": 0.1, "back": 0.05}
+    parts = {
+        "seeds": 0.01,
+        "card": 0.5,
+        "answer": 1.5,
+        "draw": 0.2,
+        "probability": 0.1,
+        "back": 0.05,
+    }
     graph = {"replay": 0.4, "place": 0.45, "whole": 1.0, "same": True, "apart": 0.0, "turned": True,
              "recording": 12.0, "keeps": 2**20}  # fmt: skip
     found = {
@@ -287,10 +359,16 @@ def test_the_batches_filled_out_have_a_table_of_their_own():
         },
         "graphs": {}, "copies": {},
     }  # fmt: skip
-    played = {"sizes": [1] * 400 + [4] * 100 + [20, 320], "games_seconds": 9.0, "model_seconds": 5.0}
+    played = {
+        "sizes": [1] * 400 + [4] * 100 + [20, 320],
+        "games_seconds": 9.0,
+        "model_seconds": 5.0,
+    }
     failed: list[str] = []
     told = tool.wide_report(played, found, failed)
-    assert told[1].startswith("The same with each batch filled out to the widest any call of the update is: 37 cards")
+    assert told[1].startswith(
+        "The same with each batch filled out to the widest any call of the update is: 37 cards"
+    )
     assert "37 cards of the state, 32 earlier answers, 14 answers of 3 members (ms)." in told[1]
     one = next(line for line in told if line.split()[:2] == ["1", "1"])
     assert one.split()[:7] == ["1", "1", "1.50", "1.60", "0.40", "2.00", "1.00"]
@@ -373,7 +451,14 @@ def test_a_batch_is_answered_by_another_way_of_the_model_and_set_beside_it():
 
 
 def test_the_compiled_model_has_tables_of_its_own():
-    parts = {"seeds": 0.01, "card": 0.5, "answer": 1.5, "draw": 0.2, "probability": 0.1, "back": 0.05}
+    parts = {
+        "seeds": 0.01,
+        "card": 0.5,
+        "answer": 1.5,
+        "draw": 0.2,
+        "probability": 0.1,
+        "back": 0.05,
+    }
     graph = {"replay": 0.2, "place": 0.45, "whole": 0.6, "same": True, "apart": 0.0, "turned": True,
              "recording": 12.0, "keeps": 2**20}  # fmt: skip
     found = {
@@ -405,13 +490,35 @@ def test_the_compiled_model_has_tables_of_its_own():
         "The batches filled out, answered by the model compiled for their sizes, the LSTM with the rest (ms)."
     )
     small = next(line for line in told if line.strip().startswith("2 to 8"))
-    assert small.split()[3:12] == ["4", "1.70", "0.90", "0.20", "2.00", "1.40", "0.60", "11.5", "1.2e-03"]
+    assert small.split()[3:12] == [
+        "4",
+        "1.70",
+        "0.90",
+        "0.20",
+        "2.00",
+        "1.40",
+        "0.60",
+        "11.5",
+        "1.2e-03",
+    ]
     assert small.endswith("1.2e-03 apart at most")
     large = next(line for line in told if line.strip().startswith("257 to 512"))
-    assert large.split()[3:] == ["320", "-", "3.00", "-", "8.00", "9.50", "-", "14.0", "the", "same"]
+    assert large.split()[3:] == [
+        "320",
+        "-",
+        "3.00",
+        "-",
+        "8.00",
+        "9.50",
+        "-",
+        "14.0",
+        "the",
+        "same",
+    ]
     # A thousand calls at 0.6 ms by the compiled model's graph for 2 ms, and one the plain way.
     assert any(
-        "take 0.61 s with the compiled model wherever it is the shorter way, where they take 2.01 s" in line
+        "take 0.61 s with the compiled model wherever it is the shorter way, where they take 2.01 s"
+        in line
         for line in told
     )
     step = told.index(
@@ -427,9 +534,14 @@ def test_the_compiled_model_has_tables_of_its_own():
         "  a step, the batch filled out: RuntimeError: out of memory",
     ]
     # Why nothing was compiled is told in a line; nothing of it where it was not asked.
-    assert tool.compiled_report(played, {**found, "compiled": "no headers"}, []) == ["", "Not compiled: no headers"]
+    assert tool.compiled_report(played, {**found, "compiled": "no headers"}, []) == [
+        "",
+        "Not compiled: no headers",
+    ]
     assert tool.compiled_report(played, {"calls": found["calls"]}, []) == []
-    assert "Not compiled: no headers" in tool.graphs_report(played, {"calls": found["calls"], "compiled": "no headers"})
+    assert "Not compiled: no headers" in tool.graphs_report(
+        played, {"calls": found["calls"], "compiled": "no headers"}
+    )
 
 
 class Tables(torch.nn.Module):
@@ -450,8 +562,12 @@ class Tables(torch.nn.Module):
 WITH_TABLES = {
     **TINY,
     "history_lengths": np.array([2, 1, 3, 1], dtype=np.int64),
-    "scalars": np.array([[0.5, 1.0, 0.25], [2.0, 0.5, 1.5], [1.0, 0.5, 0.5], [0.25, 2.0, 1.0]], dtype=np.float32),
-    "action_mask": np.array([[True, True, False], [True, False, True], [True, True, True], [True, False, False]]),
+    "scalars": np.array(
+        [[0.5, 1.0, 0.25], [2.0, 0.5, 1.5], [1.0, 0.5, 0.5], [0.25, 2.0, 1.0]], dtype=np.float32
+    ),
+    "action_mask": np.array(
+        [[True, True, False], [True, False, True], [True, True, True], [True, False, False]]
+    ),
     "state_card": np.array([[1, 2, 2], [3, 0, 6], [5, 5, 5], [4, 1, 0]], dtype=np.int64),
 }
 
@@ -534,7 +650,14 @@ def test_a_step_is_recorded_only_where_it_waits_for_nothing(monkeypatch):
 
 
 def test_what_is_tried_last_is_told_after_the_report():
-    parts = {"seeds": 0.01, "card": 0.5, "answer": 1.5, "draw": 0.2, "probability": 0.1, "back": 0.05}
+    parts = {
+        "seeds": 0.01,
+        "card": 0.5,
+        "answer": 1.5,
+        "draw": 0.2,
+        "probability": 0.1,
+        "back": 0.05,
+    }
     calls = {8: {"size": 4, "whole": 2.0, **parts}, 512: {"size": 320, "whole": 8.0, **parts}}
     step = {"waits": None, "replay": 4.5, "plain": 13.25, "able": 13.5, "able_same": True, "able_apart": 0.0,
             "recording": 40.0, "keeps": 64 * 2**20, "same": True, "same_apart": 0.0, "another": False,
@@ -560,10 +683,16 @@ def test_what_is_tried_last_is_told_after_the_report():
         },
     }  # fmt: skip
     told = tool.last_report(found)
-    assert told[1].startswith("The trainer's own way (--inference-graphs), a call whole (ms): filled out to 96 cards")
+    assert told[1].startswith(
+        "The trainer's own way (--inference-graphs), a call whole (ms): filled out to 96 cards"
+    )
     assert told[3].split() == ["2", "to", "8", "4", "2.00", "1.25"]
-    assert told[4].split()[:6] == ["257", "to", "512", "320", "8.00", "-"] and told[4].endswith("wider than the sizes fixed")
-    assert "It answered 203 calls from 1 graphs, each held against the model's own answer" in told[6]
+    assert told[4].split()[:6] == ["257", "to", "512", "320", "8.00", "-"] and told[4].endswith(
+        "wider than the sizes fixed"
+    )
+    assert (
+        "It answered 203 calls from 1 graphs, each held against the model's own answer" in told[6]
+    )
     first = told.index("  The tables looked up as the model looks them up")
     assert told[first + 1].split()[-1] == "13.25"
     assert told[first + 2].endswith("weights 3.0e-09 apart at most after three steps")
@@ -572,13 +701,26 @@ def test_what_is_tried_last_is_told_after_the_report():
     )
     second = told.index("  The tables looked up by index_select")
     assert told[second + 2].endswith("the same weights after three steps")
-    assert "4.50" in told[second + 3] and "the weights of the steps one by one on its batch" in told[second + 3]
-    assert told[second + 3].endswith("NOT those weights on another of its sizes, 2.5e-04 apart at most")
-    assert told[second + 4] == "    recording took 40 ms, and the graph keeps 64 MiB of the card's memory"
+    assert (
+        "4.50" in told[second + 3]
+        and "the weights of the steps one by one on its batch" in told[second + 3]
+    )
+    assert told[second + 3].endswith(
+        "NOT those weights on another of its sizes, 2.5e-04 apart at most"
+    )
+    assert (
+        told[second + 4]
+        == "    recording took 40 ms, and the graph keeps 64 MiB of the card's memory"
+    )
     assert told[-1] == "    not made: RuntimeError: out of memory"
     # A way that failed says so; a checkout without it says nothing.
-    failed = tool.last_report({"calls": calls, "trainer": {**found["trainer"], "failed": "RuntimeError: capturing"}})
-    assert failed[-1] == "IT FAILED, and answered the calls as they are from there: RuntimeError: capturing"
+    failed = tool.last_report(
+        {"calls": calls, "trainer": {**found["trainer"], "failed": "RuntimeError: capturing"}}
+    )
+    assert (
+        failed[-1]
+        == "IT FAILED, and answered the calls as they are from there: RuntimeError: capturing"
+    )
     assert tool.last_report({"calls": calls, "trainer": None}) == []
     assert tool.last_report({"calls": calls, "trainer": "ImportError: no"}) == [
         "", "The trainer's own way at fixed sizes was not run: ImportError: no",

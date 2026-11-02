@@ -6,7 +6,9 @@ import torch
 from ygo_training.optimization import PreparedSample, decision_advantage_metrics
 
 
-def _sample(prompt: str, kind: str, *, value: float, terminal: float, log_prob: float) -> PreparedSample:
+def _sample(
+    prompt: str, kind: str, *, value: float, terminal: float, log_prob: float
+) -> PreparedSample:
     step = {"prompt_type": prompt, "action_kind": kind, "value": value, "log_prob": log_prob}
     return PreparedSample(step, 0.0, 0.0, terminal)
 

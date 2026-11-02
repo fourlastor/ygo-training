@@ -141,7 +141,9 @@ def pod(tmp_path):
 
 def kept_here(here: Path) -> list[str]:
     return sorted(
-        str(path.relative_to(here / "runs")) for path in (here / "runs").rglob("*") if path.is_file()
+        str(path.relative_to(here / "runs"))
+        for path in (here / "runs").rglob("*")
+        if path.is_file()
     )
 
 
@@ -157,8 +159,12 @@ def test_the_arms_are_made_on_the_pod_brought_here_and_the_pod_deleted(pod):
         "rented/more-decks.log",
         "rented/more-decks.volume",
     ]
-    assert (here / "runs/rented/more-decks.volume").read_text().strip().endswith("the volume/ygo-runs")
-    assert (here / "runs/more-decks/decks-01/checkpoints/model-00003.pt").read_text() == "weights 3\n"
+    assert (
+        (here / "runs/rented/more-decks.volume").read_text().strip().endswith("the volume/ygo-runs")
+    )
+    assert (
+        here / "runs/more-decks/decks-01/checkpoints/model-00003.pt"
+    ).read_text() == "weights 3\n"
     assert (here / "runs/more-decks/decks-01/metrics.jsonl").read_text().count("row") == 4
     assert (there / "runs/more-decks/decks-01/checkpoints/model-00002.pt").is_file()
     # The pod's runs are on its volume, which a stop leaves.
@@ -229,7 +235,10 @@ def test_a_pod_whose_files_are_not_all_here_is_stopped_and_not_deleted(pod, tmp_
     broken = driver(BROKEN="1")
     assert broken.returncode == 3
     assert "The pod keeps its runs on its volume, which a stop leaves" in broken.stdout
-    assert "The pod pod123 is STOPPED and not deleted: what the arms wrote is on its volume" in broken.stderr
+    assert (
+        "The pod pod123 is STOPPED and not deleted: what the arms wrote is on its volume"
+        in broken.stderr
+    )
     assert calls() == ["pod get pod123", "pod stop pod123", "pod get pod123"]
     assert (there / "runs").is_symlink()
     assert (volume / "ygo-runs/more-decks/decks-01/checkpoints/model-00003.pt").is_file()
@@ -251,7 +260,9 @@ def test_a_pod_that_is_not_told_as_stopped_is_said_so(pod):
     assert unstopped.returncode == 3
     assert "runpodctl does not tell the pod pod123 as stopped" in unstopped.stderr
     assert "may be RUNNING at its price" in unstopped.stderr
-    assert calls()[:2] == ["pod get pod123", "pod stop pod123"] and "pod delete pod123" not in calls()
+    assert (
+        calls()[:2] == ["pod get pod123", "pod stop pod123"] and "pod delete pod123" not in calls()
+    )
 
 
 def test_a_pod_without_a_volume_is_left_running_where_the_copy_is_not_whole(pod):
@@ -281,7 +292,10 @@ def test_arms_that_stopped_without_a_word_are_started_again(pod, tmp_path):
     (kept / "more-decks/decks-01/metrics.jsonl").write_text("row before\n", encoding="utf8")
     again = driver(LEAVE="1", POD="")
     assert again.returncode == 0, again.stderr
-    assert "more-decks stopped there and left no status: it is started again and goes on" in again.stdout
+    assert (
+        "more-decks stopped there and left no status: it is started again and goes on"
+        in again.stdout
+    )
     rows = (here / "runs/more-decks/decks-01/metrics.jsonl").read_text(encoding="utf8")
     assert rows.startswith("row before\n") and rows.count("row") == 5
 

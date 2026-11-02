@@ -302,11 +302,7 @@ def print_evaluation_suite_status(records: list[dict[str, Any]]) -> None:
     from rich.table import Table
 
     console = Console()
-    completed = [
-        (record, rows)
-        for record in records
-        if (rows := _evaluation_suite_rows(record))
-    ]
+    completed = [(record, rows) for record in records if (rows := _evaluation_suite_rows(record))]
     if not completed:
         console.print("No completed evaluation-suite records found.")
         return
@@ -361,9 +357,7 @@ def _optional(record: dict[str, Any], key: str, spec: str) -> str:
     return "-" if value is None else format(float(value), spec)
 
 
-def _optimization_cells(
-    record: dict[str, Any], cumulative_kl: float | None
-) -> tuple[str, ...]:
+def _optimization_cells(record: dict[str, Any], cumulative_kl: float | None) -> tuple[str, ...]:
     """PPO health per update; imitation-only updates show their imitation metrics."""
     evaluation = evaluation_summary_for(record)
     imitation = bool(record.get("warmup"))

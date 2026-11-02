@@ -178,7 +178,9 @@ def test_the_report_tells_every_mode_and_names_those_not_measured(tmp_path, caps
 def test_a_container_is_told_by_the_threads_it_is_allowed(tmp_path, capsys):
     # A rented machine saw 128 threads and was held to 13.6 of them.
     tool.report(exercise(tmp_path), {**MACHINE, "threads": 128, "allowed": 13.6})
-    assert "A processor, 128 threads (13.6 of them allowed at once), 62 GiB" in capsys.readouterr().out
+    assert (
+        "A processor, 128 threads (13.6 of them allowed at once), 62 GiB" in capsys.readouterr().out
+    )
 
 
 def test_the_exercise_makes_the_runs_the_report_reads():

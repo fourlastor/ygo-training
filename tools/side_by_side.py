@@ -42,7 +42,9 @@ OPPONENTS = (
 )
 TICKS = os.sysconf("SC_CLK_TCK")
 
-_spec = importlib.util.spec_from_file_location("benchmark_report", ROOT / "tools/benchmark_report.py")
+_spec = importlib.util.spec_from_file_location(
+    "benchmark_report", ROOT / "tools/benchmark_report.py"
+)
 assert _spec is not None and _spec.loader is not None
 _report = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_report)
@@ -142,9 +144,7 @@ class Load(threading.Thread):
             if isinstance(seen, str):
                 self.unread = self.unread or seen
                 seen = None
-            self.samples.append(
-                (time.monotonic(), busy, total, spent(set(self.sessions)), seen)
-            )
+            self.samples.append((time.monotonic(), busy, total, spent(set(self.sessions)), seen))
             self.ended.wait(self.every)
 
     def between(self, opened: float, closed: float) -> dict[str, float | None]:
@@ -214,7 +214,9 @@ def together(args: argparse.Namespace, count: int, folder: Path) -> dict[str, An
         watching.ended.set()
         if watching.is_alive():
             watching.join()
-    failed = [str(run) for run, (process, _) in zip(runs, started, strict=True) if process.returncode]
+    failed = [
+        str(run) for run, (process, _) in zip(runs, started, strict=True) if process.returncode
+    ]
     kept = [rows(run / "metrics.jsonl") for run in runs]
 
     def calls(made: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -415,12 +417,16 @@ def beside(*reports: Path) -> list[str]:
             f"{'Runs':>7}   {'Duels an hour in all':>{block}}   {'Times the run alone':>{block}}   "
             f"{'An update in each, s':>{block}}"
         ),
-        f"{'at once':>7}   " + "   ".join(" ".join(f"{name:>{wide}}" for name in names) for _ in range(3)),
+        f"{'at once':>7}   "
+        + "   ".join(" ".join(f"{name:>{wide}}" for name in names) for _ in range(3)),
     ]
     alone = [hourly(way.get(1)) for way in ways]
     for count in sorted(set().union(*ways)):
         hours = [hourly(way.get(count)) for way in ways]
-        times = [hour / first if hour and first else None for hour, first in zip(hours, alone, strict=True)]
+        times = [
+            hour / first if hour and first else None
+            for hour, first in zip(hours, alone, strict=True)
+        ]
         updates = [each(way.get(count)) for way in ways]
         out.append(
             f"{count:>7}   "

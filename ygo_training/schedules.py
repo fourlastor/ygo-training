@@ -18,9 +18,7 @@ POLICY_WORKER_STRIDE = POLICY_SEQUENCE_LIMIT
 DUEL_DECISION_BITS = 20
 
 
-def allocate_balanced_opponents(
-    opponents: list[str], episodes: int, *, seed: int
-) -> list[str]:
+def allocate_balanced_opponents(opponents: list[str], episodes: int, *, seed: int) -> list[str]:
     """Allocate an exact, shuffled, worker-independent opponent population."""
     if episodes < 0:
         raise ValueError("episodes must be non-negative")
@@ -33,9 +31,7 @@ def allocate_balanced_opponents(
     random.Random(seed ^ 0x52454D41).shuffle(extra_order)
     extras = set(extra_order[:remainder])
     assignments = [
-        opponent
-        for opponent in opponents
-        for _ in range(base + int(opponent in extras))
+        opponent for opponent in opponents for _ in range(base + int(opponent in extras))
     ]
     random.Random(seed).shuffle(assignments)
     return assignments

@@ -178,9 +178,7 @@ def _departures(picks: list[tuple[int, int | None, dict[str, Any]]], games: int)
     }
 
 
-def _led(
-    decisions: list[tuple[int, dict[str, Any]]], games: int, margin: float
-) -> dict[str, Any]:
+def _led(decisions: list[tuple[int, dict[str, Any]]], games: int, margin: float) -> dict[str, Any]:
     """The answers of a model that follows its lead head: its first choice,
     unless it predicts for another alternative a lead of at least ``margin``
     over that choice (see ``searched.Reading.led``).

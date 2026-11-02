@@ -471,9 +471,7 @@ def test_threads_that_draw_their_duels_from_one_queue_imitate_the_same_update():
     torch.set_num_threads(2)
     with (
         PpoTrainer(ROOT, imitating(pool_threads=3, pool_slots=2)) as dealt,
-        PpoTrainer(
-            ROOT, imitating(pool_threads=3, pool_slots=2, pool_shared=True)
-        ) as shared,
+        PpoTrainer(ROOT, imitating(pool_threads=3, pool_slots=2, pool_shared=True)) as shared,
     ):
         theirs, _ = dealt.collect()
         ours, _ = shared.collect()
@@ -930,7 +928,12 @@ def test_a_learner_of_several_decks_plays_itself_with_any_two_of_them():
         """The games without what the model estimated in its own batches."""
         dropped = ("packed", "row", "log_prob", "value")
         return [
-            {**game, "steps": [{k: v for k, v in step.items() if k not in dropped} for step in game["steps"]]}
+            {
+                **game,
+                "steps": [
+                    {k: v for k, v in step.items() if k not in dropped} for step in game["steps"]
+                ],
+            }
             for game in trajectories
         ]
 
@@ -945,9 +948,7 @@ def test_a_learner_of_several_decks_plays_itself_with_any_two_of_them():
     with (
         PpoTrainer(ROOT, several()) as one,
         PpoTrainer(ROOT, several()) as other,
-        PpoTrainer(
-            ROOT, several(inference_graphs=4, pool_groups=2, pool_groups_over=3)
-        ) as fast,
+        PpoTrainer(ROOT, several(inference_graphs=4, pool_groups=2, pool_groups_over=3)) as fast,
     ):
         ours, rolled = one.collect()
         assert Counter(game["other"] for game in ours) == {"self": 8, "pilot": 4}
@@ -959,7 +960,9 @@ def test_a_learner_of_several_decks_plays_itself_with_any_two_of_them():
             (own, other_): 2 for own in decks for other_ in decks
         }
         assert sorted(
-            (game["learner_deck"], game["opponent_deck"]) for game in ours if game["other"] == "pilot"
+            (game["learner_deck"], game["opponent_deck"])
+            for game in ours
+            if game["other"] == "pilot"
         ) == sorted((deck, pilot) for deck in decks for pilot in pilots)
         assert rolled["other_seat_duels"] == {"pilot": 4.0, "self": 8.0}
         # Deck by deck: the duels against the pilots, and the seats against
@@ -1404,7 +1407,11 @@ def test_groups_of_duels_taken_forward_in_turn_play_the_games_of_one_group():
                 {
                     **game,
                     "steps": [
-                        {key: value for key, value in step.items() if key not in ("log_prob", "value")}
+                        {
+                            key: value
+                            for key, value in step.items()
+                            if key not in ("log_prob", "value")
+                        }
                         for step in game["steps"]
                     ],
                 }
@@ -1413,7 +1420,12 @@ def test_groups_of_duels_taken_forward_in_turn_play_the_games_of_one_group():
 
         assert course(halves) == course(whole) == course(largest)
         estimates = [
-            [step[name] for game in games for step in game["steps"] for name in ("log_prob", "value")]
+            [
+                step[name]
+                for game in games
+                for step in game["steps"]
+                for name in ("log_prob", "value")
+            ]
             for games in (halves, largest, whole)
         ]
         assert estimates[0] == pytest.approx(estimates[2], abs=1e-5)

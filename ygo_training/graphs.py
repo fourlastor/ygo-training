@@ -159,7 +159,9 @@ class Graphs:
         return all(
             size <= most
             for name, array in arrays.items()
-            for size, most in zip(array.shape[1:], fixed(name, array.shape, self.widths), strict=True)
+            for size, most in zip(
+                array.shape[1:], fixed(name, array.shape, self.widths), strict=True
+            )
         )
 
     def _sized(self, count: int, arrays: dict[str, np.ndarray]) -> Sized:
@@ -200,7 +202,9 @@ class Graphs:
         for name, array in arrays.items():
             whole = sized.arrays[name]
             before = sized.held.get(name)
-            if before is not None and any(was > now for was, now in zip(before, array.shape, strict=True)):
+            if before is not None and any(
+                was > now for was, now in zip(before, array.shape, strict=True)
+            ):
                 whole[tuple(slice(0, size) for size in before)] = 0
             whole[tuple(slice(0, size) for size in array.shape)] = array
             sized.held[name] = array.shape

@@ -25,7 +25,11 @@ pytestmark = [
     pytest.mark.skipif(not _built(), reason="the environment is not built: cargo build --release"),
 ]
 
-DUELS = [(7, ["blackwing", "monarch"]), (8, ["monarch", "blackwing"]), (11, ["heroes", "spellcaster"])]
+DUELS = [
+    (7, ["blackwing", "monarch"]),
+    (8, ["monarch", "blackwing"]),
+    (11, ["heroes", "spellcaster"]),
+]
 
 
 @pytest.fixture(scope="module")
@@ -49,7 +53,12 @@ def play(environment: Environment, setup: dict[str, Any], decide=None):
 
 
 def pilots(seed: int, decks: list[str], **more: Any) -> dict[str, Any]:
-    return {"seed": seed, "decks": decks, "seats": [{"control": "pilot"}, {"control": "pilot"}], **more}
+    return {
+        "seed": seed,
+        "decks": decks,
+        "seats": [{"control": "pilot"}, {"control": "pilot"}],
+        **more,
+    }
 
 
 def outcome(over: dict[str, Any]) -> tuple:
@@ -81,7 +90,9 @@ def test_a_caller_that_follows_its_pilot_plays_the_pilots_duel(environment, seed
     seats = [{"control": "pilot"}, {"control": "pilot"}]
     seats[caller] = {"control": "caller"}
     _, decisions, over = play(
-        environment, {"seed": seed, "decks": decks, "seats": seats}, lambda decision: decision["label"]
+        environment,
+        {"seed": seed, "decks": decks, "seats": seats},
+        lambda decision: decision["label"],
     )
     assert outcome(over) == outcome(expected)
     place = environment.vocabulary["decision"]["Place"]
@@ -131,7 +142,12 @@ def test_a_face_down_card_of_the_other_player_has_no_identity(environment, seed,
         for card in sample["cards"]:
             if card["controller"] == 1 and card["position"] in face_down:
                 hidden += 1
-                assert (card["code"], card["attack"], card["defense"], card["level"]) == (0, 0, 0, 0)
+                assert (card["code"], card["attack"], card["defense"], card["level"]) == (
+                    0,
+                    0,
+                    0,
+                    0,
+                )
             if card["controller"] == 0 and (card["position"] or card["location"] == hand):
                 assert card["code"] != 0
     assert hidden > 0

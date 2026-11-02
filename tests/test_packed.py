@@ -157,7 +157,11 @@ def test_the_members_of_an_answer_keep_their_order_and_values():
     item = packed(
         cards=[card(), card(OTHER_MONSTER)],
         choices=[
-            choice(TOGGLE, named(1, OTHER_MONSTER), members=[named(0, value=2), named(1, OTHER_MONSTER, value=4)]),
+            choice(
+                TOGGLE,
+                named(1, OTHER_MONSTER),
+                members=[named(0, value=2), named(1, OTHER_MONSTER, value=4)],
+            ),
             choice(PASS),
         ],
     )
@@ -254,14 +258,20 @@ def test_no_deck_list_is_in_the_input():
 
 def _model(representation: str = "mean-pool") -> PolicyValueNet:
     torch.manual_seed(7)
-    return PolicyValueNet(embedding_dim=16, hidden_dim=32, board_representation=representation).eval()
+    return PolicyValueNet(
+        embedding_dim=16, hidden_dim=32, board_representation=representation
+    ).eval()
 
 
 DECISIONS = [
     view(),
     view(
         cards=[card(), hidden(), card(SPELL, location=HAND, position=0)],
-        choices=[choice(ACTIVATE, named(2, SPELL, location=HAND)), choice(ATTACK, named(0)), choice(PASS)],
+        choices=[
+            choice(ACTIVATE, named(2, SPELL, location=HAND)),
+            choice(ATTACK, named(0)),
+            choice(PASS),
+        ],
         history=[{"kind": ACTIVATE, "code": SPELL, "location": HAND, "description": 0}] * 3,
     ),
     view(

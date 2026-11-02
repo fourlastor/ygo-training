@@ -299,9 +299,7 @@ def test_causal_transaction_gae_uses_only_each_transaction_root_value():
         ]
     )
 
-    assert [sample.return_ for sample in samples] == pytest.approx(
-        [0.5, 0.5, 0.7, 0.7, 1.0]
-    )
+    assert [sample.return_ for sample in samples] == pytest.approx([0.5, 0.5, 0.7, 0.7, 1.0])
     assert advantages[0] == advantages[1]
     assert advantages[2] == advantages[3]
     assert metrics["gae_unit"] == "transactions"
@@ -499,10 +497,7 @@ def test_rollout_estimates_are_recomputed_in_canonical_minibatches(monkeypatch):
         OutcomeRewardModel(),
         "cpu",
     )
-    steps = [
-        {"chosen": index % 2, "log_prob": 99.0, "value": 99.0}
-        for index in range(3)
-    ]
+    steps = [{"chosen": index % 2, "log_prob": 99.0, "value": 99.0} for index in range(3)]
     batch_sizes = []
 
     def forward_steps(_model, chunk):
@@ -860,7 +855,9 @@ def test_the_model_predicts_a_lead_for_every_answer_and_none_where_there_is_none
     plain_logits, plain_value = model(tensor)
     assert torch.equal(logits, plain_logits) and torch.equal(value, plain_value)
     assert leads.shape == logits.shape
-    assert torch.equal(leads[~tensor["action_mask"]], torch.zeros_like(leads[~tensor["action_mask"]]))
+    assert torch.equal(
+        leads[~tensor["action_mask"]], torch.zeros_like(leads[~tensor["action_mask"]])
+    )
     assert leads[tensor["action_mask"]].abs().sum() > 0
 
 
@@ -873,9 +870,13 @@ def test_a_checkpoint_keeps_its_board_representation(tmp_path):
     with pytest.raises(ValueError, match="Checkpoint board representation"):
         load(path, control, expected_board_representation="individual-tokens")
     with pytest.raises(ValueError, match="but the model uses"):
-        save(path, control, torch.optim.Adam(control.parameters()), 1, {
-            "board_representation": "individual-tokens"
-        })
+        save(
+            path,
+            control,
+            torch.optim.Adam(control.parameters()),
+            1,
+            {"board_representation": "individual-tokens"},
+        )
 
 
 def test_the_lstm_given_a_packed_batch_reads_the_padded_batchs_history():
@@ -895,7 +896,9 @@ def test_the_lstm_given_a_packed_batch_reads_the_padded_batchs_history():
             "history_card": torch.randint(0, 2000, (rows, steps), generator=generator),
             "history_location": torch.randint(0, 8, (rows, steps), generator=generator),
             "history_kind": torch.randint(0, 8, (rows, steps), generator=generator),
-            "history_scalars": torch.randn((rows, steps, HISTORY_SCALAR_COUNT), generator=generator),
+            "history_scalars": torch.randn(
+                (rows, steps, HISTORY_SCALAR_COUNT), generator=generator
+            ),
         }
         padded, _ = model.history(
             torch.cat(
@@ -958,7 +961,9 @@ def _optimizer(model, **config):
 
 
 def test_imitation_update_reports_teacher_execution_agreement():
-    optimizer = _optimizer(PolicyValueNet(embedding_dim=8, hidden_dim=16), ppo_epochs=1, minibatch=8)
+    optimizer = _optimizer(
+        PolicyValueNet(embedding_dim=8, hidden_dim=16), ppo_epochs=1, minibatch=8
+    )
     taught = {"row": row(), "chosen": 0, "player": 0, "teacher": True}
 
     metrics = optimizer.imitation_update(
@@ -1222,7 +1227,11 @@ def test_the_imitation_value_head_is_measured_where_it_is_trained(monkeypatch):
     )
     taught = {"row": row(), "chosen": 0, "player": 0, "teacher": True}
     # Each game: a command and a selection it leads to, then another command.
-    game = [{**taught, "transaction": 1}, {**taught, "transaction": 1}, {**taught, "transaction": 2}]
+    game = [
+        {**taught, "transaction": 1},
+        {**taught, "transaction": 1},
+        {**taught, "transaction": 2},
+    ]
     won = {"terminal": True, "winner": 0, "steps": [dict(step) for step in game]}
     lost = {"terminal": True, "winner": 1, "steps": [dict(step) for step in game]}
     # The head is right at the first step of every transaction and as wrong
@@ -1318,8 +1327,7 @@ def test_a_detached_lead_head_learns_without_pulling_on_what_it_reads():
     assert metrics["imitation_lead_shared_gradient_norm"] == 0.0
     assert metrics["imitation_shared_gradient_norm"] > 0.0
     assert any(
-        not torch.equal(old, new)
-        for old, new in zip(before, model.lead.parameters(), strict=True)
+        not torch.equal(old, new) for old, new in zip(before, model.lead.parameters(), strict=True)
     )
 
 
@@ -1327,13 +1335,19 @@ def test_the_lead_options_need_recorded_duels():
     with pytest.raises(ValueError, match="imitation_lead_weight requires imitation_records"):
         TrainerConfig(imitation_only_updates=1, imitation_lead_weight=1.0)
     with pytest.raises(ValueError, match="imitation_lead_detach requires"):
-        TrainerConfig(imitation_only_updates=1, imitation_records="rows.jsonl", imitation_lead_detach=True)
+        TrainerConfig(
+            imitation_only_updates=1, imitation_records="rows.jsonl", imitation_lead_detach=True
+        )
     with pytest.raises(ValueError, match="imitation_label requires imitation_records"):
         TrainerConfig(imitation_only_updates=1, imitation_label="pilot")
     with pytest.raises(ValueError, match="imitation_label must be"):
-        TrainerConfig(imitation_only_updates=1, imitation_records="rows.jsonl", imitation_label="search")
+        TrainerConfig(
+            imitation_only_updates=1, imitation_records="rows.jsonl", imitation_label="search"
+        )
     with pytest.raises(ValueError, match="imitation_lead_weight must be non-negative"):
-        TrainerConfig(imitation_only_updates=1, imitation_records="rows.jsonl", imitation_lead_weight=-1.0)
+        TrainerConfig(
+            imitation_only_updates=1, imitation_records="rows.jsonl", imitation_lead_weight=-1.0
+        )
 
 
 def _kl_update(target_kl: float | None) -> dict:
@@ -1341,9 +1355,7 @@ def _kl_update(target_kl: float | None) -> dict:
     model = PolicyValueNet(embedding_dim=8, hidden_dim=16)
     optimizer = _optimizer(model, lr=0.05, ppo_epochs=4, minibatch=64, target_kl=target_kl)
     steps = [step(chosen=index % 2) for index in range(6)]
-    return optimizer.update(
-        [{"terminal": True, "learner_player": 0, "winner": 0, "steps": steps}]
-    )
+    return optimizer.update([{"terminal": True, "learner_player": 0, "winner": 0, "steps": steps}])
 
 
 def test_teacher_labels_join_the_ppo_objective_by_their_weight():
@@ -1364,7 +1376,9 @@ def test_teacher_labels_join_the_ppo_objective_by_their_weight():
 
 
 def test_imitation_of_recorded_duels_reports_where_they_left_the_pilot():
-    optimizer = _optimizer(PolicyValueNet(embedding_dim=8, hidden_dim=16), ppo_epochs=1, minibatch=8)
+    optimizer = _optimizer(
+        PolicyValueNet(embedding_dim=8, hidden_dim=16), ppo_epochs=1, minibatch=8
+    )
     taught = {"row": row(), "player": 0, "teacher": True}
     kept = {**taught, "chosen": 0, "executed_chosen": 0, "pilot_chosen": 0}
     left = {**taught, "chosen": 1, "executed_chosen": 1, "pilot_chosen": 0}

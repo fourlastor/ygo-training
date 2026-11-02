@@ -757,7 +757,9 @@ def test_with_itself_has_gained_on_itself_past_both_marks(tmp_path, capsys):
 
 def test_gaining_on_itself_is_read_only_of_with_itself_and_its_own_earlier_checkpoint(tmp_path):
     folder = further(tmp_path, (60, 62, 58))
-    with pytest.raises(SystemExit, match="is not with-itself after 4 updates with its checkpoint after 4"):
+    with pytest.raises(
+        SystemExit, match="is not with-itself after 4 updates with its checkpoint after 4"
+    ):
         tool.report(folder, updates=8, step=2, since=4)
     beats(
         folder,
