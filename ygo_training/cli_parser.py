@@ -221,6 +221,12 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         default=GOLDEN_TRAINING_PROTOCOL.learning_rate,
     )
     parser.add_argument(
+        "--identity-learning-rate-scale",
+        type=float,
+        default=1.0,
+        help="the cards' identity tables learn at this many times the learning rate",
+    )
+    parser.add_argument(
         "--eval-every",
         type=int,
         default=GOLDEN_TRAINING_PROTOCOL.eval_every,

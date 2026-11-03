@@ -45,6 +45,8 @@ POINTS=${POINTS:-4020 8040}
 STEP=${STEP:-60}
 MEAN_KEPT=${MEAN_KEPT:-6}
 RATE=${RATE:-1e-4}
+# The cards' identity tables learn at this many times RATE.
+IDENTITY_SCALE=${IDENTITY_SCALE:-1}
 SEED=${SEED:-2012}
 MIRRORS_SHARE=${MIRRORS_SHARE:-0.25}
 OLD_SHARE=${OLD_SHARE:-0.1875}
@@ -182,6 +184,7 @@ if [[ " $PARTS " == *" run "* ]]; then
     --pool-slots "$FAST_SLOTS" --rollout-estimates kept
     --duels-in-flight "$IN_FLIGHT" --minibatch "$MINIBATCH" --inference-graphs 0 --pool-groups 2
     --self-play-duels "$DUELS" --self-play-weights "$RUNS/$RUN.weights.json"
+    --identity-learning-rate-scale "$IDENTITY_SCALE"
   )
   if ! ls "$RUNS/$RUN"/checkpoints/model-*.pt > /dev/null 2>&1; then
     "${python[@]}" -m ygo_training train "${arguments[@]}" --resume "$NETWORK" \

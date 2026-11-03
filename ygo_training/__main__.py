@@ -253,6 +253,7 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
             if args.resume_learning_rate is not None
             else args.learning_rate
         ),
+        identity_learning_rate_scale=args.identity_learning_rate_scale,
         seed=args.seed if args.training_seed is None else args.training_seed,
         device=args.device,
         learner_deck=learners[0],
@@ -370,7 +371,7 @@ def train(args: argparse.Namespace) -> None:
         # override it without changing the established --continue behavior.
         if args.resume_learning_rate is not None:
             for group in trainer.optimizer.param_groups:
-                group["lr"] = learning_rate
+                group["lr"] = learning_rate * group.get("lr_scale", 1.0)
         # A checkpoint step equals the number of completed rollout batches.
         # Preserve that offset so `--continue` does not replay initial deck /
         # shuffle seeds from update zero.
@@ -502,6 +503,8 @@ def train(args: argparse.Namespace) -> None:
         "duel_revisions": duel_revisions(args.root),
         "trainer_revision": trainer_revision(args.root),
     }
+    if config.identity_learning_rate_scale != 1.0:
+        run_config["identity_learning_rate_scale"] = config.identity_learning_rate_scale
     # A run goes on with the model asked another way than it began with: it
     # is the same model that plays, and the description says the last way.
     mutable = {"updates_per_invocation", "trainer_revision", "model_calls"}

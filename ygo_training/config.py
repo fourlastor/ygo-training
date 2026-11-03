@@ -130,6 +130,11 @@ class TrainerConfig:
     seed: int = 2011
     device: str = "cpu"
     learning_rate: float = 3e-4
+    # The cards' identity tables learn at this many times the learning rate,
+    # in a group of the optimizer of their own where it is not 1: a row moves
+    # only in the updates whose games show its card
+    # (experiments/2026-11-02-expanded-pool.md, the card identities).
+    identity_learning_rate_scale: float = 1.0
     # The deck the learner plays, and the decks it meets: every other deck of
     # the pool when none is named.
     learner_deck: str = "blackwing"
@@ -375,6 +380,8 @@ class TrainerConfig:
             raise ValueError(f"duels must be at most {MAX_EPISODES_PER_ROLLOUT}")
         if self.learning_rate <= 0.0:
             raise ValueError("learning_rate must be positive")
+        if self.identity_learning_rate_scale <= 0.0:
+            raise ValueError("identity_learning_rate_scale must be positive")
         if self.rollout_temperature <= 0.0:
             raise ValueError("rollout_temperature must be positive")
         if not self.learner_deck:

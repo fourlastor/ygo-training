@@ -281,10 +281,28 @@ the batches, each read on its own:
    draws, what a key's luck is worth, and the held-out Decks one by one. If blank keys
    help, a new card starts from a blank key in step 2, and a network seated against decks
    it never met plays with blank keys; if they hurt, random keys stay.
-2. *Identity rows that learn faster*, alongside the next batch on the CUDA machine: from
-   the first batch's network, a control and the two identity tables at ten times the
-   learning rate, read on a new deck's gain at some 80,000 games and on where what it
-   learns lives. Its design and readings are to be agreed before it is built.
+2. *Identity rows that learn faster* (design and readings fixed on 2026-11-03, before
+   anything was built). The first batch as it runs is the control. The fast arm is the same
+   batch, from the same network on the same decks, weights and seed, with the two identity
+   tables at ten times the learning rate in an optimizer group of their own
+   (`--identity-learning-rate-scale 10`), queued after the first batch on the CUDA machine
+   and played to 4,020 updates, some 40,000 games a new deck and some 10 hours
+   (`experiments/commands/pool-batch-one-fast.sh`). Both are read at 4,020 updates against
+   the same frozen start on the same games, deals paired (`tools/pool_batch_compare.py`).
+   Each is one run, and what a run's own luck is worth is not in the errors.
+   1. *It learns faster*: the fast arm's gain less the first batch's: **faster** when at
+      least +1.0 point by two standard errors, **not faster** when at most +0.3 points by
+      two standard errors, otherwise **not decided**.
+   2. *The old decks are no worse*: the fast arm's head-to-head share on the old decks'
+      pairings less the first batch's: **no worse** when at least −1.0 point by two
+      standard errors, **worse** when at most −1.0 point by two standard errors, otherwise
+      **not decided**.
 
-**Current next step:** the first batch, queued on the CUDA machine on 2026-11-03, and step
-1 of the card identities on this machine.
+   Told beside them, without a mark: both arms' mirrors against their champions at 4,020
+   updates, the first batch's measured there for this, the held-out Decks, and where what is
+   learnt lives. If it learns faster and the old decks are no worse, the fast arm goes on to
+   8,040 updates as the first batch's network and the batches after take the faster tables;
+   otherwise it stops at 4,020 and the second batch starts from the first.
+
+**Current next step:** the first batch on the CUDA machine, its fast arm queued after it,
+and step 1 of the card identities on this machine.

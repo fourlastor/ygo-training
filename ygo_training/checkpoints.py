@@ -381,7 +381,12 @@ def load(
     if optimizer is not None:
         if saved_optimizer is None:
             raise ValueError("Checkpoint has no optimizer state and cannot resume training")
-        optimizer.load_state_dict(saved_optimizer)
+        # A fresh optimizer, as one saved beside a checkpoint made to play (a
+        # mean of checkpoints), holds its groups and nothing else: a run that
+        # sets some weights apart in a group of their own begins its own.
+        fresh = not saved_optimizer.get("state")
+        if not (fresh and len(saved_optimizer["param_groups"]) != len(optimizer.param_groups)):
+            optimizer.load_state_dict(saved_optimizer)
         rng_state = payload.get("rng_state")
         if rng_state is not None:
             random.setstate(rng_state["python"])

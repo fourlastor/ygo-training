@@ -59,6 +59,25 @@ CRITIC_CHUNK = 1024
 CARD_HEAD_LEARNING_RATE = 3e-4
 
 
+def parameter_groups(
+    model: torch.nn.Module, learning_rate: float, identity_scale: float
+) -> list[dict[str, Any]]:
+    """The model's weights as the optimizer takes them: one group, or the
+    cards' identity tables in a second at ``identity_scale`` times the rate,
+    which a resumed rate keeps (`lr_scale`)."""
+    if identity_scale == 1.0:
+        return [{"params": list(model.parameters())}]
+    named = list(model.named_parameters())
+    identity = [value for name, value in named if name.startswith("card_identity.")]
+    if not identity:
+        raise ValueError("the model has no card identity tables to set apart")
+    rest = [value for name, value in named if not name.startswith("card_identity.")]
+    return [
+        {"params": rest, "lr_scale": 1.0},
+        {"params": identity, "lr": learning_rate * identity_scale, "lr_scale": identity_scale},
+    ]
+
+
 def configure_reproducible_torch(requested_device: str) -> None:
     """Require deterministic optimization kernels for reproducible branches."""
     if requested_device == "cuda":
@@ -180,7 +199,10 @@ class PpoTrainer(Trainer):
             folded = saved.get("metadata", {}).get("folded_deck_lists")
             if folded is not None:
                 self.held_description["folded_deck_lists"] = folded
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=config.learning_rate)
+        self.optimizer = torch.optim.Adam(
+            parameter_groups(self.model, config.learning_rate, config.identity_learning_rate_scale),
+            lr=config.learning_rate,
+        )
         self.reward_model = OutcomeRewardModel()
         self.policy_optimizer = PpoOptimizer(
             self.model,
