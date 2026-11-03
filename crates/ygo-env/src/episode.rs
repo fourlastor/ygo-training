@@ -8,19 +8,14 @@
 //! * the **caller** decides (a network): [`Episode::advance`] stops at each
 //!   decision and [`Episode::choose`] answers it, while the deck's pilot,
 //!   asked alongside, gives the answer to imitate;
-//! * a **record** is played again, answer by answer;
-//! * a **search** plays its seat: the policies' staged search, which plays
-//!   its worlds on the duel itself while it answers, its answers given as a
-//!   record's are.
+//! * a **record** is played again, answer by answer.
 //!
 //! Decisions that are not a network's to take never reach the caller: where
 //! a card is placed is the pilot's choice, and a decision with one answer
 //! takes it.
 
-use std::cell::RefCell;
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::path::{Path, PathBuf};
-use std::rc::Rc;
 use std::sync::Arc;
 
 use serde::{Deserialize, Serialize};
@@ -30,7 +25,6 @@ use ygo_policies::registry;
 use ygo_policies_duel::{Core, Deck, Duel, DuelOptions, Recorded, State};
 use ygo_policies_ocgcore::wire::{location, msg, query};
 use ygo_policies_ocgcore::{message, Message, SqliteCards};
-use ygo_policies_search::{LocalPilots, SearchOptions, SearchSeat, SeatStats};
 
 use crate::features::{self, Features};
 
@@ -58,25 +52,15 @@ pub enum Control {
     Pilot,
     Caller,
     Record,
-    Search,
 }
 
 #[derive(Deserialize, Clone, Debug)]
 pub struct SeatSetup {
     pub control: Control,
     /// The policy that plays the seat, or is asked alongside it.  The one
-    /// written for the seat's deck when left out.  A search's seat is
-    /// piloted by it, the generic policy when left out.
+    /// written for the seat's deck when left out.
     #[serde(default)]
     pub policy: Option<String>,
-    /// For a search's seat: the policy the other player is taken to be, the
-    /// generic one when left out.
-    #[serde(default)]
-    pub model: Option<String>,
-    /// For a search's seat: what it changes of the settings upstream
-    /// measured (`SearchOptions::from_json`).
-    #[serde(default)]
-    pub search: Option<serde_json::Value>,
     /// For a caller's or a recorded seat: no pilot alongside.
     #[serde(default)]
     pub alone: bool,
@@ -160,9 +144,6 @@ pub struct Over {
     /// Selections of a recorded seat that its pilot would have answered otherwise.
     pub departures: usize,
     pub record: Option<serde_json::Value>,
-    /// What each search's seat did: its questions, those it searched, the
-    /// answers it changed from its pilot's and the time its searches took.
-    pub search: Option<serde_json::Value>,
     /// What the engine reported, where it stopped the duel: a card's script
     /// that failed, or the duel's arena found full.  Such a duel ends as one
     /// the limit stops, its record with it, to be played again.
@@ -297,8 +278,6 @@ impl Environment {
             Some(record) => record.duel(&self.core)?,
             None => self.core.deal(&options, &lists)?,
         };
-        // Shared with a search's seat, which plays its worlds on it.
-        let duel = Rc::new(RefCell::new(duel));
         // Kept whatever the setup asks, for a duel the engine stops.
         let kept = match &record {
             Some(record) => Recorded { responses: Vec::new(), ..record.clone() },
@@ -316,11 +295,7 @@ impl Environment {
             if seat.handover && seat.control != Control::Record {
                 return Err(format!("seat {player} is handed over to a caller, and only a recorded seat is"));
             }
-            // Asked alongside a search's seat, the deck's own.
-            let id = match seat.control {
-                Control::Search => self.pilot(&setup.decks[player]),
-                _ => seat.policy.as_deref().unwrap_or(self.pilot(&setup.decks[player])),
-            };
+            let id = seat.policy.as_deref().unwrap_or(self.pilot(&setup.decks[player]));
             let pilot = if seat.control == Control::Pilot || !seat.alone {
                 // The bench seeds seat `p` with `seed + p`.
                 let seed = setup.seed.wrapping_add(player as u64);
@@ -328,27 +303,13 @@ impl Environment {
             } else {
                 None
             };
-            let start = duel.borrow().start_message(player as u8);
+            let start = duel.start_message(player as u8);
             let mut table = Table::new(self.db.clone(), player as u8);
             table.feed(&start, &mut [])?;
             let sight = if setup.whole && (seat.control == Control::Caller || seat.handover) {
                 let mut sight = Sight::new(self.db.clone(), player as u8);
                 sight.feed(&start)?;
                 Some(sight)
-            } else {
-                None
-            };
-            let search = if seat.control == Control::Search {
-                let options = match &seat.search {
-                    Some(options) => SearchOptions::from_json(options)?,
-                    None => SearchOptions::MEASURED,
-                };
-                let pilots = LocalPilots { cards: self.db.clone() };
-                let pilot = seat.policy.as_deref().unwrap_or("generic");
-                let mut search =
-                    SearchSeat::with_pilots(duel.clone(), pilots, player as u8, setup.seed, options, pilot, seat.model.as_deref())?;
-                search.feed(&start)?;
-                Some(search)
             } else {
                 None
             };
@@ -361,7 +322,6 @@ impl Environment {
                 trail: Trail::default(),
                 sight,
                 followers: Vec::new(),
-                search,
             });
         }
         let seats: [Seat; 2] = seats.try_into().map_err(|_| "a duel has two seats".to_owned())?;
@@ -389,7 +349,7 @@ impl Environment {
     }
 }
 
-struct Seat<'a> {
+struct Seat {
     table: Table,
     control: Control,
     /// Plays a pilot's seat; is asked alongside a caller's or a recorded one.
@@ -405,8 +365,6 @@ struct Seat<'a> {
     /// The cards of its decisions followed to their horizon, where the
     /// setup asks for it: of a transaction, its last decision's.
     followers: Vec<Follower>,
-    /// The staged search that answers a search's seat.
-    search: Option<SearchSeat<'a, LocalPilots>>,
 }
 
 /// The field as it was last refreshed, a location at a time: the bytes of its
@@ -456,8 +414,8 @@ struct Pending {
 /// One duel.  [`Episode::advance`] runs it until the caller has to decide or
 /// the duel ends.
 pub struct Episode<'a> {
-    duel: Rc<RefCell<Duel<'a>>>,
-    seats: [Seat<'a>; 2],
+    duel: Duel<'a>,
+    seats: [Seat; 2],
     options: Options,
     limit: usize,
     /// The recorded answers each seat has yet to give.
@@ -526,14 +484,14 @@ impl Episode<'_> {
 
     /// Let the engine run until it asks a seat or the duel ends.
     fn run(&mut self) -> Result<()> {
-        let stepped = self.duel.borrow_mut().step();
+        let stepped = self.duel.step();
         let step = match stepped {
             Ok(step) => step,
             // An error the engine reported: a card's script failed, or the
             // duel's arena is full.  The duel cannot go on, and ends there as
             // one the limit stops, with what was reported and its record.
             // Any other error is of the messages read, and stops the caller.
-            Err(message) if !self.duel.borrow().errors().is_empty() => {
+            Err(message) if !self.duel.errors().is_empty() => {
                 self.finish_followers();
                 self.over = Some(Over {
                     winner: None,
@@ -544,7 +502,6 @@ impl Episode<'_> {
                     digest: format!("{:016x}", self.digest),
                     departures: self.departures,
                     record: Some(self.kept.to_json()),
-                    search: self.searched(),
                     failure: Some(message),
                 });
                 return Ok(());
@@ -553,17 +510,6 @@ impl Episode<'_> {
         };
         let mut pending = None;
         for sent in &step.messages {
-            // A search's seat is fed every message, the field's refreshes
-            // with the others, and answers a question of its own as it is fed
-            // it, its worlds played meanwhile: its answer is then given as a
-            // recorded one is.
-            for (player, seat) in self.seats.iter_mut().enumerate() {
-                if let Some(search) = &mut seat.search {
-                    if let Some(answer) = search.feed(&sent.bytes)? {
-                        self.answers[player].push_back(answer);
-                    }
-                }
-            }
             if !sent.refresh {
                 match sent.bytes.first() {
                     Some(&msg::RETRY) => return Err("the engine rejected an answer".into()),
@@ -618,7 +564,6 @@ impl Episode<'_> {
                 digest: format!("{:016x}", self.digest),
                 departures: self.departures,
                 record: self.keep_record.then(|| self.kept.to_json()),
-                search: self.searched(),
                 failure: None,
             });
             return Ok(());
@@ -654,12 +599,9 @@ impl Episode<'_> {
                     break response;
                 }
             },
-            Control::Record | Control::Search => {
+            Control::Record => {
                 let player = pending.player;
-                let recorded = self.answers[player].pop_front().ok_or(match seat.control {
-                    Control::Search => "the search gave no answer to its seat's question",
-                    _ => "the record ends before the duel does",
-                })?;
+                let recorded = self.answers[player].pop_front().ok_or("the record ends before the duel does")?;
                 // The pilot answers the selection its own way first, as it
                 // did when the duel was played: it stays in step with the
                 // recorded one, and a selection it answers as recorded is
@@ -740,8 +682,7 @@ impl Episode<'_> {
                             let decks = match self.whole_deck {
                                 0 => Default::default(),
                                 count => {
-                                    let duel = self.duel.borrow();
-                                    [next_cards(&duel, 0, count)?, next_cards(&duel, 1, count)?]
+                                    [next_cards(&self.duel, 0, count)?, next_cards(&self.duel, 1, count)?]
                                 }
                             };
                             let observation = sight.observation(pending.player as u8, &decks);
@@ -782,42 +723,17 @@ impl Episode<'_> {
         }
     }
 
-    /// What each search's seat did, where the duel has one.
-    fn searched(&self) -> Option<serde_json::Value> {
-        let told: Vec<_> = self
-            .seats
-            .iter()
-            .enumerate()
-            .filter_map(|(player, seat)| seat.search.as_ref().map(|search| search_summary(player, search.stats())))
-            .collect();
-        (!told.is_empty()).then(|| serde_json::Value::Array(told))
-    }
-
     /// Give the engine the answer to the pending selection.
     fn respond(&mut self, response: Vec<u8>) {
         let pending = self.pending.take().expect("a selection is pending");
         for byte in pending.message.iter().chain(&response) {
             self.digest = (self.digest ^ *byte as u64).wrapping_mul(0x100000001b3);
         }
-        self.duel.borrow_mut().respond(&response);
+        self.duel.respond(&response);
         self.kept.responses.push((pending.player as u8, response));
         self.decisions += 1;
         self.seats[1 - pending.player].trail.interrupt();
     }
-}
-
-/// What a search's seat did, its answers changed counted and its searches'
-/// time summed.
-fn search_summary(player: usize, stats: &SeatStats) -> serde_json::Value {
-    let mut told = stats.to_json();
-    told["player"] = player.into();
-    told["changed"] = stats.deviations.len().into();
-    told["seconds"] = (stats.search_ms.iter().sum::<f64>() / 1000.0).into();
-    if let Some(told) = told.as_object_mut() {
-        told.remove("deviations");
-        told.remove("search_decision_ms");
-    }
-    told
 }
 
 /// The codes of the next `count` cards of `player`'s Deck, top first: the

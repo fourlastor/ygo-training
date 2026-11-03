@@ -4,16 +4,13 @@
 //! `ygo_policies_ocgcore::Seat`, fed and answered as the bench does it,
 //! with the bench's digest of every question and answer.
 
-use std::cell::RefCell;
 use std::path::{Path, PathBuf};
-use std::rc::Rc;
 use std::sync::Arc;
 
 use ygo_env::{Control, Environment, Options, Over, SeatSetup, Setup, View};
 use ygo_policies::{cards::CardDatabase, registry};
 use ygo_policies_duel::{Core, Deck, DuelOptions, Recorded, State};
 use ygo_policies_ocgcore::{wire::msg, Seat, SqliteCards};
-use ygo_policies_search::{LocalPilots, SearchOptions, SearchSeat};
 
 const IDLE: u8 = 1;
 const BATTLE: u8 = 2;
@@ -83,59 +80,8 @@ fn bench(environment: &Environment, seed: u64, ids: [&str; 2]) -> Played {
     }
 }
 
-/// A search's settings for a test: a few worlds and candidates, so that a
-/// duel searched at every decision is played in seconds.
-const QUICK: &str = r#"{"stages": [2, 2, 4], "kept": 1, "candidates": 3}"#;
-
-/// The duel of `policy-bench generic --method staged` with this seed: the
-/// staged search in seat `searcher`, piloted by `pilot` and taking the other
-/// player to be `model`, its seat fed every message as the bench feeds it,
-/// against the pilot of the other deck.
-fn searched_bench(environment: &Environment, seed: u64, ids: [&str; 2], searcher: usize, pilot: &str, model: Option<&str>) -> Played {
-    let core = Core::open(None, &cards(), &root().join("vendor/CardScripts")).unwrap();
-    let db: Arc<dyn CardDatabase> = Arc::new(SqliteCards::open(cards()).unwrap());
-    let list = |id: &str| {
-        let entry = environment.catalog().iter().find(|entry| entry.id == id).unwrap();
-        Deck { main: entry.main.clone(), extra: entry.extra.clone() }
-    };
-    let duel = Rc::new(RefCell::new(core.deal(&DuelOptions::seeded(seed), &[list(ids[0]), list(ids[1])]).unwrap()));
-    let other = 1 - searcher;
-    let policy = registry::create_seeded(ids[other], db.clone(), seed + other as u64).unwrap();
-    let mut seat = Seat::new(policy, db.clone(), Some(other as u8));
-    seat.feed(&duel.borrow().start_message(other as u8)).unwrap();
-    let options = SearchOptions::from_json(&serde_json::from_str(QUICK).unwrap()).unwrap();
-    let pilots = LocalPilots { cards: db.clone() };
-    let mut search = SearchSeat::with_pilots(duel.clone(), pilots, searcher as u8, seed, options, pilot, model).unwrap();
-    let start = duel.borrow().start_message(searcher as u8);
-    search.feed(&start).unwrap();
-    let (mut decisions, mut turns, mut digest) = (0, 0u32, 0xcbf29ce484222325u64);
-    loop {
-        let step = duel.borrow_mut().step().unwrap();
-        let mut response = None;
-        for sent in &step.messages {
-            if !sent.refresh && sent.bytes[0] == msg::NEW_TURN {
-                turns += 1;
-            }
-            let answers = [search.feed(&sent.bytes).unwrap(), seat.feed(&sent.bytes).unwrap()];
-            for answer in answers.into_iter().flatten() {
-                for byte in sent.bytes.iter().chain(&answer) {
-                    digest = (digest ^ *byte as u64).wrapping_mul(0x100000001b3);
-                }
-                response = Some(answer);
-            }
-        }
-        if let State::Over(outcome) = step.state {
-            return (format!("{digest:016x}"), outcome.map(|outcome| outcome.winner), turns, decisions);
-        }
-        if let Some(answer) = response {
-            duel.borrow_mut().respond(&answer);
-            decisions += 1;
-        }
-    }
-}
-
 fn seat(control: Control, alone: bool, observe: bool) -> SeatSetup {
-    SeatSetup { control, policy: None, model: None, search: None, alone, observe, handover: false }
+    SeatSetup { control, policy: None, alone, observe, handover: false }
 }
 
 fn setup(seed: u64, ids: [&str; 2], seats: [SeatSetup; 2]) -> Setup {
@@ -185,32 +131,6 @@ fn pilots_play_the_duel_of_the_bench() {
         assert_eq!(played(&over), bench(&environment, seed, ids), "seed {seed}, {ids:?}");
         assert!(samples.is_empty() && decisions.is_empty());
         assert!(over.winner.is_some());
-    }
-}
-
-#[test]
-fn a_search_plays_its_seat_as_the_bench_seats_it() {
-    let environment = environment();
-    // The generic pilot, the other player taken to be it; then the deck's
-    // own specialist, the other player taken to be the other deck's.
-    let searches = [(7, ["blackwing", "monarch"], 0, "generic", None), (8, ["monarch", "blackwing"], 1, "blackwing", Some("monarch"))];
-    for (seed, ids, searcher, pilot, model) in searches {
-        let mut seats = [seat(Control::Pilot, false, false), seat(Control::Pilot, false, false)];
-        seats[searcher] = SeatSetup {
-            control: Control::Search,
-            policy: Some(pilot.to_owned()),
-            model: model.map(str::to_owned),
-            search: Some(serde_json::from_str(QUICK).unwrap()),
-            alone: true,
-            observe: false,
-            handover: false,
-        };
-        let (samples, decisions, over) = play(&environment, &setup(seed, ids, seats), |_| unreachable!());
-        assert_eq!(played(&over), searched_bench(&environment, seed, ids, searcher, pilot, model), "seed {seed}, {ids:?}");
-        assert!(samples.is_empty() && decisions.is_empty());
-        let told = &over.search.as_ref().expect("the search says what it did")[0];
-        assert_eq!(told["player"], searcher);
-        assert!(told["searched"].as_u64().unwrap() > 0, "{told}");
     }
 }
 

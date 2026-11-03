@@ -234,7 +234,6 @@ dependencies = [
  "ygo-policies-duel",
  "ygo-policies-edopro",
  "ygo-policies-ocgcore",
- "ygo-policies-search",
 ]
 
 [[package]]
@@ -259,9 +258,6 @@ dependencies = [
 [[package]]
 name = "ygo-policies"
 version = "0.1.0"
-dependencies = [
- "serde",
-]
 
 [[package]]
 name = "ygo-policies-duel"
@@ -288,18 +284,7 @@ name = "ygo-policies-ocgcore"
 version = "0.1.0"
 dependencies = [
  "rusqlite",
- "serde",
  "ygo-policies",
-]
-
-[[package]]
-name = "ygo-policies-search"
-version = "0.1.0"
-dependencies = [
- "serde_json",
- "ygo-policies",
- "ygo-policies-duel",
- "ygo-policies-ocgcore",
 ]
 
 [[package]]
