@@ -16,12 +16,14 @@ of a card the seat cannot see, is never touched.
 network against itself, in `plays/ARM/` the network with ARM's keys at the decks it never
 trained on against itself as it is, in `faces/ARM/` the network as it is at those decks
 against ARM. Each arm is read against the mean of the random keys (`as-is` and the
-`redraw` arms), the deals paired.
+`redraw` arms), the deals paired; beside it, what a key's luck is worth: how far the draws
+lie apart beyond what their games tell.
 """
 
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import math
 import sys
@@ -124,6 +126,19 @@ def against(arm: dict[tuple, float], reference: dict[tuple, float]) -> dict[str,
     return {"gap": centre, "error": spread / math.sqrt(len(gaps)), "games": len(gaps)}
 
 
+def luck(draws: list[dict[tuple, float]]) -> dict[str, float]:
+    """What a random key's luck is worth: the spread of the draws' shares beyond what their
+    games tell apart, from each two paired on their deals."""
+    pairs = [against(first, second) for first, second in itertools.combinations(draws, 2)]
+    excess = sum(pair["gap"] ** 2 - pair["error"] ** 2 for pair in pairs) / len(pairs)
+    spread = math.sqrt(max(0.0, excess / 2))
+    return {
+        "spread": spread,
+        "widest": max(abs(pair["gap"]) for pair in pairs),
+        "reference": spread / math.sqrt(len(draws)),
+    }
+
+
 def verdict(gap: float, error: float) -> str:
     if gap - ERRORS * error >= HELPS:
         return "help"
@@ -141,11 +156,18 @@ def read(directory: Path) -> dict[str, dict]:
         )
         draws = [arms[name] for name in arms if name == "as-is" or name.startswith("redraw")]
         reference = {key: sum(draw[key] for draw in draws) / len(draws) for key in draws[0]}
-        told = {"draws": len(draws), "reference": sum(reference.values()) / len(reference)}
+        told = {
+            "draws": len(draws),
+            "reference": sum(reference.values()) / len(reference),
+            "luck": luck(draws),
+        }
         for name, arm in arms.items():
             told[name] = {"share": sum(arm.values()) / len(arm), **against(arm, reference)}
             if name in ("blank", "mean"):
                 told[name]["verdict"] = verdict(told[name]["gap"], told[name]["error"])
+                # The reading's error is the games'; beside it, with the luck of the draws
+                # the reference was made of.
+                told[name]["with luck"] = math.hypot(told[name]["error"], told["luck"]["reference"])
                 each = defaultdict(list)
                 for key, expected in reference.items():
                     each[key[0]].append(arm[key] - expected)
@@ -178,6 +200,11 @@ def shown(found: dict[str, dict]) -> str:
         lines.append(
             f"  {side}: mean keys {mean['verdict']}, {100 * mean['gap']:+.1f} ± {100 * mean['error']:.1f};"
             f" the random draws {draws}"
+        )
+        drawn = told["luck"]
+        lines.append(
+            f"    a key's luck: {100 * drawn['spread']:.1f} points a draw, draws up to "
+            f"{100 * drawn['widest']:.1f} apart; with it blank ± {100 * told['blank']['with luck']:.1f}"
         )
         decks = told["blank"]["decks"]
         lines.append(

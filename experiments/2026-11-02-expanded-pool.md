@@ -304,5 +304,33 @@ the batches, each read on its own:
    8,040 updates as the first batch's network and the batches after take the faster tables;
    otherwise it stops at 4,020 and the second batch starts from the first.
 
-**Current next step:** the first batch on the CUDA machine, its fast arm queued after it,
-and step 1 of the card identities on this machine.
+## Card identities, step 1: results (read on 2026-11-03)
+
+The arms played 15,936 games each on this machine's processor, 1 hour 52 minutes in all
+(`analysis/identity-keys/report.txt`). With random keys the held-out Decks win 13.4%
+against the old decks.
+
+1. *Blank keys, playing unseen cards*: **not decided**, +0.8 ± 0.2 points against the
+   random keys: more than nothing, not shown to reach a point.
+2. *Blank keys, facing unseen cards*: **not decided**, +0.4 ± 0.1 points: under a point
+   by two standard errors, though the reading has no verdict for that.
+
+Beside them:
+
+- The mean keys: +0.5 ± 0.2 playing, +0.3 ± 0.1 facing, both not decided.
+- What a key's luck is worth: playing, the three random draws win 14.0% (the network's
+  own keys), 13.2% and 13.0%, up to 1.0 point apart, some 0.5 points a draw beyond what
+  their games tell; facing, 86.0%, 86.0% and 85.9%, nothing. With that luck in the
+  error, blank keys playing are +0.8 ± 0.4. Against the keys the network has, blank
+  keys are +0.2 ± 0.2 playing and +0.4 ± 0.2 facing.
+- Deck by deck, a key's luck is worth several points. `game-0072` wins 9.8% with the
+  network's own keys, 9.6% blank and 9.9% with the mean, but 5.4% and 5.6% with the two
+  drawn afresh; `game-0076` wins 34.2% with its own keys, 28.7% and 31.8% drawn afresh
+  and 28.2% blank. Blank keys gain most at `game-0066`, +4.1, and lose most at
+  `game-0076`, −3.4.
+
+Blank keys do not help by either reading, so nothing changes: a new card starts from a
+random key in step 2, as in the first batch, and a network seated against decks it
+never met plays with the keys it has.
+
+**Current next step:** the first batch on the CUDA machine, its fast arm queued after it.

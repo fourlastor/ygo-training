@@ -82,4 +82,17 @@ def test_an_arm_is_read_against_the_mean_of_the_random_keys(tmp_path):
     assert found["faces"]["blank"]["gap"] == pytest.approx(80 / games)
     assert found["plays"]["mean"]["verdict"] == "not decided"
     assert found["plays"]["draws"] == 2
+    assert found["plays"]["luck"]["spread"] == 0.0
     assert "1. Blank keys help, playing unseen cards" in tool.shown(found)
+
+
+def test_a_keys_luck_is_the_spread_its_games_do_not_explain():
+    def draw(won: int) -> dict[tuple, float]:
+        return {("new", "old", deal, 0): float(deal < won) for deal in range(400)}
+
+    # Two draws 10 points apart on the same deals, their differences 40 games of 400.
+    found = tool.luck([draw(200), draw(240)])
+    error = (0.1 * 0.9 * 400 / 399) ** 0.5 / 20
+    assert found["widest"] == pytest.approx(0.1)
+    assert found["spread"] == pytest.approx(((0.01 - error**2) / 2) ** 0.5)
+    assert found["reference"] == pytest.approx(found["spread"] / 2**0.5)
