@@ -34,7 +34,9 @@ RUN=${RUN:-batch-one}
 OUT=${OUT:-analysis/expanded-pool/$RUN}
 LIST=${LIST:-experiments/commands/champion-recordings.list}
 THIRTEEN=${THIRTEEN:-blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster}
-NEW=${NEW:-$(printf "game-%04d," $(seq 13 62) | sed "s/,$//")}
+# Batch one leaves out game-0037: its Cloak and Dagger names a card, a decision of
+# 4,096 answers that the pool pads every decision in flight to.
+NEW=${NEW:-$(printf "game-%04d," $(seq 13 36) $(seq 38 63) | sed "s/,$//")}
 # The game decks of the batches before, old decks here as the seventy-one are.
 EARLIER=${EARLIER:-$(printf "game-%04d," $(seq 1 12) | sed "s/,$//")}
 FIRST=${FIRST:-37440}

@@ -147,12 +147,6 @@
       "games": 64
     },
     {
-      "name": "game-0037-vs-pilots",
-      "learner": "game-0037",
-      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
-      "games": 64
-    },
-    {
       "name": "game-0038-vs-pilots",
       "learner": "game-0038",
       "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
@@ -299,6 +293,12 @@
     {
       "name": "game-0062-vs-pilots",
       "learner": "game-0062",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0063-vs-pilots",
+      "learner": "game-0063",
       "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
       "games": 64
     }

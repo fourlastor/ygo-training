@@ -118,9 +118,12 @@ def test_a_batch_meets_the_seventy_one_and_the_game_decks_before_it():
 
 
 def test_the_suites_of_batch_one_are_the_tools():
-    made = suites.suites(
-        "one", suites.numbered("game-0013:game-0062"), suites.numbered("game-0063:game-0074")
-    )
+    # game-0037 and game-0065 each hold a card that names a card.
+    left = {"game-0037", "game-0065"}
+    new = [deck for deck in suites.numbered("game-0013:game-0063") if deck not in left]
+    held_out = [deck for deck in suites.numbered("game-0064:game-0076") if deck not in left]
+    assert len(new) == 50 and len(held_out) == 12
+    made = suites.suites("one", new, held_out)
     for name, told in made.items():
         assert (
             json.loads((ROOT / "eval_suites" / f"{name}.json").read_text(encoding="utf8")) == told

@@ -204,9 +204,14 @@ ones are not decided nor the mirrors' fall, told beside without a mark.
 - **Start**: the first batch test's network, the mean of its last six kept checkpoints
   after 4,320 updates (step 37,440), its twelve Decks old decks from here.
 - **Decks**: the next fifty of the games' Decks by the new cards they bring,
-  `game-0013` to `game-0062`, 722 new cards; the next twelve, `game-0063` to
-  `game-0074`, held out. The old decks are 83, the seventy-one and `game-0001` to
-  `game-0012`.
+  `game-0013` to `game-0063` but `game-0037`, 718 new cards; the next twelve,
+  `game-0064` to `game-0076` but `game-0065`, held out. The old decks are 83, the
+  seventy-one and `game-0001` to `game-0012`. `game-0037` and `game-0065` each hold a
+  card that names a card, Cloak and Dagger and Archfiend's Oath, as 7 of the 484 lists
+  do: the question offers 4,096 answers, and the pool pads every decision in flight to
+  the widest of them. The first start, with `game-0037`, ran out of the GPU's memory
+  in its first update on 2026-11-03. Those lists wait until the pool asks such a
+  question apart.
 - **Run**: PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings
   of `fast`, every duel against itself: a quarter in the mirrors of all 133 decks, as
   the fourteen decks' `quarter` arm kept its mirrors, and of the rest three quarters

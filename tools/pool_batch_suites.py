@@ -1,7 +1,7 @@
 """The suites of one batch of the expanded pool (experiments/2026-11-02-expanded-pool.md).
 
-    uv run python tools/pool_batch_suites.py one --new game-0013:game-0062 \\
-        --held-out game-0063:game-0074
+    uv run python tools/pool_batch_suites.py one --new game-0013:game-0063 \\
+        --held-out game-0064:game-0076 --leave-out game-0037,game-0065
 
 The batch's old decks are the seventy-one decks of the champions' list and every
 game deck numbered before its first new one. Into `eval_suites/pool-batch-NAME-*.json`:
@@ -82,9 +82,15 @@ def main() -> None:
     parser.add_argument("batch")
     parser.add_argument("--new", required=True)
     parser.add_argument("--held-out", required=True)
+    parser.add_argument(
+        "--leave-out", default="", help="decks of the spans left out of the batch, by name"
+    )
     parser.add_argument("--into", type=Path, default=ROOT / "eval_suites")
     args = parser.parse_args()
-    for name, told in suites(args.batch, numbered(args.new), numbered(args.held_out)).items():
+    left = set(args.leave_out.split(",")) - {""}
+    new = [deck for deck in numbered(args.new) if deck not in left]
+    held_out = [deck for deck in numbered(args.held_out) if deck not in left]
+    for name, told in suites(args.batch, new, held_out).items():
         (args.into / f"{name}.json").write_text(json.dumps(told, indent=2) + "\n", encoding="utf8")
         print(name, len(told["cases"]), "cases")
 
