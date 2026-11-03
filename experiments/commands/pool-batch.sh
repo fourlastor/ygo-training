@@ -8,7 +8,9 @@
 # against itself (--self-play-weights from RUN.weights.json): MIRRORS_SHARE of them
 # in the mirrors of all the decks, OLD_SHARE between two old decks, and the rest
 # with a new deck in one seat and any other deck in the other; with the settings of
-# fast, a checkpoint every STEP. UPDATES gives a new deck some 80,000 games.
+# fast, a checkpoint every STEP. UPDATES gives a new deck some 80,000 games. An
+# interrupted run goes on from its last checkpoint; with NEW_PINS=1 it goes on although the
+# pins moved since (train --new-pins), for a move whose duels are the old ones.
 #
 # measure. Into OUT, at each of POINTS by the mean of the last MEAN_KEPT
 # checkpoints the run kept by then, and at 0 by NETWORK: each new deck against
@@ -191,7 +193,7 @@ if [[ " $PARTS " == *" run "* ]]; then
       --resume-learning-rate "$RATE" --updates "$UPDATES"
   elif [ ! -f "$(checkpoint "$UPDATES")" ]; then
     latest=$(basename "$(ls "$RUNS/$RUN"/checkpoints/model-*.pt | sort | tail -1)" .pt)
-    "${python[@]}" -m ygo_training train "${arguments[@]}" --continue \
+    "${python[@]}" -m ygo_training train "${arguments[@]}" --continue ${NEW_PINS:+--new-pins} \
       --updates $((FIRST + UPDATES - 1 - 10#${latest#model-}))
   fi
 fi
