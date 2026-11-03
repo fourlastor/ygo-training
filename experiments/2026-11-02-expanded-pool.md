@@ -250,4 +250,41 @@ If the mirrors do not come back, the batch is played again from
 `seventy-one-champions` with all sixty-two Decks and the same share in the mirrors,
 some 26 hours.
 
-**Current next step:** the first batch, queued on the CUDA machine on 2026-11-03.
+## Card identities, beside the batches (fixed on 2026-11-03, before anything was played)
+
+What a deck learns in a batch is bound to its cards' identity keys, read by the trunk,
+more than written into them. On a probe of the first batch test's twelve Decks against
+twelve old decks, 1,152 games an arm, putting the 318 new cards' identity rows back to
+their untrained values cost 0.4 ± 1.0 of a 10.1-point gain, and drawing them afresh 6.3
+± 1.3 and 6.7 ± 1.3 points on two draws; training moved a row by about 1.1 against a key
+of about 6.9. A card the network never trained on keeps its random key. Two steps beside
+the batches, each read on its own:
+
+1. *What an unseen card's key costs at play*, on this machine's CPU, with no training.
+   The test's network (`runs/expanded-pool/first-batch-mean/4320.pt`, the first batch's
+   start), its identity rows that no update moved rewritten (`tools/identity_keys.py`):
+   blank, the mean of the rows training moved, or drawn afresh on two seeds; a row
+   training moved, and row 0, the code of a card the seat cannot see, is never touched.
+   In the twelve Decks the first batch holds out, 58% of the copies have such a low row
+   and 26% both halves. Each arm plays those Decks against the network as it is at each of
+   the 83 old decks, 8 deals from both seats from deal 60,000, 15,936 games, and the
+   network as it is plays them against each arm (`experiments/commands/identity-keys.sh`).
+   A random key is read as the mean of three draws, the network itself and the two drawn
+   afresh, the deals paired.
+   1. *Blank keys, playing unseen cards*: blank less the random keys, at the held-out
+      Decks: **help** when at least +1.0 point by two standard errors, **hurt** when at
+      most −1.0 point by two standard errors, otherwise **not decided**.
+   2. *Blank keys, facing unseen cards*: the same, the arm at the old decks against the
+      held-out Decks.
+
+   Told beside them, without a mark: the mean keys by the same rule, the three random
+   draws, what a key's luck is worth, and the held-out Decks one by one. If blank keys
+   help, a new card starts from a blank key in step 2, and a network seated against decks
+   it never met plays with blank keys; if they hurt, random keys stay.
+2. *Identity rows that learn faster*, alongside the next batch on the CUDA machine: from
+   the first batch's network, a control and the two identity tables at ten times the
+   learning rate, read on a new deck's gain at some 80,000 games and on where what it
+   learns lives. Its design and readings are to be agreed before it is built.
+
+**Current next step:** the first batch, queued on the CUDA machine on 2026-11-03, and step
+1 of the card identities on this machine.
