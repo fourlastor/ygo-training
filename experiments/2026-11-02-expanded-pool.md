@@ -199,5 +199,50 @@ Beside them:
 The rules fixed with the readings cover neither new decks that learn while the old
 ones are not decided nor the mirrors' fall, told beside without a mark.
 
-**Current next step:** the first batch's design, on these readings, to be agreed
-before anything is built.
+## The first batch (design and readings fixed on 2026-11-03, before anything was built)
+
+- **Start**: the first batch test's network, the mean of its last six kept checkpoints
+  after 4,320 updates (step 37,440), its twelve Decks old decks from here.
+- **Decks**: the next fifty of the games' Decks by the new cards they bring,
+  `game-0013` to `game-0062`, 722 new cards; the next twelve, `game-0063` to
+  `game-0074`, held out. The old decks are 83, the seventy-one and `game-0001` to
+  `game-0012`.
+- **Run**: PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings
+  of `fast`, every duel against itself: a quarter in the mirrors of all 133 decks, as
+  the fourteen decks' `quarter` arm kept its mirrors, and of the rest three quarters
+  with a new deck in one seat and any other deck in the other, a quarter between two
+  old decks. An update gives a new deck 9.98 games, an old one 6.52 and a mirror 0.98
+  duels, so that 8,040 updates give a new deck some 80,000 games, the test's budget:
+  some 19 hours. A checkpoint every 60 updates (`experiments/commands/pool-batch.sh`).
+- **Measured** after 4,020 and 8,040 updates, each by the mean of its last six kept
+  checkpoints, and at the start by the network it starts from: each new deck against
+  that network frozen at each of the 83 old decks, 32 games a pairing from both seats,
+  and every ordered pairing of the old decks head to head against it, 8 games each
+  (55,112 games); after 8,040, each of the seventy-one mirrors head to head against its
+  champion, 128 deals from both seats (`eval_suites/pool-batch-one-*.json`,
+  `tools/pool_batch_report.py`).
+
+Readings, at 8,040 updates:
+
+1. *The new decks learn*: the mean over the fifty of each deck's share against the
+   frozen network, less at the start, the deals paired: **learns** when at least 5
+   points by two standard errors, **does not** when at most 2 points by two standard
+   errors, otherwise **not decided**.
+2. *The old decks hold*: head to head against the frozen network on the old decks'
+   pairings: **hold** when at least 49% by two standard errors, **slip** when at most
+   49% by two standard errors, otherwise **not decided**.
+3. *The mirrors come back*: the seventy-one mirrors against their champions, from
+   44.1% at the start: **kept** when their mean is at least 48% by two standard errors
+   and none is at most 45% by two standard errors, **lost** when the mean is at most
+   48% by two standard errors or one is at most 45% by two standard errors, otherwise
+   **not decided**.
+
+Told beside them, without a mark: the same at 4,020 updates; the twelve held out
+against the frozen network as the new decks, at the start and the end; the new decks
+against the thirteen decks' pilots, at the start and the end; the hours.
+
+If the mirrors do not come back, the batch is played again from
+`seventy-one-champions` with all sixty-two Decks and the same share in the mirrors,
+some 26 hours.
+
+**Current next step:** the first batch, queued on the CUDA machine on 2026-11-03.

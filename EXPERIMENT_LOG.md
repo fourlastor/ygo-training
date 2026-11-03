@@ -26,6 +26,8 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   +9.2 ± 0.2 points against the frozen network at some 80,000 games, its budget; the
   old decks not decided (49.6% ± 0.4% head to head); their mirrors fell to 44.1%
   against the champions with no share of their own.
+  The first batch, fifty more Decks from that network with a quarter of the duels in
+  the mirrors, runs since 2026-11-03.
 - And beside it, since 2026-10-23,
   [The credit offline: a value head with more results, and pairing at the decision](experiments/2026-10-23-credit-offline.md):
   two measurements that train nothing, of `all71`'s last checkpoint in its

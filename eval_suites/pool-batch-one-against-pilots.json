@@ -1,0 +1,306 @@
+{
+  "name": "pool-batch-one-against-pilots",
+  "primary": "game-0013-vs-pilots",
+  "cases": [
+    {
+      "name": "game-0013-vs-pilots",
+      "learner": "game-0013",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0014-vs-pilots",
+      "learner": "game-0014",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0015-vs-pilots",
+      "learner": "game-0015",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0016-vs-pilots",
+      "learner": "game-0016",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0017-vs-pilots",
+      "learner": "game-0017",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0018-vs-pilots",
+      "learner": "game-0018",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0019-vs-pilots",
+      "learner": "game-0019",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0020-vs-pilots",
+      "learner": "game-0020",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0021-vs-pilots",
+      "learner": "game-0021",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0022-vs-pilots",
+      "learner": "game-0022",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0023-vs-pilots",
+      "learner": "game-0023",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0024-vs-pilots",
+      "learner": "game-0024",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0025-vs-pilots",
+      "learner": "game-0025",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0026-vs-pilots",
+      "learner": "game-0026",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0027-vs-pilots",
+      "learner": "game-0027",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0028-vs-pilots",
+      "learner": "game-0028",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0029-vs-pilots",
+      "learner": "game-0029",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0030-vs-pilots",
+      "learner": "game-0030",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0031-vs-pilots",
+      "learner": "game-0031",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0032-vs-pilots",
+      "learner": "game-0032",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0033-vs-pilots",
+      "learner": "game-0033",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0034-vs-pilots",
+      "learner": "game-0034",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0035-vs-pilots",
+      "learner": "game-0035",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0036-vs-pilots",
+      "learner": "game-0036",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0037-vs-pilots",
+      "learner": "game-0037",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0038-vs-pilots",
+      "learner": "game-0038",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0039-vs-pilots",
+      "learner": "game-0039",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0040-vs-pilots",
+      "learner": "game-0040",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0041-vs-pilots",
+      "learner": "game-0041",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0042-vs-pilots",
+      "learner": "game-0042",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0043-vs-pilots",
+      "learner": "game-0043",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0044-vs-pilots",
+      "learner": "game-0044",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0045-vs-pilots",
+      "learner": "game-0045",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0046-vs-pilots",
+      "learner": "game-0046",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0047-vs-pilots",
+      "learner": "game-0047",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0048-vs-pilots",
+      "learner": "game-0048",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0049-vs-pilots",
+      "learner": "game-0049",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0050-vs-pilots",
+      "learner": "game-0050",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0051-vs-pilots",
+      "learner": "game-0051",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0052-vs-pilots",
+      "learner": "game-0052",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0053-vs-pilots",
+      "learner": "game-0053",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0054-vs-pilots",
+      "learner": "game-0054",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0055-vs-pilots",
+      "learner": "game-0055",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0056-vs-pilots",
+      "learner": "game-0056",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0057-vs-pilots",
+      "learner": "game-0057",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0058-vs-pilots",
+      "learner": "game-0058",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0059-vs-pilots",
+      "learner": "game-0059",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0060-vs-pilots",
+      "learner": "game-0060",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0061-vs-pilots",
+      "learner": "game-0061",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    },
+    {
+      "name": "game-0062-vs-pilots",
+      "learner": "game-0062",
+      "opponent": "blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiator,heroes,infernity,monarch,morphtronic,rock-block,spellcaster",
+      "games": 64
+    }
+  ]
+}
