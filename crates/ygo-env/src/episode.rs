@@ -145,8 +145,8 @@ pub struct Over {
     pub departures: usize,
     pub record: Option<serde_json::Value>,
     /// What the engine reported, where it stopped the duel: a card's script
-    /// that failed, or the duel's arena found full.  Such a duel ends as one
-    /// the limit stops, its record with it, to be played again.
+    /// that failed.  Such a duel ends as one the limit stops, its record with
+    /// it, to be played again.
     pub failure: Option<String>,
 }
 
@@ -190,7 +190,9 @@ impl Environment {
     /// them, any folders of lists no policy was written for: each `.ydk` a
     /// deck named by its file, the generic policy its pilot.
     pub fn open(cards: &Path, scripts: &Path, decks: &Path) -> Result<Self> {
-        let core = Core::open(None, cards, scripts)?;
+        // Nothing here takes a snapshot of a duel, which is what an arena is
+        // for: without one, a long duel is bound by the machine alone.
+        let core = Core::open(None, cards, scripts)?.without_arenas();
         let db: Arc<dyn CardDatabase> =
             Arc::new(SqliteCards::open(cards).map_err(|e| format!("{}: {e}", cards.display()))?);
         let features = features::open(cards)?;
@@ -487,9 +489,9 @@ impl Episode<'_> {
         let stepped = self.duel.step();
         let step = match stepped {
             Ok(step) => step,
-            // An error the engine reported: a card's script failed, or the
-            // duel's arena is full.  The duel cannot go on, and ends there as
-            // one the limit stops, with what was reported and its record.
+            // An error the engine reported: a card's script failed.  The duel
+            // cannot go on, and ends there as one the limit stops, with what
+            // was reported and its record.
             // Any other error is of the messages read, and stops the caller.
             Err(message) if !self.duel.errors().is_empty() => {
                 self.finish_followers();
