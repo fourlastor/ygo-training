@@ -166,4 +166,38 @@ If the old decks slip, their share goes up, or a term holding the network to its
 on them is tried, as `decklight` reports. If the new decks do not learn, the
 champions' recipe is tried on them.
 
-**Current next step:** the test, built and queued on the CUDA machine on 2026-11-02.
+## The first batch test: results (read on 2026-11-03)
+
+The run took 10.1 hours on the CUDA machine and its measure 54 minutes, from
+`seventy-one-champions` (`analysis/expanded-pool/first-batch/report.txt`).
+
+1. *A new deck learns*: **learns**, +9.2 ± 0.2 points against the frozen network
+   after 2,160 updates, from 16.4%. Each of the twelve gains, from +2.2
+   (`game-0009`) to +21.2 (`game-0005`).
+2. *How many games a deck takes*: **2,160 updates**, some 80,000 games a new deck,
+   within 2 points of the last point's +10.5 ± 0.2 after 4,320; 540 updates (+5.4)
+   and 1,080 (+7.6) are not.
+3. *The old decks hold*: **not decided**, 49.6% ± 0.4% head to head against the
+   frozen network after 4,320 updates, 49.4% to 49.6% at every point along the run.
+
+Beside them:
+
+- The next twelve Decks, trained on nothing, gained 1.3 ± 0.1 points from 12.1%:
+  what the network learns of a deck carries little to one it does not train.
+- The new decks against the thirteen decks' pilots: 32.2% from 20.9%, +11.2 ± 0.3.
+- The old mirrors head to head against their champions: 44.1%, where
+  `seventy-one-champions` stood at 50.4%, the lowest `deckout` and `reptilianne` at
+  30.9%. The weights gave the 71 mirrors 0.35% of the duels, some 110 a mirror over
+  the run, and they fell as the fourteen decks' did with no share of their own
+  (44.9%).
+- 220 duels of some 2.25 million failed, every one with `game-0001` or `game-0012`
+  in a seat: Fake Feather 117, Beast Rising 89, seven other cards 14 between them.
+  Beast Rising reads its target without checking there is one (line 45 of
+  `c84962466.lua`); Fake Feather takes the first card of an empty group (line 40 of
+  `c22628574.lua`) and at line 51 finds no Effect where it kept one.
+
+The rules fixed with the readings cover neither new decks that learn while the old
+ones are not decided nor the mirrors' fall, told beside without a mark.
+
+**Current next step:** the first batch's design, on these readings, to be agreed
+before anything is built.
