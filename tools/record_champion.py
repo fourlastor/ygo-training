@@ -46,7 +46,7 @@ from ygo_training.champion_records import (
     write_chunk,
 )
 from ygo_training.checkpoints import load_inference_model, value_fingerprint
-from ygo_training.environment import Environment
+from ygo_training.environment import pool as policy_decks
 from ygo_training.pool import DuelPool, taught_games
 
 THIRTEEN = (
@@ -97,8 +97,10 @@ def record(
     kinds = {MIRROR: mirrors} | {f"against-{opponent}": against for opponent in opponents}
     teacher, saved = load_inference_model(checkpoint, device=device)
     teacher.requires_grad_(False)
-    with Environment(ROOT) as environment:
-        decks = sorted(environment.decks)
+    # A chunk's deals are numbered by the place of its decks among the pool's,
+    # the policies' own: not among the game decks beside them, whose number
+    # would move the deals of every recording made before.
+    decks = sorted(policy_decks(ROOT))
     for name in [deck, *opponents]:
         if name not in decks:
             raise SystemExit(f"Unknown deck: {name}")
