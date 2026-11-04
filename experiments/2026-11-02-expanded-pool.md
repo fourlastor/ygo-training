@@ -440,5 +440,6 @@ term and its share. If only `quarter` does, the quarter stays. If neither does, 
 mirrors need more, designed then. The fast arm stops at 4,020 whatever it reads.
 
 **Current next step:** the fast arm on the CUDA machine, wholly on the mended arenas, is
-read at 4,020 updates against the first batch this evening; then the two arms, once
-the distillation is built and smoke-tested here.
+read at 4,020 updates against the first batch this evening. The two arms are queued
+after it, `quarter` then `distilled` (`experiments/commands/pool-replay.sh`, `e8c8f0a9`),
+the distillation smoke-tested on this machine's processor.
