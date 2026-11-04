@@ -93,6 +93,7 @@ class _Trainer:
     teacher_description = None
     held = None
     held_description = None
+    reference_description = None
     critic_description = None
     card_head_description = None
     initial_model_fingerprint = "as built"

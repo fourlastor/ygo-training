@@ -135,6 +135,14 @@ class TrainerConfig:
     # only in the updates whose games show its card
     # (experiments/2026-11-02-expanded-pool.md, the card identities).
     identity_learning_rate_scale: float = 1.0
+    # A frozen network whose answers the old decks keep: at each decision of a
+    # seat of one of `distill_decks` in a duel between two of them, the
+    # divergence of the model's answers from the reference's is added to
+    # PPO's loss, at `distill_weight` times the weight PPO gives a transaction
+    # (experiments/2026-11-02-expanded-pool.md, the batch again in two arms).
+    distill_reference: str | None = None
+    distill_weight: float = 0.0
+    distill_decks: list[str] | None = None
     # The deck the learner plays, and the decks it meets: every other deck of
     # the pool when none is named.
     learner_deck: str = "blackwing"
@@ -382,6 +390,14 @@ class TrainerConfig:
             raise ValueError("learning_rate must be positive")
         if self.identity_learning_rate_scale <= 0.0:
             raise ValueError("identity_learning_rate_scale must be positive")
+        if self.distill_weight < 0.0:
+            raise ValueError("distill_weight must be non-negative")
+        if bool(self.distill_weight) != bool(self.distill_reference) or bool(
+            self.distill_weight
+        ) != bool(self.distill_decks):
+            raise ValueError("distill_weight, distill_reference and distill_decks go together")
+        if self.distill_decks and not set(self.distill_decks) <= set(self.learners):
+            raise ValueError("distill_decks are among the learner's decks")
         if self.rollout_temperature <= 0.0:
             raise ValueError("rollout_temperature must be positive")
         if not self.learner_deck:

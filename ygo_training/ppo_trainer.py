@@ -199,6 +199,25 @@ class PpoTrainer(Trainer):
             folded = saved.get("metadata", {}).get("folded_deck_lists")
             if folded is not None:
                 self.held_description["folded_deck_lists"] = folded
+        # The frozen network the old decks keep their answers to, where the run
+        # distils them: asked again in each update's pass at the decisions of
+        # their seats in duels between two of them.  As with a teacher, the
+        # generator is left where the learner's left it.
+        self.reference: PolicyValueNet | None = None
+        self.reference_description: dict[str, Any] | None = None
+        if config.distill_reference:
+            drawn = torch.get_rng_state()
+            path = Path(config.distill_reference).resolve()
+            self.reference, saved = load_inference_model(path, device=self.device)
+            torch.set_rng_state(drawn)
+            self.reference.requires_grad_(False)
+            self.reference_description = {
+                "path": str(path),
+                "step": saved.get("step"),
+                "fingerprint": value_fingerprint(self.reference.state_dict()),
+                "weight": config.distill_weight,
+                "decks": list(config.distill_decks or []),
+            }
         self.optimizer = torch.optim.Adam(
             parameter_groups(self.model, config.learning_rate, config.identity_learning_rate_scale),
             lr=config.learning_rate,
@@ -278,6 +297,7 @@ class PpoTrainer(Trainer):
         self._kept_seconds = 0.0
         self.policy_optimizer.kept = self._kept
         self.policy_optimizer.teachers = self.teachers
+        self.policy_optimizer.reference = self.reference
         # The critic that sees the hidden cards, where the run has one: made
         # once the model is as the run begins (`begin_critic`).
         self.critic: SightedCritic | None = None

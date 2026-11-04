@@ -130,3 +130,19 @@ def test_the_suites_of_batch_one_are_the_tools():
         )
     for case in made["pool-batch-one-pairings-checkpoint"]["cases"]:
         assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
+
+
+def test_the_suites_of_the_replay_are_the_tools():
+    # From seventy-one-champions: the first batch test's and the first batch's decks new,
+    # the seventy-one alone old.
+    left = {"game-0037", "game-0065"}
+    new = [deck for deck in suites.numbered("game-0001:game-0063") if deck not in left]
+    held_out = [deck for deck in suites.numbered("game-0064:game-0076") if deck not in left]
+    assert len(new) == 62 and len(held_out) == 12
+    made = suites.suites("replay", new, held_out)
+    for name, told in made.items():
+        assert (
+            json.loads((ROOT / "eval_suites" / f"{name}.json").read_text(encoding="utf8")) == told
+        )
+    old = made["pool-batch-replay-pairings-checkpoint"]["cases"][0]["opponent"].split(",")
+    assert old == suites.seventy_one()

@@ -8,9 +8,13 @@
 # against itself (--self-play-weights from RUN.weights.json): MIRRORS_SHARE of them
 # in the mirrors of all the decks, OLD_SHARE between two old decks, and the rest
 # with a new deck in one seat and any other deck in the other; with the settings of
-# fast, a checkpoint every STEP. UPDATES gives a new deck some 80,000 games. An
-# interrupted run goes on from its last checkpoint; with NEW_PINS=1 it goes on although the
-# pins moved since (train --new-pins), for a move whose duels are the old ones.
+# fast, a checkpoint every STEP. UPDATES gives a new deck some 80,000 games. The old decks'
+# duels, their mirrors and their pairings, are at OLD_SCALE of those weights, what that leaves
+# going to the new decks' pairings; with DISTILL_REFERENCE, at each decision of an old deck's
+# seat in a duel between two old decks the divergence from that frozen network's answers is
+# added to PPO's loss at DISTILL_WEIGHT (train --distill-reference). An interrupted run goes
+# on from its last checkpoint; with NEW_PINS=1 it goes on although the pins moved since
+# (train --new-pins), for a move whose duels are the old ones.
 #
 # measure. Into OUT, at each of POINTS by the mean of the last MEAN_KEPT
 # checkpoints the run kept by then, and at 0 by NETWORK: each new deck against
@@ -39,8 +43,9 @@ THIRTEEN=${THIRTEEN:-blackwing,lightsworn,gishki,burn,crystal,dragunity,gladiato
 # Batch one leaves out game-0037: its Cloak and Dagger names a card, a decision of
 # 4,096 answers that the pool pads every decision in flight to.
 NEW=${NEW:-$(printf "game-%04d," $(seq 13 36) $(seq 38 63) | sed "s/,$//")}
-# The game decks of the batches before, old decks here as the seventy-one are.
-EARLIER=${EARLIER:-$(printf "game-%04d," $(seq 1 12) | sed "s/,$//")}
+# The game decks of the batches before, old decks here as the seventy-one are: none where
+# EARLIER is set empty.
+EARLIER=${EARLIER-$(printf "game-%04d," $(seq 1 12) | sed "s/,$//")}
 FIRST=${FIRST:-37440}
 UPDATES=${UPDATES:-8040}
 POINTS=${POINTS:-4020 8040}
@@ -52,6 +57,9 @@ IDENTITY_SCALE=${IDENTITY_SCALE:-1}
 SEED=${SEED:-2012}
 MIRRORS_SHARE=${MIRRORS_SHARE:-0.25}
 OLD_SHARE=${OLD_SHARE:-0.1875}
+OLD_SCALE=${OLD_SCALE:-1}
+DISTILL_REFERENCE=${DISTILL_REFERENCE:-}
+DISTILL_WEIGHT=${DISTILL_WEIGHT:-1}
 IN_FLIGHT=${IN_FLIGHT:-1040}
 FAST_SLOTS=${FAST_SLOTS:-52}
 MINIBATCH=${MINIBATCH:-512}
@@ -139,23 +147,26 @@ playing() {
 }
 # weights FILE: the weights of the duels, into FILE, and what they give a deck.
 weights() {
-  "${python[@]}" - "$1" "$NEW" "$(IFS=,; echo "${olds[*]}")" "$MIRRORS_SHARE" "$OLD_SHARE" "$DUELS" << 'SCRIPT'
+  "${python[@]}" - "$1" "$NEW" "$(IFS=,; echo "${olds[*]}")" "$MIRRORS_SHARE" "$OLD_SHARE" "$DUELS" \
+    "$OLD_SCALE" << 'SCRIPT'
 import json
 import sys
 
-file, new, old, mirrors, old_share, duels = sys.argv[1:7]
+file, new, old, mirrors, old_share, duels, old_scale = sys.argv[1:8]
 new, old = new.split(","), old.split(",")
 decks = new + old
-mirrors, old_share, duels = float(mirrors), float(old_share), int(duels)
-new_share = 1 - mirrors - old_share
+mirrors, old_share, duels, old_scale = float(mirrors), float(old_share), int(duels), float(old_scale)
+# The old decks' duels at old_scale of their weights, what that leaves to the new
+# decks' pairings.
+new_share = 1 - mirrors - old_share + (1 - old_scale) * (mirrors * len(old) / len(decks) + old_share)
 # A new deck meets any other deck as often from either seat, so that a pair of new
 # decks is met from both: twice the weight of a new deck and an old one.
 pairs = 2 * len(new) * len(old) + 2 * len(new) * (len(new) - 1)
-told = {f"{one}>{one}": mirrors / len(decks) for one in decks}
+told = {f"{one}>{one}": mirrors / len(decks) * (old_scale if one in old else 1) for one in decks}
 for one in old:
     for two in old:
         if one != two:
-            told[f"{one}>{two}"] = old_share / (len(old) * (len(old) - 1))
+            told[f"{one}>{two}"] = old_scale * old_share / (len(old) * (len(old) - 1))
 for one in new:
     for two in old:
         told[f"{one}>{two}"] = told[f"{two}>{one}"] = new_share / pairs
@@ -172,6 +183,7 @@ print(
     f"An update gives a new deck {sum(seats[d] for d in new) / len(new):.2f} games,"
     f" an old one {sum(seats[d] for d in old) / len(old):.2f},"
     f" a mirror {duels * mirrors / len(decks):.2f} duels"
+    + (f", an old mirror {duels * mirrors * old_scale / len(decks):.2f}" if old_scale != 1 else "")
 )
 SCRIPT
 }
@@ -188,6 +200,12 @@ if [[ " $PARTS " == *" run "* ]]; then
     --self-play-duels "$DUELS" --self-play-weights "$RUNS/$RUN.weights.json"
     --identity-learning-rate-scale "$IDENTITY_SCALE"
   )
+  if [ -n "$DISTILL_REFERENCE" ]; then
+    arguments+=(
+      --distill-reference "$DISTILL_REFERENCE" --distill-weight "$DISTILL_WEIGHT"
+      --distill-decks "$(IFS=,; echo "${olds[*]}")"
+    )
+  fi
   if ! ls "$RUNS/$RUN"/checkpoints/model-*.pt > /dev/null 2>&1; then
     "${python[@]}" -m ygo_training train "${arguments[@]}" --resume "$NETWORK" \
       --resume-learning-rate "$RATE" --updates "$UPDATES"

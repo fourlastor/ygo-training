@@ -227,6 +227,22 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         help="the cards' identity tables learn at this many times the learning rate",
     )
     parser.add_argument(
+        "--distill-reference",
+        type=Path,
+        help=(
+            "a frozen network the --distill-decks keep their answers to: at each "
+            "decision of their seats in a duel between two of them, the divergence "
+            "from its answers is added to PPO's loss"
+        ),
+    )
+    parser.add_argument(
+        "--distill-weight",
+        type=float,
+        default=0.0,
+        help="weight of that divergence, as a multiple of the weight PPO gives a transaction",
+    )
+    parser.add_argument("--distill-decks", help="the decks held so, comma-separated")
+    parser.add_argument(
         "--eval-every",
         type=int,
         default=GOLDEN_TRAINING_PROTOCOL.eval_every,

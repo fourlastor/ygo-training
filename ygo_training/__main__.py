@@ -254,6 +254,9 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
             else args.learning_rate
         ),
         identity_learning_rate_scale=args.identity_learning_rate_scale,
+        distill_reference=str(args.distill_reference) if args.distill_reference else None,
+        distill_weight=args.distill_weight,
+        distill_decks=_deck_list(args.distill_decks),
         seed=args.seed if args.training_seed is None else args.training_seed,
         device=args.device,
         learner_deck=learners[0],
@@ -505,6 +508,8 @@ def train(args: argparse.Namespace) -> None:
     }
     if config.identity_learning_rate_scale != 1.0:
         run_config["identity_learning_rate_scale"] = config.identity_learning_rate_scale
+    if trainer.reference_description is not None:
+        run_config["distill"] = trainer.reference_description
     # A run goes on with the model asked another way than it began with: it
     # is the same model that plays, and the description says the last way.
     mutable = {"updates_per_invocation", "trainer_revision", "model_calls"}
