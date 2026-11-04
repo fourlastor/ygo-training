@@ -32,12 +32,15 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   under 45%, so the batch is to be played again from `seventy-one-champions` with all
   sixty-two Decks, as its design fixed, and beside it, fixed on 2026-11-04, an arm that
   keeps the old decks by distilling them towards `seventy-one-champions` on 0.4 of
-  their duels. A duel that filled its arena stopped the run twice, and the engine now
-  ends such a duel instead. Beside the batches, what an
-  unseen card's random key costs at play, read on 2026-11-03: blank keys not decided,
-  +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing them, so random keys
-  stay; the first batch again with its identity tables learning ten times faster runs
-  since 2026-11-04.
+  their duels; the two run one after the other since 2026-11-04. A duel that filled
+  its arena stopped the run twice, and the engine now ends such a duel instead. Beside
+  the batches, what an unseen card's random key costs at play, read on 2026-11-03:
+  blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
+  them, so random keys stay; and the first batch again with its identity tables
+  learning ten times faster, read on 2026-11-04 at 4,020 updates: not decided on
+  learning faster (+0.6 ± 0.1 points) nor on the old decks (−0.8 ± 0.2), so the tables
+  keep the network's rate. At ten times it half of what a batch learns of its new
+  cards lies in their rows, against 15% at the network's rate.
 - And beside it, since 2026-10-23,
   [The credit offline: a value head with more results, and pairing at the decision](experiments/2026-10-23-credit-offline.md):
   two measurements that train nothing, of `all71`'s last checkpoint in its

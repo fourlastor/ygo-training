@@ -439,7 +439,46 @@ If `distilled` keeps the mirrors and holds the old decks, the batches after take
 term and its share. If only `quarter` does, the quarter stays. If neither does, the
 mirrors need more, designed then. The fast arm stops at 4,020 whatever it reads.
 
-**Current next step:** the fast arm on the CUDA machine, wholly on the mended arenas, is
-read at 4,020 updates against the first batch this evening. The two arms are queued
-after it, `quarter` then `distilled` (`experiments/commands/pool-replay.sh`, `e8c8f0a9`),
-the distillation smoke-tested on this machine's processor.
+## Card identities, step 2: results (read on 2026-11-04)
+
+The fast arm took 10.1 hours to 4,020 updates on the CUDA machine
+(`analysis/expanded-pool/batch-one-fast/compare.txt`), and the first batch was measured
+at the same point for it (`analysis/expanded-pool/batch-one-4020/`). Its measure stopped
+once, four measures at once running out of the card's memory; the one that failed was
+played again alone, as the batch script now does (`db4f9130`).
+
+1. *It learns faster*: **not decided**, +0.6 ± 0.1 points: +8.0 against +7.4 over the
+   frozen network.
+2. *The old decks are no worse*: **not decided**, −0.8 ± 0.2 points head to head: 48.4%
+   against 49.2%.
+
+Beside them:
+
+- The mirrors against their champions: 42.4% against the first batch's 44.9% at 4,020
+  updates, twenty-two decks under 45% by two standard errors against ten.
+- The twelve held out, trained on nothing: +0.8 ± 0.2 points more than the first
+  batch's, +1.1 against +0.3 from 13.5%.
+- The new decks against the thirteen decks' pilots: 28.7% against 27.9%.
+- Where what is learnt lives, on this machine's processor: each network at the fifty new
+  decks against the start at each old deck, 8,300 games an arm, the deals paired
+  (`experiments/commands/identity-rows.sh`, `analysis/identity-rows/report.txt`). The
+  batch met first 715 rows of the low table and 268 of the high, rows the start had
+  untrained. The first batch moved them 1.0 against keys of 6.9: putting them back to
+  their untrained values costs 0.9 ± 0.3 points of its +6.1 ± 0.4 there, 15%, and
+  drawing them afresh 3.9 ± 0.4, 64%. The fast arm moved them 5.4 and 5.0: putting them
+  back costs 3.7 ± 0.4 of its +7.6 ± 0.4, 48%, and drawing them afresh 5.1 ± 0.4, 67%.
+  The rows of the cards trained before the batch moved 0.65 in the first batch and 4.1
+  to 4.2 in the fast arm, against keys of 7.0 to 7.5; the rest of the network moved as
+  far in both, 62 and 60 against 639.
+
+Neither reading is met, so the fast arm stops at 4,020 and the identity tables keep the
+network's learning rate; the two arms of the batch again take them so, as
+`pool-replay.sh` read at `quarter`'s start. At the network's rate most of what a batch
+learns of its new cards lies outside their rows, bound to their random keys; at ten
+times it half lies in them, and the old cards' keys move six times as far, which the
+mirrors' fall fits but does not show.
+
+**Current next step:** `quarter` runs on the CUDA machine since 2026-11-04 18:54 at
+`db4f9130`, its first updates as designed (a new deck 8.84 games an update, an old one
+6.93, 8.5 seconds an update), some 23 hours with its measure; `distilled` is queued
+after it.
