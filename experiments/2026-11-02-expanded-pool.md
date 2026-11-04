@@ -381,7 +381,64 @@ quarter of the duels over 133 mirrors raised them 1.6 points in 8,040 updates. A
 design fixed, the batch is played again from `seventy-one-champions` with all
 sixty-two Decks and the same share in the mirrors.
 
+## The batch again, in two arms (design and readings fixed on 2026-11-04, before anything was built)
+
+The first batch lost the mirrors, and its design has the batch played again from
+`seventy-one-champions` with all sixty-two Decks and the same share in the mirrors.
+Beside it runs an arm that holds the old decks by distillation and not by their duels.
+A quarter of the duels over 133 mirrors gave each 0.98 duels an update, and a pool of
+the games' Decks would need ever more of them for the same (agreed on 2026-11-04).
+
+- **Start**: `seventy-one-champions` (step 33,120), its mirrors at 50.4%.
+- **Decks**: new, the sixty-two of the first batch test and the first batch,
+  `game-0001` to `game-0063` but `game-0037`; old, the seventy-one; held out, the
+  same twelve.
+- **Runs**: PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings
+  of `fast`, every duel against itself, 9,000 updates, a checkpoint every 60. The cards'
+  identity tables are as the fast arm reads: at ten times the learning rate where it
+  learns faster and the old decks are no worse, at the same rate otherwise. One arm
+  after the other on the CUDA machine, some 23 hours each.
+  - **`quarter`**: the first batch's weights, a quarter of the duels in the mirrors of
+    all 133 decks and of the rest a quarter between two old decks. Between two old
+    decks that is 167 duels an update, 0.98 for an old mirror; a new deck plays 8.85
+    games an update, some 79,650 over the run.
+  - **`distilled`**: the old decks' duels, their mirrors and their pairings, at 0.4 of
+    `quarter`'s weights, what that leaves going to the new decks' pairings. Between
+    two old decks that is 67 duels an update, 0.39 for an old mirror; a new deck plays
+    11.2 games an update. At each decision of an old deck's seat in a duel between two
+    old decks, the divergence of the network's answers from those of
+    `seventy-one-champions`, frozen, is added to PPO's loss with the weight PPO gives a
+    transaction.
+- **Measured** after 4,500 and 9,000 updates by the mean of the last six kept
+  checkpoints, and at the start by `seventy-one-champions`, as the first batch was
+  (`eval_suites/pool-batch-replay-*.json`); the seventy-one mirrors after 9,000.
+
+Readings, at 9,000 updates, for each arm unless said:
+
+1. *The mirrors are kept*: the seventy-one mirrors against their champions: **kept**
+   when their mean is at least 48% by two standard errors and none is at most 45% by
+   two, **lost** when the mean is at most 48% by two or one is at most 45% by two,
+   otherwise **not decided**.
+2. *The old decks hold*: head to head against the frozen network on the old decks'
+   pairings: **hold** when at least 49% by two standard errors, **slip** when at most
+   49% by two, otherwise **not decided**.
+3. *The new decks learn*: the mean over the sixty-two of each deck's share against the
+   frozen network, less at the start, the deals paired: **learns** when at least 5
+   points by two standard errors, **does not** when at most 2 points by two, otherwise
+   **not decided**.
+4. *`distilled` against `quarter` on the new decks*: `distilled`'s gain less
+   `quarter`'s, the deals paired: **more** when at least +1.0 point by two standard
+   errors, **not more** when at most +0.3 points by two, otherwise **not decided**.
+
+Told beside them, without a mark: the same at 4,500 updates; the twelve held out and
+the new decks against the thirteen decks' pilots, at the start and the end;
+`distilled`'s divergence from `seventy-one-champions` at its old decks' decisions along
+the run; the hours.
+
+If `distilled` keeps the mirrors and holds the old decks, the batches after take its
+term and its share. If only `quarter` does, the quarter stays. If neither does, the
+mirrors need more, designed then. The fast arm stops at 4,020 whatever it reads.
+
 **Current next step:** the fast arm on the CUDA machine, wholly on the mended arenas, is
-read at 4,020 updates against the first batch this evening. Then the batch is played
-again from `seventy-one-champions`, its identity tables as the fast arm reads, once
-confirmed before it starts.
+read at 4,020 updates against the first batch this evening; then the two arms, once
+the distillation is built and smoke-tested here.
