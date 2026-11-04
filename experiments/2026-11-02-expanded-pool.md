@@ -8,8 +8,8 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-02 (opened; the opponents of the World Championship and
-Tag Force games measured, which hold 89.6% of the pool)
+**Last updated:** 2026-11-04 (the first batch read: the new decks learn and the old
+decks hold, the mirrors are lost)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -333,4 +333,55 @@ Blank keys do not help by either reading, so nothing changes: a new card starts 
 random key in step 2, as in the first batch, and a network seated against decks it
 never met plays with the keys it has.
 
-**Current next step:** the first batch on the CUDA machine, its fast arm queued after it.
+## The first batch: results (read on 2026-11-04)
+
+The run took 20.3 hours on the CUDA machine and its measure an hour
+(`analysis/expanded-pool/batch-one/report.txt`).
+
+1. *The new decks learn*: **learns**, +8.7 ± 0.1 points against the frozen network
+   after 8,040 updates, from 17.4%. Every one of the fifty gained, from +0.2
+   (`game-0019`) to +28.5 (`game-0040`); five gained under two points: `game-0019`,
+   `game-0046` +0.4, `game-0025` +0.6, `game-0054` +1.6 and `game-0034` +1.8.
+2. *The old decks hold*: **hold**, 49.5% ± 0.2% head to head against the frozen
+   network.
+3. *The mirrors come back*: **lost**, 45.7% ± 0.3% against their champions from 44.1%.
+   Five are at most 45% by two standard errors, `deckout` 29.7%, `destiny-hero`
+   33.2%, `heroes` 37.1%, `gusto` 37.9% and `monarch` 37.9%, and none is at least 50%
+   by two. Deck by deck, 47 of the 71 stand higher than with the test's network.
+
+Beside them:
+
+- At 4,020 updates: the new decks +7.4 ± 0.1, the old decks 49.2%. The second half
+  added 1.3 points.
+- The twelve held out, trained on nothing: +1.0 ± 0.2 points from 13.5%.
+- The new decks against the thirteen decks' pilots: 29.5% from 19.4%, +10.2 ± 0.2.
+- A quarter of the duels over 133 mirrors gave each 0.98 duels an update, some 7,900
+  over the run. The fourteen decks' quarter arm gave each of its mirrors some 9.3 an
+  update and kept them (49.1%).
+- The run stopped twice on the engine, at updates 3,871 and about 4,300: a duel that
+  filled its 256 MB arena aborted the process when it was destroyed. It went on each
+  time from its last checkpoint. The engine was mended (the fork's `da75a41` and
+  `f0710af`, the policies' `5a0cc20`, `1c793600` here): a full arena now ends its duel
+  and nothing else. From update 5,002 the run went on at `430b2ca8` without arenas, 11%
+  slower (9.96 s an update against 8.9 to 9.06 s), and from 5,192 at `7306db2d` with
+  the mended arenas (8.61 s). Every game is the same on the three engines except where
+  a duel fills an arena: the policies' round robin of all pilots, 19,880 games, and
+  the bench's games for moving the pin have the same digests. After the mending, three
+  duels filled their arenas and ended there: `game-0048` against `game-0051`,
+  `game-0021` against `game-0040` and `game-0055` against `game-0048`.
+- 688 duels of some 4.2 million failed: Planet Pollutant Virus 553 (`game-0050`),
+  Beast Rising 109 (`game-0001`), Fake Feather 14 (`game-0012`); two each for
+  Batteryman Fuel Cell's other effect, Pyro Clock of Destiny and Orbital Bombardment;
+  one each for Mind Control, Raging Cloudian and Lightforce Sword; and the three full
+  arenas. The scripts are collected through the experiment and mended together at its
+  end, as agreed on 2026-11-03.
+
+The new decks learn and the old decks hold, but the mirrors do not come back: a
+quarter of the duels over 133 mirrors raised them 1.6 points in 8,040 updates. As the
+design fixed, the batch is played again from `seventy-one-champions` with all
+sixty-two Decks and the same share in the mirrors.
+
+**Current next step:** the fast arm on the CUDA machine, wholly on the mended arenas, is
+read at 4,020 updates against the first batch this evening. Then the batch is played
+again from `seventy-one-champions`, its identity tables as the fast arm reads, once
+confirmed before it starts.

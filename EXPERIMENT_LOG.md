@@ -27,10 +27,15 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   old decks not decided (49.6% ± 0.4% head to head); their mirrors fell to 44.1%
   against the champions with no share of their own.
   The first batch, fifty more Decks from that network with a quarter of the duels in
-  the mirrors, runs since 2026-11-03. Beside the batches, what an unseen card's random
-  key costs at play, read on 2026-11-03: blank keys not decided, +0.8 ± 0.2 points
-  playing such cards and +0.4 ± 0.1 facing them, so random keys stay; the first batch
-  again with its identity tables learning ten times faster is queued after it.
+  the mirrors, read on 2026-11-04: the new decks learn, +8.7 ± 0.1 points; the old
+  decks hold, 49.5% ± 0.2%; the mirrors are lost, 45.7% ± 0.3% from 44.1%, five
+  under 45%, so the batch is to be played again from `seventy-one-champions` with all
+  sixty-two Decks, as its design fixed. A duel that filled its arena stopped the run
+  twice, and the engine now ends such a duel instead. Beside the batches, what an
+  unseen card's random key costs at play, read on 2026-11-03: blank keys not decided,
+  +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing them, so random keys
+  stay; the first batch again with its identity tables learning ten times faster runs
+  since 2026-11-04.
 - And beside it, since 2026-10-23,
   [The credit offline: a value head with more results, and pairing at the decision](experiments/2026-10-23-credit-offline.md):
   two measurements that train nothing, of `all71`'s last checkpoint in its
