@@ -4,6 +4,10 @@
     uv run python tools/identity_keys.py make runs/expanded-pool/first-batch-mean/4320.pt \\
         --keys blank --output runs/identity-keys/blank.pt
     uv run python tools/identity_keys.py read analysis/identity-keys
+    uv run python tools/identity_keys.py make runs/expanded-pool/batch-one-mean/4020.pt \\
+        --begun runs/expanded-pool/first-batch-mean/4320.pt --keys initial \\
+        --output runs/identity-rows/control/initial.pt
+    uv run python tools/identity_keys.py rows analysis/identity-rows runs/identity-rows
 
 A card's identity is a row of each of two tables, indexed by the low and the high 16 bits
 of its code. A row no update moved is still its untrained value, which every run of the
@@ -12,12 +16,25 @@ rewrites those rows only: `blank` to zero, `mean` to the mean of the rows traini
 `redraw` afresh from the untrained distribution (`--seed`). Row 0 of each table, the code
 of a card the seat cannot see, is never touched.
 
+With `--begun`, the network a run began from, `make` rewrites the rows of the cards the
+run met first instead: those it moved where that network still had them untrained. They
+are put back to their untrained values (`initial`), what the run learnt of those cards
+then kept outside their rows, or drawn afresh (`redraw`), the keys the rest of the
+network learnt to read gone too.
+
 `read` takes the games `experiments/commands/identity-keys.sh` leaves: in `as-is/` the
 network against itself, in `plays/ARM/` the network with ARM's keys at the decks it never
 trained on against itself as it is, in `faces/ARM/` the network as it is at those decks
 against ARM. Each arm is read against the mean of the random keys (`as-is` and the
 `redraw` arms), the deals paired; beside it, what a key's luck is worth: how far the draws
 lie apart beyond what their games tell.
+
+`rows` takes the games `experiments/commands/identity-rows.sh` leaves: in `start/` the
+network a run began from against itself, in `NAME/ARM/` the network NAME names, as it is
+(`as-is`) and with its rows rewritten (`initial`, `redraw`), at the run's new decks against
+that start. Each network's gain is read against the start's own games and each arm against
+the network as it is, the deals paired, beside the rows rewritten (from the arms in the
+second directory) and how far the run moved them.
 """
 
 from __future__ import annotations
@@ -88,11 +105,49 @@ def rewritten(
     return new, counts
 
 
-def make(network: Path, keys: str, seed: int, output: Path) -> None:
+def put_back(
+    state: dict[str, torch.Tensor],
+    begun: dict[str, torch.Tensor],
+    keys: str,
+    seed: int = 0,
+) -> tuple[dict[str, torch.Tensor], dict[str, float]]:
+    """The state with the rows of the cards a run met first, those it moved where the
+    network it began from (`begun`) had them untrained, put back to their untrained
+    values (`initial`) or drawn afresh (`redraw`); how many, how far the run moved them
+    on average, and the average length of their untrained keys."""
+    start = untrained()
+    generator = torch.Generator().manual_seed(seed)
+    new, told = dict(state), {}
+    for name in TABLES:
+        table = state[name]
+        met = (begun[name] == start[name]).all(dim=1) & (table != start[name]).any(dim=1)
+        met[0] = False
+        made = table.clone()
+        if keys == "initial":
+            made[met] = start[name][met]
+        elif keys == "redraw":
+            made[met] = torch.randn(
+                (int(met.sum()), table.shape[1]), generator=generator, dtype=table.dtype
+            )
+        else:
+            raise SystemExit(f"with --begun keys are initial or redraw, not {keys}")
+        new[name] = made
+        told[name] = int(met.sum())
+        told[f"{name} moved"] = float((table[met] - start[name][met]).norm(dim=1).mean())
+        told[f"{name} key"] = float(start[name][met].norm(dim=1).mean())
+    return new, told
+
+
+def make(network: Path, keys: str, seed: int, output: Path, begun: Path | None = None) -> None:
     from ygo_training import checkpoints
 
     model, payload = checkpoints.load_inference_model(network)
-    state, counts = rewritten(model.state_dict(), keys, seed)
+    if begun is None:
+        state, counts = rewritten(model.state_dict(), keys, seed)
+    else:
+        start, _ = checkpoints.load_inference_model(begun)
+        state, counts = put_back(model.state_dict(), start.state_dict(), keys, seed)
+        counts = {**counts, "begun": str(begun)}
     model.load_state_dict(state)
     metadata = {**payload["metadata"], "identity_keys": {"keys": keys, "seed": seed, **counts}}
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -213,19 +268,79 @@ def shown(found: dict[str, dict]) -> str:
     return "\n".join(lines)
 
 
+def rows(directory: Path, arms: Path) -> dict[str, dict]:
+    """Each network's gain over the start its run began from, and what its arms cost of
+    it, from the games `experiments/commands/identity-rows.sh` leaves; the rows rewritten
+    as the network's `initial` arm in `arms` tells them."""
+    start = games(directory / "start", faces=False)
+    found: dict[str, dict] = {"start": {"share": sum(start.values()) / len(start)}}
+    for folder in sorted(path for path in directory.iterdir() if (path / "as-is").is_dir()):
+        as_is = games(folder / "as-is", faces=False)
+        told = {"share": sum(as_is.values()) / len(as_is), "gain": against(as_is, start)}
+        for arm in ("initial", "redraw"):
+            arm_games = games(folder / arm, faces=False)
+            told[arm] = {
+                "share": sum(arm_games.values()) / len(arm_games),
+                **against(arm_games, as_is),
+            }
+        payload = torch.load(
+            arms / folder.name / "initial.pt", map_location="cpu", weights_only=False
+        )
+        told["rows"] = payload["metadata"]["identity_keys"]
+        found[folder.name] = told
+    return found
+
+
+def shown_rows(found: dict[str, dict]) -> str:
+    lines = [f"The start against itself: {100 * found['start']['share']:.1f}%"]
+    for name, told in found.items():
+        if name == "start":
+            continue
+        gain, made = told["gain"], told["rows"]
+        moved = "; ".join(
+            f"{made[table]:,} rows of the {table.split('.')[1]} table, moved"
+            f" {made[f'{table} moved']:.2f} against keys of {made[f'{table} key']:.2f}"
+            for table in TABLES
+        )
+        lines.append(
+            f"{name}: {100 * told['share']:.1f}%, {100 * gain['gap']:+.1f} ± {100 * gain['error']:.1f}"
+            f" points over the start, {gain['games']:,} games; {moved}"
+        )
+        for arm, words in (
+            ("initial", "put back to their untrained values"),
+            ("redraw", "drawn afresh"),
+        ):
+            cost = told[arm]
+            lines.append(
+                f"  the rows of the cards it met first {words}: {100 * cost['gap']:+.1f} ±"
+                f" {100 * cost['error']:.1f} points, {-cost['gap'] / gain['gap']:.0%} of its gain"
+            )
+    return "\n".join(lines)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parts = parser.add_subparsers(dest="part", required=True)
     made = parts.add_parser("make")
     made.add_argument("network", type=Path)
-    made.add_argument("--keys", required=True, choices=("blank", "mean", "redraw"))
+    made.add_argument("--keys", required=True, choices=("blank", "mean", "redraw", "initial"))
     made.add_argument("--seed", type=int, default=0)
+    made.add_argument("--begun", type=Path)
     made.add_argument("--output", type=Path, required=True)
     told = parts.add_parser("read")
     told.add_argument("directory", type=Path)
+    told_rows = parts.add_parser("rows")
+    told_rows.add_argument("directory", type=Path)
+    told_rows.add_argument("arms", type=Path)
     args = parser.parse_args()
     if args.part == "make":
-        make(args.network, args.keys, args.seed, args.output)
+        if args.keys == "initial" and args.begun is None:
+            parser.error("rows are put back to their untrained values with --begun")
+        make(args.network, args.keys, args.seed, args.output, args.begun)
+    elif args.part == "rows":
+        found = rows(args.directory, args.arms)
+        (args.directory / "report.json").write_text(json.dumps(found, indent=1), encoding="utf8")
+        print(shown_rows(found))
     else:
         found = read(args.directory)
         (args.directory / "report.json").write_text(json.dumps(found, indent=1), encoding="utf8")

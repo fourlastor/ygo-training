@@ -96,3 +96,47 @@ def test_a_keys_luck_is_the_spread_its_games_do_not_explain():
     assert found["widest"] == pytest.approx(0.1)
     assert found["spread"] == pytest.approx(((0.01 - error**2) / 2) ** 0.5)
     assert found["reference"] == pytest.approx(found["spread"] / 2**0.5)
+
+
+def test_the_rows_put_back_are_those_the_run_moved_where_its_start_had_not(monkeypatch):
+    initial = tables()
+    monkeypatch.setattr(tool, "untrained", lambda: initial)
+    low, high = tool.TABLES
+    # The run began where rows 0, 5 and 7 of the low table had moved, row 3 of the high one.
+    begun = trained(initial)
+    state = {name: value.clone() for name, value in begun.items()}
+    # It moved those again, and rows 0, 9 and 11 of the low table, row 2 of the high one.
+    state[low][[0, 5, 7, 9, 11]] += 0.5
+    state[high][[2, 3]] += 0.5
+    made, told = tool.put_back(state, begun, "initial")
+    assert (told[low], told[high]) == (2, 1)
+    assert told[f"{low} moved"] == pytest.approx(1.0)
+    assert torch.equal(made[low][[9, 11]], initial[low][[9, 11]])
+    assert torch.equal(made[high][2], initial[high][2])
+    others = [row for row in range(64) if row not in (9, 11)]
+    assert torch.equal(made[low][others], state[low][others])
+    drawn, _ = tool.put_back(state, begun, "redraw", seed=1)
+    assert not torch.equal(drawn[low][[9, 11]], state[low][[9, 11]])
+    assert torch.equal(drawn[low][others], state[low][others])
+    with pytest.raises(SystemExit):
+        tool.put_back(state, begun, "blank")
+
+
+def test_a_network_s_gain_and_what_its_arms_cost_of_it(tmp_path):
+    played(tmp_path / "games/start/new.jsonl", [1] * 100 + [0] * 300)
+    played(tmp_path / "games/fast/as-is/new.jsonl", [1] * 140 + [0] * 260)
+    played(tmp_path / "games/fast/initial/new.jsonl", [1] * 130 + [0] * 270)
+    played(tmp_path / "games/fast/redraw/new.jsonl", [1] * 110 + [0] * 290)
+    rows = {tool.TABLES[0]: 9, tool.TABLES[1]: 8}
+    for table in tool.TABLES:
+        rows |= {f"{table} moved": 1.5, f"{table} key": 6.9}
+    (tmp_path / "arms/fast").mkdir(parents=True)
+    torch.save({"metadata": {"identity_keys": rows}}, tmp_path / "arms/fast/initial.pt")
+    found = tool.rows(tmp_path / "games", tmp_path / "arms")
+    assert found["fast"]["gain"]["gap"] == pytest.approx(0.1)
+    assert found["fast"]["initial"]["gap"] == pytest.approx(-0.025)
+    assert found["fast"]["redraw"]["gap"] == pytest.approx(-0.075)
+    shown = tool.shown_rows(found)
+    assert (
+        "fast: 35.0%, +10.0" in shown and "25% of its gain" in shown and "75% of its gain" in shown
+    )
