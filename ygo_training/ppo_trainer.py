@@ -280,6 +280,9 @@ class PpoTrainer(Trainer):
         # calls made one at a time where the next update's games are played
         # beside the pass.
         self._duel_pool: DuelPool | Locked | None = None
+        # The duels the engine stopped in a pool closed since they were last
+        # asked for (`failed_duels`).
+        self._failed_before: list[dict[str, Any]] = []
         # The next update's games, played beside an update's pass where the
         # run says so (`TrainerConfig.overlap`): under way or played; the
         # copy of the model that plays them, with the weights from before
@@ -479,8 +482,18 @@ class PpoTrainer(Trainer):
 
     def failed_duels(self) -> list[dict[str, Any]]:
         """The duels the engine stopped since this was last asked
-        (``DuelPool.failed``): none where no duel has been played."""
-        return [] if self._duel_pool is None else self._duel_pool.failed()
+        (``DuelPool.failed``), in a pool closed since too: none where no duel
+        has been played."""
+        failed, self._failed_before = self._failed_before, []
+        return failed if self._duel_pool is None else failed + self._duel_pool.failed()
+
+    def _close_pool(self) -> None:
+        """Close the pool, with the duels in flight in it, keeping what it
+        tells of the duels the engine stopped: the next games open another."""
+        if self._duel_pool is not None:
+            self._failed_before += self._duel_pool.failed()
+            self._duel_pool.close()
+            self._duel_pool = None
 
     def _pilot_games(self, games: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """An update's games with the pilot in the learner's seat, their
@@ -857,27 +870,35 @@ class PpoTrainer(Trainer):
                 "recorded with."
             )
         with self._playing():
-            if watched:
-                return watched_games(
+            try:
+                if watched:
+                    return watched_games(
+                        self._pool(),
+                        self.model,
+                        self.device,
+                        learner=learner,
+                        assignments=assignments,
+                        limit=self.config.limit,
+                    )
+                return pooled_games(
                     self._pool(),
                     self.model,
                     self.device,
                     learner=learner,
                     assignments=assignments,
                     limit=self.config.limit,
+                    pilot=pilot,
+                    held=self.held,
+                    lead_margin=lead_margin,
+                    learner_list=learner_list,
                 )
-            return pooled_games(
-                self._pool(),
-                self.model,
-                self.device,
-                learner=learner,
-                assignments=assignments,
-                limit=self.config.limit,
-                pilot=pilot,
-                held=self.held,
-                lead_margin=lead_margin,
-                learner_list=learner_list,
-            )
+            except Exception:
+                # Games that fail where they stand leave their duels in
+                # flight, waiting for answers, and those go with the pool: the
+                # next games, an evaluation suite's next case, open another
+                # (the card's memory run out at a call, 2026-11-04).
+                self._close_pool()
+                raise
 
     def update(
         self,

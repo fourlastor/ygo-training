@@ -208,6 +208,39 @@ def test_a_trainer_plays_its_evaluations_through_one_pool(trainer, environment):
         assert other._duel_pool is opened
 
 
+def test_games_that_fail_where_they_stand_leave_the_next_a_pool_of_their_own(trainer, environment):
+    """The next case of an evaluation suite, after one whose model failed with
+    its duels in flight (the card's memory run out, 2026-11-04): those duels go
+    with their pool, and the next games are played as they would have been."""
+    opponents = ["monarch", "heroes"]
+    config = TrainerConfig(
+        workers=1,
+        duels=1,
+        device="cpu",
+        seed=45,
+        opponent_decks=OPPONENTS,
+        pool_threads=1,
+        pool_slots=2,
+    )
+    with PpoTrainer(ROOT, config) as other:
+        other.model.load_state_dict(trainer.model.state_dict())
+        calls = 0
+
+        def out_of_memory(*_: Any) -> None:
+            nonlocal calls
+            calls += 1
+            if calls == 3:
+                raise RuntimeError("CUDA out of memory")
+
+        hook = other.model.register_forward_pre_hook(out_of_memory)
+        with pytest.raises(RuntimeError, match="out of memory"):
+            other.evaluate_pool("blackwing", opponents, 4, seed=91)
+        hook.remove()
+        assert other._duel_pool is None
+        played = other.evaluate_pool("blackwing", opponents, 4, seed=91)
+        assert played == alone(environment, trainer.model, evaluation_assignments(opponents, 4, 91))
+
+
 def test_a_round_is_the_decisions_of_the_duels_in_flight():
     setup = {
         "decks": ["blackwing", "monarch"],
