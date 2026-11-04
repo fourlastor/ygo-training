@@ -23,7 +23,9 @@
 # against NETWORK (HELD_OUT), at 0 too; the new decks against the thirteen decks'
 # pilots (PILOTS), at 0 too; and each of MIRROR_DECKS head to head in its mirror
 # against its champion. Then the run's metrics and the report
-# (tools/pool_batch_report.py).
+# (tools/pool_batch_report.py). What fails beside the others is played again once
+# they are over, alone: they share the card's memory, which four of them can run
+# out of together (the fast arm's pilots at 4,020, on 2026-11-04).
 #
 # Batch one: some 19 hours for the run and 1.5 for the measure, AT_ONCE=4.
 #   PARTS="run measure" AT_ONCE=4 bash experiments/commands/pool-batch.sh
@@ -145,6 +147,26 @@ playing() {
   mv "$file.json.part" "$file.json"
   echo "$(date +%H:%M) $file"
 }
+# measures: the measure's games, a file at most once until `queued` is emptied.
+measures() {
+  local point mean deck teacher
+  played "$OUT/0/pairings" "$PAIRINGS" "$NETWORK" --opponent-checkpoint "$NETWORK"
+  played "$OUT/0/held-out" "$HELD_OUT" "$NETWORK" --opponent-checkpoint "$NETWORK"
+  played "$OUT/0/pilots" "$PILOTS" "$NETWORK"
+  for point in $POINTS; do
+    mean=$RUNS/$RUN-mean/$point.pt
+    played "$OUT/$point/pairings" "$PAIRINGS" "$mean" --opponent-checkpoint "$NETWORK"
+    played "$OUT/$point/old" "$OLD" "$mean" --opponent-checkpoint "$NETWORK"
+  done
+  mean=$RUNS/$RUN-mean/$UPDATES.pt
+  played "$OUT/$UPDATES/held-out" "$HELD_OUT" "$mean" --opponent-checkpoint "$NETWORK"
+  played "$OUT/$UPDATES/pilots" "$PILOTS" "$mean"
+  for deck in "${mirrored[@]}"; do
+    teacher=$(awk -v deck="$deck" '$1 == deck {print $2}' "$LIST")
+    played "$OUT/$UPDATES/mirrors/$deck.plays" "$MIRRORS/$deck.json" "$mean" --opponent-checkpoint "$teacher"
+    played "$OUT/$UPDATES/mirrors/$deck.held" "$MIRRORS/$deck.json" "$teacher" --opponent-checkpoint "$mean"
+  done
+}
 # weights FILE: the weights of the duels, into FILE, and what they give a deck.
 weights() {
   "${python[@]}" - "$1" "$NEW" "$(IFS=,; echo "${olds[*]}")" "$MIRRORS_SHARE" "$OLD_SHARE" "$DUELS" \
@@ -229,23 +251,13 @@ if [[ " $PARTS " == *" measure "* ]]; then
       "${python[@]}" tools/mean_checkpoint.py "${kept[@]}" --output "$mean"
     fi
   done
-  played "$OUT/0/pairings" "$PAIRINGS" "$NETWORK" --opponent-checkpoint "$NETWORK"
-  played "$OUT/0/held-out" "$HELD_OUT" "$NETWORK" --opponent-checkpoint "$NETWORK"
-  played "$OUT/0/pilots" "$PILOTS" "$NETWORK"
-  for point in $POINTS; do
-    mean=$RUNS/$RUN-mean/$point.pt
-    played "$OUT/$point/pairings" "$PAIRINGS" "$mean" --opponent-checkpoint "$NETWORK"
-    played "$OUT/$point/old" "$OLD" "$mean" --opponent-checkpoint "$NETWORK"
-  done
-  mean=$RUNS/$RUN-mean/$UPDATES.pt
-  played "$OUT/$UPDATES/held-out" "$HELD_OUT" "$mean" --opponent-checkpoint "$NETWORK"
-  played "$OUT/$UPDATES/pilots" "$PILOTS" "$mean"
-  for deck in "${mirrored[@]}"; do
-    teacher=$(awk -v deck="$deck" '$1 == deck {print $2}' "$LIST")
-    played "$OUT/$UPDATES/mirrors/$deck.plays" "$MIRRORS/$deck.json" "$mean" --opponent-checkpoint "$teacher"
-    played "$OUT/$UPDATES/mirrors/$deck.held" "$MIRRORS/$deck.json" "$teacher" --opponent-checkpoint "$mean"
-  done
-  all_done
+  measures
+  if ! all_done; then
+    echo "$(date +%H:%M) What failed is played again, alone" >&2
+    AT_ONCE=1
+    queued=()
+    measures
+  fi
   cp "$RUNS/$RUN/metrics.jsonl" "$OUT/$RUN.metrics.jsonl"
   "${python[@]}" tools/pool_batch_report.py "$OUT" --points "${POINTS// /,}" --run "$RUN" | tee "$OUT/report.txt"
 fi
