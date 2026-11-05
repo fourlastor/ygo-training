@@ -504,7 +504,7 @@ Beside them:
   kept checkpoints of `seventy-one-champions` at 20,160 updates, the nearest that
   measure has (50.8% there): `quarter` −5.6 ± 0.4 points, sixty-eight of the
   seventy-one lower; the first batch −5.0 ± 0.4; the first batch test −6.6 ± 0.4.
-  `quarter` against the first batch, −0.6 ± 0.4.
+  `quarter` against the first batch, −0.6 ± 0.4 (`tools/mirror_pairs.py`).
 - 635 duels of some 4.7 million failed: Planet Pollutant Virus 445, Beast Rising 137,
   Fake Feather 35, Pyro Clock of Destiny 4, Mind Control 2, Lightforce Sword and
   Orbital Bombardment one each; new since the first batch, one each, Enemy Controller
