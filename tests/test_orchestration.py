@@ -4,7 +4,6 @@ import pytest
 
 from ygo_training.config import TrainerConfig
 from ygo_training.orchestration import Coordinator
-from ygo_training.records import RecordedGame
 from ygo_training.rewards import OutcomeRewardModel
 from ygo_training.schedules import (
     OTHER_SEATS,
@@ -31,7 +30,6 @@ def ended(games):
             "win_reason": 1,
             "turns": 3,
             "opponent_deck": str(game["opponent"]),
-            "departures": 0,
         }
         for game in games
     ]
@@ -177,60 +175,6 @@ def test_rollout_metrics_report_per_opponent_duel_counts():
         "Blackwing": 1.0,
         "Fabled": 2.0,
     }
-
-
-def test_imitation_only_updates_hand_out_recorded_games_when_given():
-    games = [
-        RecordedGame("blackwing", "monarch", index % 2, 100 + index, 0, f"d{index}", (), None, "{}")
-        for index in range(6)
-    ]
-    given = []
-
-    def replayed(handed):
-        given.append(("records", handed))
-        return ended(handed)
-
-    def drawn(handed, seed, labels):
-        given.append(("games", handed))
-        return ended(handed), NOT_ASKED
-
-    subject = coordinator(
-        TrainerConfig(
-            workers=2, duels=4, seed=3, imitation_only_updates=2, imitation_records="rows.jsonl"
-        ),
-        learner_games=drawn,
-        replayed_games=replayed,
-        recorded=games,
-    )
-
-    def handed_out():
-        given.clear()
-        _, metrics = subject.collect()
-        ((kind, handed),) = given
-        return kind, handed, metrics
-
-    kind, first, metrics = handed_out()
-    assert kind == "records" and len(first) == 4
-    assert (metrics["recorded_games"], metrics["recorded_pass"]) == (6.0, 0.0)
-    # Each game keeps its place in the update, and the share it is dealt in
-    # is the one a game played now has there.
-    assert [game["index"] for game in first] == [0, 1, 2, 3]
-    assert [game["episode_index"] for game in first] == [0, 1, 2, 3]
-    assert [game["worker"] for game in first] == [0, 0, 1, 1]
-    kind, second, metrics = handed_out()
-    seeds = [game["seed"] for game in first + second]
-    # The first pass ends in the second update, which goes on with the next.
-    assert sorted(seeds[:6]) == [100, 101, 102, 103, 104, 105]
-    assert metrics["recorded_pass"] == 0.0
-    # Once the imitation-only updates are over the learner plays new duels.
-    kind, third, metrics = handed_out()
-    assert kind == "games" and len(third) == 4
-    assert all("record" not in game for game in third)
-    assert "recorded_games" not in metrics
-    # A continued run goes on where it stood in the games.
-    subject.set_training_schedule_index(1)
-    kind, again, metrics = handed_out()
-    assert kind == "records" and again == second
 
 
 def test_a_learner_of_several_decks_meets_itself_with_any_two_of_them():

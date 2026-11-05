@@ -21,13 +21,8 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import sys
 from pathlib import Path
 from typing import Any
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-
-from search_leads_report import paired, percent, points, wins
 
 # The runs, and how many of a run's last updates its fit is taken over: those
 # of `again` are four passes each, the optimizer steps of four of the others.
@@ -42,6 +37,33 @@ BETTER = 0.02
 ERRORS = 2.0
 # The updates `once-few` is read against `once` over.
 FEW = (81, 120)
+
+
+def percent(value: float | None) -> str:
+    return "-" if value is None else f"{100.0 * value:.1f}%"
+
+
+def points(value: float | None, error: float | None = None) -> str:
+    """A difference of win rates, in points."""
+    if value is None or math.isnan(value):
+        return "-"
+    return f"{100 * value:+.1f}" + ("" if error is None else f" ± {100 * error:.1f}")
+
+
+def paired(first: list[bool], second: list[bool]) -> tuple[float, float]:
+    """The difference of two rates on the same deals, and its standard error."""
+    total = len(first)
+    if not total or total != len(second):
+        raise ValueError(f"{total} deals against {len(second)}: not the same run")
+    only_first = sum(a and not b for a, b in zip(first, second))
+    only_second = sum(b and not a for a, b in zip(first, second))
+    difference = (only_first - only_second) / total
+    variance = (only_first + only_second - (only_first - only_second) ** 2 / total) / total**2
+    return difference, math.sqrt(max(variance, 0.0))
+
+
+def wins(deals: dict[str, Any]) -> list[bool]:
+    return [outcome == "win" for outcome in deals["outcomes"]]
 
 
 def mean_error(values: list[float]) -> tuple[float | None, float | None]:

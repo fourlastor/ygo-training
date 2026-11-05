@@ -5,7 +5,6 @@ from __future__ import annotations
 from collections.abc import Iterable
 from dataclasses import dataclass
 
-from .records import GAMES as RECORDED_GAMES
 from .schedules import MAX_EPISODES_PER_ROLLOUT, MAX_SEEDED_WORKERS, SELF_PLAY_PAIRS
 
 
@@ -45,8 +44,6 @@ def left_out(parts: Iterable[str]) -> tuple[str, ...]:
 
 # What a PPO update teaches the value head: see `ppo_value_target`.
 PPO_VALUE_TARGETS = ("return", "result")
-# The answer of a recorded duel that is imitated: see `TrainerConfig`.
-IMITATION_LABELS = ("played", "pilot")
 # What of a checkpoint that is imitated is the target: see `imitation_teacher`.
 TEACHER_TARGETS = ("choice", "distribution")
 # What an advantage belongs to: a command and the selections it leads to.
@@ -161,25 +158,10 @@ class TrainerConfig:
     upgo: bool = False
     # Initial updates in which the deck's pilot plays and the learner imitates it.
     imitation_only_updates: int = 0
-    # Rows of a `policy-bench search --record true` run whose duels those
-    # updates play again and imitate, in place of duels the pilot plays now;
-    # which of a row's two games (see `records.GAMES`); and how many of the
-    # run's games, all of them when not said.
-    imitation_records: str | None = None
-    imitation_game: str = "search"
-    imitation_games: int | None = None
     # The folder of the decks' champions' recordings (`champion_records`):
     # those updates deal their games as a copy of the teachers would play
     # them, and play each again from its deck's recording.
     copy_records: str | None = None
-    # Which answer of a recorded duel the policy imitates: the one played,
-    # or the pilot's own, which a search leaves here and there.
-    imitation_label: str = "played"
-    # Weight of the lead head's squared error against the leads a logged
-    # search measured, and whether the head only reads the policy's view of
-    # an answer, with no gradient of its own into it.
-    imitation_lead_weight: float = 0.0
-    imitation_lead_detach: bool = False
     # A checkpoint those updates imitate in the pilot's place: it plays the
     # learner's seat by its first choice, through the library's pool, and its
     # answers are the ones imitated.  What of it is the target: its `choice`
@@ -412,8 +394,6 @@ class TrainerConfig:
         if len(self.learners) > 1:
             if self.opponent_decks is None:
                 raise ValueError("several learner decks require opponent_decks to be named")
-            if self.imitation_records:
-                raise ValueError("imitation_records are the games of one learner deck")
             if self.imitation_teacher:
                 raise ValueError(
                     "imitation_teacher plays one learner deck: imitation_teachers has one for each"
@@ -436,30 +416,10 @@ class TrainerConfig:
             raise ValueError("imitation_only_updates must be non-negative")
         if self.imitation_only_updates and self.teacher_imitation_weight:
             raise ValueError("imitation-only updates and teacher imitation are mutually exclusive")
-        if self.imitation_records and not self.imitation_only_updates:
-            raise ValueError("imitation_records requires imitation-only updates")
         if self.copy_records and not self.imitation_only_updates:
             raise ValueError("copy_records requires imitation-only updates")
-        if self.copy_records and (self.imitation_records or self.teachers):
-            raise ValueError(
-                "copy_records are played in place of teachers and of recorded duels: one of them"
-            )
-        if self.imitation_game not in RECORDED_GAMES:
-            raise ValueError("imitation_game must be search or baseline")
-        if self.imitation_games is not None and not self.imitation_records:
-            raise ValueError("imitation_games requires imitation_records")
-        if self.imitation_games is not None and self.imitation_games < 1:
-            raise ValueError("imitation_games must be at least 1")
-        if self.imitation_label not in IMITATION_LABELS:
-            raise ValueError("imitation_label must be played or pilot")
-        if self.imitation_label != "played" and not self.imitation_records:
-            raise ValueError("imitation_label requires imitation_records")
-        if self.imitation_lead_weight < 0.0:
-            raise ValueError("imitation_lead_weight must be non-negative")
-        if self.imitation_lead_weight and not self.imitation_records:
-            raise ValueError("imitation_lead_weight requires imitation_records")
-        if self.imitation_lead_detach and not self.imitation_lead_weight:
-            raise ValueError("imitation_lead_detach requires an imitation_lead_weight")
+        if self.copy_records and self.teachers:
+            raise ValueError("copy_records are played in place of teachers: one or the other")
         if self.imitation_teachers is not None:
             if self.imitation_teacher:
                 raise ValueError("imitation_teacher and imitation_teachers are mutually exclusive")
@@ -469,8 +429,6 @@ class TrainerConfig:
                 raise ValueError("imitation_teachers name a checkpoint for each learner deck")
         if self.teachers and not self.imitation_only_updates:
             raise ValueError("imitation_teacher requires imitation-only updates")
-        if self.teachers and self.imitation_records:
-            raise ValueError("imitation_teacher and imitation_records are mutually exclusive")
         if self.imitation_teacher_targets not in TEACHER_TARGETS:
             raise ValueError(f"imitation_teacher_targets must be one of {TEACHER_TARGETS}")
         if self.imitation_teacher_targets != "choice" and not self.teachers:

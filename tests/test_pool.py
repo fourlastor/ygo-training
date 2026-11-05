@@ -24,7 +24,6 @@ from ygo_training.pool import (
 )
 from ygo_training.ppo_trainer import PpoTrainer
 from ygo_training.schedules import duel_sample_seed, keeps_label, rollout_games
-from ygo_training.searched import Reading
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -81,6 +80,14 @@ def given(environment: Environment, view: dict) -> dict:
     return {name: torch.from_numpy(array) for name, array in environment.batch([view]).items()}
 
 
+def kinds(environment: Environment, view: dict, answer: int) -> tuple[str, str]:
+    """The names of a decision's question and of one of its answers."""
+    vocabulary = environment.vocabulary
+    questions = {number: name for name, number in vocabulary["decision"].items()}
+    choices = {number: name for name, number in vocabulary["choice"].items()}
+    return questions[int(view["question"]["kind"])], choices[int(view["choices"][answer]["kind"])]
+
+
 def alone(environment: Environment, model, games: list[dict], *, pilot: bool = False) -> list[dict]:
     """The games of a Blackwing learner played one duel at a time, each
     decision of its seat scored alone by the model's first choice, or with
@@ -88,7 +95,6 @@ def alone(environment: Environment, model, games: list[dict], *, pilot: bool = F
     the pool is held to, by their index."""
     import torch
 
-    reading = Reading(environment.vocabulary)
     results = []
     for game in games:
         seat, opponent = int(game["learner_player"]), str(game["opponent"])
@@ -111,7 +117,7 @@ def alone(environment: Environment, model, games: list[dict], *, pilot: bool = F
                         chosen = int(model(given(environment, view))[0].argmax())
                     episode.choose(chosen)
                     decisions += 1
-                    answers[":".join(reading.kinds(view, chosen))] += 1
+                    answers[":".join(kinds(environment, view, chosen))] += 1
                     if view["label"] is not None:
                         labelled += 1
                         agreed += int(chosen == int(view["label"]))
@@ -132,7 +138,6 @@ def alone(environment: Environment, model, games: list[dict], *, pilot: bool = F
                 "decisions": decisions,
                 "pilot_labels": labelled,
                 "pilot_agreements": agreed,
-                "led": 0,
                 "learner_answers": dict(answers),
             }
         )
@@ -1072,7 +1077,6 @@ def one_at_a_time(
     first choice, and how often it did is told (``held``)."""
     import torch
 
-    reading = Reading(environment.vocabulary)
     trajectories = []
     for game in games:
         seat, opponent = int(game["learner_player"]), str(game["opponent"])
@@ -1099,7 +1103,7 @@ def one_at_a_time(
                     seed = duel_sample_seed(rollout_seed, int(game["episode_index"]), len(steps))
                     drawn = _sample_with_seeds(logits, [seed], 1.0)
                     chosen = int(drawn[0])
-                    question, answer = reading.kinds(view, chosen)
+                    question, answer = kinds(environment, view, chosen)
                     step = {
                         "given": shown,
                         "chosen": chosen,

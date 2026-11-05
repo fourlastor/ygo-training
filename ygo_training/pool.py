@@ -14,9 +14,8 @@ Training reads a decision again after its duel.  The decisions of duels
 submitted to be kept stay in the library, each under a row, and any of them
 come back as a batch (``DuelPool.batch``) until they are forgotten: the
 update's minibatches are built there, from decisions Python never held.
-What is read of a decision beside the model's input (a search's log, a
-lead head followed) is read from its view, which a duel submitted to show
-its decisions hands over with them.
+What is read of a decision beside the model's input is read from its view,
+which a duel submitted to show its decisions hands over with them.
 """
 
 from __future__ import annotations
@@ -43,7 +42,6 @@ from .environment import (
     library_path,
 )
 from .schedules import OTHER_SEATS, duel_sample_seed, keeps_label
-from .searched import Reading, check_replay, probabilities, recorded_setup
 
 # What tells the decisions of a round apart, beside the model's input, and
 # what is told of the decisions of observed seats.
@@ -131,13 +129,11 @@ class DuelPool:
         # the engine stops it, and the reports not yet taken (`failed`).
         self._about: dict[int, dict[str, Any]] = {}
         self._failed: list[dict[str, Any]] = []
-        # The names behind the numbers of a decision, for reports, and a
-        # search's reading of one.
+        # The names behind the numbers of a decision, for reports.
         with Environment(root) as environment:
             vocabulary = environment.vocabulary
-        self.reading = Reading(vocabulary)
-        self.decision_names = self.reading.decision_names
-        self.choice_names = self.reading.choice_names
+        self.decision_names = {number: name for name, number in vocabulary["decision"].items()}
+        self.choice_names = {number: name for name, number in vocabulary["choice"].items()}
 
     def _error(self, what: str) -> DuelError:
         message = self._lib.ygo_env_last_error()
@@ -1028,286 +1024,6 @@ def imitation_games(
     return _trajectories(learner, games, steps, ended)
 
 
-# Recorded duels played again in one round, at most: what is shown of their
-# decisions is held until the round's duels are read.
-REPLAYED_AT_ONCE = 32
-
-
-def _recorded_rounds(
-    pool: DuelPool,
-    learner: str,
-    games: list[dict[str, Any]],
-    limit: int,
-    *,
-    show: bool,
-    forget: bool,
-) -> Any:
-    """Recorded duels played again (``records.RecordedGame.replay``), the
-    learner's seat watched with its pilot asked alongside, so many at a
-    time: for each of them in turn, the game, its observed decisions (rows,
-    numbers and, with ``show``, views, in the order of play) and how it
-    ended, checked to be the duel recorded (``searched.check_replay``).
-    With ``forget`` the decisions kept of a round are let go once its duels
-    are read, where they are otherwise kept for the update."""
-    for start in range(0, len(games), REPLAYED_AT_ONCE):
-        chunk = games[start : start + REPLAYED_AT_ONCE]
-        setups = []
-        for game in chunk:
-            opponent = str(game["opponent"])
-            names = [learner, opponent] if int(game["learner_player"]) == 0 else [opponent, learner]
-            setups.append(recorded_setup(game, names, limit))
-        first = pool.submit(
-            setups,
-            keep=True,
-            show=show,
-            about=[
-                {name: value for name, value in game.items() if name != "record"} for game in chunk
-            ],
-        )
-        # No seat is the caller's: one round takes every duel to its end.
-        played = pool.step()
-        if len(played) or played.in_flight:
-            raise DuelError(f"{played.in_flight} recorded duels did not end")
-        told = played.samples
-        columns = (
-            {name: told[name].tolist() for name in told}
-            if told
-            else {name: [] for name in ("row", "duel")}
-        )
-        of: list[list[dict[str, Any]]] = [[] for _ in chunk]
-        for place, duel in enumerate(columns["duel"]):
-            of[duel - first].append(
-                {
-                    **{name: values[place] for name, values in columns.items()},
-                    "view": played.sample_views[place],
-                }
-            )
-        ended = {int(over["duel"]) - first: over for over in played.finished}
-        for place, game in enumerate(chunk):
-            over = ended[place]
-            try:
-                check_replay(game, over)
-            except ValueError as error:
-                raise ValueError(
-                    f"recorded duel {game.get('index')} (seed {game['seed']}, against "
-                    f"{game['opponent']}): {error}"
-                ) from error
-            yield game, of[place], over
-        if forget:
-            pool.forget()
-
-
-def _logged(game: dict[str, Any]) -> dict[int, dict[str, Any]]:
-    """What a search's log says it tried at each answer of a game, by the
-    answer's place: nothing for a game without a log."""
-    return {int(entry["answer"]): entry for entry in json.loads(game.get("tried") or "[]")}
-
-
-def replayed_games(
-    pool: DuelPool,
-    *,
-    learner: str,
-    games: list[dict[str, Any]],
-    limit: int,
-    label: str = "played",
-) -> list[dict[str, Any]]:
-    """Recorded duels played again for an imitation-only update: the
-    trajectories :func:`imitation_games` returns for the games the pilot
-    plays now, in the order given, the answers of the record as the labels.
-
-    A game is a recorded duel (``records.RecordedGame.replay``) with its
-    place in the update's games (``episode_index``) and the share it was
-    dealt in (``worker``).  With ``label`` ``pilot`` the label is the
-    pilot's own answer, and a decision the pilot was not asked (a later step
-    of a selection the record answers another way) is no step.  A step holds
-    the pilot's own answer beside it (``pilot_chosen``) wherever the pilot
-    was asked, and where the search's log says what it tried, the lead it
-    measured for each alternative (``lead_targets``): the lead head's
-    targets, read from the decision's view (``searched.Reading``).
-    """
-    pilot_labels = label == "pilot"
-    reading = pool.reading
-    trajectories = []
-    shown = any(game.get("tried") for game in games)
-    for game, samples, over in _recorded_rounds(
-        pool, learner, games, limit, show=shown, forget=False
-    ):
-        logged = _logged(game)
-        steps = []
-        for sample in samples:
-            pilot = int(sample["pilot"])
-            if pilot_labels and pilot < 0:
-                continue
-            step = {
-                "row": int(sample["row"]),
-                "chosen": pilot if pilot_labels else int(sample["label"]),
-                "executed_chosen": int(sample["chosen"]),
-                "player": int(sample["player"]),
-                "teacher": True,
-                "transaction": int(sample["transaction"]),
-            }
-            if pilot >= 0:
-                # The pilot's own answer, which a searched duel leaves here
-                # and there.
-                step["pilot_chosen"] = pilot
-            entry = logged.pop(int(sample["answer"]), None) if logged else None
-            if entry is not None:
-                # The lead the search measured for each answer it tried
-                # here, the pilot's own first, with 0.
-                step["lead_targets"] = reading.targets(sample["view"], entry)
-            steps.append(step)
-        if logged:
-            raise ValueError(
-                f"recorded duel {game.get('index')}: the search's log holds {len(logged)} "
-                "answers the seat was not asked"
-            )
-        trajectories.append(
-            {
-                "kind": "trajectory",
-                "worker": int(game["worker"]),
-                "winner": over["winner"],
-                "steps": steps,
-                "terminal": not over["limit"],
-                "learner_player": int(game["learner_player"]),
-                "win_reason": over["reason"],
-                "turns": over["turns"],
-                "learner_deck": learner,
-                "opponent_deck": str(game["opponent"]),
-                "episode_index": int(game["episode_index"]),
-                "departures": int(over["departures"]),
-            }
-        )
-    return trajectories
-
-
-def watched_games(
-    pool: DuelPool,
-    model: Any,
-    device: str,
-    *,
-    learner: str,
-    assignments: list[dict[str, Any]],
-    limit: int,
-) -> list[dict[str, Any]]:
-    """Recorded duels played again, the model asked at every decision of the
-    watched seat what it would have answered: by their index.
-
-    Nothing the model says is played: the record is.  Each decision is read
-    against the answer that was played and the pilot's own, which differ
-    where a search left the pilot.  Where the search's log says what it tried
-    at a decision, the model's answer is also set among those alternatives
-    (``tried``), with the weight the model gives each, the lead its head
-    predicts for each and its value of the decision.  A duel's decisions
-    are asked in one call of the model.
-    """
-    import torch
-
-    reading = pool.reading
-    results = []
-    for game, samples, _ in _recorded_rounds(
-        pool, learner, assignments, limit, show=True, forget=True
-    ):
-        firsts: list[int] = []
-        scores: list[list[float]] = []
-        worths: list[float] = []
-        heads: list[list[float]] | None = None
-        if samples:
-            tensor = {
-                name: torch.from_numpy(array).to(device)
-                for name, array in pool.batch([int(sample["row"]) for sample in samples]).items()
-            }
-            with torch.no_grad():
-                logits, values, leads = model.evaluate(tensor)
-            firsts = logits.argmax(-1).tolist()
-            scores, worths = logits.tolist(), values.tolist()
-            heads = None if leads is None else leads.tolist()
-        examined = None if game.get("examined") is None else set(game["examined"])
-        with_log = game.get("tried") is not None
-        logged = _logged(game)
-        questions: dict[str, Counter[str]] = {}
-        deviations: list[dict[str, Any]] = []
-        tried: list[dict[str, Any]] = []
-        examined_otherwise = 0
-        opened: set[int] = set()
-        for position, sample in enumerate(samples):
-            view = sample["view"]
-            start = int(sample["transaction"]) not in opened
-            opened.add(int(sample["transaction"]))
-            offered = len(view["choices"])
-            first, said = int(firsts[position]), scores[position][:offered]
-            played = int(sample["label"])
-            question, played_kind = reading.kinds(view, played)
-            counts = questions.setdefault(question, Counter())
-            entry = logged.pop(int(sample["answer"]), None)
-            if with_log and (entry is not None) != reading.examined(view):
-                # A lead head is asked at the decisions a search examines,
-                # told from the decision alone: here the log says otherwise.
-                examined_otherwise += 1
-            if entry is not None:
-                tried.append(
-                    reading.tried(
-                        view,
-                        entry,
-                        first,
-                        said,
-                        question,
-                        None if heads is None else heads[position][:offered],
-                        value=float(worths[position]),
-                        start=start,
-                    )
-                )
-            pilot = int(sample["pilot"])
-            if pilot < 0:
-                # A later step of a selection the record answers another
-                # way: the pilot was not asked this.
-                counts["unread"] += 1
-                continue
-            if played == pilot:
-                reading_of = "pilot" if first == played else "other"
-                counts[f"kept_{reading_of}"] += 1
-                if examined is not None and int(sample["answer"]) in examined:
-                    counts[f"examined_{reading_of}"] += 1
-                continue
-            reading_of = "search" if first == played else "pilot" if first == pilot else "other"
-            counts[f"left_{reading_of}"] += 1
-            weights = probabilities(said)
-            deviations.append(
-                {
-                    "game": int(game["index"]),
-                    "opponent": str(game["opponent"]),
-                    "answer": int(sample["answer"]),
-                    "turn": int(view["turn"]),
-                    "question": question,
-                    "pilot": reading.kinds(view, pilot)[1],
-                    "search": played_kind,
-                    "model": reading.kinds(view, first)[1],
-                    "reading": reading_of,
-                    "search_probability": weights[played],
-                    "pilot_probability": weights[pilot],
-                }
-            )
-        results.append(
-            {
-                "index": int(game["index"]),
-                "seed": int(game["seed"]),
-                "opponent": str(game["opponent"]),
-                "learner_player": int(game["learner_player"]),
-                "decisions": len(samples),
-                "recorded_deviations": len(game["deviations"]),
-                "examined_known": examined is not None,
-                "questions": {question: dict(counts) for question, counts in questions.items()},
-                "deviations": deviations,
-                "tried": tried,
-                # Answers the search examined that the seat was not asked.
-                "tried_unread": len(logged),
-                # Decisions the log holds and `searched.Reading.examined` does
-                # not take a search to examine, or the other way round.
-                "examined_otherwise": examined_otherwise,
-            }
-        )
-    return sorted(results, key=lambda result: int(result["index"]))
-
-
 def taught_games(
     pool: DuelPool,
     teachers: dict[str, Any],
@@ -1467,7 +1183,6 @@ def evaluate_games(
     limit: int,
     pilot: bool = False,
     held: Any = None,
-    lead_margin: float | None = None,
     learner_list: str | None = None,
     observe: Callable[[Round, np.ndarray, np.ndarray], None] | None = None,
     forbid: Callable[[Round, np.ndarray], np.ndarray] | None = None,
@@ -1476,10 +1191,7 @@ def evaluate_games(
     by their index, played through ``pool``.
 
     The learner's seat takes the model's first choice at every decision, or
-    with ``pilot`` is played by the pilot of its deck.  With ``lead_margin``
-    the model follows its lead head where it predicts that much of a lead
-    (``searched.Reading.led``), read from the view of each decision, and
-    ``led`` says how often that left its first choice.  The other seat is the
+    with ``pilot`` is played by the pilot of its deck.  The other seat is the
     pilot of the deck there, or in a game that says so (``other`` is
     ``checkpoint``) the network ``held``, by its first choice too: what is
     told of a game's decisions is of the learner's seat alone.  With
@@ -1494,8 +1206,6 @@ def evaluate_games(
     """
     import torch
 
-    if forbid is not None and lead_margin is not None:
-        raise ValueError("Answers are barred to a model that takes its first choice.")
     games = []
     setups = []
     for assignment in assignments:
@@ -1519,16 +1229,13 @@ def evaluate_games(
                 "decisions": 0,
                 "labelled": 0,
                 "agreed": 0,
-                "led": 0,
                 "answers": Counter(),
                 "barred": 0,
                 "over": None,
             }
         )
     first = pool.submit(
-        setups,
-        show=lead_margin is not None,
-        about=[{**assignment, "learner": learner} for assignment in assignments],
+        setups, about=[{**assignment, "learner": learner} for assignment in assignments]
     )
     answers: Any = ()
     while True:
@@ -1556,10 +1263,7 @@ def evaluate_games(
             )
             tensor = {name: torch.from_numpy(array).to(device) for name, array in given.items()}
             with torch.no_grad():
-                if lead_margin is None:
-                    logits, _ = model(tensor)
-                else:
-                    logits, _, leads = model.evaluate(tensor)
+                logits, _ = model(tensor)
                 if forbid is not None:
                     first_choices = logits.argmax(-1)
                     logits = _barred(logits, tensor["action_mask"], forbid(round_, mine))
@@ -1567,19 +1271,6 @@ def evaluate_games(
                     for place, row in enumerate(mine.tolist()):
                         games[places[row]]["barred"] += int(changed[place])
                 chosen[mine] = logits.argmax(-1).cpu().numpy()
-            if lead_margin is not None:
-                predicted = leads.tolist()
-                for place, row in enumerate(mine.tolist()):
-                    view = round_.views[row]
-                    assert view is not None
-                    led = pool.reading.led(
-                        view,
-                        int(chosen[row]),
-                        predicted[place][: len(view["choices"])],
-                        float(lead_margin),
-                    )
-                    games[places[row]]["led"] += int(led != chosen[row])
-                    chosen[row] = led
         kinds = round_.arrays["action_kind"][mine, chosen[mine]]
         for kind, row in zip(kinds.tolist(), mine.tolist(), strict=True):
             game = games[places[row]]
@@ -1610,8 +1301,6 @@ def evaluate_games(
                 "decisions": game["decisions"],
                 "pilot_labels": game["labelled"],
                 "pilot_agreements": game["agreed"],
-                # First choices left for an answer the lead head leads to.
-                "led": game["led"],
                 "learner_answers": dict(game["answers"]),
             }
         )

@@ -40,8 +40,8 @@ from card_use import (
     groups,
     listed,
 )
+from learner_report import percent, points
 from ppo_head_report import difference
-from search_leads_report import percent, points
 
 from ygo_training.environment import CARDS_DATABASE, pool
 from ygo_training.evaluation_suite import load_evaluation_suite

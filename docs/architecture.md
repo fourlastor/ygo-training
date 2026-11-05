@@ -67,8 +67,7 @@ its duels in flight (`--pool-threads`, `--pool-slots`).
   row. An update's minibatches are built from them by row; Python never
   holds those decisions.
 - A duel submitted to show its decisions hands over the view of each with
-  it, for what is read of a decision beside the model's input: a search's
-  log of a recorded duel, the lead head followed.
+  it, for what is read of a decision beside the model's input.
 
 Until 2026-10-16 worker processes, one duel each, were another route, and
 recorded duels and the lead head stayed with them; they were dropped
@@ -123,12 +122,10 @@ it says at a later step is used nowhere.
 | `schema.py` | The arrays the model reads: names, shapes, limits, vocabularies; the input contract a checkpoint records and is checked against |
 | `model.py` | The policy/value network |
 | `pool.py` | The library's pool of duels, and every game played through it: an update's, an evaluation's, recorded duels |
-| `searched.py` | What a search's log says of a recorded duel's decisions, read from their views; the lead head's rule |
 | `orchestration.py` | The games of an update: deals, decks, who sits where; the rollout metrics |
 | `inference.py` | How an answer is drawn from its seed; a network asked outside the pool |
 | `optimization.py`, `ppo.py` | Returns, advantages, the PPO and imitation objectives |
 | `schedules.py`, `rewards.py` | Seeds and schedules; the outcome reward |
-| `records.py` | The recorded duels of a search run, their order, which an update imitates, and what the search's log measured |
 | `ppo_trainer.py`, `trainer.py` | The trainer and its composition |
 | `checkpoints.py`, `run_repository.py` | Checkpoints and run metadata |
 | `evaluation.py`, `evaluation_suite.py` | Evaluation summaries and suite files |
@@ -171,10 +168,8 @@ The network gives every answer a score, the state a value, and every answer
 a second number: the *lead* it predicts for that answer over the pilot's,
 how much more often it wins the duel, in units of win rate, as a search
 measures it by playing both out in the same worlds (`PolicyValueNet.evaluate`).
-The head is taught at the decisions a one-step search examines and asked
-only there (`searched.Reading.examined`); a model that follows it leaves its
-policy's first choice for the alternative it predicts the largest lead for,
-when that lead is at least a margin (`searched.Reading.led`).
+No update teaches it and nothing asks it; it stays because its weights are
+part of every checkpoint.
 
 The current checkpoint format is 15: format 14 (format 13 with the lead
 head) without the deck lists in the input. Checkpoints of earlier formats
@@ -194,25 +189,6 @@ its value head on the duels' outcomes). In every other update the learner
 plays, and `--teacher-imitation-weight` adds the pilot's answers to its own
 decisions as an auxiliary loss. A zero `--policy-loss-weight` with that
 leaves only the labels (DAgger).
-
-With `--imitation-records` the imitation-only updates play recorded duels
-again instead: the rows of a `policy-bench search --record true` run, each
-of which holds one deal as the pilot played it and as the pilot with the
-search did. The answers of the record are the labels, so a learner can
-imitate the search without running it. A record is imitated only if it plays
-again with the digest it was recorded with: at other revisions of the engine,
-the scripts, the card database or the pilots its answers may all still be
-accepted while the questions are no longer the ones that were answered.
-
-A run made with `--log true` also holds, for every answer the search
-examined, what it tried and how each alternative did in each world.
-`records.py` keeps of that the lead of every alternative over the pilot's
-answer in the worlds of the first stage, which all of them go through.
-`evaluate-search` reads a model's answers by those leads. For that the
-alternatives of the decision are listed again from what the network is
-offered, as the bench lists them (`Reading.alternatives`: the pilot's
-answer first, like cards in one pile as one, twelve at most), and a log
-that names others is refused.
 
 Rollout seeds rotate through the signed 31-bit range: the run seed picks a
 starting slot and each rollout owns 1,024 duel seeds. The learner's seat in

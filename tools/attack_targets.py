@@ -61,8 +61,8 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tools"))
 
 from card_use import THIRTEEN, Names
+from learner_report import percent, points
 from ppo_head_report import difference
-from search_leads_report import percent, points
 
 from ygo_training.environment import CARDS_DATABASE, Environment, pool
 from ygo_training.model import MONSTER_ZONE, SPELL_TRAP_ZONE

@@ -108,13 +108,6 @@ def test_imitation_value_weight_needs_imitation_only_updates():
 def test_a_checkpoint_is_imitated_only_in_imitation_updates():
     with pytest.raises(ValueError, match="requires imitation-only updates"):
         TrainerConfig(imitation_teacher="model.pt", pool_threads=1)
-    with pytest.raises(ValueError, match="mutually exclusive"):
-        TrainerConfig(
-            imitation_only_updates=1,
-            imitation_teacher="model.pt",
-            imitation_records="rows.jsonl",
-            pool_threads=1,
-        )
     with pytest.raises(ValueError, match="choice"):
         TrainerConfig(
             imitation_only_updates=1,
@@ -201,33 +194,10 @@ def test_a_learner_of_several_decks_plays_against_named_opponents():
             imitation_teacher="model.pt",
             **several,
         )
-    with pytest.raises(ValueError, match="one learner deck"):
-        TrainerConfig(
-            pool_threads=1,
-            opponent_decks=["burn"],
-            imitation_only_updates=1,
-            imitation_records="rows.jsonl",
-            **several,
-        )
     config = TrainerConfig(pool_threads=1, opponent_decks=["burn"], **several)
     assert config.learners == ["blackwing", "monarch"]
     assert TrainerConfig(learner_deck="monarch").learners == ["monarch"]
     assert TrainerConfig(learner_decks=["blackwing"]).learners == ["blackwing"]
-
-
-def test_recorded_games_are_imitated_only_in_imitation_updates():
-    with pytest.raises(ValueError, match="requires imitation-only updates"):
-        TrainerConfig(imitation_records="rows.jsonl")
-    with pytest.raises(ValueError, match="search or baseline"):
-        TrainerConfig(
-            imitation_only_updates=1, imitation_records="rows.jsonl", imitation_game="pilot"
-        )
-    with pytest.raises(ValueError, match="requires imitation_records"):
-        TrainerConfig(imitation_only_updates=1, imitation_games=10)
-    with pytest.raises(ValueError, match="at least 1"):
-        TrainerConfig(imitation_only_updates=1, imitation_records="rows.jsonl", imitation_games=0)
-    config = TrainerConfig(imitation_only_updates=1, imitation_records="rows.jsonl")
-    assert (config.imitation_game, config.imitation_games) == ("search", None)
 
 
 def test_a_network_in_the_other_seat_plays_some_of_an_updates_duels():

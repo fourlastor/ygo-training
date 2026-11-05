@@ -42,9 +42,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from card_descriptions_report import kept_rule
 from duels_in_flight_report import duels_an_hour, parts, rows_of
+from learner_report import percent, points
 from privileged_critic_run_report import KINDS
 from privileged_critic_run_report import report as measured
-from search_leads_report import percent, points
 from thirteen_decks_report import DECKS, mean
 
 ARM = "overlap"

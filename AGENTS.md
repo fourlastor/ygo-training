@@ -121,18 +121,9 @@ Current representation invariants:
 - A recorded duel is imitated or measured on only when it plays again with
   the digest it was recorded with. At other revisions of the engine, the
   scripts, the card database or the pilots its answers can all still be
-  accepted while the questions differ; keep that check
-  (`searched.check_replay`).
-- What a search's log says of an alternative is read for an answer only when
-  the alternatives listed from the decision, as `policy-bench` lists them,
-  are the ones the log names; keep that check too, and the test that runs
-  the bench.
-- The lead head is taught at the decisions a search examined and asked at
-  the decisions `searched.Reading.examined` takes a search to examine, told
-  from the decision alone. The two must be the same decisions: `evaluate-search`
-  refuses a logged run where they are not; keep that, and the test that
-  runs the bench. Its targets are the leads of the first stage only, which
-  every alternative goes through whatever comes of it.
+  accepted while the questions differ; keep that check, the champion
+  recordings' (`ygo_training/champion_records.py`), which a copy makes as
+  it plays them again (`PpoTrainer._recorded_copy_games`).
 
 The current checkpoint format, production representation, permitted training
 seeds, and active experiment are canonical in

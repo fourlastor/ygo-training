@@ -40,8 +40,6 @@ MODES = (
     ("imitation", IMITATING, "the pilot"),
     ("imitation-decks", IMITATING, "the pilots of two decks, one learner"),
     ("imitation-checkpoint", IMITATING, "a checkpoint"),
-    ("imitation-records", IMITATING, "recorded duels"),
-    ("imitation-leads", IMITATING, "recorded duels, the lead head taught too"),
     ("ppo", PLAYING, "against the pilots"),
     ("ppo-anchor", PLAYING, "against the pilots, their answers an anchor"),
     ("ppo-half", PLAYING, "half of the duels against itself"),

@@ -41,9 +41,9 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from card_descriptions_report import kept_rule
+from learner_report import percent, points
 from privileged_critic_run_report import BASE, KINDS
 from privileged_critic_run_report import report as measured
-from search_leads_report import percent, points
 from thirteen_decks_report import DECKS, mean
 
 ARM = "fast"

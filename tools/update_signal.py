@@ -267,7 +267,6 @@ def trainer_for(checkpoint: Path, described: dict[str, Any], args: argparse.Name
             "train",
             "status",
             "evaluate-suite",
-            "evaluate-search",
             "edopro",
             "edopro-review",
         )

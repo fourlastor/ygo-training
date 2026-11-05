@@ -46,9 +46,9 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from learner_report import percent, points
 from more_decks_report import COPY, END, PILOT, last_three, mean, network, outcomes, steps
 from ppo_head_report import difference
-from search_leads_report import percent, points
 from self_play_report import pair, shares, spread, within
 
 # The marks of the readings: so far over or under, from half, and in

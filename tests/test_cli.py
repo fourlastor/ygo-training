@@ -31,7 +31,6 @@ def parser():
             "train",
             "status",
             "evaluate-suite",
-            "evaluate-search",
             "edopro",
             "edopro-review",
             "shortlist",
@@ -88,7 +87,6 @@ class _Trainer:
     it is and writes the checkpoint it is asked for, as the trainer does."""
 
     decks = ("blackwing", "monarch")
-    recorded = None
     copy_records = None
     teacher_description = None
     held = None
@@ -471,12 +469,9 @@ def test_trainer_config_follows_the_train_command_line(tmp_path):
     named = parser().parse_args([*pooled, "--pool-groups", "1", "--inference-graphs", "96"])
     assert trainer_config(named).calls("cuda") == Calls(graphs=96)
     # A measuring command asks as ever on a card too.
-    for command in (
-        ["evaluate-suite", "a.pt", "--suite", "suite.json"],
-        ["evaluate-search", "a.pt", "--records", "rows.jsonl"],
-    ):
-        asked = measured_as_ever(parser().parse_args([*command, "--pool-threads", "20"]))
-        assert TrainerConfig(pool_threads=20, **asked).calls("cuda") == Calls()
+    command = ["evaluate-suite", "a.pt", "--suite", "suite.json"]
+    asked = measured_as_ever(parser().parse_args([*command, "--pool-threads", "20"]))
+    assert TrainerConfig(pool_threads=20, **asked).calls("cuda") == Calls()
     dagger = parser().parse_args(
         ["train", "--teacher-imitation-weight", "1", "--policy-loss-weight", "0"]
     )
@@ -491,32 +486,6 @@ def test_trainer_config_follows_the_train_command_line(tmp_path):
     )
     assert trainer_config(imitation).imitation_only_updates == 10
     assert trainer_config(imitation).imitation_value_weight == 0.5
-
-
-def test_recorded_games_reach_the_trainer_config():
-    args = parser().parse_args(
-        [
-            "train",
-            "--imitation-only-updates",
-            "4",
-            "--imitation-records",
-            "rows.jsonl",
-            "--imitation-game",
-            "baseline",
-            "--imitation-games",
-            "1000",
-        ]
-    )
-    config = trainer_config(args)
-    assert (config.imitation_records, config.imitation_game, config.imitation_games) == (
-        "rows.jsonl",
-        "baseline",
-        1000,
-    )
-    plain = trainer_config(parser().parse_args(["train"]))
-    assert (plain.imitation_records, plain.imitation_game) == (None, "search")
-    with pytest.raises(SystemExit):
-        parser().parse_args(["train", "--imitation-game", "pilot"])
 
 
 def test_a_checkpoint_to_imitate_reaches_the_trainer_config():
@@ -574,16 +543,6 @@ def test_the_weights_of_duels_against_itself_are_read_from_their_file(tmp_path):
     config = trainer_config(args)
     assert config.self_play_weights == {"blackwing>cyber": 3, "cyber>blackwing": 1}
     assert trainer_config(parser().parse_args(["train"])).self_play_weights is None
-
-
-def test_measuring_on_a_search_run_needs_its_rows_and_a_checkpoint():
-    with pytest.raises(SystemExit):
-        parser().parse_args(["evaluate-search", "model.pt"])
-    with pytest.raises(SystemExit):
-        parser().parse_args(["evaluate-search", "--records", "rows.jsonl"])
-    args = parser().parse_args(["evaluate-search", "a.pt", "b.pt", "--records", "rows.jsonl"])
-    assert [path.name for path in args.checkpoints] == ["a.pt", "b.pt"]
-    assert args.records.name == "rows.jsonl" and not args.allow_seen_deals
 
 
 def test_a_network_in_the_other_seat_reaches_the_trainer_config():

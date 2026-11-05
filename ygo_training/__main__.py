@@ -23,7 +23,7 @@ from .config import (
 )
 from .edopro import play as play_at_a_table
 from .edopro_review import review as review_a_duel
-from .evaluation import summarize_answer_key, summarize_deals, summarize_results
+from .evaluation import summarize_results
 from .evaluation_suite import (
     against_checkpoint,
     joined_evaluation_suites,
@@ -33,7 +33,6 @@ from .metrics import (
     evaluation_for,
     format_evaluation_suite_status,
     format_optimization_status,
-    format_search_evaluation,
     format_status,
     print_evaluation_suite_status,
     print_optimization_status,
@@ -41,7 +40,6 @@ from .metrics import (
     read,
 )
 from .ppo_trainer import PpoTrainer
-from .records import RecordedGame, fingerprint, recorded_games, shared_deals
 from .revisions import duel_revisions, trainer_revision
 from .run_repository import RunRepository, checkpoint_version
 from .training_logging import CompositeLogger, JsonlLogger, StdoutLogger
@@ -263,13 +261,7 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
         learner_decks=learners if len(learners) > 1 else None,
         opponent_decks=_deck_list(args.opponents),
         imitation_only_updates=args.imitation_only_updates,
-        imitation_records=None if args.imitation_records is None else str(args.imitation_records),
         copy_records=None if args.copy_records is None else str(args.copy_records),
-        imitation_game=args.imitation_game,
-        imitation_games=args.imitation_games,
-        imitation_label=args.imitation_label,
-        imitation_lead_weight=args.imitation_lead_weight,
-        imitation_lead_detach=args.imitation_lead_detach,
         **_teachers(args.imitation_teacher),
         imitation_teacher_targets=args.imitation_teacher_targets,
         teacher_imitation_weight=args.teacher_imitation_weight,
@@ -417,16 +409,6 @@ def train(args: argparse.Namespace) -> None:
         "learners": config.learners,
         "opponents": trainer.opponents,
         "imitation_only_updates": args.imitation_only_updates,
-        # The recorded duels the imitation-only updates imitate, when they
-        # do not imitate duels the pilot plays now.
-        "imitation_records": None
-        if trainer.recorded is None
-        else {
-            "path": str(args.imitation_records.resolve()),
-            "game": config.imitation_game,
-            "games": len(trainer.recorded),
-            "fingerprint": fingerprint(trainer.recorded),
-        },
         # The champions' recordings those updates play again, when they do,
         # and the champion each deck's was recorded with.
         "copy_records": None
@@ -459,9 +441,6 @@ def train(args: argparse.Namespace) -> None:
         "ppo_value_positions": config.ppo_value_positions,
         "ppo_value_target": config.ppo_value_target,
         "imitation_value_detach": config.imitation_value_detach,
-        "imitation_label": config.imitation_label,
-        "imitation_lead_weight": config.imitation_lead_weight,
-        "imitation_lead_detach": config.imitation_lead_detach,
         "target_kl": args.target_kl,
         "rollout_temperature": args.rollout_temperature,
         "duel_gae_lambda": args.duel_gae_lambda,
@@ -804,162 +783,6 @@ def evaluate_suite_checkpoints(args: argparse.Namespace) -> None:
     print(json.dumps(result, sort_keys=True), flush=True)
 
 
-def _imitated_games(checkpoint: Path) -> tuple[dict[str, Any], list[RecordedGame] | None] | None:
-    """The recorded games the run of a checkpoint imitated, by its `run.json`.
-
-    None when the run imitated none or left no description; the games are
-    None when their rows are no longer where the run read them.
-    """
-    described_at = checkpoint.resolve().parent.parent / "run.json"
-    if not described_at.is_file():
-        return None
-    described = json.loads(described_at.read_text(encoding="utf8")).get("imitation_records")
-    if not described:
-        return None
-    if not Path(described["path"]).is_file():
-        return described, None
-    return described, recorded_games(
-        described["path"], described["game"], games=int(described["games"])
-    )
-
-
-def evaluate_search(args: argparse.Namespace) -> None:
-    """Measure checkpoints on the duels of a search run they did not train on.
-
-    Each checkpoint plays the run's deals itself, which sets it beside the
-    pilot and the search deal by deal, and is asked what it would answer at
-    every decision of the searched duels: the search's answer where it left
-    the pilot's, the pilot's where it kept it.
-    """
-    searched = recorded_games(args.records, "search")
-    piloted = recorded_games(args.records, "baseline")
-    learner = searched[0].learner
-    # Deals of the run that each checkpoint's own run imitated: none, for
-    # the run to tell anything about games the model has not seen.
-    seen: dict[Path, int | None] = {}
-    for checkpoint in args.checkpoints:
-        if checkpoint.suffix != ".pt":
-            raise ValueError(f"Evaluation checkpoint must use the .pt extension: {checkpoint}")
-        if not checkpoint.is_file():
-            raise FileNotFoundError(f"Evaluation checkpoint not found: {checkpoint}")
-        imitated = _imitated_games(checkpoint)
-        if imitated is None:
-            seen[checkpoint] = 0
-            continue
-        described, games = imitated
-        if games is None:
-            seen[checkpoint] = None
-            print(
-                f"{checkpoint}: the games its run imitated ({described['path']}) are not "
-                "there to compare with this run's deals",
-                file=sys.stderr,
-            )
-            continue
-        seen[checkpoint] = shared_deals(searched, games)
-        if seen[checkpoint] and not args.allow_seen_deals:
-            raise ValueError(
-                f"{seen[checkpoint]} of the run's {len(searched)} deals are among the games "
-                f"the run of {checkpoint} imitated ({described['path']}). Measure on a search "
-                "run whose seed is further from that one's than its games per matchup, or "
-                "pass --allow-seen-deals to see what was memorised."
-            )
-    config = TrainerConfig(
-        workers=args.workers,
-        duels=args.workers,
-        pool_threads=args.pool_threads,
-        pool_slots=args.pool_slots,
-        **measured_as_ever(args),
-        limit=args.limit,
-        seed=args.seed,
-        device=args.device,
-        learner_deck=learner,
-        opponent_decks=sorted({game.opponent for game in searched}),
-        board_representation=args.board_representation,
-        **_told_as(args.checkpoints),
-    )
-    references = {
-        "pilot": [game.outcome for game in piloted],
-        "search": [game.outcome for game in searched],
-    }
-    started = time.perf_counter()
-    records: list[dict[str, Any]] = []
-    with PpoTrainer(args.root, config) as trainer:
-        for checkpoint in args.checkpoints:
-            payload = load(
-                checkpoint,
-                trainer.model,
-                map_location=trainer.device,
-                expected_board_representation=config.board_representation,
-            )
-            trainer.model.eval()
-            try:
-                version = _checkpoint_version(checkpoint)
-            except ValueError:
-                version = None
-            played = trainer.evaluate_games(
-                learner, [game.deal(index) for index, game in enumerate(searched)]
-            )
-            watched = trainer.evaluate_games(
-                learner, [game.replay(index) for index, game in enumerate(searched)]
-            )
-            answer_key = summarize_answer_key(watched)
-            otherwise = (answer_key.get("tried") or {}).get("examined_otherwise")
-            if otherwise:
-                raise ValueError(
-                    f"{otherwise} decisions of {args.records} are examined by the search and "
-                    "not by the trainer's reading of a decision, or the other way round: a "
-                    "lead head would be asked where it was not taught"
-                )
-            led = None
-            if args.lead_margin is not None:
-                games = trainer.evaluate_games(
-                    learner,
-                    [game.deal(index) for index, game in enumerate(searched)],
-                    lead_margin=args.lead_margin,
-                )
-                led = {
-                    "margin": args.lead_margin,
-                    # First choices left for an answer the lead head led to.
-                    "changed": sum(int(game["led"]) for game in games),
-                    **summarize_deals(games, references),
-                }
-            # Checkpoints of several runs are compared: name the run too.
-            folder = checkpoint.resolve().parent
-            label = (
-                f"{folder.parent.name}/{checkpoint.stem}"
-                if folder.name == "checkpoints"
-                else checkpoint.stem
-            )
-            records.append(
-                {
-                    "checkpoint": str(checkpoint.resolve()),
-                    "checkpoint_label": label,
-                    "checkpoint_step": payload.get("step"),
-                    "version": version,
-                    # Deals its run imitated; None when that could not be told.
-                    "seen_deals": seen[checkpoint],
-                    "deals": summarize_deals(played, references),
-                    # The same deals played by following the lead head.
-                    "led_deals": led,
-                    "answer_key": answer_key,
-                }
-            )
-    result = {
-        "records": str(args.records.resolve()),
-        "fingerprint": fingerprint(searched),
-        "learner": learner,
-        "games": len(searched),
-        "duel_revisions": duel_revisions(args.root),
-        "checkpoints": records,
-        "seconds": time.perf_counter() - started,
-    }
-    if args.output:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(result, indent=2, sort_keys=True), encoding="utf8")
-    for record in records:
-        print(format_search_evaluation(record), flush=True)
-
-
 def status(args: argparse.Namespace) -> None:
     records = read(args.metrics)
     if args.eval_only:
@@ -986,7 +809,6 @@ def main() -> None:
             "train": train,
             "status": status,
             "evaluate-suite": evaluate_suite_checkpoints,
-            "evaluate-search": evaluate_search,
             "edopro": play_at_a_table,
             "edopro-review": review_a_duel,
         },

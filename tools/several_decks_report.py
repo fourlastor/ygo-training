@@ -30,9 +30,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from learner_report import metrics, reading, suite
+from learner_report import metrics, percent, points, reading, suite
 from ppo_head_report import difference
-from search_leads_report import percent, points
 
 ALONE = "alone"
 TOGETHER = "together"

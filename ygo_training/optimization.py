@@ -606,10 +606,6 @@ class PpoOptimizer:
         positions = int(self.config.imitation_value_positions)
         carrying = self._carrying(samples, starts, positions)
         detach_value = bool(self.config.imitation_value_detach)
-        # The leads a logged search measured for the answers it tried: the
-        # lead head's targets, where the update's duels carry any.
-        lead_weight = float(self.config.imitation_lead_weight)
-        with_leads = any(step.get("lead_targets") for step in samples)
         # A teacher that is a network: what it gives every answer is told
         # beside the model's, and is the target when the model is to learn
         # its distribution and not its choice alone.
@@ -618,7 +614,7 @@ class PpoOptimizer:
 
         def forward(
             chunk: list[dict[str, Any]], places: list[int], asked: bool = True
-        ) -> tuple[torch.Tensor, torch.Tensor, Any, Any]:
+        ) -> tuple[torch.Tensor, torch.Tensor, Any]:
             if teachers:
                 # One batch for the networks: the teachers' where what they
                 # give the answers is asked for.
@@ -628,16 +624,11 @@ class PpoOptimizer:
                     with torch.no_grad():
                         taught = self._taught(given, [decks[place] for place in places])
                 logits, values, _ = self.model.evaluate(given, detach_value=detach_value)
-                return logits, values, None, taught
-            if with_leads or detach_value:
-                logits, values, leads = self.evaluate_steps(
-                    self.model,
-                    chunk,
-                    detach_lead=self.config.imitation_lead_detach,
-                    detach_value=detach_value,
-                )
-                return logits, values, leads if with_leads else None, None
-            return (*self.forward_steps(self.model, chunk), None, None)
+                return logits, values, taught
+            if detach_value:
+                logits, values, _ = self.evaluate_steps(self.model, chunk, detach_value=True)
+                return logits, values, None
+            return (*self.forward_steps(self.model, chunk), None)
 
         self.model.eval()
         agreed: list[bool] = []
@@ -648,8 +639,6 @@ class PpoOptimizer:
         recorded = any("pilot_chosen" in step for step in samples)
         departures = departures_followed = departures_refused = 0
         predicted_values: list[float] = []
-        predicted_leads: list[float] = []
-        measured_leads: list[float] = []
         # How far the model's answers are from the teacher's, a decision,
         # and how far the teacher is from sure of its own.
         divergences: list[float] = []
@@ -657,9 +646,7 @@ class PpoOptimizer:
         with torch.no_grad():
             for start in range(0, len(samples), self.config.minibatch):
                 chunk = samples[start : start + self.config.minibatch]
-                logits, values, leads, taught = forward(
-                    chunk, list(range(start, start + len(chunk)))
-                )
+                logits, values, taught = forward(chunk, list(range(start, start + len(chunk))))
                 if taught is not None:
                     own = self._teacher_cross_entropy(taught, taught)
                     entropies.extend(own.tolist())
@@ -673,16 +660,9 @@ class PpoOptimizer:
                         departures_followed += int(predicted) == played
                         departures_refused += int(predicted) == pilot
                 predicted_values.extend(values.tolist())
-                picked = self._lead_targets(chunk) if with_leads else None
-                if picked is not None:
-                    rows, columns, measured = picked
-                    predicted_leads.extend(leads[rows, columns].tolist())
-                    measured_leads.extend(measured.tolist())
         self.model.train()
         losses: list[float] = []
         value_losses: list[float] = []
-        lead_losses: list[float] = []
-        gradient_norms: dict[str, float] = {}
         for _ in range(self.config.ppo_epochs):
             for indices in self._chunks(
                 [
@@ -695,29 +675,13 @@ class PpoOptimizer:
                 chunk = [samples[index] for index in indices]
                 # What the teachers give the answers is the target of a
                 # distribution alone: a choice is the one the game played.
-                logits, values, leads, taught = forward(chunk, indices, asked=soft)
+                logits, values, taught = forward(chunk, indices, asked=soft)
                 if soft:
                     loss = self._by_transaction(self._teacher_cross_entropy(logits, taught), chunk)
                 else:
                     chosen = torch.tensor([step["chosen"] for step in chunk], device=self.device)
                     loss = self._joint_imitation_loss(logits, chosen, chunk)
                 losses.append(float(loss.detach()))
-                picked = self._lead_targets(chunk) if with_leads else None
-                if picked is not None:
-                    rows, columns, measured = picked
-                    lead_loss = torch.nn.functional.mse_loss(leads[rows, columns], measured)
-                    lead_losses.append(float(lead_loss.detach()))
-                    if not gradient_norms:
-                        # Once an update, before it has moved anything: how
-                        # hard each of the two losses pulls on what they share.
-                        gradient_norms = {
-                            "imitation_shared_gradient_norm": self._shared_gradient_norm(loss),
-                            "imitation_lead_shared_gradient_norm": self._shared_gradient_norm(
-                                lead_loss
-                            ),
-                        }
-                    if lead_weight > 0.0:
-                        loss = loss + lead_weight * lead_loss
                 if value_weight > 0.0:
                     # One value target per causal transaction, as in PPO.
                     _, roots, root_indices = self._joint_groups(
@@ -757,18 +721,6 @@ class PpoOptimizer:
             departure_metrics["imitation_model_departure_pilot_agreement"] = (
                 departures_refused / departures
             )
-        lead_metrics: dict[str, float] = {}
-        if with_leads:
-            lead_metrics = {
-                "imitation_lead_weight": lead_weight,
-                "imitation_lead_targets": float(len(measured_leads)),
-                "imitation_lead_loss": sum(lead_losses) / max(1, len(lead_losses)),
-                # Measured before this update's optimization, like agreement.
-                "imitation_lead_explained_variance": self._explained_variance(
-                    measured_leads, predicted_leads
-                ),
-                **gradient_norms,
-            }
         # Deck by deck, where the learner's seat plays several: the same
         # agreement, measured before this update's optimization.
         deck_metrics: dict[str, Any] = {}
@@ -793,7 +745,6 @@ class PpoOptimizer:
             }
         return {
             **departure_metrics,
-            **lead_metrics,
             **teacher_metrics,
             "samples": float(len(samples)),
             "imitation_loss": sum(losses) / max(1, len(losses)),
@@ -970,13 +921,10 @@ class PpoOptimizer:
         model: torch.nn.Module,
         steps: list[dict[str, Any]],
         *,
-        detach_lead: bool = False,
         detach_value: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """The same path, with the lead predicted for every answer."""
-        return model.evaluate(
-            self._input(steps), detach_lead=detach_lead, detach_value=detach_value
-        )
+        return model.evaluate(self._input(steps), detach_value=detach_value)
 
     def _input(self, steps: list[dict[str, Any]]) -> dict[str, torch.Tensor]:
         """The batch the model is given for ``steps``, built where their
@@ -989,38 +937,6 @@ class PpoOptimizer:
             # In a pass the pool is asked by the one thread that builds ahead.
             ahead = self._builder.submit(self.kept, rows)
         return self.kept(rows) if ahead is None else ahead.result()
-
-    def _lead_targets(
-        self, chunk: list[dict[str, Any]]
-    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor] | None:
-        """Where in a batch's answers a lead was measured, and the leads."""
-        rows: list[int] = []
-        columns: list[int] = []
-        measured: list[float] = []
-        for row, step in enumerate(chunk):
-            for answer, lead in step.get("lead_targets", ()):
-                rows.append(row)
-                columns.append(int(answer))
-                measured.append(float(lead))
-        if not rows:
-            return None
-        return (
-            torch.tensor(rows, dtype=torch.long, device=self.device),
-            torch.tensor(columns, dtype=torch.long, device=self.device),
-            torch.tensor(measured, dtype=torch.float32, device=self.device),
-        )
-
-    def _shared_gradient_norm(self, loss: torch.Tensor) -> float:
-        """The size of a loss's gradient on the parameters every head reads through."""
-        shared = [
-            parameter
-            for name, parameter in self.model.named_parameters()
-            if not name.startswith(HEAD_PARAMETERS)
-        ]
-        gradients = torch.autograd.grad(loss, shared, retain_graph=True, allow_unused=True)
-        return math.sqrt(
-            sum(float((gradient**2).sum()) for gradient in gradients if gradient is not None)
-        )
 
     @staticmethod
     def _joint_groups(

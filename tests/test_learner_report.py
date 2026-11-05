@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("learner_report", ROOT / "tools/learner_report.py")
 assert SPEC is not None and SPEC.loader is not None
@@ -111,3 +113,13 @@ def test_what_was_not_run_is_not_read(tmp_path):
     assert readings["predicts"] is True and readings["reads"] is False
     assert readings["copy_no_worse"] is None and readings["board_helps_copy"] is None
     assert readings["must_shape"] is None and readings["fewer_positions"] is None
+
+
+def test_the_paired_difference_counts_the_deals_only_one_won():
+    first = [True] * 68 + [False] * 32
+    second = [True] * 60 + [False] * 40
+    difference, error = tool.paired(first, second)
+    assert difference == pytest.approx(0.08)
+    assert error == pytest.approx((8 - 0.64) ** 0.5 / 100)
+    with pytest.raises(ValueError, match="not the same run"):
+        tool.paired(first, second[:-1])

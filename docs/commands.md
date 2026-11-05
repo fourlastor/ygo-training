@@ -32,8 +32,7 @@ games, two decks and thirteen opponents are twenty games a pairing). The
 network is told the deck it plays by its list, as it always is. In an
 imitating update each game is played by the pilot of its own deck, and is
 the game a learner of that deck alone has of the same deal; in the others
-the model plays each deck itself. Such a run needs named `--opponents`,
-and imitates neither recorded duels nor a checkpoint.
+the model plays each deck itself. Such a run needs named `--opponents`.
 An update reports the games and the wins deck by deck
 (`learner_deck_duels`, `learner_deck_win_rate`) and, when it imitates, how
 often the first choice is the pilot's for each deck
@@ -66,8 +65,6 @@ often the first choice is the pilot's for each deck
   says nothing of others. An update reports the head's explained variance
   and its correlation with the outcomes on that update's duels before it
   trains on them.
-- `--imitation-records ROWS` makes those updates imitate recorded duels
-  instead: see [Imitating recorded duels](#imitating-recorded-duels).
 - `--imitation-teacher CHECKPOINT` makes them imitate a network instead:
   see [Imitating a checkpoint](#imitating-a-checkpoint).
 - Otherwise the learner plays, with sampled answers, and is trained by PPO.
@@ -511,67 +508,6 @@ recording is a folder, `records/champions/DECK/KIND/CHUNK.jsonl.gz` and
 - A copy that goes on deals its earlier updates again, from their rollouts'
   seeds, to know where it stands in each recording.
 
-### Imitating recorded duels
-
-```sh
-uv run python -m ygo_training train --device cuda \
-  --run runs/search-arm --resume runs/seed/checkpoints/model-00029.pt \
-  --learner blackwing --workers 24 --pool-threads 20 --duels 512 --updates 32 \
-  --imitation-only-updates 32 --imitation-value-weight 0.5 \
-  --imitation-records analysis/search/train.jsonl --imitation-games 4000
-```
-
-`--imitation-records` names the rows of a `policy-bench search --record true`
-run. Every row is one deal played twice by the learner's deck: by its pilot
-with the search, and by its pilot alone. `--imitation-game search` (the
-default) imitates the first, `--imitation-game baseline` the second, on the
-same deals in the same updates, so two runs that differ in that option alone
-differ only in whose answers they learn.
-
-The games are put in an order that does not depend on how the search run was
-scheduled: each opponent's games by seed, the opponents taking turns.
-`--imitation-games N` takes the first `N` of that order, an equal share of
-every opponent and of both seats when `N` is a multiple of twice the number
-of opponents, and a smaller `N` is part of a larger. An update imitates the
-next `--duels` games of a shuffled pass over them; when a pass is through,
-another begins in another order. `--updates` times `--duels`, divided by the
-number of games, is the number of passes.
-
-A record is refused unless it plays again with the digest it was recorded
-with and leaves its pilot where its row says. Records therefore belong to
-the revisions of the engine, the scripts, the card database and the pilots
-they were made with.
-
-Such updates report, beside the usual imitation metrics, `recorded_pass`,
-`recorded_departures` (decisions at which the recorded duels left their
-pilot) and, measured before the update, how often the model's first choice
-at those decisions is the recorded answer
-(`imitation_model_departure_agreement`) or still the pilot's
-(`imitation_model_departure_pilot_agreement`). In the first pass the model
-has not seen the games it is measured on.
-
-`--imitation-label pilot` has the policy imitate the pilot's own answer at
-every decision of a recorded game, also where a search played another; the
-steps the pilot was never asked, after such an answer, are left out. The
-default, `played`, imitates the answer the game was played with.
-
-With rows of a search run that logged what it tried (`--log true`, or `full`
-for every alternative: see [The search](#the-search)), each decision the
-search examined carries the *lead* it measured for every answer it tried:
-how much more often that answer won than the pilot's in the worlds of the
-first stage, a draw counting as half a win, and 0 for the pilot's own.
-`--imitation-lead-weight W` trains the lead head on them by squared error,
-with weight `W` beside the imitation loss; with `--imitation-lead-detach`
-the head reads the policy's view of an answer and sends no gradient of its
-own into it. Such updates report `imitation_lead_loss`,
-`imitation_lead_targets`, the head's explained variance before the update
-(`imitation_lead_explained_variance`) and, from the update's first
-minibatch, the size of the two losses' gradients on the parameters they
-share (`imitation_shared_gradient_norm`,
-`imitation_lead_shared_gradient_norm`). Without a weight the head is
-measured and left as it is. A log that names other alternatives than the
-decision offers is refused.
-
 ### Resume and run integrity
 
 - `--continue` loads the latest numbered checkpoint below `--run` and goes on
@@ -775,10 +711,7 @@ changes with what shares it, and a game can go another way where two
 answers are rated alike. A pool's rounds do not depend on the threads'
 pace: with the same threads and slots it plays the same games every time.
 An update's decisions stay in the library, and its minibatches are built
-there. A recorded duel that is watched (`evaluate-search`) is asked in one
-call of the model, all its decisions together; where a search's log or the
-lead head is read, a duel shows the pool the views of its decisions, and
-what is read of them is read there (`ygo_training/searched.py`).
+there.
 
 Until 2026-10-16 the games went to worker processes, one duel each, unless
 `--pool-threads` was named, and recorded duels and the lead head stayed
@@ -973,8 +906,8 @@ its model the way measured fastest there, unless it names another.
   are the games of one.
 - **A measurement is the measurement it was.** A suite, the held-out
   games and a run's own evaluations are played with every call as it is
-  and every duel together. `evaluate-suite` and `evaluate-search` take
-  one group and no graph unless they name another way themselves; a
+  and every duel together. `evaluate-suite` takes one group and no
+  graph unless it names another way itself; a
   run's own evaluations go through its pool of two groups, taken forward
   together, which plays a measurement's games as a pool of one does
   (`tests/test_pool.py`): a thread takes its duels forward in the order
@@ -1894,111 +1827,7 @@ is measured unless it says so, and none of it is in the trainer.
   than 20 add little, and a larger card takes at most the third of an
   update that is the card's arithmetic.
 
-## `evaluate-search`
-
-```sh
-uv run python -m ygo_training evaluate-search \
-  runs/search-arm/checkpoints/model-00031.pt runs/pilot-arm/checkpoints/model-00031.pt \
-  --device cuda --workers 24 \
-  --records analysis/search/heldout.jsonl \
-  --output analysis/search/heldout-evaluation.json
-```
-
-Measures checkpoints on the rows of a search run they did not train on, in
-two ways:
-
-- **Its deals.** The model plays every deal of the run with its first
-  choice. The rows hold what the pilot and the search made of the same
-  deals, so the three are compared deal by deal (`deals.references`,
-  `deals.paired`).
-- **The answer key.** Every searched duel is played again as recorded, and
-  at each decision of the learner's seat the model is asked what it would
-  answer. Nothing it says is played. Where the search left its pilot's
-  answer (a deviation) the model's first choice is the search's, still the
-  pilot's, or neither; everywhere else the search kept the pilot's answer,
-  and the model's is that one or another. Both are given overall, by kind of
-  decision and by what the pilot answered and the search played instead
-  (`answer_key.by_change`), and every deviation is listed with the
-  probability the model gave either answer.
-
-The answer key is not reproduced to the last answer. The decisions of the
-recorded duels reach the model in batches made up as they arrive, the
-probabilities of one checkpoint differ from one measurement to the next in
-their ninth decimal, and a first choice between two answers that close
-falls either way: a small, barely trained model measured three times had
-another answer than the pilot's at 184, 184 and 185 of 867 decisions.
-
-If the run was made with `--log true` the rows also say which decisions the
-search examined, and the kept decisions are given for those apart. The games
-are the same with and without the log.
-
-With the log the model's answers are also read by what the search measured
-(`answer_key.tried`). At every decision it examined, the search played the
-pilot's answer and up to eleven alternatives out in the same worlds. Where
-the model's first choice is another answer than the pilot's, it is worth the
-lead the search measured for it in the worlds of its first stage: how much
-more often it won there than the pilot's answer. The table gives, for the
-decisions examined:
-
-- `others`: the model's answers other than the pilot's, and how many a game;
-- `outright`: those given where the pilot's answer won every world, without
-  a lead. Nothing can be ahead there, and a search tries nothing else unless
-  it ran with `--log full`; with the full log there are none, and a line
-  below the table says how many of the answers tried were given there and
-  what they add up to a game;
-- `untried`: those the search did not try, past its twelfth alternative;
-- `tried`: those it did try, with how many were `ahead` of the pilot's
-  answer, `level` with it or `behind`, their mean `lead` in points of win
-  rate, and the leads of a game added up (`sum a game`).
-
-Below the first choice come the model's heaviest alternative, taken once the
-model gives it half, a fifth, a tenth and a twentieth of what it gives the
-pilot's answer; the search's own choices; and any other answer the search
-tried. With the full log a model that has not seen the games is not
-flattered: its sum estimates what its answers gain or lose against the
-pilot's, the pilots playing on. Without it the leads are measured only where
-the pilot's answer lost some world, which flatters every alternative alike:
-read a model beside another model, and beside any other answer. The search's
-own choices were taken on those very worlds and are flattered either way. A
-like card from the same pile counts as the same answer, as the search tries
-them. A log whose alternatives are not the ones the decision offers is
-refused, as a record with another digest is.
-
-The model's lead head is asked at the same decisions (`answer_key.tried.led`
-and `.head`). A model that follows its head gives its policy's first choice
-unless it predicts for another alternative a lead over that choice of at
-least a margin, and then the alternative it predicts the largest lead for.
-For margins of 5 to 30 points the second table gives the first choices so
-`changed`, the answers other than the pilot's that result (`others`), what
-those are worth (`sum a game`) and the `gain`: what the answers taken lead
-the first choices they replace by, added up over a game. A third table has
-the changes apart by where they start (`split`): from the pilot's answer to
-another, from another back to the pilot's, and from one other answer to
-another, each with how many and what they gain a game. A model whose first
-choice is not its pilot's answer gains by going back to it, which is its
-copy repaired and nothing the search found. The last line is
-what the head knows: how its predictions correlate with the measured leads
-over every alternative, and the mean measured lead of the alternatives it
-ranks highest.
-
-Then the value head against the worlds. At a decision the search examined,
-the rate at which the pilot's answer wins the worlds of the first stage
-estimates what the decision is worth to a seat that goes on as its pilot
-does. Over 8 worlds a rate is not that worth: of the spread of the rates
-over the decisions, what is real is what remains without the spread of a
-mean of so few results. The model's value is read against that part, at
-the examined decisions that open a transaction, which is where the head is
-trained: its correlation with the rates, the share of what can be told
-that a straight line through its values explains, the share its values
-explain as they stand, and beside them the share of a single result that a
-perfect predictor would explain there. The last line gives the first by
-turn.
-`tools/policy_search_predictability.py TRAIN MEASURE` gives the references
-for it from two logged runs alone: what a perfect predictor explains at
-the decisions of MEASURE, and what a small network tells that sees only
-the log's `situation` (life points, counts of cards, turn and phase),
-taught on TRAIN the games' results or the worlds' rates, without and with
-the opponent's deck.
+## The experiments' reports
 
 `tools/learner_report.py DIRECTORY` is the report of the experiment on the
 learner itself, for the folder `experiments/commands/learner-value-board.sh`
@@ -2193,79 +2022,11 @@ keeps which cards it was trained on, shown with their identity; at play
 of every card it was not trained on, and of every code not in the table but
 0, which is a card the seat does not see. The parameters these bring are
 the model's last: under one seed it begins as one told nothing more. A
-checkpoint carries its table, and `evaluate-suite` and `evaluate-search`
-build their model as the first checkpoint they are given says; a model
+checkpoint carries its table, and `evaluate-suite` builds its model as
+the first checkpoint it is given says; a model
 told nothing more is still written in format 15, which revisions before
 format 16 load. `tools/export_checkpoint.py` refuses a checkpoint told
 more, which a forward pass written elsewhere does not look up.
-
-`--lead-margin M` also plays the run's deals by that rule (`led_deals`),
-beside the games played by the policy alone. The rule is applied only at
-decisions a strict one-step search examines, told from the decision as the
-network sees it: a command, a chain window that may be passed, a yes/no or a
-battle position, with more than one alternative, no chain under way and no
-face-down monster on the other side. The head is taught nowhere else.
-`evaluate-search` refuses a logged run in which the search examined other
-decisions than these.
-
-A checkpoint is refused if its own run imitated any deal of these rows
-(`run.json` names the games it imitated): what a model does on games it was
-trained on says nothing of others. `--allow-seen-deals` measures anyway, for
-a look at what was memorised, and the result says how many deals were seen.
-
-`tools/search_imitation_report.py DIRECTORY` puts such results in one table
-when the directory holds `seed.json` for the model the runs start from and
-`search-N.json` and `pilot-N.json` for two arms on `N` games: every run at
-every measured checkpoint, and the first arm against the second deal by deal
-and deviation by deviation, with standard errors. With `--records ROWS`, the
-rows the measurements were made on, it also sets the deviations apart by the
-z the search took them at, and gives every run's rate at the deviations
-where the starting model gave the search's answer under 1% of its weight:
-those a run has from the games it imitated. Where the rows were logged it
-gives every run's other answers by the search's worlds after its last
-measured checkpoint, and at every measured checkpoint the two arms'
-added-up leads against each other game by game, beside how many answers a
-game each gives where the pilot's wins outright, which have no lead. A
-`seed-continued.json` in the directory, the starting model's own run
-measured further on, is given beside `seed.json`.
-
-`tools/search_leads_report.py` is the search-leads experiment's, for arms
-whose lead head is trained:
-
-- `seed PILOT.json MODEL.json --checkpoint PATH` holds the model the arms
-  start from against its pilot, from the `evaluate-suite` results of the
-  two on the same suite, and fails where the model wins more than 5 points
-  less or the result is of another checkpoint.
-- `weight METRICS.jsonl` sets the weight of the lead loss from a
-  calibration run, which trained the head with the weight 1. Every update
-  reports how hard the imitation loss and the lead loss pull on the
-  parameters they share, before it moves anything
-  (`imitation_shared_gradient_norm`, `imitation_lead_shared_gradient_norm`);
-  the weight is the first over the second, over the run's updates but the
-  first, where the head is still untrained.
-- `read DIRECTORY` takes `DIRECTORY/validation/ARM.json`, the arms `pilot`,
-  `search`, `leads` and `leads-read` at every measured update on a
-  validation run with the full log, and `seed.json` for the model they
-  start from. For `leads` and `leads-read` it gives what the rule gains at
-  every update and margin and what the head knows, and chooses the update
-  and the margin at which the rule gains most a game: of equal gains the
-  earlier update, then the larger margin, and none where it gains nothing
-  above zero. `--choice FILE` writes the choices. Where
-  `DIRECTORY/heldout/` holds those arms at the choice in
-  `DIRECTORY/choice.json`, measured with `--lead-margin`, and the others at
-  the updates so chosen, it applies the experiment's readings: the mark is
-  a quarter of what the search gains over its pilot on those deals, the
-  rule's gain is held against it and three standard errors, and the deals
-  won by the rule against the `pilot` arm's, deal by deal, against it and
-  two. A result at another checkpoint or margin than the choice is refused.
-- `more DIRECTORY` takes `DIRECTORY/more/ARM.json`, every arm at every
-  measured update on the held-out run, measured after the readings
-  (`experiments/commands/search-leads-more.sh`). It sets each arm against
-  the `pilot` arm at the same update and over all of them, by the deals won
-  deal by deal and by what its other answers are worth game by game, gives
-  the rule's gain at every update and margin, and at the update of an arm's
-  choice its changes apart by where they start. What the readings measured
-  must come out the same there, or it stops.
 
 ## `edopro`
 
@@ -2514,8 +2275,6 @@ are timed.
 | Imitation of the pilot | `--imitation-only-updates` |
 | of the pilots of two decks | `--learner blackwing,lightsworn` |
 | of a checkpoint | `--imitation-teacher`, the copy itself |
-| of recorded duels | `--imitation-records`; the duels are recorded there and then, the pilot with the cheapest search |
-| the same with the lead head taught | `--imitation-lead-weight` |
 | PPO against the pilots | the model plays, one pass |
 | with the pilots' answers an anchor | `--teacher-imitation-weight` |
 | half of the duels against itself | `--self-play-duels`, half of an update's |
@@ -2554,8 +2313,8 @@ set beside, **at the same revision of the trainer**: the report names it.
 The three changes of 2026-10-13 (above) take 1.6 to 1.9 s off an update
 whose games the model plays, so a machine measured after them is set
 beside this one measured again. The two modes by the workers
-went with them on 2026-10-16, and recorded duels have been imitated
-through the pool since.
+went with them on 2026-10-16, and the two of recorded duels on
+2026-11-05.
 
 ```
 Training speed, 20261012-175630
@@ -3114,10 +2873,9 @@ versions that were evaluated.
 
 `policy-bench search` (in `native/ygo-policies`) measures what a one-step
 search on top of a pilot gains, and with `--record true` writes its duels as
-records the environment can play again. `tools/policy_search_*.py` summarize
-its rows. Build it with `cargo build --release -p ygo-policies-bench -p
-ygo-policies-ffi` in that directory: a bare `cargo build` there leaves the
-bench as it was.
+records the environment can play again. Build it with `cargo build
+--release -p ygo-policies-bench -p ygo-policies-ffi` in that directory: a
+bare `cargo build` there leaves the bench as it was.
 
 ```sh
 cd native/ygo-policies
@@ -3132,12 +2890,6 @@ The same command at the same revisions writes the same games.
 With `--log true` the rows also hold how every alternative did in every
 world it was tried in. The search takes an alternative when it is ahead of
 the pilot's answer by a paired z over the same worlds, in three stages.
-`tools/policy_search_firmness.py ROWS` reads from the log how firmly each
-deviation was decided: how many decisions ended with an alternative ahead
-that was not taken, how a lead holds in the worlds that had no part in
-choosing it, and how often the same test takes the same alternative when its
-worlds are drawn again. It checks first that it reads the test as the bench
-ran it, by the choice logged at every decision.
 
 Where the pilot's answer wins every world of the first stage nothing else
 is tried, since nothing can be ahead, and the log says nothing of the
@@ -3148,7 +2900,7 @@ decision examined.
 
 The bench numbers the games of a matchup from the run's `--seed` on, so two
 runs share deals unless their seeds lie further apart than their games per
-matchup. Give the run to train on and the run to measure on seeds that do.
+matchup.
 
 ## Changing the model's input
 

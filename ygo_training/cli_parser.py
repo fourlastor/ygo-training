@@ -11,7 +11,6 @@ from .config import (
     BOARD_REPRESENTATIONS,
     GOLDEN_TRAINING_PROTOCOL,
     GROUPS_OVER,
-    IMITATION_LABELS,
     IN_FLIGHT_MINIBATCH,
     IN_FLIGHT_UPDATES,
     LEAVE_OUT,
@@ -22,7 +21,6 @@ from .config import (
     TEACHER_TARGETS,
     left_out,
 )
-from .records import GAMES as RECORDED_GAMES
 
 Command = Callable[[argparse.Namespace], None]
 
@@ -272,65 +270,12 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
         ),
     )
     parser.add_argument(
-        "--imitation-records",
-        type=Path,
-        help=(
-            "rows of a `policy-bench search --record true` run: the imitation-only "
-            "updates play these duels again and imitate the answers they hold, "
-            "in place of duels the pilot plays now"
-        ),
-    )
-    parser.add_argument(
         "--copy-records",
         type=Path,
         help=(
             "the decks' champions' recordings (tools/record_champion.py): the "
             "imitation-only updates deal their games as a copy of the champions plays "
             "them, and play each again from its deck's recording, with no network asked"
-        ),
-    )
-    parser.add_argument(
-        "--imitation-game",
-        choices=RECORDED_GAMES,
-        default="search",
-        help=(
-            "which game of each row to imitate: the pilot's with the search "
-            "(default), or the pilot's own on the same deal"
-        ),
-    )
-    parser.add_argument(
-        "--imitation-games",
-        type=int,
-        help=(
-            "imitate this many of the recorded games, an equal share of every "
-            "opponent (default: all); a smaller number is part of a larger one"
-        ),
-    )
-    parser.add_argument(
-        "--imitation-label",
-        choices=IMITATION_LABELS,
-        default="played",
-        help=(
-            "which answer of a recorded game the policy imitates: the one played "
-            "(default), or the pilot's own where a search played another"
-        ),
-    )
-    parser.add_argument(
-        "--imitation-lead-weight",
-        type=float,
-        default=0.0,
-        help=(
-            "weight of the lead head's squared error against the leads a search "
-            "logged with --log true or full for the answers it tried (default 0: "
-            "the head is not trained)"
-        ),
-    )
-    parser.add_argument(
-        "--imitation-lead-detach",
-        action="store_true",
-        help=(
-            "the lead head reads the policy's view of an answer and sends no "
-            "gradient of its own into it"
         ),
     )
     parser.add_argument(
@@ -660,43 +605,6 @@ def _evaluate_suite_parser(commands: Any, command: Command) -> None:
     parser.set_defaults(func=command)
 
 
-def _evaluate_search_parser(commands: Any, command: Command) -> None:
-    parser = commands.add_parser(
-        "evaluate-search",
-        help=(
-            "measure checkpoints on the duels of a search run: their games on its "
-            "deals, and their answers where the search left or kept its pilot's"
-        ),
-    )
-    _runtime_arguments(parser)
-    parser.add_argument("checkpoints", type=Path, nargs="+")
-    parser.add_argument(
-        "--records",
-        type=Path,
-        required=True,
-        help="rows of a `policy-bench search --record true` run the models did not train on",
-    )
-    parser.add_argument(
-        "--allow-seen-deals",
-        action="store_true",
-        help=(
-            "measure even on deals a checkpoint's run imitated: a check of what it "
-            "memorised, not an evaluation (refused otherwise)"
-        ),
-    )
-    parser.add_argument(
-        "--lead-margin",
-        type=float,
-        help=(
-            "also play the run's deals by following the lead head: the policy's "
-            "first choice, unless another answer is predicted to lead it by this "
-            "much (in units of win rate), at the decisions a search examines"
-        ),
-    )
-    parser.add_argument("--output", type=Path)
-    parser.set_defaults(func=command)
-
-
 def _edopro_parser(commands: Any, command: Command, default_learner: str) -> None:
     parser = commands.add_parser(
         "edopro",
@@ -817,8 +725,6 @@ def build_parser(
     _status_parser(commands, handlers["status"])
     if "evaluate-suite" in handlers:
         _evaluate_suite_parser(commands, handlers["evaluate-suite"])
-    if "evaluate-search" in handlers:
-        _evaluate_search_parser(commands, handlers["evaluate-search"])
     if "edopro" in handlers:
         _edopro_parser(commands, handlers["edopro"], default_learner)
     if "edopro-review" in handlers:

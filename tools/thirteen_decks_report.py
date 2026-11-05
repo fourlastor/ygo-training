@@ -54,9 +54,9 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from learner_report import percent, points
 from more_decks_report import outcomes
 from ppo_head_report import difference
-from search_leads_report import percent, points
 from self_play_report import score, shares, spread, within
 
 DECKS = (

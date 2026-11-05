@@ -44,8 +44,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from learner_report import percent, points
 from ppo_head_report import difference
-from search_leads_report import percent, points
 from thirteen_decks_report import DECKS, ERRORS, MARK, Games, figures, mean, points_of
 
 BASE = "all71"

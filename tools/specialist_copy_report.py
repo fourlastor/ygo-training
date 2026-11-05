@@ -31,9 +31,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from learner_report import measured, metrics, reading, share, suite
+from learner_report import measured, metrics, percent, points, reading, share, suite, wins
 from ppo_head_report import difference, over_checkpoints, plain
-from search_leads_report import percent, points, wins
 
 COPIES = ("choice", "distribution")
 # The copy the readings are of: taught as the pilot's copy was.

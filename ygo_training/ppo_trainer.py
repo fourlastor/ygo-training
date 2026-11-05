@@ -35,18 +35,8 @@ from .graphs import Graphs
 from .model import PolicyValueNet
 from .optimization import DIAGNOSTIC_STEP_KEYS, PpoOptimizer
 from .orchestration import Coordinator, evaluation_assignments
-from .pool import (
-    DuelPool,
-    Locked,
-    Stream,
-    imitation_games,
-    replayed_games,
-    sampled_games,
-    taught_games,
-    watched_games,
-)
+from .pool import DuelPool, Locked, Stream, imitation_games, sampled_games, taught_games
 from .pool import evaluate_games as pooled_games
-from .records import RecordedGame, recorded_games
 from .rewards import OutcomeRewardModel
 from .trainer import Trainer
 
@@ -239,18 +229,6 @@ class PpoTrainer(Trainer):
         self.opponents = config.opponent_decks or sorted(
             name for name in pool(self.root) if name != config.learner_deck
         )
-        # The recorded duels the imitation-only updates imitate, if any.
-        self.recorded: list[RecordedGame] | None = None
-        if config.imitation_records:
-            self.recorded = recorded_games(
-                config.imitation_records,
-                config.imitation_game,
-                learner=config.learner_deck,
-                games=config.imitation_games,
-            )
-            for game in self.recorded:
-                if game.opponent not in self.decks:
-                    raise ValueError(f"Unknown deck in the recorded games: {game.opponent}")
         # The champions' recordings a copy plays its games again from, where
         # it does: every deck the learner plays has one.
         self.copy_records: Recordings | None = None
@@ -264,8 +242,6 @@ class PpoTrainer(Trainer):
             pilot_games=self._pilot_games,
             learner_games=self._learner_games,
             teacher_games=self._teacher_games if self.teachers else None,
-            replayed_games=None if self.recorded is None else self._replayed_games,
-            recorded=self.recorded,
             learner_stream=self._streamed_games if config.duels_in_flight else None,
             copy_records=self.copy_records,
             recorded_copy_games=None if self.copy_records is None else self._recorded_copy_games,
@@ -502,19 +478,6 @@ class PpoTrainer(Trainer):
         duels.forget()
         return imitation_games(
             duels, learner=self.config.learner_deck, games=games, limit=self.config.limit
-        )
-
-    def _replayed_games(self, games: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        """An update's recorded duels played again, the record's answers the
-        labels, their decisions kept in the pool until the next update's."""
-        duels = self._pool()
-        duels.forget()
-        return replayed_games(
-            duels,
-            learner=self.config.learner_deck,
-            games=games,
-            limit=self.config.limit,
-            label=self.config.imitation_label,
         )
 
     def _teacher_games(
@@ -838,14 +801,10 @@ class PpoTrainer(Trainer):
         assignments: list[dict[str, Any]],
         *,
         pilot: bool = False,
-        lead_margin: float | None = None,
         learner_list: str | None = None,
     ) -> list[dict]:
         """The listed games of ``learner``, each with its opponent, seat and
-        seed, by their index.  Games that carry a record are played again as
-        recorded with the live model watching (``records.RecordedGame``,
-        ``pool.watched_games``).  With ``lead_margin`` the model plays by
-        following its lead head.  With ``learner_list`` the learner's seat
+        seed, by their index.  With ``learner_list`` the learner's seat
         plays the deck list of that ``.ydk`` file (``pool.evaluate_games``).
         """
         if self._closed:
@@ -857,29 +816,8 @@ class PpoTrainer(Trainer):
         for name in [learner, *(str(item["opponent"]) for item in assignments)]:
             if name not in self.decks:
                 raise ValueError(f"Unknown deck: {name}")
-        watched = sum("record" in item for item in assignments)
-        if watched and (
-            watched < len(assignments)
-            or pilot
-            or lead_margin is not None
-            or learner_list is not None
-        ):
-            raise ValueError(
-                "Recorded duels are watched on their own: no pilot plays them, "
-                "no lead head is followed in them, and they play the lists they were "
-                "recorded with."
-            )
         with self._playing():
             try:
-                if watched:
-                    return watched_games(
-                        self._pool(),
-                        self.model,
-                        self.device,
-                        learner=learner,
-                        assignments=assignments,
-                        limit=self.config.limit,
-                    )
                 return pooled_games(
                     self._pool(),
                     self.model,
@@ -889,7 +827,6 @@ class PpoTrainer(Trainer):
                     limit=self.config.limit,
                     pilot=pilot,
                     held=self.held,
-                    lead_margin=lead_margin,
                     learner_list=learner_list,
                 )
             except Exception:

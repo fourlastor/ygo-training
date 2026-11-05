@@ -31,8 +31,18 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from learner_report import column, mean_error, measured, metrics, reading, share, suite
-from search_leads_report import percent, points, wins
+from learner_report import (
+    column,
+    mean_error,
+    measured,
+    metrics,
+    percent,
+    points,
+    reading,
+    share,
+    suite,
+    wins,
+)
 
 ARMS = ("as-before", "one-pass", "head-kept", "head-kept-plain", "head-kept-anchored")
 START = "start"

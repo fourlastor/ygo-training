@@ -35,8 +35,6 @@
 #      whose games are of ordinary length: after 40 such updates a copy wins
 #      about half of the suite in games of 12 to 13 turns, where a new
 #      network's games are not games anyone trains on;
-#    - recorded duels for the modes that imitate them: the pilot with the
-#      cheapest search there is, against each other deck;
 #    - TIMED updates in each other mode, on from that copy, after one update
 #      that warms up and is not timed;
 #    - the copy measured by its first choice: the suite against the pilots,
@@ -312,19 +310,6 @@ COPY=$(printf '%s/imitation/checkpoints/model-%05d.pt' "$RUNS" $((WARM - 1)))
 # On from the copy: the timed updates and the one before them.
 on=(--resume "$COPY" --updates $((TIMED + 1)) --keep-checkpoints $((TIMED + 1)))
 playing=("${on[@]}" --resume-learning-rate "$RATE")
-RECORDS=$RUNS/records.jsonl
-BENCH=native/ygo-policies/target/release/policy-bench
-
-# An update's worth of recorded duels: as many deals against each other deck,
-# an even number, the pilot's seat being each in turn.
-records() {
-  local others=${OTHERS//,/ }
-  local decks
-  decks=$(wc -w <<< "$others")
-  "$BENCH" search --policies blackwing --opponents "$OTHERS" \
-    --games $((2 * ((DUELS + 2 * decks - 1) / (2 * decks)))) --seed 800000 --workers "$THREADS" \
-    --worlds 1 --confirm 1 --final 1 --record true --log true --output "$RECORDS"
-}
 
 measure() {
   local name=$1
@@ -345,11 +330,6 @@ part imitation-decks train imitation-decks --learner "$DECKS" --opponents "$OPPO
   "${pool[@]}" "${imitating[@]}" --updates $((TIMED + 1)) --keep-checkpoints $((TIMED + 1))
 part imitation-checkpoint train imitation-checkpoint "${one[@]}" "${pool[@]}" "${imitating[@]}" \
   "${on[@]}" --imitation-teacher "$COPY"
-part records records
-recorded=(--learner blackwing --opponents "$OTHERS" "${pool[@]}" "${imitating[@]}" "${on[@]}"
-  --imitation-records "$RECORDS")
-part imitation-records train imitation-records "${recorded[@]}"
-part imitation-leads train imitation-leads "${recorded[@]}" --imitation-lead-weight 0.5
 part ppo train ppo "${one[@]}" "${pool[@]}" "${playing[@]}"
 part ppo-anchor train ppo-anchor "${one[@]}" "${pool[@]}" "${playing[@]}" \
   --teacher-imitation-weight 0.1

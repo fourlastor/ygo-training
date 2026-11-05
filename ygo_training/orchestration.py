@@ -9,23 +9,20 @@ from typing import Any
 
 from .champion_records import Recordings
 from .config import TrainerConfig
-from .records import RecordedGame, update_games
 from .rewards import RewardModel
 from .schedules import (
     TrainingSchedule,
     allocate_balanced_matchups,
     allocate_balanced_opponents,
-    allocate_episodes,
     allocate_matchup_seats,
     allocate_other_seats,
-    episode_offsets,
     rollout_games,
 )
 
 # Who plays an update's games, given them: the pilot, or a network that is
 # imitated (its trajectories and how it was asked), or the model, drawing
 # its answers (given also the rollout's seed and whether the pilot's answers
-# are kept beside its own); and recorded duels played again.
+# are kept beside its own).
 Played = Callable[[list[dict[str, Any]]], list[dict[str, Any]]]
 Asked = Callable[[list[dict[str, Any]]], tuple[list[dict[str, Any]], dict[str, float]]]
 Drawn = Callable[[list[dict[str, Any]], int, bool], tuple[list[dict[str, Any]], dict[str, float]]]
@@ -73,8 +70,6 @@ class Coordinator:
         pilot_games: Played,
         learner_games: Drawn,
         teacher_games: Asked | None = None,
-        replayed_games: Played | None = None,
-        recorded: list[RecordedGame] | None = None,
         learner_stream: Streamed | None = None,
         copy_records: Recordings | None = None,
         recorded_copy_games: Asked | None = None,
@@ -84,19 +79,15 @@ class Coordinator:
         self.learners = config.learners
         # The decks the learner meets in rollouts, in equal shares.
         self.opponents = list(opponents)
-        # Recorded duels the imitation-only updates play again, when given,
-        # in place of duels the pilot plays now.
-        self.recorded = recorded
         self.reward_model = reward_model
         self.schedule = TrainingSchedule(seed=config.seed)
         # The games of an imitation-only update that the pilot plays now
         # (``schedules.rollout_games``), or a network in the pilot's place,
-        # the one imitated; the games of every other update, with the model
-        # in the learner's seat; and recorded duels, where they are imitated.
+        # the one imitated; and the games of every other update, with the
+        # model in the learner's seat.
         self.pilot_games = pilot_games
         self.teacher_games = teacher_games
         self.learner_games = learner_games
-        self.replayed_games = replayed_games
         # Where duels are kept in flight from one update to the next, what
         # the model's updates are played with.
         self.learner_stream = learner_stream
@@ -118,33 +109,9 @@ class Coordinator:
             teacher_decay_updates=self.config.teacher_imitation_decay_updates,
             warmup_updates=self.config.imitation_only_updates,
         )
-        # The update's recorded duels, when its games are not played now.
-        replayed: list[dict[str, Any]] | None = None
-        first_recorded = 0
-        if imitation_only and self.recorded is not None:
-            first_recorded = (self.schedule.update_index - 1) * self.config.duels
-            picks = update_games(
-                len(self.recorded),
-                self.config.duels,
-                self.schedule.update_index - 1,
-                self.config.seed,
-            )
-            replayed = [self.recorded[pick].replay(place) for place, pick in enumerate(picks)]
         started = time.perf_counter()
         asked = {"prompts": 0.0, "batches": 0.0, "max_batch": 0.0, "inference_seconds": 0.0}
-        if replayed is not None:
-            if self.replayed_games is None:
-                raise ValueError("recorded duels are given and nothing plays them again")
-            # Each in its place among the update's games and the share it is
-            # dealt in, as the games played now are (``rollout_games``).
-            counts = allocate_episodes(self.config.workers, len(replayed))
-            for share, (offset, count) in enumerate(
-                zip(episode_offsets(counts), counts, strict=True)
-            ):
-                for place in range(offset, offset + count):
-                    replayed[place] = {**replayed[place], "episode_index": place, "worker": share}
-            trajectories = self.replayed_games(replayed)
-        elif not imitation_only and self.learner_stream is not None:
+        if not imitation_only and self.learner_stream is not None:
             labels = imitation_weight > 0.0
 
             def blocks(index: int) -> tuple[list[dict[str, Any]], int]:
@@ -189,13 +156,6 @@ class Coordinator:
         if self.config.self_play_weights is not None and not imitation_only:
             # The weights the duels against itself were shared out by.
             metrics["self_play_weights"] = dict(self.config.self_play_weights)
-        if replayed is not None and self.recorded is not None:
-            metrics["recorded_games"] = float(len(self.recorded))
-            # How many times the games had all been gone through before.
-            metrics["recorded_pass"] = float(first_recorded // len(self.recorded))
-            metrics["recorded_departures"] = float(
-                sum(int(trajectory["departures"]) for trajectory in trajectories)
-            )
         return trajectories, metrics
 
     def _records_caught_up(self, update: int, rollout_index: int) -> None:

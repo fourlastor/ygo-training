@@ -26,8 +26,18 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from learner_report import column, mean_error, measured, metrics, reading, share, suite
-from search_leads_report import percent, points, wins
+from learner_report import (
+    column,
+    mean_error,
+    measured,
+    metrics,
+    percent,
+    points,
+    reading,
+    share,
+    suite,
+    wins,
+)
 
 RUNS = ("once", "once-few", "once-cards", "once-cards-few")
 # The updates a value head's fit is taken over: a run's last ones.

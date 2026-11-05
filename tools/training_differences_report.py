@@ -35,8 +35,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from learner_report import percent, points
 from ppo_head_report import difference
-from search_leads_report import percent, points
 
 CONTROL = "control"
 RUNS = ("small-updates", "their-step", "upgo")

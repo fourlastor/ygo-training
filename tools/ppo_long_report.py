@@ -31,9 +31,19 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from learner_report import column, mean_error, measured, metrics, reading, share, suite
+from learner_report import (
+    column,
+    mean_error,
+    measured,
+    metrics,
+    percent,
+    points,
+    reading,
+    share,
+    suite,
+    wins,
+)
 from ppo_head_report import KINDS, difference, ends, left, over_checkpoints, plain
-from search_leads_report import percent, points, wins
 
 FIRST = "one-pass"
 SEED = "one-pass-seed"
