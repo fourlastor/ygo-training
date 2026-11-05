@@ -33,7 +33,11 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   sixty-two Decks, as its design fixed, and beside it, fixed on 2026-11-04, an arm that
   keeps the old decks by distilling them towards `seventy-one-champions` on 0.4 of
   their duels; the two run one after the other since 2026-11-04. A duel that filled
-  its arena stopped the run twice, and the engine now ends such a duel instead. Beside
+  its arena stopped the first batch twice, and the engine now ends such a duel
+  instead. The first arm, `quarter`, read on 2026-11-05: the new decks learn,
+  +8.9 ± 0.1 points; the old decks not decided, 49.1% ± 0.2%; the mirrors lost,
+  45.1% ± 0.3%, seven under 45%, fallen from `seventy-one-champions` to where the
+  first batch had left them. Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
   them, so random keys stay; and the first batch again with its identity tables

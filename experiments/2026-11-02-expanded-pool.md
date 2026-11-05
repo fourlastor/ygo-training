@@ -478,7 +478,49 @@ learns of its new cards lies outside their rows, bound to their random keys; at 
 times it half lies in them, and the old cards' keys move six times as far, which the
 mirrors' fall fits but does not show.
 
-**Current next step:** `quarter` runs on the CUDA machine since 2026-11-04 18:54 at
-`db4f9130`, its first updates as designed (a new deck 8.84 games an update, an old one
-6.93, 8.5 seconds an update), some 23 hours with its measure; `distilled` is queued
-after it.
+## The batch again: `quarter`'s results (read on 2026-11-05)
+
+`quarter` ran on the CUDA machine from 2026-11-04 18:54 at `db4f9130`, 22.3 hours and
+its measure an hour more (`analysis/expanded-pool/replay-quarter/report.txt`). Its
+updates gave a new deck 8.84 games and an old one 6.93, as designed.
+
+1. *The mirrors are kept*: **lost**, 45.1% ± 0.3% against their champions. Seven are
+   at most 45% by two standard errors, `deckout` 35.9%, `destiny-hero` 36.3%, `venom`
+   36.3%, `zombie` 36.7%, `dragunity` 38.3%, `infernity` 38.7% and `blackwing` 39.5%,
+   each ± 2.3% to 2.9%, and none is at least 50% by two.
+2. *The old decks hold*: **not decided**, 49.1% ± 0.2% head to head against the frozen
+   network.
+3. *The new decks learn*: **learns**, +8.9 ± 0.1 points against the frozen network
+   after 9,000 updates, from 14.7%. Every one of the sixty-two gained, from +0.7
+   (`game-0019`) to +23.4 (`game-0045`); five gained under two points, `game-0019`,
+   `game-0025` +0.9, `game-0055` +1.1, `game-0046` +1.7 and `game-0054` +1.8.
+
+Beside them:
+
+- At 4,500 updates: the new decks +7.6 ± 0.1, the old decks 48.5%.
+- The twelve held out, trained on nothing: +1.6 ± 0.2 points from 10.4%.
+- The new decks against the thirteen decks' pilots: 29.2% from 18.6%, +10.7 ± 0.2.
+- The mirrors deal by deal on the check's deals, against the mean of the last thirteen
+  kept checkpoints of `seventy-one-champions` at 20,160 updates, the nearest that
+  measure has (50.8% there): `quarter` −5.6 ± 0.4 points, sixty-eight of the
+  seventy-one lower; the first batch −5.0 ± 0.4; the first batch test −6.6 ± 0.4.
+  `quarter` against the first batch, −0.6 ± 0.4.
+- 635 duels of some 4.7 million failed: Planet Pollutant Virus 445, Beast Rising 137,
+  Fake Feather 35, Pyro Clock of Destiny 4, Mind Control 2, Lightforce Sword and
+  Orbital Bombardment one each; new since the first batch, one each, Enemy Controller
+  (`gusto` against `gladiator`, two old decks), Ally of Justice Unlimiter, Fog Control
+  and Armed Sea Hunter; and six duels that filled their arenas and ended there.
+
+A quarter of the duels over 133 mirrors does not keep them. From
+`seventy-one-champions` they fell to where the first batch brought them back to from
+the first batch test's 44.1%, some five points under their champions; the share fits
+as the level it holds the mirrors at whatever the start, which the two runs do not
+show. The new decks learn as in the first batch. By the design the quarter does not
+stay: `distilled` reads whether its term keeps the mirrors, and if it does not either,
+the mirrors need more, designed then.
+
+**Current next step:** `distilled` runs on the CUDA machine since 2026-11-05 18:21 at
+`db4f9130`, its first updates as designed: a new deck 11.21 games an update, an old
+mirror 0.39 duels, 5,000 to 11,600 decisions an update distilled at a divergence from
+`seventy-one-champions` growing from 0.001 to 0.004, 6.8 to 8.6 seconds an update.
+Some 23 hours with its measure.
