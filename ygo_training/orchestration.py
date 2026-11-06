@@ -96,6 +96,9 @@ class Coordinator:
         self.copy_records = copy_records
         self.recorded_copy_games = recorded_copy_games
         self._dealt = 0
+        # Whether an update's metrics have told the weights of the duels
+        # against itself, which only the first it plays does.
+        self._weights_told = False
 
     def set_rollout_index(self, index: int) -> None:
         self.schedule.set_rollout_index(index)
@@ -153,9 +156,13 @@ class Coordinator:
                 if name.startswith(("pool_", "stream_")) or name == "held_decisions"
             }
         )
-        if self.config.self_play_weights is not None and not imitation_only:
-            # The weights the duels against itself were shared out by.
+        weighted = self.config.self_play_weights is not None and not imitation_only
+        if weighted and not self._weights_told:
+            # The weights the duels against itself are shared out by, the same
+            # for every update after: told at each, they were nearly all of a
+            # run's metrics (794 KB an update at 133 decks).
             metrics["self_play_weights"] = dict(self.config.self_play_weights)
+            self._weights_told = True
         return trajectories, metrics
 
     def _records_caught_up(self, update: int, rollout_index: int) -> None:

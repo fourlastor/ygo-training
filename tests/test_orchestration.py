@@ -456,7 +456,7 @@ def test_pairs_of_less_than_a_duel_an_update_keep_their_proportions_over_the_upd
     )
 
 
-def test_an_updates_metrics_say_the_weights_its_duels_against_itself_had():
+def test_the_first_updates_metrics_say_the_weights_its_duels_against_itself_had():
     several = {
         "workers": 2,
         "duels": 8,
@@ -467,7 +467,11 @@ def test_an_updates_metrics_say_the_weights_its_duels_against_itself_had():
         "opponent_decks": ["monarch"],
     }
     weights = {"blackwing>cyber": 2.0, "cyber>blackwing": 1.0}
-    _, metrics = coordinator(TrainerConfig(self_play_weights=weights, **several)).collect()
-    assert metrics["self_play_weights"] == weights
+    weighted = coordinator(TrainerConfig(self_play_weights=weights, **several))
+    _, first = weighted.collect()
+    _, second = weighted.collect()
+    assert first["self_play_weights"] == weights
+    # The updates after it are played with the same weights, not told again.
+    assert "self_play_weights" not in second
     _, plain = coordinator(TrainerConfig(**several)).collect()
     assert "self_play_weights" not in plain

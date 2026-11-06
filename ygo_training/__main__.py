@@ -425,8 +425,9 @@ def train(args: argparse.Namespace) -> None:
         "self_play_duels": config.self_play_duels,
         "self_play_pairs": config.self_play_pairs,
         # The file the weights of those duels are read from, which a run may
-        # be given again changed as it goes on: each update's metrics say
-        # the weights it was played with.
+        # be given again changed as it goes on: the metrics of the first
+        # update each invocation plays say the weights it and those after it
+        # were played with.
         "self_play_weights": None
         if args.self_play_weights is None
         else str(args.self_play_weights.resolve()),
