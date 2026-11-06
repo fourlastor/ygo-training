@@ -8,8 +8,8 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-04 (the first batch read: the new decks learn and the old
-decks hold, the mirrors are lost)
+**Last updated:** 2026-11-06 (the batch again read: `distilled` keeps the mirrors and
+the old decks while the new decks learn, so the batches after take its term and share)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -519,8 +519,53 @@ show. The new decks learn as in the first batch. By the design the quarter does 
 stay: `distilled` reads whether its term keeps the mirrors, and if it does not either,
 the mirrors need more, designed then.
 
-**Current next step:** `distilled` runs on the CUDA machine since 2026-11-05 18:21 at
-`db4f9130`, its first updates as designed: a new deck 11.21 games an update, an old
-mirror 0.39 duels, 5,000 to 11,600 decisions an update distilled at a divergence from
-`seventy-one-champions` growing from 0.001 to 0.004, 6.8 to 8.6 seconds an update.
-Some 23 hours with its measure.
+## The batch again: `distilled`'s results (read on 2026-11-06)
+
+`distilled` ran on the CUDA machine from 2026-11-05 18:21 at `db4f9130`, 23.3 hours, 9.3
+seconds an update against `quarter`'s 8.9, and its measure some 50 minutes more
+(`analysis/expanded-pool/replay-distilled/report.txt` and `compare.txt`). Its updates
+gave a new deck 11.21 games and an old mirror 0.39 duels, as designed, and distilled some
+11,400 decisions each.
+
+1. *The mirrors are kept*: **kept**, 50.6% ± 0.3% against their champions. None is at
+   most 45% by two standard errors. The lowest are `deckout` 41.0% ± 3.0%, `dragunity`
+   43.4% ± 2.7%, `fortune-lady` 43.4% ± 2.3%, `ojama` 44.1% ± 2.7% and `arcana` 44.5% ±
+   2.5%. The highest are `volcanic` 60.9% and `gem-knight` 58.6%.
+2. *The old decks hold*: **hold**, 50.5% ± 0.2% head to head against the frozen network.
+3. *The new decks learn*: **learns**, +9.2 ± 0.1 points against the frozen network
+   after 9,000 updates, from 14.7%. Every one of the sixty-two gained, from +0.8
+   (`game-0025`) to +22.4 (`game-0040`); five gained under two points, `game-0025`,
+   `game-0019` +1.0, `game-0046` +1.5, `game-0054` +1.5 and `game-0034` +1.8.
+4. *`distilled` against `quarter` on the new decks*: **not decided**, +0.3 ± 0.1 points,
+   +9.2 against +8.9.
+
+Beside them:
+
+- At 4,500 updates: the new decks +8.2 ± 0.1, the old decks 50.3%.
+- The old decks head to head, against `quarter`'s: +1.4 ± 0.2 points, 50.5% against
+  49.1%.
+- The mirrors deal by deal on the check's deals, against `seventy-one-champions` at
+  20,160 updates (50.8% there): −0.1 ± 0.3 points, thirty of the seventy-one lower;
+  against `quarter`, +5.5 ± 0.4 points, two lower (`tools/mirror_pairs.py`).
+- The twelve held out, trained on nothing: +1.5 ± 0.2 points from 10.4%, as `quarter`'s
+  (−0.0 ± 0.2).
+- The new decks against the thirteen decks' pilots: 29.7% from 18.6%, +11.1 ± 0.2.
+- The divergence from `seventy-one-champions` at the old decks' decisions: 0.0008 at
+  the first update, 0.020 over the first thousand, 0.029 over the last, still rising
+  slowly (0.0285 over updates 5,001 to 6,000).
+- 838 duels of some 4.7 million failed (`tools/failed_duels.py`): Planet Pollutant
+  Virus 606, Beast Rising 161, Fake Feather 47, Lightforce Sword and Ally of Justice
+  Unlimiter two each, Orbital Bombardment one; new since `quarter`, Evil HERO Infernal
+  Gainer two (`game-0038`), and one each Mei-Kou, Master of Barriers (`spellcaster`, an
+  old deck, against `game-0018`), Great Shogun Shien (`six-samurai`, an old deck,
+  against `game-0001`) and the union procedure (`proc_union.lua:143`, `game-0002`
+  against `game-0061`); and fourteen duels that filled their arenas and ended there.
+
+The term keeps what the duels did not. With 0.39 duels an old mirror an update against
+`quarter`'s 0.98, the mirrors stay deal by deal where `seventy-one-champions` had them,
+and the old decks stay a little over even against it, at some 5% more time an update.
+The new decks learn as in `quarter`; the reading does not tell apart the 27% more games
+a new deck had. By the design, the batches after take the term and the share.
+
+**Current next step:** batch two, from `distilled`'s mean at 9,000 updates with its
+term and share, its design and readings to be agreed before it is built.
