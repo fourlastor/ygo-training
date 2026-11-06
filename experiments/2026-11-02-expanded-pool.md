@@ -614,4 +614,8 @@ the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch two is built and run on the CUDA machine.
+**Current next step:** batch two runs on the CUDA machine since 2026-11-06 19:46 at
+`2c7f2b5d` (`experiments/commands/pool-batch-two.sh`), its first updates as designed: a
+new deck 11.78 games an update and an old one 3.39, some 12,500 decisions an update
+distilled at a divergence from the start growing from 0.0008 to 0.007, 9.9 seconds an
+update. Some 21 hours with its measure.
