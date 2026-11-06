@@ -567,5 +567,51 @@ and the old decks stay a little over even against it, at some 5% more time an up
 The new decks learn as in `quarter`; the reading does not tell apart the 27% more games
 a new deck had. By the design, the batches after take the term and the share.
 
-**Current next step:** batch two, from `distilled`'s mean at 9,000 updates with its
-term and share, its design and readings to be agreed before it is built.
+## Batch two (design and readings fixed on 2026-11-06, before anything was built)
+
+`distilled` kept the mirrors and the old decks while the new decks learnt, so batch two
+takes its term and its share (agreed on 2026-11-06).
+
+- **Start**: `distilled`'s mean at 9,000 updates (step 42,120).
+- **Decks**: new, fifty: `game-0064`, `game-0066` to `game-0092` and `game-0094` to
+  `game-0115`, among them the twelve held out until now; `game-0065` and `game-0093`
+  each hold a card that names a card, a question of 4,096 answers. Old, 133: the
+  seventy-one and the sixty-two of the batch again, `game-0001` to `game-0063` but
+  `game-0037`. Held out: `game-0116` to `game-0127`.
+- **Run**: PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings of
+  `fast`, every duel against itself, 6,840 updates, a checkpoint every 60, the cards'
+  identity tables at the network's rate. The first batch's weights, a quarter of the
+  duels in the mirrors of all 183 decks and of the rest a quarter between two old decks,
+  with the old decks' duels at 0.4 of them and what that leaves going to the new decks'
+  pairings: a new deck plays 11.77 games an update, some 80,500 over the run, an old deck
+  3.39, an old mirror 0.28 duels, and 76.8 duels an update are between two old decks. At
+  each decision of an old deck's seat in a duel between two old decks, the divergence of
+  the network's answers from the start's, frozen, is added to PPO's loss with the weight
+  PPO gives a transaction. Some 18 hours on the CUDA machine.
+- **Measured** after 3,420 and 6,840 updates by the mean of the last six kept
+  checkpoints, and at the start by the start (`eval_suites/pool-batch-two-*.json`); the
+  seventy-one mirrors after 6,840. With 133 old decks the measure takes some two hours.
+
+Readings, at 6,840 updates:
+
+1. *The mirrors are kept*: the seventy-one mirrors against their champions: **kept**
+   when their mean is at least 48% by two standard errors and none is at most 45% by
+   two, **lost** when the mean is at most 48% by two or one is at most 45% by two,
+   otherwise **not decided**.
+2. *The old decks hold*: head to head against the start, frozen, on every ordered
+   pairing of the 133 old decks: **hold** when at least 49% by two standard errors,
+   **slip** when at most 49% by two, otherwise **not decided**.
+3. *The new decks learn*: the mean over the fifty of each deck's share against the
+   start, less at the start, the deals paired: **learns** when at least 5 points by two
+   standard errors, **does not** when at most 2 points by two, otherwise **not
+   decided**.
+
+Told beside them, without a mark: the same at 3,420 updates; the old decks' share for
+the seventy-one and for the sixty-two game Decks apart; the twelve held out and the new
+decks against the thirteen decks' pilots, at the start and the end; the divergence along
+the run; the hours.
+
+If all three are met, the batches go on the same way. If the mirrors or the old decks
+are not kept, what changes is designed then.
+
+**Current next step:** batch two is built and run on the CUDA machine.
