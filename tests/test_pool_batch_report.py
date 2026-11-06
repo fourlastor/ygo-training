@@ -146,3 +146,42 @@ def test_the_suites_of_the_replay_are_the_tools():
         )
     old = made["pool-batch-replay-pairings-checkpoint"]["cases"][0]["opponent"].split(",")
     assert old == suites.seventy_one()
+
+
+def test_the_suites_of_batch_two_are_the_tools():
+    # From distilled: the batch again's sixty-two game Decks old with the seventy-one;
+    # game-0037, game-0065 and game-0093 each hold a card that names a card.
+    left = frozenset({"game-0037", "game-0065", "game-0093"})
+    new = [deck for deck in suites.numbered("game-0064:game-0115") if deck not in left]
+    held_out = suites.numbered("game-0116:game-0127")
+    assert len(new) == 50 and len(held_out) == 12
+    made = suites.suites("two", new, held_out, left)
+    for name, told in made.items():
+        assert (
+            json.loads((ROOT / "eval_suites" / f"{name}.json").read_text(encoding="utf8")) == told
+        )
+    old = made["pool-batch-two-old-pairings-checkpoint"]["cases"]
+    assert len(old) == 133
+    assert [case["learner"] for case in old][71:] == [
+        deck for deck in suites.numbered("game-0001:game-0063") if deck not in left
+    ]
+    for case in (
+        made["pool-batch-two-pairings-checkpoint"]["cases"]
+        + made["pool-batch-two-held-out-checkpoint"]["cases"]
+    ):
+        assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
+
+
+def test_the_old_decks_are_told_apart_where_game_decks_are_among_them(tmp_path):
+    found = run(tmp_path, 0.10, 0.51)
+    assert "old apart" not in found
+    written(
+        tmp_path / f"{POINTS[-1]}/old.json",
+        {"agents-vs-each": 0.52, "zombie-vs-each": 0.50, "game-0001-vs-each": 0.47},
+        games=4000,
+    )
+    found = tool.report(tmp_path, POINTS, "batch-one")
+    assert found["old"][POINTS[-1]]["share"] == pytest.approx((0.52 + 0.50 + 0.47) / 3)
+    assert found["old apart"]["seventy-one"]["share"] == pytest.approx(0.51)
+    assert found["old apart"]["game decks"]["share"] == pytest.approx(0.47)
+    assert "the seventy-one 51.0%, the game decks 47.0%" in tool.shown(found, POINTS)

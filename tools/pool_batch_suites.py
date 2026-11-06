@@ -1,10 +1,10 @@
 """The suites of one batch of the expanded pool (experiments/2026-11-02-expanded-pool.md).
 
-    uv run python tools/pool_batch_suites.py one --new game-0013:game-0063 \\
-        --held-out game-0064:game-0076 --leave-out game-0037,game-0065
+    uv run python tools/pool_batch_suites.py two --new game-0064:game-0115 \\
+        --held-out game-0116:game-0127 --leave-out game-0037,game-0065,game-0093
 
 The batch's old decks are the seventy-one decks of the champions' list and every
-game deck numbered before its first new one. Into `eval_suites/pool-batch-NAME-*.json`:
+game deck numbered before its first new one but those left out. Into `eval_suites/pool-batch-NAME-*.json`:
 each new deck against the frozen network at each old deck (`pairings`), every ordered
 pairing of the old decks head to head against it (`old-pairings`), the next decks,
 trained on nothing, as the new ones (`held-out`), and the new decks against the
@@ -56,11 +56,13 @@ def suite(name: str, learners: list[str], opponents: list[str] | None, games: in
     return {"name": name, "primary": cases[0]["name"], "cases": cases}
 
 
-def suites(batch: str, new: list[str], held_out: list[str]) -> dict[str, dict]:
+def suites(
+    batch: str, new: list[str], held_out: list[str], left: frozenset[str] = frozenset()
+) -> dict[str, dict]:
+    """`left`: the game decks no batch trained, which are not old either."""
     first = int(new[0].rsplit("-", 1)[1])
-    old = (
-        seventy_one() + numbered(f"game-0001:game-{first - 1:04d}") if first > 1 else seventy_one()
-    )
+    earlier = numbered(f"game-0001:game-{first - 1:04d}") if first > 1 else []
+    old = seventy_one() + [deck for deck in earlier if deck not in left]
     return {
         f"pool-batch-{batch}-pairings-checkpoint": suite(
             f"pool-batch-{batch}-pairings-checkpoint", new, old, GAMES["pairings"]
@@ -83,14 +85,16 @@ def main() -> None:
     parser.add_argument("--new", required=True)
     parser.add_argument("--held-out", required=True)
     parser.add_argument(
-        "--leave-out", default="", help="decks of the spans left out of the batch, by name"
+        "--leave-out",
+        default="",
+        help="game decks left out of the batch and of the old decks, by name",
     )
     parser.add_argument("--into", type=Path, default=ROOT / "eval_suites")
     args = parser.parse_args()
     left = set(args.leave_out.split(",")) - {""}
     new = [deck for deck in numbered(args.new) if deck not in left]
     held_out = [deck for deck in numbered(args.held_out) if deck not in left]
-    for name, told in suites(args.batch, new, held_out).items():
+    for name, told in suites(args.batch, new, held_out, frozenset(left)).items():
         (args.into / f"{name}.json").write_text(json.dumps(told, indent=2) + "\n", encoding="utf8")
         print(name, len(told["cases"]), "cases")
 

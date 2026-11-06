@@ -25,8 +25,9 @@ The readings, fixed on 2026-11-03 before anything was built:
    otherwise not decided.
 
 Told beside them, without a mark: the gain and the old decks at the points before the
-last; each new deck's gain; the next decks, trained on nothing; the new decks against
-the pilots; the hours.
+last; the old decks' share for the seventy-one and the game Decks apart, where a batch
+before made game Decks old; each new deck's gain; the next decks, trained on nothing;
+the new decks against the pilots; the hours.
 """
 
 from __future__ import annotations
@@ -59,6 +60,16 @@ def report(directory: Path, points: list[int], run: str) -> dict[str, Any]:
         "old": old,
         "holds": holds(old[last]["share"], old[last]["error"]),
     }
+    # The old decks' share at the last point for the seventy-one and the game Decks apart,
+    # where a batch before made game Decks old.
+    at_last = cases(directory / str(last) / "old.json")
+    game = {name: told_ for name, told_ in at_last.items() if name.startswith("game-")}
+    if game and len(game) < len(at_last):
+        seventy_one = {name: told_ for name, told_ in at_last.items() if name not in game}
+        found["old apart"] = {
+            "seventy-one": told(games(seventy_one)),
+            "game decks": told(games(game)),
+        }
     mirrors = sorted((directory / str(last) / "mirrors").glob("*.held.json"))
     if mirrors:
         each = {
@@ -114,6 +125,13 @@ def shown(found: dict[str, Any], points: list[int]) -> str:
         "  The old decks along it: "
         + ", ".join(f"{point:,}: {100 * found['old'][point]['share']:.1f}%" for point in points)
     )
+    if "old apart" in found:
+        apart = found["old apart"]
+        lines.append(
+            f"  The old decks apart at {last:,}: the seventy-one "
+            f"{100 * apart['seventy-one']['share']:.1f}%, the game decks "
+            f"{100 * apart['game decks']['share']:.1f}%"
+        )
     ranked = sorted(found["each"].items(), key=lambda item: item[1])
     lines.append(
         "  The new decks' least gains: "
