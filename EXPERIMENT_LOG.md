@@ -41,7 +41,13 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   mirrors kept, 50.6% ± 0.3% against the champions, deal by deal where
   `seventy-one-champions` had them (−0.1 ± 0.3 points); the old decks hold,
   50.5% ± 0.2%; the new decks learn, +9.2 ± 0.1 points, not told apart from
-  `quarter`'s (+0.3 ± 0.1). The batches after take its term and its share. Beside
+  `quarter`'s (+0.3 ± 0.1). The batches after take its term and its share. Batch two,
+  fifty more Decks from `distilled` with its term and share, read on 2026-11-07: the
+  new decks learn, +8.9 ± 0.1 points; the old decks hold, 50.2% ± 0.1%; the mirrors
+  lost on the floor alone, `deckout` at 37.1% while their mean is 50.2% ± 0.3%, deal by
+  deal where `seventy-one-champions` had them (−0.5 ± 0.3 points), whose own check
+  fails the same floor on `deckout` and `rock-block`. What changes is designed next.
+  Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
   them, so random keys stay; and the first batch again with its identity tables

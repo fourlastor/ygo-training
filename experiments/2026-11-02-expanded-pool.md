@@ -614,8 +614,75 @@ the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch two runs on the CUDA machine since 2026-11-06 19:46 at
-`2c7f2b5d` (`experiments/commands/pool-batch-two.sh`), its first updates as designed: a
-new deck 11.78 games an update and an old one 3.39, some 12,500 decisions an update
-distilled at a divergence from the start growing from 0.0008 to 0.007, 9.9 seconds an
-update. Some 21 hours with its measure.
+## Batch two's results (read on 2026-11-07)
+
+Batch two ran on the CUDA machine from 2026-11-06 19:46 at `2c7f2b5d`, 18.2 hours, 9.6
+seconds an update, and its measure some two and a half hours more
+(`analysis/expanded-pool/batch-two/report.txt`). Its updates gave a new deck 11.78 games
+and an old one 3.39, as designed.
+
+1. *The mirrors are kept*: **lost**, on one mirror alone. Their mean is 50.2% ± 0.3%
+   against their champions, but `deckout` is at most 45% by two standard errors, 37.1% ±
+   2.9%. The next lowest are `arcana` 42.2% ± 2.4%, `rock-block` 43.0% ± 2.5%,
+   `dragunity` 43.4% ± 2.6% and `burn` 43.8% ± 1.9%. The highest are `karakuri` 58.6%
+   and `ice-barrier` 57.0%.
+2. *The old decks hold*: **hold**, 50.2% ± 0.1% head to head against the start, frozen,
+   on every ordered pairing of the 133 old decks (141,512 games).
+3. *The new decks learn*: **learns**, +8.9 ± 0.1 points against the start after 6,840
+   updates, from 30.4%. Every one of the fifty gained, from +2.3 (`game-0107` and
+   `game-0067`) to +29.9 (`game-0085`).
+
+Beside them:
+
+- At 3,420 updates: the new decks +7.7 ± 0.1, the old decks 50.3%.
+- The old decks at 6,840 by the two decks of a pairing: both of the seventy-one 50.0% ±
+  0.2%, both game Decks 50.5% ± 0.3%, one of each 50.2% ± 0.2%. Told by the deck the
+  network plays, as the report told them until `ad031e77`, the seventy-one stood at
+  63.3% and the game Decks at 35.2%. That split shows what the seventy-one are worth
+  against the game Decks, whichever network plays them.
+- The mirrors deal by deal on the check's deals (`tools/mirror_pairs.py`):
+  - Against `seventy-one-champions` at 20,160 updates (50.8% there): −0.5 ± 0.3 points,
+    thirty-seven of the seventy-one lower.
+  - Against `distilled`: −0.4 ± 0.3, thirty-three lower.
+  - The most lost against `seventy-one-champions` are `cyber`, −11.3 ± 3.7 (`distilled`
+    −6.2), and `volcanic`, −8.2 ± 3.4.
+- Scored as reading 1 scores them, `seventy-one-champions`' own check has two mirrors
+  at most 45% by two standard errors: `deckout` 38.7% ± 2.9% and `rock-block` 40.2% ±
+  2.4%. `distilled` has none; its `deckout` stood at 41.0% ± 3.0%.
+  - Deal by deal, batch two's `deckout` is −0.8 ± 3.2 points from
+    `seventy-one-champions`' and −3.1 ± 2.9 from `distilled`'s.
+  - The reading scores a draw as lost to both networks. `deckout`'s mirror drew 19 of
+    its 256 games here and 15 for each of the other two networks; the other seventy
+    mirrors drew 13 between them.
+- The twelve held out, trained on nothing: +1.4 ± 0.2 points from 33.5%.
+- The new decks against the thirteen decks' pilots: 33.5% from 24.9%, +8.6 ± 0.2.
+- The divergence from the start at the old decks' decisions: 0.0008 at the first update
+  and 0.015 over the first thousand. Over the last 840 it was 0.023, still rising slowly
+  (0.0226 over updates 5,001 to 6,000).
+- 257 duels of some 3.56 million failed (`tools/failed_duels.py`).
+  - Ninety-two filled their arenas and ended there. Eighty-five of them had `game-0085`
+    in a seat, fifty-seven of those against `game-0043`. They came at an even rate from
+    the first thousand updates on. `game-0085` plays traps that become monsters
+    (Embodiment of Apophis, Metal Reflect Slime, Zoma the Spirit) beside Solemn Wishes
+    and Fairy Box.
+  - Cards seen before: Planet Pollutant Virus 88, Beast Rising 33, Mind Control 18, Fake
+    Feather 3, and one each for Pyro Clock of Destiny, Mei-Kou, Master of Barriers and
+    Orbital Bombardment.
+  - With `game-0070`, every one at an effect that is not there: Great Shogun Shien 5,
+    and four other Six Samurai cards 6 between them.
+  - New since `distilled`: Lord British Space Fighter 4 (`game-0080`), Neo Flamvell
+    Shaman 2 (`game-0109`), and one each for Domino Effect (`game-0019`) and Fire
+    Princess (`burn`, an old deck). One duel ended on a recursive event trigger.
+
+The new decks learn and the old decks hold, as in `distilled`. The mirrors stay where
+`seventy-one-champions` had them, −0.5 ± 0.3 points deal by deal. Reading 1 is lost on
+its floor alone: `deckout` at 37.1%, where `seventy-one-champions`' own check stands at
+38.7% and fails the same floor, as its `rock-block` does. One mirror's 128 deals carry
+some three points of error, so a mirror that `seventy-one-champions` plays at 38% to 41%
+can fall under the floor in one run and not in the next. `distilled`'s `deckout`, at
+41.0%, did not. By the design, what changes is designed now, before anything else is
+built.
+
+**Current next step:** what changes after batch two is to be designed and agreed before
+anything is built. The next batch would start from batch two's network: the mean of its
+last six kept checkpoints at 6,840 updates (step 48,960), the network measured here.
