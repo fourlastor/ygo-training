@@ -743,5 +743,8 @@ hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch three, as fixed above, is to be built, smoke-tested on the
-processor and queued on the CUDA machine.
+**Current next step:** batch three runs on the CUDA machine since 2026-11-07 17:06 at
+`62d1fd06` (`experiments/commands/pool-batch-three.sh`), its first updates as designed: a
+new deck 11.08 games an update and an old one 2.65, all 233 decks seated, some 12,000 to
+13,600 decisions an update distilled at a divergence from the start growing from 0.0007
+to 0.006, 10.2 seconds an update. Some 24 hours with its measure.
