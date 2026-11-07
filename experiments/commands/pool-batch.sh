@@ -18,14 +18,16 @@
 #
 # measure. Into OUT, at each of POINTS by the mean of the last MEAN_KEPT
 # checkpoints the run kept by then, and at 0 by NETWORK: each new deck against
-# NETWORK at each old deck (PAIRINGS), and at the points every ordered pairing of
-# the old decks head to head against it (OLD). After the last point: the next decks
-# against NETWORK (HELD_OUT), at 0 too; the new decks against the thirteen decks'
-# pilots (PILOTS), at 0 too; and each of MIRROR_DECKS head to head in its mirror
-# against its champion. Then the run's metrics and the report
-# (tools/pool_batch_report.py). What fails beside the others is played again once
-# they are over, alone: they share the card's memory, which four of them can run
-# out of together (the fast arm's pilots at 4,020, on 2026-11-04).
+# NETWORK at each old deck (PAIRINGS), and at each of OLD_POINTS, the points where
+# unset, every ordered pairing of the old decks head to head against it (OLD). After
+# the last point: the next decks against NETWORK (HELD_OUT), at 0 too; the new decks
+# against the thirteen decks' pilots (PILOTS), at 0 too; and each of MIRROR_DECKS head
+# to head in its mirror against its champion. Then the run's metrics and the report
+# (tools/pool_batch_report.py), the mirrors read deal by deal against those in
+# MIRRORS_REFERENCE where set and told beside those in MIRRORS_BESIDE. What fails beside
+# the others is played again once they are over, alone: they share the card's memory,
+# which four of them can run out of together (the fast arm's pilots at 4,020, on
+# 2026-11-04).
 #
 # Batch one: some 19 hours for the run and 1.5 for the measure, AT_ONCE=4.
 #   PARTS="run measure" AT_ONCE=4 bash experiments/commands/pool-batch.sh
@@ -51,6 +53,8 @@ EARLIER=${EARLIER-$(printf "game-%04d," $(seq 1 12) | sed "s/,$//")}
 FIRST=${FIRST:-37440}
 UPDATES=${UPDATES:-8040}
 POINTS=${POINTS:-4020 8040}
+# The points the old decks are measured at, the last of POINTS among them.
+OLD_POINTS=${OLD_POINTS:-$POINTS}
 STEP=${STEP:-60}
 MEAN_KEPT=${MEAN_KEPT:-6}
 RATE=${RATE:-1e-4}
@@ -72,6 +76,9 @@ OLD=${OLD:-eval_suites/pool-batch-one-old-pairings-checkpoint.json}
 MIRRORS=${MIRRORS:-analysis/seventy-one-champions/checks/suites}
 # The decks whose mirrors are read, of the champions' list: all of them where unset.
 MIRROR_DECKS=${MIRROR_DECKS:-}
+# Another network's mirrors on the same deals, the reading's reference, and one told beside.
+MIRRORS_REFERENCE=${MIRRORS_REFERENCE:-}
+MIRRORS_BESIDE=${MIRRORS_BESIDE:-}
 PYTHON=${PYTHON:-}
 LOGS=${LOGS:-$OUT/logs}
 # shellcheck source=experiments/commands/at-once.sh
@@ -101,6 +108,12 @@ for path in "$NETWORK" "$PAIRINGS" "$HELD_OUT" "$PILOTS" "$OLD"; do
     exit 1
   fi
 done
+for path in $MIRRORS_REFERENCE $MIRRORS_BESIDE; do
+  if [ ! -d "$path" ]; then
+    echo "Missing $path" >&2
+    exit 1
+  fi
+done
 last_point=${POINTS##* }
 if ((last_point != UPDATES)); then
   echo "The last of POINTS is UPDATES" >&2
@@ -112,6 +125,16 @@ for point in $POINTS; do
     exit 1
   fi
 done
+for point in $OLD_POINTS; do
+  if [[ " $POINTS " != *" $point "* ]]; then
+    echo "OLD_POINTS are among POINTS, not $point" >&2
+    exit 1
+  fi
+done
+if [ "${OLD_POINTS##* }" != "$last_point" ]; then
+  echo "The last of OLD_POINTS is UPDATES" >&2
+  exit 1
+fi
 python=(uv run python)
 [ -z "$PYTHON" ] || python=("$PYTHON")
 cargo build --release
@@ -156,6 +179,9 @@ measures() {
   for point in $POINTS; do
     mean=$RUNS/$RUN-mean/$point.pt
     played "$OUT/$point/pairings" "$PAIRINGS" "$mean" --opponent-checkpoint "$NETWORK"
+  done
+  for point in $OLD_POINTS; do
+    mean=$RUNS/$RUN-mean/$point.pt
     played "$OUT/$point/old" "$OLD" "$mean" --opponent-checkpoint "$NETWORK"
   done
   mean=$RUNS/$RUN-mean/$UPDATES.pt
@@ -259,5 +285,8 @@ if [[ " $PARTS " == *" measure "* ]]; then
     measures
   fi
   cp "$RUNS/$RUN/metrics.jsonl" "$OUT/$RUN.metrics.jsonl"
-  "${python[@]}" tools/pool_batch_report.py "$OUT" --points "${POINTS// /,}" --run "$RUN" | tee "$OUT/report.txt"
+  report=(--points "${POINTS// /,}" --run "$RUN")
+  [ -z "$MIRRORS_REFERENCE" ] || report+=(--reference "$MIRRORS_REFERENCE")
+  [ -z "$MIRRORS_BESIDE" ] || report+=(--beside "$MIRRORS_BESIDE")
+  "${python[@]}" tools/pool_batch_report.py "$OUT" "${report[@]}" | tee "$OUT/report.txt"
 fi

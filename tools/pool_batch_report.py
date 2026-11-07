@@ -5,9 +5,10 @@
 
 The directory is what `experiments/commands/pool-batch.sh` leaves: at 0 and at each of
 the points `pairings.json`, each new deck against the frozen network at each old deck;
-at each point `old.json`, every ordered pairing of the old decks head to head against
-it; at 0 and at the last point `held-out.json` and `pilots.json`; at the last point
-`mirrors/`, each of the seventy-one mirrors head to head against its champion.
+at the last point, and at the points before where they were measured, `old.json`, every
+ordered pairing of the old decks head to head against it; at 0 and at the last point
+`held-out.json` and `pilots.json`; at the last point `mirrors/`, each of the seventy-one
+mirrors head to head against its champion.
 
 The readings, fixed on 2026-11-03 before anything was built:
 
@@ -24,10 +25,18 @@ The readings, fixed on 2026-11-03 before anything was built:
    most 48% by two standard errors or one is at most 45% by two standard errors,
    otherwise not decided.
 
+From batch three (fixed on 2026-11-07), with `--reference`, reading 3 is the
+seventy-one mirrors deal by deal against the reference network's on its deals, a draw
+half a win (`tools/mirror_pairs.py`): kept when the difference is at least -2 points by
+two standard errors, lost when at most -2 points by two, otherwise not decided. No one
+mirror has a floor of its own: `seventy-one-champions`' own check fails the one above.
+
 Told beside them, without a mark: the gain and the old decks at the points before the
 last; the old decks' share by the two decks of a pairing, both of the seventy-one, both
 game Decks or one of each, where a batch before made game Decks old; each new deck's
-gain; the next decks, trained on nothing; the new decks against the pilots; the hours.
+gain; the mirrors' mean against their champions with a reference, and deal by deal
+against another network's with `--beside`; the next decks, trained on nothing; the new
+decks against the pilots; the hours.
 """
 
 from __future__ import annotations
@@ -40,10 +49,26 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import mirror_pairs
 from first_batch_report import cases, games, holds, learns
-from fourteen_decks_report import kept_mirrors, number
+from fourteen_decks_report import ERRORS, kept_mirrors, number
 from specialist_distillation_report import shares, spent
 from two_decks_report import mean, paired, told
+
+# Reading 3 against a reference: the mirrors kept when at least this far under its by two
+# standard errors, lost when at most.
+UNDER = -0.02
+# The decks named that moved most against the reference.
+NAMED = 5
+
+
+def kept_against(difference: float, error_: float) -> str:
+    """Reading 3 against a reference, of the mirrors' difference to its, deal by deal."""
+    if difference - ERRORS * error_ >= UNDER:
+        return "kept"
+    if difference + ERRORS * error_ <= UNDER:
+        return "lost"
+    return "not decided"
 
 
 def by_pairing(path: Path) -> dict[str, list[float]]:
@@ -62,12 +87,22 @@ def by_pairing(path: Path) -> dict[str, list[float]]:
     return found
 
 
-def report(directory: Path, points: list[int], run: str) -> dict[str, Any]:
+def report(
+    directory: Path,
+    points: list[int],
+    run: str,
+    reference: Path | None = None,
+    beside: Path | None = None,
+) -> dict[str, Any]:
     start = cases(directory / "0" / "pairings.json")
     tables = {point: cases(directory / str(point) / "pairings.json") for point in points}
     last = points[-1]
     gains = {point: paired(games(tables[point]), games(start)) for point in points}
-    old = {point: told(games(cases(directory / str(point) / "old.json"))) for point in points}
+    old = {
+        point: told(games(cases(directory / str(point) / "old.json")))
+        for point in points
+        if point == last or (directory / str(point) / "old.json").is_file()
+    }
     found: dict[str, Any] = {
         "start": mean(games(start)),
         "gains": gains,
@@ -88,6 +123,20 @@ def report(directory: Path, points: list[int], run: str) -> dict[str, Any]:
             for path in mirrors
         }
         found["mirrors"] = {**kept_mirrors(each), "each": each}
+        if reference is not None or beside is not None:
+            ours = mirror_pairs.shares(directory / str(last) / "mirrors")
+        if reference is not None:
+            moved = mirror_pairs.against(mirror_pairs.shares(reference), ours)
+            found["mirrors"] = {
+                "mean": found["mirrors"]["mean"],
+                "error": found["mirrors"]["error"],
+                "against": {**moved, "reference": str(reference)},
+                "verdict": kept_against(moved["difference"], moved["error"]),
+                "each": each,
+            }
+        if beside is not None:
+            moved = mirror_pairs.against(mirror_pairs.shares(beside), ours)
+            found["mirrors"]["beside"] = {**moved, "network": str(beside)}
     for part in ("held-out", "pilots"):
         at_last = directory / str(last) / f"{part}.json"
         if at_last.is_file():
@@ -112,7 +161,15 @@ def shown(found: dict[str, Any], points: list[int]) -> str:
             f"{100 * old['error']:.1f}% head to head against the frozen network"
         ),
     ]
-    if "mirrors" in found:
+    if "mirrors" in found and "against" in found["mirrors"]:
+        mirrors = found["mirrors"]
+        moved = mirrors["against"]
+        lines.append(
+            f"3. The mirrors {mirrors['verdict']}: {100 * moved['difference']:+.1f} ± "
+            f"{100 * moved['error']:.1f} points deal by deal against {moved['reference']}, "
+            f"lower on {moved['lower']} of {moved['decks']}"
+        )
+    elif "mirrors" in found:
         mirrors = found["mirrors"]
         lines.append(
             f"3. The mirrors {mirrors['verdict']}: {100 * mirrors['mean']:.1f}% ± "
@@ -132,10 +189,13 @@ def shown(found: dict[str, Any], points: list[int]) -> str:
             for point in points
         )
     )
-    lines.append(
-        "  The old decks along it: "
-        + ", ".join(f"{point:,}: {100 * found['old'][point]['share']:.1f}%" for point in points)
-    )
+    if len(found["old"]) > 1:
+        lines.append(
+            "  The old decks along it: "
+            + ", ".join(
+                f"{point:,}: {100 * told_['share']:.1f}%" for point, told_ in found["old"].items()
+            )
+        )
     if "old apart" in found:
         apart = found["old apart"]
         lines.append(
@@ -157,7 +217,27 @@ def shown(found: dict[str, Any], points: list[int]) -> str:
         + ", ".join(f"{name.split('-vs-')[0]} {100 * gap:+.1f}" for name, gap in ranked[-3:])
     )
     if "mirrors" in found:
-        each = found["mirrors"]["each"]
+        mirrors = found["mirrors"]
+        if "against" in mirrors:
+            lines.append(
+                f"  The mirrors against their champions: {100 * mirrors['mean']:.1f}% ± "
+                f"{100 * mirrors['error']:.1f}%"
+            )
+            moved = mirrors["against"]["by deck"]
+            lines.append(
+                "  The mirrors most lost against the reference: "
+                + ", ".join(f"{deck} {100 * gap:+.1f}" for gap, deck in moved[:NAMED])
+                + "; most won: "
+                + ", ".join(f"{deck} {100 * gap:+.1f}" for gap, deck in moved[-NAMED:])
+            )
+        if "beside" in mirrors:
+            beside = mirrors["beside"]
+            lines.append(
+                f"  The mirrors deal by deal against {beside['network']}: "
+                f"{100 * beside['difference']:+.1f} ± {100 * beside['error']:.1f} points, "
+                f"lower on {beside['lower']} of {beside['decks']}"
+            )
+        each = mirrors["each"]
         lowest = sorted(each, key=lambda deck: each[deck]["share"])[:5]
         lines.append(
             "  The lowest mirrors: "
@@ -184,9 +264,17 @@ def main() -> None:
     parser.add_argument("directory", type=Path)
     parser.add_argument("--points", required=True)
     parser.add_argument("--run", default="batch-one", help="the run whose metrics give the hours")
+    parser.add_argument(
+        "--reference",
+        type=Path,
+        help="the mirrors of the network reading 3 is read against, deal by deal",
+    )
+    parser.add_argument(
+        "--beside", type=Path, help="the mirrors of a network told beside, deal by deal"
+    )
     args = parser.parse_args()
     points = [int(point) for point in args.points.split(",")]
-    found = report(args.directory, points, args.run)
+    found = report(args.directory, points, args.run, args.reference, args.beside)
     (args.directory / "report.json").write_text(
         json.dumps(found, indent=1, default=str), encoding="utf8"
     )
