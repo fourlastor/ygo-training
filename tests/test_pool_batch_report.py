@@ -31,7 +31,21 @@ def written(path: Path, wins: dict[str, float], games: int = 400) -> None:
     suite = {}
     for name, share in wins.items():
         won = round(share * games)
-        suite[name] = {"outcomes": ["win"] * won + ["loss"] * (games - won)}
+        suite[name] = {"outcomes": ["win"] * won + ["loss"] * (games - won), "by_opponent": {}}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"records": [{"evaluation_suite": suite}]}), encoding="utf8")
+
+
+def pairings(path: Path, table: dict[str, dict[str, float]], games: int = 400) -> None:
+    """A file of old pairings: each case's share of its games against each opponent."""
+    suite = {}
+    for name, against in table.items():
+        outcomes, by_opponent = [], {}
+        for opponent, share in against.items():
+            won = round(share * games)
+            outcomes += ["win"] * won + ["loss"] * (games - won)
+            by_opponent[opponent] = {"wins": won, "games": games}
+        suite[name] = {"outcomes": outcomes, "by_opponent": by_opponent}
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"records": [{"evaluation_suite": suite}]}), encoding="utf8")
 
@@ -172,16 +186,27 @@ def test_the_suites_of_batch_two_are_the_tools():
         assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
 
 
-def test_the_old_decks_are_told_apart_where_game_decks_are_among_them(tmp_path):
+def test_the_old_decks_are_told_apart_by_the_decks_of_each_pairing(tmp_path):
     found = run(tmp_path, 0.10, 0.51)
     assert "old apart" not in found
-    written(
+    # The seventy-one win most of their games against a game Deck whichever network
+    # plays them, which a deck's own share against all the old decks carries; the
+    # network gains four points where one of each meets, from either side.
+    pairings(
         tmp_path / f"{POINTS[-1]}/old.json",
-        {"agents-vs-each": 0.52, "zombie-vs-each": 0.50, "game-0001-vs-each": 0.47},
-        games=4000,
+        {
+            "agents-vs-each": {"agents": 0.50, "zombie": 0.50, "game-0001": 0.74},
+            "zombie-vs-each": {"agents": 0.50, "zombie": 0.50, "game-0001": 0.74},
+            "game-0001-vs-each": {"agents": 0.34, "zombie": 0.34, "game-0001": 0.47},
+        },
     )
     found = tool.report(tmp_path, POINTS, "batch-one")
-    assert found["old"][POINTS[-1]]["share"] == pytest.approx((0.52 + 0.50 + 0.47) / 3)
-    assert found["old apart"]["seventy-one"]["share"] == pytest.approx(0.51)
-    assert found["old apart"]["game decks"]["share"] == pytest.approx(0.47)
-    assert "the seventy-one 51.0%, the game decks 47.0%" in tool.shown(found, POINTS)
+    apart = found["old apart"]
+    assert apart["seventy-one"]["share"] == pytest.approx(0.50)
+    assert apart["game decks"]["share"] == pytest.approx(0.47)
+    assert apart["one of each"]["share"] == pytest.approx(0.54)
+    assert apart["one of each"]["deals"] == 4 * 400
+    shown = tool.shown(found, POINTS)
+    assert "both of the seventy-one 50.0%" in shown
+    assert "both game Decks 47.0%" in shown
+    assert "one of each 54.0%" in shown

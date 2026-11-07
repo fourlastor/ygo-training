@@ -25,9 +25,9 @@ The readings, fixed on 2026-11-03 before anything was built:
    otherwise not decided.
 
 Told beside them, without a mark: the gain and the old decks at the points before the
-last; the old decks' share for the seventy-one and the game Decks apart, where a batch
-before made game Decks old; each new deck's gain; the next decks, trained on nothing;
-the new decks against the pilots; the hours.
+last; the old decks' share by the two decks of a pairing, both of the seventy-one, both
+game Decks or one of each, where a batch before made game Decks old; each new deck's
+gain; the next decks, trained on nothing; the new decks against the pilots; the hours.
 """
 
 from __future__ import annotations
@@ -46,6 +46,22 @@ from specialist_distillation_report import shares, spent
 from two_decks_report import mean, paired, told
 
 
+def by_pairing(path: Path) -> dict[str, list[float]]:
+    """The old decks' games in a file by the two decks of their pairing: both of the
+    seventy-one, both game Decks, or one of each, won or not. Each of these is played
+    from both sides, so what a deck is worth against the others cancels, as it does
+    not in a deck's own games against all of them: the seventy-one win most of theirs
+    against the game Decks whichever network plays them."""
+    (record,) = json.loads(path.read_text(encoding="utf8"))["records"]
+    found: dict[str, list[float]] = {"seventy-one": [], "game decks": [], "one of each": []}
+    for name, case in record["evaluation_suite"].items():
+        for opponent, told_ in case["by_opponent"].items():
+            game = (name.startswith("game-"), opponent.startswith("game-"))
+            kind = "game decks" if all(game) else "one of each" if any(game) else "seventy-one"
+            found[kind] += [1.0] * told_["wins"] + [0.0] * (told_["games"] - told_["wins"])
+    return found
+
+
 def report(directory: Path, points: list[int], run: str) -> dict[str, Any]:
     start = cases(directory / "0" / "pairings.json")
     tables = {point: cases(directory / str(point) / "pairings.json") for point in points}
@@ -60,16 +76,11 @@ def report(directory: Path, points: list[int], run: str) -> dict[str, Any]:
         "old": old,
         "holds": holds(old[last]["share"], old[last]["error"]),
     }
-    # The old decks' share at the last point for the seventy-one and the game Decks apart,
-    # where a batch before made game Decks old.
-    at_last = cases(directory / str(last) / "old.json")
-    game = {name: told_ for name, told_ in at_last.items() if name.startswith("game-")}
-    if game and len(game) < len(at_last):
-        seventy_one = {name: told_ for name, told_ in at_last.items() if name not in game}
-        found["old apart"] = {
-            "seventy-one": told(games(seventy_one)),
-            "game decks": told(games(game)),
-        }
+    # The old decks' share at the last point by the two decks of a pairing, where a batch
+    # before made game Decks old.
+    apart = by_pairing(directory / str(last) / "old.json")
+    if apart["seventy-one"] and apart["game decks"]:
+        found["old apart"] = {kind: told(games_) for kind, games_ in apart.items()}
     mirrors = sorted((directory / str(last) / "mirrors").glob("*.held.json"))
     if mirrors:
         each = {
@@ -128,9 +139,15 @@ def shown(found: dict[str, Any], points: list[int]) -> str:
     if "old apart" in found:
         apart = found["old apart"]
         lines.append(
-            f"  The old decks apart at {last:,}: the seventy-one "
-            f"{100 * apart['seventy-one']['share']:.1f}%, the game decks "
-            f"{100 * apart['game decks']['share']:.1f}%"
+            f"  The old decks at {last:,} by the decks of a pairing: "
+            + ", ".join(
+                f"{label} {100 * apart[kind]['share']:.1f}% ± {100 * apart[kind]['error']:.1f}%"
+                for kind, label in (
+                    ("seventy-one", "both of the seventy-one"),
+                    ("game decks", "both game Decks"),
+                    ("one of each", "one of each"),
+                )
+            )
         )
     ranked = sorted(found["each"].items(), key=lambda item: item[1])
     lines.append(
