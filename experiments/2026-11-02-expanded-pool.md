@@ -683,6 +683,65 @@ can fall under the floor in one run and not in the next. `distilled`'s `deckout`
 41.0%, did not. By the design, what changes is designed now, before anything else is
 built.
 
-**Current next step:** what changes after batch two is to be designed and agreed before
-anything is built. The next batch would start from batch two's network: the mean of its
-last six kept checkpoints at 6,840 updates (step 48,960), the network measured here.
+## Batch three (design and readings fixed on 2026-11-07, before anything was built)
+
+Batch two learnt its new decks and held the old ones, and its mirrors stayed where
+`seventy-one-champions` had them deal by deal. Batch three goes on the same way, with two
+changes, agreed on 2026-11-07. Reading 1 is read against `seventy-one-champions` deal by
+deal, with no floor on any one mirror, since its own check fails one. The old decks are
+measured at the end alone.
+
+- **Start**: batch two's mean at 6,840 updates (step 48,960).
+- **Decks**:
+  - New, fifty: `game-0116` to `game-0165`, among them the twelve held out until now.
+  - Old, 183: the seventy-one and the 112 game Decks of the batches before, `game-0001`
+    to `game-0115` but `game-0037`, `game-0065` and `game-0093`.
+  - Held out: `game-0166` to `game-0179` but `game-0167` and `game-0171`, which each
+    hold a card that names a card.
+- **Run**: as batch two's, over all 233 decks.
+  - PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings of `fast`,
+    every duel against itself, a checkpoint every 60, the cards' identity tables at the
+    network's rate.
+  - The first batch's weights, the old decks' duels at 0.4 of them and what that leaves
+    going to the new decks' pairings. At each decision of an old deck's seat in a duel
+    between two old decks, the divergence from the start's answers, frozen, is added to
+    PPO's loss.
+  - 7,200 updates. A new deck plays 11.10 games an update, some 80,000 over the run, an
+    old deck 2.65 and an old mirror 0.22 duels; 79.8 duels an update are between two old
+    decks. Some 19 hours on the CUDA machine.
+- **Measured** at the start by the start, and after 3,600 and 7,200 updates by the mean of
+  the last six kept checkpoints (`eval_suites/pool-batch-three-*.json`).
+  - After both: each new deck against the start at each old deck.
+  - After 7,200 alone: every ordered pairing of the 183 old decks head to head against
+    the start, and the seventy-one mirrors against their champions.
+  - At the start and after 7,200: the twelve held out, and the new decks against the
+    thirteen decks' pilots.
+  - Some three and a half hours.
+
+Readings, at 7,200 updates:
+
+1. *The mirrors are kept*: the seventy-one mirrors against their champions, deal by deal
+   against `seventy-one-champions`' check at 20,160 updates on its deals, a draw half a
+   win (`tools/mirror_pairs.py`): **kept** when the difference is at least −2 points by
+   two standard errors, **lost** when at most −2 points by two, otherwise **not
+   decided**. By this reading batch two's mirrors were kept (−0.5 ± 0.3), the first
+   batch's and `quarter`'s lost (−5.0 ± 0.4 and −5.6 ± 0.4).
+2. *The old decks hold*: head to head against the start, frozen, on every ordered
+   pairing of the 183 old decks: **hold** when at least 49% by two standard errors,
+   **slip** when at most 49% by two, otherwise **not decided**.
+3. *The new decks learn*: the mean over the fifty of each deck's share against the
+   start, less at the start, the deals paired: **learns** when at least 5 points by two
+   standard errors, **does not** when at most 2 points by two, otherwise **not
+   decided**.
+
+Told beside them, without a mark: the new decks at 3,600 updates; the old decks by the
+two decks of a pairing; the mirrors' mean against their champions and the lowest, and
+deal by deal against batch two's; the twelve held out and the new decks against the
+thirteen decks' pilots, at the start and the end; the divergence along the run; the
+hours.
+
+If all three are met, the batches go on the same way. If the mirrors or the old decks
+are not kept, what changes is designed then.
+
+**Current next step:** batch three, as fixed above, is to be built, smoke-tested on the
+processor and queued on the CUDA machine.

@@ -46,7 +46,10 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   new decks learn, +8.9 ± 0.1 points; the old decks hold, 50.2% ± 0.1%; the mirrors
   lost on the floor alone, `deckout` at 37.1% while their mean is 50.2% ± 0.3%, deal by
   deal where `seventy-one-champions` had them (−0.5 ± 0.3 points), whose own check
-  fails the same floor on `deckout` and `rock-block`. What changes is designed next.
+  fails the same floor on `deckout` and `rock-block`. Batch three, fixed on 2026-11-07,
+  goes on the same way with fifty more Decks from batch two's network, its mirrors read
+  deal by deal against `seventy-one-champions` (kept when at least −2 points by two
+  standard errors) and its old decks measured at the end alone.
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
