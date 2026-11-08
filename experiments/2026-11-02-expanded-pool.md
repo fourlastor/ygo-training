@@ -800,7 +800,64 @@ higher than batch two's (39.2% against 30.4%) and gain less, +6.9 against +8.9: 
 start knows more of their cards. By the design, what changes is designed now, before
 anything else is built.
 
-**Current next step:** what changes after batch three is to be designed and agreed
-before anything is built. The next batch would start from batch three's network: the
-mean of its last six kept checkpoints at 7,200 updates (step 56,160), the network measured
-here.
+## Batch four (design and readings fixed on 2026-11-08, before anything was built)
+
+Batch four goes on as batch three with one change, agreed on 2026-11-08. In a duel between
+two of the seventy-one, their decisions are held to `seventy-one-champions`, frozen,
+instead of to the start, as `distilled` held them. Every other duel between two old decks
+is held to the start as before. Since the hold no longer follows each batch's start, what
+the seventy-one lose cannot carry into the next batch.
+
+- **Start**: batch three's mean at 7,200 updates (step 56,160).
+- **Decks**:
+  - New, fifty: `game-0166` to `game-0217` but `game-0167` and `game-0171`, among them
+    the twelve held out until now.
+  - Old, 233: the seventy-one and the 162 game Decks of the batches before, `game-0001`
+    to `game-0165` but `game-0037`, `game-0065` and `game-0093`.
+  - Held out: `game-0218` to `game-0229`.
+- **Run**: as batch three's, over all 283 decks.
+  - PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings of `fast`,
+    every duel against itself, a checkpoint every 60, the cards' identity tables at the
+    network's rate.
+  - The first batch's weights, the old decks' duels at 0.4 of them and what that leaves
+    going to the new decks' pairings.
+  - At each decision of an old deck's seat in a duel between two old decks, the
+    divergence from a frozen network's answers is added to PPO's loss, at the weight PPO
+    gives a transaction. Where both decks are of the seventy-one, the network is
+    `seventy-one-champions` (`runs/seventy-one-champions/ppo-mean/21900.pt`, step
+    33,120, the one `distilled` began from and was held to); otherwise it is the start.
+  - 7,440 updates. A new deck plays 10.67 games an update, some 79,400 over the run, an
+    old deck 2.17 and an old mirror 0.18 duels. Of the 81.8 duels an update between two
+    old decks, 16.6 are between two of the seventy-one. Some 20 hours on the CUDA
+    machine.
+- **Measured** as batch three's, at the start by the start and after 3,720 and 7,440
+  updates by the mean of the last six kept checkpoints (`eval_suites/pool-batch-four-*.json`):
+  the old decks and the mirrors after 7,440 alone. Some three hours.
+
+Readings, at 7,440 updates, as batch three's:
+
+1. *The mirrors are kept*: the seventy-one mirrors against their champions, deal by deal
+   against `seventy-one-champions`' check at 20,160 updates on its deals, a draw half a
+   win (`tools/mirror_pairs.py`): **kept** when the difference is at least −2 points by
+   two standard errors, **lost** when at most −2 points by two, otherwise **not
+   decided**.
+2. *The old decks hold*: head to head against the start, frozen, on every ordered
+   pairing of the 233 old decks: **hold** when at least 49% by two standard errors,
+   **slip** when at most 49% by two, otherwise **not decided**.
+3. *The new decks learn*: the mean over the fifty of each deck's share against the
+   start, less at the start, the deals paired: **learns** when at least 5 points by two
+   standard errors, **does not** when at most 2 points by two, otherwise **not
+   decided**.
+
+Told beside them, without a mark: the new decks at 3,720 updates; the old decks by the
+two decks of a pairing; the mirrors' mean against their champions and the lowest, and
+deal by deal against batch three's; the twelve held out and the new decks against the
+thirteen decks' pilots, at the start and the end; the divergence from each frozen network
+along the run; the hours.
+
+If all three are met, the batches go on the same way. If the mirrors or the old decks
+are not kept, what changes is designed then.
+
+**Current next step:** batch four, as fixed above, is to be built, smoke-tested on the
+processor and queued on the CUDA machine. The trainer is to hold a narrower set of decks
+to a second frozen network.
