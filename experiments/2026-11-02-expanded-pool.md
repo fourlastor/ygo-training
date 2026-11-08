@@ -743,8 +743,64 @@ hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch three runs on the CUDA machine since 2026-11-07 17:06 at
-`62d1fd06` (`experiments/commands/pool-batch-three.sh`), its first updates as designed: a
-new deck 11.08 games an update and an old one 2.65, all 233 decks seated, some 12,000 to
-13,600 decisions an update distilled at a divergence from the start growing from 0.0007
-to 0.006, 10.2 seconds an update. Some 24 hours with its measure.
+## Batch three's results (read on 2026-11-08)
+
+Batch three ran on the CUDA machine from 2026-11-07 17:06 at `62d1fd06`, 19.4 hours, 9.7
+seconds an update, and its measure 2.2 hours more (`analysis/expanded-pool/batch-three/report.txt`).
+Its first updates gave a new deck 11.08 games and an old one 2.65, as designed.
+
+1. *The mirrors are kept*: **not decided**, −1.7 ± 0.3 points deal by deal against
+   `seventy-one-champions`' check, forty-eight of the seventy-one lower. Against their
+   champions they stand at 49.0% ± 0.3%. The most lost are `cyber` −14.5, `reptilianne`
+   −8.6, `scrap` −7.8, `chaos` −7.0 and `macro-dd` −6.6; the most won `gishki` +4.7 and
+   `gemini` +3.9.
+2. *The old decks hold*: **hold**, 50.2% ± 0.1% head to head against the start, frozen,
+   on every ordered pairing of the 183 old decks (267,912 games).
+3. *The new decks learn*: **learns**, +6.9 ± 0.1 points against the start after 7,200
+   updates, from 39.2%. Every one of the fifty gained, from +0.9 (`game-0152` and
+   `game-0150`) to +23.1 (`game-0151`); three gained under two points, those two and
+   `game-0154` +1.3.
+
+Beside them:
+
+- At 3,600 updates: the new decks +6.0 ± 0.1.
+- The old decks at 7,200 by the two decks of a pairing: both of the seventy-one 49.9% ±
+  0.2%, both game Decks 50.4% ± 0.2%, one of each 50.2% ± 0.1%.
+- The mirrors deal by deal against each network before (`tools/mirror_pairs.py`):
+  - `distilled` against `seventy-one-champions`: −0.1 ± 0.3 points.
+  - Batch two against `distilled`: −0.4 ± 0.3.
+  - Batch three against batch two: −1.2 ± 0.3, forty-eight lower.
+  - `cyber` has fallen at each: −6.2, −11.3 and −14.5 against `seventy-one-champions`.
+- The fall does not follow the cards a deck shares with the new decks. A mirror's change
+  against batch two and the share of its deck's cards that the fifty new decks also
+  hold correlate at +0.03. The third of the seventy-one sharing least, 0% to 42% of
+  their cards, fell 1.2 points; the third sharing most, 62% to 93%, fell 1.1.
+- The lowest mirrors against their champions: `deckout` 36.7%, `rock-block` 39.8%,
+  `macro-dd` and `reptilianne` 42.2%, `dragunity` 42.6%.
+- The twelve held out, trained on nothing: +1.0 ± 0.1 points from 36.6%.
+- The new decks against the thirteen decks' pilots: 38.1% from 31.5%, +6.6 ± 0.2.
+- The divergence from the start at the old decks' decisions: 0.0007 at the first update,
+  0.013 over the first thousand and 0.021 over the last, level since some 5,000.
+- 186 duels of some 3.74 million failed (`tools/failed_duels.py`).
+  - Fifty-three filled their arenas and ended there, fifty-one of them with `game-0085`
+    in a seat, fifty of those against a new deck.
+  - Cards seen before: Planet Pollutant Virus 75, Beast Rising 25, Neo Flamvell Shaman
+    4, Pyro Clock of Destiny 3, Fake Feather 3 and Orbital Bombardment 1, which
+    `game-0117` holds too.
+  - New since batch two: Gozen Match 8 and Rivalry of Warlords 7, both with
+    `game-0099` at line 71 of their scripts; Star Blast 3 (`game-0013`); one each for
+    Level Up! (`game-0095`) and Second Booster (`game-0110`). Two duels ended on a
+    recursive event trigger.
+
+The new decks learn and the old decks hold head to head against the start, but the
+seventy-one mirrors fell 1.2 points from batch two's, and in all lie 1.7 points under
+`seventy-one-champions`. The divergence holds each batch to its own start, so what a
+batch loses in the mirrors stays lost in the batches after it. The new decks start
+higher than batch two's (39.2% against 30.4%) and gain less, +6.9 against +8.9: the
+start knows more of their cards. By the design, what changes is designed now, before
+anything else is built.
+
+**Current next step:** what changes after batch three is to be designed and agreed
+before anything is built. The next batch would start from batch three's network: the
+mean of its last six kept checkpoints at 7,200 updates (step 56,160), the network measured
+here.

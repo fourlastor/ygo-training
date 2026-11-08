@@ -49,7 +49,11 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   fails the same floor on `deckout` and `rock-block`. Batch three, fixed on 2026-11-07,
   goes on the same way with fifty more Decks from batch two's network, its mirrors read
   deal by deal against `seventy-one-champions` (kept when at least −2 points by two
-  standard errors) and its old decks measured at the end alone.
+  standard errors) and its old decks measured at the end alone. Read on 2026-11-08: the
+  new decks learn, +6.9 ± 0.1 points; the old decks hold, 50.2% ± 0.1%; the mirrors not
+  decided, −1.7 ± 0.3 points against `seventy-one-champions`, 1.2 ± 0.3 under batch
+  two's and falling across most decks, whatever cards they share with the new ones.
+  What changes is designed next.
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
