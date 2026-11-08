@@ -12,9 +12,11 @@
 # duels, their mirrors and their pairings, are at OLD_SCALE of those weights, what that leaves
 # going to the new decks' pairings; with DISTILL_REFERENCE, at each decision of an old deck's
 # seat in a duel between two old decks the divergence from that frozen network's answers is
-# added to PPO's loss at DISTILL_WEIGHT (train --distill-reference). An interrupted run goes
-# on from its last checkpoint; with NEW_PINS=1 it goes on although the pins moved since
-# (train --new-pins), for a move whose duels are the old ones.
+# added to PPO's loss at DISTILL_WEIGHT (train --distill-reference); with DISTILL_SECOND too,
+# in a duel between two of the seventy-one it is from that second network's answers instead
+# (train --distill-second-reference). An interrupted run goes on from its last checkpoint;
+# with NEW_PINS=1 it goes on although the pins moved since (train --new-pins), for a move
+# whose duels are the old ones.
 #
 # measure. Into OUT, at each of POINTS by the mean of the last MEAN_KEPT
 # checkpoints the run kept by then, and at 0 by NETWORK: each new deck against
@@ -66,6 +68,9 @@ OLD_SHARE=${OLD_SHARE:-0.1875}
 OLD_SCALE=${OLD_SCALE:-1}
 DISTILL_REFERENCE=${DISTILL_REFERENCE:-}
 DISTILL_WEIGHT=${DISTILL_WEIGHT:-1}
+# The network the seventy-one are held to in their duels with each other, where it is
+# not DISTILL_REFERENCE.
+DISTILL_SECOND=${DISTILL_SECOND:-}
 IN_FLIGHT=${IN_FLIGHT:-1040}
 FAST_SLOTS=${FAST_SLOTS:-52}
 MINIBATCH=${MINIBATCH:-512}
@@ -102,12 +107,16 @@ if [ -n "$MIRROR_DECKS" ]; then
 else
   mirrored=("${seventy_one[@]}")
 fi
-for path in "$NETWORK" "$PAIRINGS" "$HELD_OUT" "$PILOTS" "$OLD"; do
+for path in "$NETWORK" "$PAIRINGS" "$HELD_OUT" "$PILOTS" "$OLD" $DISTILL_SECOND; do
   if [ ! -f "$path" ]; then
     echo "Missing $path" >&2
     exit 1
   fi
 done
+if [ -n "$DISTILL_SECOND" ] && [ -z "$DISTILL_REFERENCE" ]; then
+  echo "DISTILL_SECOND goes with DISTILL_REFERENCE" >&2
+  exit 1
+fi
 for path in $MIRRORS_REFERENCE $MIRRORS_BESIDE; do
   if [ ! -d "$path" ]; then
     echo "Missing $path" >&2
@@ -253,6 +262,12 @@ if [[ " $PARTS " == *" run "* ]]; then
       --distill-reference "$DISTILL_REFERENCE" --distill-weight "$DISTILL_WEIGHT"
       --distill-decks "$(IFS=,; echo "${olds[*]}")"
     )
+    if [ -n "$DISTILL_SECOND" ]; then
+      arguments+=(
+        --distill-second-reference "$DISTILL_SECOND"
+        --distill-second-decks "$(IFS=,; echo "${seventy_one[*]}")"
+      )
+    fi
   fi
   if ! ls "$RUNS/$RUN"/checkpoints/model-*.pt > /dev/null 2>&1; then
     "${python[@]}" -m ygo_training train "${arguments[@]}" --resume "$NETWORK" \

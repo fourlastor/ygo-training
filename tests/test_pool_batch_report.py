@@ -267,6 +267,27 @@ def test_the_suites_of_batch_three_are_the_tools():
         assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
 
 
+def test_the_suites_of_batch_four_are_the_tools():
+    # From batch three: its fifty game Decks old too, game-0167 and game-0171 left out.
+    left = frozenset({"game-0037", "game-0065", "game-0093", "game-0167", "game-0171"})
+    new = [deck for deck in suites.numbered("game-0166:game-0217") if deck not in left]
+    held_out = suites.numbered("game-0218:game-0229")
+    assert len(new) == 50 and len(held_out) == 12
+    made = suites.suites("four", new, held_out, left)
+    for name, told in made.items():
+        assert (
+            json.loads((ROOT / "eval_suites" / f"{name}.json").read_text(encoding="utf8")) == told
+        )
+    old = [case["learner"] for case in made["pool-batch-four-old-pairings-checkpoint"]["cases"]]
+    assert len(old) == 233
+    assert old[71:] == [deck for deck in suites.numbered("game-0001:game-0165") if deck not in left]
+    for case in (
+        made["pool-batch-four-pairings-checkpoint"]["cases"]
+        + made["pool-batch-four-held-out-checkpoint"]["cases"]
+    ):
+        assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
+
+
 def test_the_old_decks_are_told_apart_by_the_decks_of_each_pairing(tmp_path):
     found = run(tmp_path, 0.10, 0.51)
     assert "old apart" not in found

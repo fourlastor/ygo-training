@@ -47,6 +47,8 @@ class ObjectiveBatch(NamedTuple):
     # decisions, as it is added to the loss, and each decision's own.
     distill_loss: torch.Tensor | None = None
     distill_divergences: torch.Tensor | None = None
+    # Of those, the decisions held to the second network, where there is one.
+    distill_second_divergences: torch.Tensor | None = None
 
 
 # The parameters of the three heads: all others are read by every one of them.
@@ -137,8 +139,10 @@ class PpoOptimizer:
         # every answer.
         self.teachers: dict[str, torch.nn.Module] = {}
         # The frozen network the old decks keep their answers to, where the
-        # run distils them (`TrainerConfig.distill_reference`).
+        # run distils them (`TrainerConfig.distill_reference`), and a second
+        # one for a narrower set of them (`distill_second_reference`).
         self.reference: torch.nn.Module | None = None
+        self.second_reference: torch.nn.Module | None = None
         # The head that learns how cards work (`card_head.py`), its own
         # optimizer, and the weight of the gradient it gives the network
         # beside PPO's: where there is one, a minibatch's decisions come with
@@ -155,16 +159,25 @@ class PpoOptimizer:
         return (trajectory_index, "step", step_index)
 
     def _distilled(self, trajectory: dict[str, Any]) -> bool:
-        """Whether a duel's decisions are held to the reference's answers: a
+        """Whether a duel's decisions are held to a reference's answers: a
         duel between two of the decks the run distils."""
+        return self._held_to(trajectory) is not None
+
+    def _held_to(self, trajectory: dict[str, Any]) -> int | None:
+        """Which frozen network a duel's decisions are held to: the second (1)
+        in a duel between two of `distill_second_decks`, the first (0) in one
+        between two of `distill_decks`, none otherwise."""
         decks = self.config.distill_decks
         if not decks or self.reference is None:
-            return False
+            return None
         seats = (
             str(trajectory.get("learner_deck", self.config.learner_deck)),
             str(trajectory.get("opponent_deck", "")),
         )
-        return all(seat in decks for seat in seats)
+        narrower = self.config.distill_second_decks
+        if narrower and self.second_reference is not None and all(s in narrower for s in seats):
+            return 1
+        return 0 if all(seat in decks for seat in seats) else None
 
     def begin_update(self, step: int) -> None:
         """Reset deterministic minibatch shuffling for one global update."""
@@ -220,6 +233,9 @@ class PpoOptimizer:
         imitation_samples = 0
         distill_divergence = 0.0
         distill_decisions = 0
+        # Of those, the decisions held to the second network.
+        second_divergence = 0.0
+        second_decisions = 0
         # KL-targeted early stopping: each minibatch's approximate KL against
         # the rollout policy is measured before its step; the update ends
         # before stepping once it exceeds 1.5 x the target.
@@ -273,6 +289,10 @@ class PpoOptimizer:
                         observed["distill_loss"].append(float(objective.distill_loss.detach()))
                         distill_divergence += float(objective.distill_divergences.sum())
                         distill_decisions += len(objective.distill_divergences)
+                        if objective.distill_second_divergences is not None:
+                            second = objective.distill_second_divergences
+                            second_divergence += float(second.sum())
+                            second_decisions += len(second)
                     if objective.imitation_loss is not None:
                         total_loss = (
                             total_loss + teacher_imitation_weight * objective.imitation_loss
@@ -329,6 +349,10 @@ class PpoOptimizer:
             # at how many decisions of the pass.
             metrics["distill_divergence"] = distill_divergence / max(1, distill_decisions)
             metrics["distill_decisions"] = float(distill_decisions)
+            if self.second_reference is not None:
+                # Of those, the decisions held to the second network.
+                metrics["distill_second_divergence"] = second_divergence / max(1, second_decisions)
+                metrics["distill_second_decisions"] = float(second_decisions)
         return metrics
 
     def recompute_rollout_estimates(self, trajectories: list[dict[str, Any]]) -> int:
@@ -420,9 +444,11 @@ class PpoOptimizer:
             steps = [dict(step) for step in trajectory["steps"]]
             for step_index, step in enumerate(steps):
                 step["_transaction_key"] = self._transaction_key(trajectory_index, step_index, step)
-            if self._distilled(trajectory):
+            held_to = self._held_to(trajectory)
+            if held_to is not None:
                 for step in steps:
                     step["_distilled"] = True
+                    step["_held_to"] = held_to
             grouped: dict[object, int] = defaultdict(int)
             for step in steps:
                 grouped[step["_transaction_key"]] += 1
@@ -875,26 +901,38 @@ class PpoOptimizer:
             targets = torch.tensor([item[1] for item in teacher_targets], device=self.device)
             teacher_steps = [chunk[int(position)] for position in positions]
             imitation_loss = self._joint_imitation_loss(logits[positions], targets, teacher_steps)
-        distill_loss = divergences = None
+        distill_loss = divergences = second = None
         if distilled and self.reference is not None:
-            # The model's answers against the reference's at those decisions:
+            # The model's answers against a frozen network's at those decisions:
             # each one's divergence, summed, over the minibatch's transactions,
-            # as PPO weighs a transaction.
-            places = torch.tensor(distilled, device=self.device)
-            with torch.no_grad():
-                # The reference is asked those decisions alone: each array of
-                # the input has a decision in each of its rows.
-                taught = self.reference(
-                    {
-                        key: value[places] if value.shape[:1] == (len(chunk),) else value
-                        for key, value in batch.items()
-                    }
-                )[0]
-                own = self._teacher_cross_entropy(taught, taught)
-            crossed = self._teacher_cross_entropy(logits[places], taught)
-            transactions = len({step["_transaction_key"] for step in chunk})
-            distill_loss = crossed.sum() / transactions
-            divergences = (crossed - own).detach()
+            # as PPO weighs a transaction. A decision is asked of the network
+            # its duel is held to (`_held_to`).
+            crossed_parts: list[torch.Tensor] = []
+            divergence_parts: list[torch.Tensor] = []
+            for held_to, network in ((0, self.reference), (1, self.second_reference)):
+                held = [place for place in distilled if chunk[place].get("_held_to", 0) == held_to]
+                if not held or network is None:
+                    continue
+                places = torch.tensor(held, device=self.device)
+                with torch.no_grad():
+                    # The network is asked those decisions alone: each array of
+                    # the input has a decision in each of its rows.
+                    taught = network(
+                        {
+                            key: value[places] if value.shape[:1] == (len(chunk),) else value
+                            for key, value in batch.items()
+                        }
+                    )[0]
+                    own = self._teacher_cross_entropy(taught, taught)
+                crossed = self._teacher_cross_entropy(logits[places], taught)
+                crossed_parts.append(crossed)
+                divergence_parts.append((crossed - own).detach())
+                if held_to == 1:
+                    second = divergence_parts[-1]
+            if crossed_parts:
+                transactions = len({step["_transaction_key"] for step in chunk})
+                distill_loss = sum(part.sum() for part in crossed_parts) / transactions
+                divergences = torch.cat(divergence_parts)
         return ObjectiveBatch(
             components,
             imitation_loss,
@@ -906,6 +944,7 @@ class PpoOptimizer:
             None if card is None else card[1],
             distill_loss,
             divergences,
+            second,
         )
 
     def forward_steps(

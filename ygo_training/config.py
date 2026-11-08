@@ -140,6 +140,13 @@ class TrainerConfig:
     distill_reference: str | None = None
     distill_weight: float = 0.0
     distill_decks: list[str] | None = None
+    # A second frozen network for a narrower set of those decks: in a duel
+    # between two of `distill_second_decks`, the divergence is from its answers
+    # instead of the first's, at the same weight (experiments/2026-11-02-
+    # expanded-pool.md, batch four: the seventy-one held to
+    # seventy-one-champions while the other old decks are held to the start).
+    distill_second_reference: str | None = None
+    distill_second_decks: list[str] | None = None
     # The deck the learner plays, and the decks it meets: every other deck of
     # the pool when none is named.
     learner_deck: str = "blackwing"
@@ -380,6 +387,12 @@ class TrainerConfig:
             raise ValueError("distill_weight, distill_reference and distill_decks go together")
         if self.distill_decks and not set(self.distill_decks) <= set(self.learners):
             raise ValueError("distill_decks are among the learner's decks")
+        if bool(self.distill_second_reference) != bool(self.distill_second_decks):
+            raise ValueError("distill_second_reference and distill_second_decks go together")
+        if self.distill_second_decks and not set(self.distill_second_decks) <= set(
+            self.distill_decks or []
+        ):
+            raise ValueError("distill_second_decks are among the distill_decks")
         if self.rollout_temperature <= 0.0:
             raise ValueError("rollout_temperature must be positive")
         if not self.learner_deck:

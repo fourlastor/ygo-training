@@ -35,7 +35,13 @@ def config(**changed) -> TrainerConfig:
     return TrainerConfig(**settings)
 
 
-def optimizer(model, reference, lr: float = 1e-3, **changed) -> PpoOptimizer:
+def optimizer(model, reference, lr: float = 1e-3, second=None, **changed) -> PpoOptimizer:
+    if second is not None:
+        changed = {
+            "distill_second_reference": "champions.pt",
+            "distill_second_decks": ["old"],
+            **changed,
+        }
     made = PpoOptimizer(
         model,
         torch.optim.Adam(model.parameters(), lr=lr),
@@ -46,7 +52,17 @@ def optimizer(model, reference, lr: float = 1e-3, **changed) -> PpoOptimizer:
     # The steps' decisions are kept where the tests' views are.
     made.kept = SHOWN
     made.reference = reference
+    made.second_reference = second
     return made
+
+
+def shaken(model) -> PolicyValueNet:
+    """A copy of the model whose answers are not its own."""
+    other = copy.deepcopy(model)
+    with torch.no_grad():
+        for parameter in other.parameters():
+            parameter.add_(0.5 * torch.randn_like(parameter))
+    return other
 
 
 def duel(one: str, two: str, decisions: int = 6) -> dict:
@@ -142,3 +158,102 @@ def test_the_command_line_names_them():
         1.0,
         ["old", "older"],
     )
+    assert made.distill_second_reference is None and made.distill_second_decks is None
+
+
+# Batch four: the seventy-one held to seventy-one-champions in their duels with
+# each other, the other old decks to the start.
+
+
+def test_a_duel_between_two_of_the_narrower_decks_is_held_to_the_second_network(model):
+    held = optimizer(model, copy.deepcopy(model), second=copy.deepcopy(model))
+    assert held._held_to(duel("old", "old")) == 1
+    assert held._held_to(duel("old", "older")) == 0
+    assert held._held_to(duel("older", "older")) == 0
+    assert held._held_to(duel("fresh", "old")) is None
+    # Without a second network, they are all held to the first.
+    assert optimizer(model, copy.deepcopy(model))._held_to(duel("old", "old")) == 0
+
+
+def test_each_decision_is_asked_of_the_network_its_duel_is_held_to(model):
+    # The first network answers as the model does, the second does not: only the
+    # decisions of the duel between two of the narrower decks diverge.
+    held = optimizer(model, copy.deepcopy(model), second=shaken(model))
+    metrics = held.update([duel("old", "old", decisions=4), duel("old", "older")])
+    assert metrics["distill_decisions"] == 10.0
+    assert metrics["distill_second_decisions"] == 4.0
+    assert metrics["distill_second_divergence"] > 0.0
+    assert metrics["distill_divergence"] == pytest.approx(
+        metrics["distill_second_divergence"] * 4 / 10
+    )
+    # The other way round, only the duel held to the first network diverges.
+    held = optimizer(model, shaken(model), second=copy.deepcopy(model))
+    metrics = held.update([duel("old", "old", decisions=4), duel("old", "older")])
+    assert metrics["distill_second_divergence"] == pytest.approx(0.0, abs=1e-6)
+    assert metrics["distill_divergence"] > 0.0
+
+
+def test_without_a_second_network_the_term_is_as_it_was(model):
+    reference = shaken(model)
+    one = optimizer(copy.deepcopy(model), reference).update([duel("old", "older")])
+    two = optimizer(copy.deepcopy(model), reference, second=copy.deepcopy(model)).update(
+        [duel("old", "older")]
+    )
+    assert "distill_second_decisions" not in one
+    assert two["distill_second_decisions"] == 0.0
+    for name in ("distill_loss", "distill_divergence", "distill_decisions"):
+        assert two[name] == one[name]
+
+
+def test_the_term_brings_the_narrower_decks_towards_the_second_network(model):
+    second = copy.deepcopy(model)
+    with torch.no_grad():
+        for parameter in model.parameters():
+            parameter.add_(0.5 * torch.randn_like(parameter))
+    held = optimizer(
+        model,
+        shaken(model),
+        lr=0.01,
+        second=second,
+        distill_weight=10.0,
+        entropy_coefficient=0.0,
+    )
+    first = held.update([duel("old", "old")])["distill_second_divergence"]
+    for _ in range(30):
+        last = held.update([duel("old", "old")])["distill_second_divergence"]
+    assert first > 0.0 and last < first / 2
+
+
+def test_the_second_network_goes_with_its_decks_among_the_held_ones():
+    with pytest.raises(ValueError, match="go together"):
+        config(distill_second_reference="champions.pt")
+    with pytest.raises(ValueError, match="go together"):
+        config(distill_second_decks=["old"])
+    with pytest.raises(ValueError, match="among the distill_decks"):
+        config(distill_second_reference="champions.pt", distill_second_decks=["fresh"])
+    made = config(distill_second_reference="champions.pt", distill_second_decks=["old"])
+    assert made.distill_second_decks == ["old"]
+
+
+def test_the_command_line_names_the_second_network():
+    args = parser().parse_args(
+        [
+            "train",
+            "--learner",
+            "fresh,old,older",
+            "--opponents",
+            "burn",
+            "--distill-reference",
+            "frozen.pt",
+            "--distill-weight",
+            "1",
+            "--distill-decks",
+            "old,older",
+            "--distill-second-reference",
+            "champions.pt",
+            "--distill-second-decks",
+            "old",
+        ]
+    )
+    made = trainer_config(args)
+    assert (made.distill_second_reference, made.distill_second_decks) == ("champions.pt", ["old"])

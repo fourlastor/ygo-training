@@ -255,6 +255,10 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
         distill_reference=str(args.distill_reference) if args.distill_reference else None,
         distill_weight=args.distill_weight,
         distill_decks=_deck_list(args.distill_decks),
+        distill_second_reference=(
+            str(args.distill_second_reference) if args.distill_second_reference else None
+        ),
+        distill_second_decks=_deck_list(args.distill_second_decks),
         seed=args.seed if args.training_seed is None else args.training_seed,
         device=args.device,
         learner_deck=learners[0],

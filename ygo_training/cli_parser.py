@@ -241,6 +241,19 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
     )
     parser.add_argument("--distill-decks", help="the decks held so, comma-separated")
     parser.add_argument(
+        "--distill-second-reference",
+        type=Path,
+        help=(
+            "a second frozen network, for a duel between two of the "
+            "--distill-second-decks: their decisions are held to its answers "
+            "instead of the --distill-reference's"
+        ),
+    )
+    parser.add_argument(
+        "--distill-second-decks",
+        help="the decks held to the second network, comma-separated, among the --distill-decks",
+    )
+    parser.add_argument(
         "--eval-every",
         type=int,
         default=GOLDEN_TRAINING_PROTOCOL.eval_every,

@@ -193,21 +193,24 @@ class PpoTrainer(Trainer):
         # distils them: asked again in each update's pass at the decisions of
         # their seats in duels between two of them.  As with a teacher, the
         # generator is left where the learner's left it.
+        # A second one, where a narrower set of those decks is held to another
+        # network in duels between two of them.
         self.reference: PolicyValueNet | None = None
+        self.second_reference: PolicyValueNet | None = None
         self.reference_description: dict[str, Any] | None = None
         if config.distill_reference:
-            drawn = torch.get_rng_state()
-            path = Path(config.distill_reference).resolve()
-            self.reference, saved = load_inference_model(path, device=self.device)
-            torch.set_rng_state(drawn)
-            self.reference.requires_grad_(False)
+            self.reference, described = self._frozen(config.distill_reference)
             self.reference_description = {
-                "path": str(path),
-                "step": saved.get("step"),
-                "fingerprint": value_fingerprint(self.reference.state_dict()),
+                **described,
                 "weight": config.distill_weight,
                 "decks": list(config.distill_decks or []),
             }
+            if config.distill_second_reference:
+                self.second_reference, described = self._frozen(config.distill_second_reference)
+                self.reference_description["second"] = {
+                    **described,
+                    "decks": list(config.distill_second_decks or []),
+                }
         self.optimizer = torch.optim.Adam(
             parameter_groups(self.model, config.learning_rate, config.identity_learning_rate_scale),
             lr=config.learning_rate,
@@ -277,6 +280,7 @@ class PpoTrainer(Trainer):
         self.policy_optimizer.kept = self._kept
         self.policy_optimizer.teachers = self.teachers
         self.policy_optimizer.reference = self.reference
+        self.policy_optimizer.second_reference = self.second_reference
         # The critic that sees the hidden cards, where the run has one: made
         # once the model is as the run begins (`begin_critic`).
         self.critic: SightedCritic | None = None
@@ -301,6 +305,20 @@ class PpoTrainer(Trainer):
                 "begun": config.card_head_begun,
             }
         atexit.register(self.close)
+
+    def _frozen(self, named: str) -> tuple[PolicyValueNet, dict[str, Any]]:
+        """A frozen network the run holds decks to, and what tells it apart.
+        As with a teacher, the generator is left where the learner's left it."""
+        drawn = torch.get_rng_state()
+        path = Path(named).resolve()
+        network, saved = load_inference_model(path, device=self.device)
+        torch.set_rng_state(drawn)
+        network.requires_grad_(False)
+        return network, {
+            "path": str(path),
+            "step": saved.get("step"),
+            "fingerprint": value_fingerprint(network.state_dict()),
+        }
 
     def close(self, force: bool = False) -> None:
         """Close the pool; ``force`` is kept for callers that stop on an
