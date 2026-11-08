@@ -858,6 +858,10 @@ along the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch four, as fixed above, is to be built, smoke-tested on the
-processor and queued on the CUDA machine. The trainer is to hold a narrower set of decks
-to a second frozen network.
+**Current next step:** batch four runs on the CUDA machine since 2026-11-08 15:09 at
+`5c0ef6eb` (`experiments/commands/pool-batch-four.sh`; the trainer holds the seventy-one
+to the second network with `--distill-second-reference`). Its first updates are as
+designed: a new deck 10.68 games an update and an old one 2.17, all 283 decks seated,
+some 13,700 decisions an update distilled. Some 2,700 of those are held to
+`seventy-one-champions`, at a divergence falling from 0.060 over the first ten updates to
+0.053 over updates 31 to 36. 9.5 seconds an update; some 23 hours with its measure.
