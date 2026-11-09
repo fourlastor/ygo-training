@@ -993,5 +993,9 @@ along the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch five again without `game-0233`, built, smoke-tested on the
-processor and run on the CUDA machine.
+**Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
+`a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
+a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
+`game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
+held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
+seconds an update; some 25 hours with its measure.
