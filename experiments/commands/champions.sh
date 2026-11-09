@@ -4,22 +4,28 @@
 # repository root on the CUDA machine. PARTS names what is made, in its
 # order:
 #
-# arms. For each run of RUNNING, DECK or DECK:SEED (SEED unless said): the
-# deck's pilot imitated from scratch for COPY updates of DUELS duels against
-# the thirteen decks' pilots, every game seen once and its result at four of
-# its positions, at 3e-4, in minibatches of 256 with no duels in flight; then
-# PPO on from the copy's last checkpoint for UPDATES updates at RATE, ITSELF
-# of an update's duels the mirror against itself and the others against the
-# thirteen decks' pilots, with fast's settings (OPTIONS adds more); a
-# checkpoint every STEP. A run of another seed is named DECK-SEED. A finished
-# run is skipped, an interrupted one goes on.
+# arms. For each run of RUNNING, DECK, DECK:SEED (SEED unless said) or either
+# with @SHAPE: the deck's pilot imitated from scratch for COPY updates of DUELS
+# duels against the thirteen decks' pilots, every game seen once and its
+# result at four of its positions, at 3e-4, in minibatches of 256 with no
+# duels in flight; then PPO on from the copy's last checkpoint for UPDATES
+# updates at RATE, ITSELF of an update's duels the mirror against itself and
+# the others against the thirteen decks' pilots, with fast's settings
+# (OPTIONS adds more); a checkpoint every STEP. A run of another seed is named
+# DECK-SEED. A SHAPE makes the network another shape from the first, at both
+# stages: tokens, the board as its cards (--board-representation
+# individual-tokens), or no-history, without its own earlier answers
+# (--leave-out history); the run is named with -SHAPE after. A finished run is
+# skipped, an interrupted one goes on.
 #
 # measure. Into OUT, each a pair of files with the first network in the
 # learner's seat and then the other, by each run's last three checkpoints:
 # against all71 (NETWORK) in its deck's mirror
-# (eval_suites/DECK-against-checkpoint.json, every deal from both seats); and
-# for a run of another seed, the deck's first run (FIRST, DECK=RUN) against
-# all71 too, and the two head to head in the mirror, checkpoint for
+# (eval_suites/DECK-against-checkpoint.json, every deal from both seats); for
+# a run of another seed, the deck's first run (FIRST, DECK=RUN) against all71
+# too, and the two head to head in the mirror, checkpoint for checkpoint; for
+# a run of a SHAPE, it and its control, the run of RUNNING of the same deck
+# and seed without one, head to head in the mirror, checkpoint for
 # checkpoint; the runs' metrics; then the report (tools/champions_report.py).
 #
 # About 2 hours a run on the CUDA machine.
@@ -65,12 +71,35 @@ if ((UPDATES % STEP || UPDATES < 3 * STEP)); then
   echo "UPDATES is a multiple of STEP, three of them at least" >&2
   exit 1
 fi
-# deck RUN, seed RUN, name RUN: what a run of RUNNING names.
-deck() { echo "${1%%:*}"; }
-seed() { [[ $1 == *:* ]] && echo "${1#*:}" || echo "$SEED"; }
-name() {
-  if [ "$(seed "$1")" = "$SEED" ]; then deck "$1"; else echo "$(deck "$1")-$(seed "$1")"; fi
+# deck RUN, seed RUN, shape RUN, name RUN: what a run of RUNNING names.
+deck() {
+  local run=${1%%@*}
+  echo "${run%%:*}"
 }
+seed() {
+  local run=${1%%@*}
+  [[ $run == *:* ]] && echo "${run#*:}" || echo "$SEED"
+}
+shape() { [[ $1 == *@* ]] && echo "${1#*@}" || true; }
+name() {
+  local named
+  if [ "$(seed "$1")" = "$SEED" ]; then named=$(deck "$1"); else named="$(deck "$1")-$(seed "$1")"; fi
+  if [ -n "$(shape "$1")" ]; then named="$named-$(shape "$1")"; fi
+  echo "$named"
+}
+# shaped RUN: the options of a run's shape, at both stages of its training.
+# learning RUN: what a suite is told of a checkpoint of the run's in the
+# learner's seat (a checkpoint in the other seat is built as it was saved,
+# and one that leaves out a part of its input is loaded leaving it out).
+shaped() {
+  case "$(shape "$1")" in
+    tokens) echo --board-representation individual-tokens ;;
+    no-history) echo --leave-out history ;;
+  esac
+}
+learning() { [ "$(shape "$1")" != tokens ] || echo --board-representation individual-tokens; }
+# control RUN: the run of the same deck and seed without a shape.
+control() { echo "${1%%@*}"; }
 # first DECK: the first run of DECK, where FIRST names one.
 first() {
   local given
@@ -88,9 +117,21 @@ for run in $RUNNING; do
       exit 1
     fi
   done
-  if [ "$(seed "$run")" != "$SEED" ] && [ -z "$(first "$(deck "$run")")" ]; then
+  if [ -z "$(shape "$run")" ] && [ "$(seed "$run")" != "$SEED" ] \
+    && [ -z "$(first "$(deck "$run")")" ]; then
     echo "A run of another seed is set beside the deck's first run: FIRST names none for $run" >&2
     exit 1
+  fi
+  if [ -n "$(shape "$run")" ]; then
+    if [ -z "$(shaped "$run")" ]; then
+      echo "A shape is tokens or no-history, not $(shape "$run") ($run)" >&2
+      exit 1
+    fi
+    if [[ " $PARTS " == *" measure "* ]] && [[ " $RUNNING " != *" $(control "$run") "* ]]; then
+      echo "A run of a shape is measured beside its control: RUNNING names no $(control "$run")" \
+        "for $run" >&2
+      exit 1
+    fi
   fi
 done
 pinned=$(git submodule status --recursive)
@@ -146,14 +187,15 @@ made() {
 if [[ " $PARTS " == *" arms "* ]]; then
   for run in $RUNNING; do
     named=$(name "$run")
+    read -r -a shaping <<< "$(shaped "$run")"
     echo "$(date +%H:%M) $named begins"
     made "$named-copy" 0 "$COPY" "$COPY" "$(deck "$run")" "$(seed "$run")" \
       --pool-slots "$SLOTS" --imitation-only-updates 1000000 --imitation-value-weight 0.5 \
-      --imitation-value-positions 4 --minibatch 256 --duels-in-flight 0
+      --imitation-value-positions 4 --minibatch 256 --duels-in-flight 0 "${shaping[@]}"
     made "$named" "$COPY" "$UPDATES" "$STEP" "$(deck "$run")" "$(seed "$run")" \
       --pool-slots "$FAST_SLOTS" --self-play-duels "$ITSELF" --rollout-estimates kept \
       --duels-in-flight "$IN_FLIGHT" --minibatch "$MINIBATCH" --inference-graphs 0 \
-      --pool-groups 2 "${options[@]}" \
+      --pool-groups 2 "${shaping[@]}" "${options[@]}" \
       --resume "$(checkpoint "$RUNS/$named-copy" 0 "$COPY")" --resume-learning-rate "$RATE"
     echo "$(date +%H:%M) $named ends"
   done
@@ -174,13 +216,16 @@ if [[ " $PARTS " == *" measure "* ]]; then
       echo "$(date +%H:%M) $file"
     fi
   }
-  # pair FOLDER STEM FIRST SECOND SUITE: FIRST in the learner's seat against
-  # SECOND, then the other way round.
+  # pair FOLDER STEM FIRST SECOND SUITE [FIRST'S [SECOND'S]]: FIRST in the
+  # learner's seat against SECOND, then the other way round, each told in the
+  # learner's seat what its run's shape asks (learning).
   pair() {
-    local folder=$1 stem=$2 one=$3 other=$4 played=$5
+    local folder=$1 stem=$2 one=$3 other=$4 played=$5 ones=() others=()
+    read -r -a ones <<< "${6:-}"
+    read -r -a others <<< "${7:-}"
     mkdir -p "$OUT/$folder"
-    suite "$folder/$stem.plays" "$played" "$one" --opponent-checkpoint "$other"
-    suite "$folder/$stem.held" "$played" "$other" --opponent-checkpoint "$one"
+    suite "$folder/$stem.plays" "$played" "$one" --opponent-checkpoint "$other" "${ones[@]}"
+    suite "$folder/$stem.held" "$played" "$other" --opponent-checkpoint "$one" "${others[@]}"
   }
   told=()
   for run in $RUNNING; do
@@ -192,8 +237,17 @@ if [[ " $PARTS " == *" measure "* ]]; then
         echo "Missing $champion: a run is measured when it is made" >&2
         exit 1
       fi
-      pair "$named" "$point" "$champion" "$NETWORK" "$played"
-      if [ "$(seed "$run")" != "$SEED" ]; then
+      pair "$named" "$point" "$champion" "$NETWORK" "$played" "$(learning "$run")"
+      if [ -n "$(shape "$run")" ]; then
+        controlled=$(name "$(control "$run")")
+        before=$(checkpoint "$RUNS/$controlled" "$COPY" "$point")
+        if [ ! -f "$before" ]; then
+          echo "Missing $before: a run of a shape is measured once its control is made" >&2
+          exit 1
+        fi
+        pair "$named-against-$controlled" "$point" "$champion" "$before" "$played" \
+          "$(learning "$run")"
+      elif [ "$(seed "$run")" != "$SEED" ]; then
         firsts=$(first "$(deck "$run")")
         before=$(checkpoint "$firsts" "$COPY" "$point")
         pair "$(basename "$firsts")" "$point" "$before" "$NETWORK" "$played"
@@ -204,7 +258,9 @@ if [[ " $PARTS " == *" measure "* ]]; then
       cp "$RUNS/$part/metrics.jsonl" "$OUT/$part.metrics.jsonl"
       cp "$RUNS/$part/run.json" "$OUT/$part.run.json"
     done
-    if [ "$(seed "$run")" = "$SEED" ]; then
+    if [ -n "$(shape "$run")" ]; then
+      told+=("$named=$(name "$(control "$run")")")
+    elif [ "$(seed "$run")" = "$SEED" ]; then
       told+=("$named")
     else
       told+=("$named=$(basename "$(first "$(deck "$run")")")")
