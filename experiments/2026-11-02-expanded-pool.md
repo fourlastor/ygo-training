@@ -1061,5 +1061,7 @@ a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
 `game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
 held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
 seconds an update; some 25 hours with its measure. Beside the batches, the screen of
-the network under PPO is built and smoke-tested on the processor, then run on a rented
-card (its section above).
+the network under PPO (its section above) runs on a rented card since 2026-11-09 22:24 at
+`359322b7` (`experiments/commands/network-screen.sh`): an RTX 4090 at $0.89 an hour, the
+three runs at once through MPS, each on the card in its own shape, the copies at 7 to 8
+seconds an update.
