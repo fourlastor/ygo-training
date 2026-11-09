@@ -8,9 +8,9 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-09 (batch four read: with the seventy-one held to
-`seventy-one-champions`, the mirrors are kept while the new decks learn and the old decks
-hold)
+**Last updated:** 2026-11-09 (a screen of the network under PPO fixed beside the batches;
+before it, batch four read: with the seventy-one held to `seventy-one-champions`, the
+mirrors are kept while the new decks learn and the old decks hold)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -993,9 +993,73 @@ along the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
+## The network under PPO, a screen beside the batches (design and readings fixed on 2026-11-09, before anything was built)
+
+Every result under PPO since format 13 is of one network: the board read as the mean of
+its cards, each answer scored alone, and the seat's own last 32 answers read by an LSTM
+that holds 254,976 of its 738,410 weights. Two other shapes are built, and were read on
+copies only: the board as its cards, each answer attending to them
+(`--board-representation individual-tokens`, +1.1 ± 0.4 points on a copy of the Blackwing
+pilot, [The learner itself](2026-10-08-value-head-and-board.md)), and the network without
+its history (`--leave-out history`, a copy of the Blackwing pilot without it equivalent
+outside training, +0.5 ± 0.8, and not decided on the decks of training, −0.3 ± 0.9,
+[Without the deck lists](2026-10-15-without-deck-lists.md)). Neither has been through
+PPO. A review of the project proposed it on 2026-11-09, and it was agreed the same day to
+run beside the batches on a rented card, asking nothing of the CUDA machine. The question
+is narrow: whether the shape changes what PPO makes of one deck, not what one network
+holds of hundreds of decks.
+
+- **The fair start.** A board of tokens cannot begin from weights trained on the pooled
+  board, so every arm is made from scratch by the champions' recipe
+  (`experiments/commands/champions.sh`) at one code, pins and seed (2012). The three
+  shapes own the same parameters and begin as the same network. The control is today's
+  shape made again the same way, not a champion there is.
+- **The arms**, all of Cyber: `cyber`, the control; `cyber-tokens`; `cyber-no-history`.
+  Each is the deck's pilot imitated from scratch for 240 updates of 520 duels against the
+  thirteen decks' pilots, then 720 updates of PPO at 1e-4, 260 of an update's duels the
+  mirror against itself, with fast's settings; a shape is given at both stages. Cyber's
+  mirror has moved most from network to network.
+- **Measured** by each run's last three checkpoints (480, 600 and 720 updates of PPO):
+  each variant head to head against the control, checkpoint for checkpoint, on Cyber's
+  mirror suite (2,048 deals, each from both seats, 12,288 games), a deal's games together;
+  each run against `all71` in the mirror, as a champion is read.
+
+What one pair can find: two runs of the recipe on the same pilot were 1.9 ± 0.4 points
+apart head to head ([Four decks](2026-10-24-four-decks.md)), so a difference between two
+runs is taken to have a standard deviation of 1.9 to 2.4 points beside the deals' 0.4. By
+simulation, a mark at 54% by two standard errors of the deals is passed by a true effect
+of 4 points 34% to 37% of the time, of 6 points 69% to 73%, of 8 points 91% to 95%, and by
+none 1% to 2%. The screen finds a large lever and nothing finer; two points would take
+some ten pairs an arm.
+
+Readings, at 720 updates, each arm by what it would decide:
+
+1. *The board as its cards*: `cyber-tokens` against the control: **stronger** when it
+   wins at least 54% by two standard errors of the deals, **weaker** when at most 46% by
+   two, otherwise **not a large lever for one deck**.
+2. *The history*: `cyber-no-history` against the control: the history is **needed** when
+   it wins at most 46% by two standard errors of the deals, otherwise **not shown to be
+   needed**, which frees nothing: one pair can show that the history cannot go, not that
+   it can.
+
+Told beside them, without a mark: each run against `all71` in the mirror, and the
+seconds an update and the hours of each.
+
+If the board as its cards is stronger, cards that attend to each other are worth a build
+and a new format, which is every seat's too: the web client's and the 3D game's. If it is
+not a large lever, the shape of the board is not what limits one deck, and whether one
+network holds hundreds of decks as well as it could stays open. The history stays unless
+a larger test, ten pairs, shows that it can go.
+
+**Where it runs**: on a pod rented for it, the three runs at once, the card and its price
+agreed before the pod is created; some three to four hours. Nothing of it runs on the CUDA
+machine.
+
 **Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
 `a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
 a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
 `game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
 held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
-seconds an update; some 25 hours with its measure.
+seconds an update; some 25 hours with its measure. Beside the batches, the screen of
+the network under PPO is built and smoke-tested on the processor, then run on a rented
+card (its section above).
