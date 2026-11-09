@@ -55,7 +55,11 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   two's and falling across most decks, whatever cards they share with the new ones.
   Batch four, fixed on 2026-11-08, goes on the same way with fifty more Decks from batch
   three's network, the seventy-one held to `seventy-one-champions` in their duels with
-  each other instead of to the start.
+  each other instead of to the start. Read on 2026-11-09: the mirrors kept, −0.9 ± 0.3
+  points against `seventy-one-champions` and 0.7 ± 0.3 over batch three's; the old
+  decks hold, 50.2% ± 0.1%; the new decks learn, +6.0 ± 0.1 points from 43.8%, each
+  batch's new decks starting higher and gaining less. The decks trained on hold 70.6%
+  of the pool's cards. The batches go on the same way.
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing

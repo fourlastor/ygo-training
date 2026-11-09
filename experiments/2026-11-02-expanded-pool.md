@@ -8,8 +8,9 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-06 (the batch again read: `distilled` keeps the mirrors and
-the old decks while the new decks learn, so the batches after take its term and share)
+**Last updated:** 2026-11-09 (batch four read: with the seventy-one held to
+`seventy-one-champions`, the mirrors are kept while the new decks learn and the old decks
+hold)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -858,10 +859,74 @@ along the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** batch four runs on the CUDA machine since 2026-11-08 15:09 at
-`5c0ef6eb` (`experiments/commands/pool-batch-four.sh`; the trainer holds the seventy-one
-to the second network with `--distill-second-reference`). Its first updates are as
-designed: a new deck 10.68 games an update and an old one 2.17, all 283 decks seated,
-some 13,700 decisions an update distilled. Some 2,700 of those are held to
-`seventy-one-champions`, at a divergence falling from 0.060 over the first ten updates to
-0.053 over updates 31 to 36. 9.5 seconds an update; some 23 hours with its measure.
+## Batch four's results (read on 2026-11-09)
+
+Batch four ran on the CUDA machine from 2026-11-08 15:09 at `5c0ef6eb`, 19.9 hours, 9.6
+seconds an update, and its measure 3.0 hours more (`analysis/expanded-pool/batch-four/report.txt`).
+Its first updates gave a new deck 10.68 games and an old one 2.17, as designed.
+
+1. *The mirrors are kept*: **kept**, −0.9 ± 0.3 points deal by deal against
+   `seventy-one-champions`' check, forty of the seventy-one lower. Against their
+   champions they stand at 49.8% ± 0.3%. The most lost are `cyber` −11.7, `scrap` −8.2,
+   `spirit` −7.4, `nordic` −7.0 and `chaos` −5.9; the most won `venom` +5.9 and `gusto`
+   +4.7.
+2. *The old decks hold*: **hold**, 50.2% ± 0.1% head to head against the start, frozen,
+   on every ordered pairing of the 233 old decks (434,312 games).
+3. *The new decks learn*: **learns**, +6.0 ± 0.1 points against the start after 7,440
+   updates, from 43.8%. Every one of the fifty gained, from +0.6 (`game-0189`) to
+   +22.2 (`game-0208`); five gained under two points: `game-0189`, `game-0169` and
+   `game-0178` +1.2, `game-0168` and `game-0213` +1.9.
+
+Beside them:
+
+- At 3,720 updates: the new decks +5.3 ± 0.1.
+- The old decks at 7,440 by the two decks of a pairing: both of the seventy-one 50.0% ±
+  0.2%, both game Decks 50.3% ± 0.1%, one of each 50.2% ± 0.1%.
+- The mirrors deal by deal against each network before (`tools/mirror_pairs.py`):
+  - Batch four against batch three: +0.7 ± 0.3 points, twenty-six of the seventy-one
+    lower.
+  - Against `seventy-one-champions`, network by network: `distilled` −0.1, batch two
+    −0.5, batch three −1.7, batch four −0.9, each ± 0.3.
+  - `cyber` against `seventy-one-champions`: −6.2, −11.3, −14.5 and now −11.7.
+- The lowest mirrors against their champions: `deckout` 37.5%, `arcana` 41.8%,
+  `rock-block` 42.2%, `dragunity` 44.1%, `herald` 44.5%.
+- The divergence at the old decks' decisions in duels between two old decks, some
+  14,400 an update, 2,850 of them the seventy-one's in their duels with each other:
+  - From the start: 0.010 over the first 500 updates and 0.018 over the last 500,
+    where batch three's went from 0.011 to 0.021.
+  - The seventy-one's from `seventy-one-champions`: 0.060 over the first ten updates,
+    0.054 by the hundredth, 0.058 from the 250th to the 1,000th and 0.056 over the
+    last 1,440.
+- The twelve held out, `game-0218` to `game-0229`, trained on nothing: +0.1 ± 0.1
+  points from 46.0%.
+- The new decks against the thirteen decks' pilots: 40.3% from 34.9%, +5.4 ± 0.2.
+- 461 duels of some 3.87 million failed (`tools/failed_duels.py`).
+  - 298 filled their arenas and ended there: 243 with `game-0195` in a seat, a deck of
+    Cyber Dragon, DNA Surgery and Chimeratech, and 50 with `game-0085`. They come at a
+    steady rate, 91, 66, 61 and 80 over the run's four quarters, not as a habit learnt.
+  - Cards seen before: Planet Pollutant Virus 54, Beast Rising 24, Fake Feather 17,
+    Rivalry of Warlords 16, now with `game-0188` too, Pyro Clock of Destiny 2 and
+    Orbital Bombardment 1; one recursive event trigger.
+  - New: Gauntlet Warrior 23 (`game-0201`), Dark Diviner 13 (`game-0211`), Mind Control
+    8 (`game-0216`; `game-0050` holds it too), and one each of The Lady in Wight
+    (`game-0200`), Serial Spell (`game-0212`), Ally of Justice Unlimiter (`game-0217`)
+    and Enemy Controller (`gladiator`).
+
+With the seventy-one held to `seventy-one-champions` in their duels with each other, the
+mirrors are kept, 0.7 points over batch three's and 0.9 under `seventy-one-champions`.
+No arm without that hold ran beside it, so how much of the rise the hold made is not
+measured; the divergence from `seventy-one-champions` at those decisions fell little,
+from 0.060 to 0.056. The new decks learn and the old decks hold, as in every batch since
+`distilled`. Each batch's new decks start higher and gain less: 30.4% and +8.9 points in
+batch two, 39.2% and +6.9 in batch three, 43.8% and +6.0 here, and the next twelve stand
+at 46.0% before any training, the start knowing more of their cards each time. The decks
+trained on now hold 2,869 of the pool's 4,065 cards, 70.6%, where they held 2,675
+(65.8%) after batch three; the next fifty lists bring 133 more, to 73.8%. All three
+readings are met, so by the design the batches go on the same way.
+
+**Current next step:** batch five, the same way, its design fixed and agreed before
+anything is built: from batch four's mean at 7,440 updates (step 63,600), fifty new game
+Decks, `game-0218` to `game-0267`, beside the 283 old decks, and `game-0268` to
+`game-0279` held out. 7,680 updates give a new deck 10.36 games an update, some 79,600
+over the run, in some 21 hours, and the measure some 4 hours more, its old pairings
+grown to 640,712 games.
