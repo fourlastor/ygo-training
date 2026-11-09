@@ -921,7 +921,7 @@ from 0.060 to 0.056. The new decks learn and the old decks hold, as in every bat
 batch two, 39.2% and +6.9 in batch three, 43.8% and +6.0 here, and the next twelve stand
 at 46.0% before any training, the start knowing more of their cards each time. The decks
 trained on now hold 2,869 of the pool's 4,065 cards, 70.6%, where they held 2,675
-(65.8%) after batch three; the next fifty lists bring 133 more, to 73.8%. All three
+(65.8%) after batch three; the next fifty lists bring 129 more, to 73.8%. All three
 readings are met, so by the design the batches go on the same way.
 
 ## Batch five (design and readings fixed on 2026-11-09, before anything was built)
@@ -929,13 +929,27 @@ readings are met, so by the design the batches go on the same way.
 Batch five goes on as batch four, agreed on 2026-11-09, with nothing changed but its
 decks and its length.
 
+Its first attempt, from 2026-11-09 14:29 at `946abdbc` with `game-0218` to `game-0267`
+new, stopped after nine updates: the engine read an attacker that was gone (step 9 of a
+battle, `processor.cpp:2147`), and the process with it. Last Turn, in `game-0233`, can be
+activated after an attack is declared; its `Duel.ForceAttack` plays a battle of its own
+inside that one, which clears the attacker when it ends, and the battle it was played in
+goes on without one. Upstream's engine has the same code. Last Turn is the only card of
+the pool that forces an attack and `game-0233` the only list that holds it, so
+`game-0233` is left out, as the lists with a card that names a card are, agreed on
+2026-11-09; with it go the only two cards it alone brings, Last Turn and Jowgen the
+Spiritualist. The engine's fault waits for the experiment's end with the scripts that
+failed. The attempt's folder is set aside in `runs/expanded-pool/aborted-2026-11-09` on
+the CUDA machine.
+
 - **Start**: batch four's mean at 7,440 updates (step 63,600).
 - **Decks**:
-  - New, fifty: `game-0218` to `game-0267`, among them the twelve held out until now.
+  - New, fifty: `game-0218` to `game-0268` but `game-0233`, among them the twelve held
+    out until now.
   - Old, 283: the seventy-one and the 212 game Decks of the batches before, `game-0001`
     to `game-0217` but `game-0037`, `game-0065`, `game-0093`, `game-0167` and
     `game-0171`.
-  - Held out: `game-0268` to `game-0279`.
+  - Held out: `game-0269` to `game-0280`.
 - **Run**: as batch four's, over all 333 decks.
   - PPO at 1e-4 with its optimizer fresh, 520 duels an update at the settings of `fast`,
     every duel against itself, a checkpoint every 60, the cards' identity tables at the
@@ -979,5 +993,5 @@ along the run; the hours.
 If all three are met, the batches go on the same way. If the mirrors or the old decks
 are not kept, what changes is designed then.
 
-**Current next step:** build batch five as fixed above, smoke-test it on the processor,
-and run it on the CUDA machine.
+**Current next step:** batch five again without `game-0233`, built, smoke-tested on the
+processor and run on the CUDA machine.

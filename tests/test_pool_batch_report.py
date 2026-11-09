@@ -289,10 +289,11 @@ def test_the_suites_of_batch_four_are_the_tools():
 
 
 def test_the_suites_of_batch_five_are_the_tools():
-    # From batch four: its fifty game Decks old too, the same five left out.
-    left = frozenset({"game-0037", "game-0065", "game-0093", "game-0167", "game-0171"})
-    new = suites.numbered("game-0218:game-0267")
-    held_out = suites.numbered("game-0268:game-0279")
+    # From batch four: its fifty game Decks old too, the same five left out and game-0233,
+    # whose Last Turn forces a battle inside an attack, which takes the engine down.
+    left = frozenset({"game-0037", "game-0065", "game-0093", "game-0167", "game-0171", "game-0233"})
+    new = [deck for deck in suites.numbered("game-0218:game-0268") if deck not in left]
+    held_out = suites.numbered("game-0269:game-0280")
     assert len(new) == 50 and len(held_out) == 12
     made = suites.suites("five", new, held_out, left)
     for name, told in made.items():

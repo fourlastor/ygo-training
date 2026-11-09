@@ -8,16 +8,17 @@
 # The old decks are measured at the end alone; the mirrors are read deal by deal against
 # seventy-one-champions' check at 20,160 updates and told beside batch four's. game-0037,
 # game-0065, game-0093, game-0167 and game-0171, left out, hold a card that names a card, a
-# question of 4,096 answers. A batch of experiments/commands/pool-batch.sh, whose settings
-# stay open here for a smoke test; run from the repository root on the CUDA machine, some 21
-# hours for the run and 4.5 for the measure.
+# question of 4,096 answers; game-0233, left out too, holds Last Turn, whose forced battle
+# inside an attack takes the engine down. A batch of experiments/commands/pool-batch.sh,
+# whose settings stay open here for a smoke test; run from the repository root on the CUDA
+# machine, some 21 hours for the run and 4.5 for the measure.
 #   AT_ONCE=4 bash experiments/commands/pool-batch-five.sh
 set -euo pipefail
 NETWORK=${NETWORK:-runs/expanded-pool/batch-four-mean/7440.pt}
 RUN=${RUN:-batch-five} OUT=${OUT:-analysis/expanded-pool/batch-five} NETWORK=$NETWORK \
   FIRST=${FIRST:-63600} UPDATES=${UPDATES:-7680} POINTS=${POINTS:-3840 7680} \
   OLD_POINTS=${OLD_POINTS:-7680} \
-  NEW=$(printf "game-%04d," $(seq 218 267) | sed "s/,$//") \
+  NEW=$(printf "game-%04d," $(seq 218 232) $(seq 234 268) | sed "s/,$//") \
   EARLIER=$(printf "game-%04d," $(seq 1 36) $(seq 38 64) $(seq 66 92) $(seq 94 166) \
     $(seq 168 170) $(seq 172 217) | sed "s/,$//") \
   OLD_SCALE=0.4 DISTILL_REFERENCE=$NETWORK \
