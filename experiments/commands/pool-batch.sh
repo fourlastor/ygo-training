@@ -14,7 +14,10 @@
 # seat in a duel between two old decks the divergence from that frozen network's answers is
 # added to PPO's loss at DISTILL_WEIGHT (train --distill-reference); with DISTILL_SECOND too,
 # in a duel between two of the seventy-one it is from that second network's answers instead
-# (train --distill-second-reference). An interrupted run goes on from its last checkpoint;
+# (train --distill-second-reference). With BOARD, the network trained and the networks
+# of the run measured are of that shape (train --board-representation): individual-tokens
+# for the board as its cards, a NETWORK of the pooled board given it with
+# tools/switch_board.py. An interrupted run goes on from its last checkpoint;
 # with NEW_PINS=1 it goes on although the pins moved since (train --new-pins), for a move
 # whose duels are the old ones.
 #
@@ -26,7 +29,8 @@
 # against the thirteen decks' pilots (PILOTS), at 0 too; and each of MIRROR_DECKS head
 # to head in its mirror against its champion. Then the run's metrics and the report
 # (tools/pool_batch_report.py), the mirrors read deal by deal against those in
-# MIRRORS_REFERENCE where set and told beside those in MIRRORS_BESIDE. What fails beside
+# MIRRORS_REFERENCE where set and told beside those in MIRRORS_BESIDE, the new decks read at
+# the marks LEARNS and DOES_NOT where set (shares). What fails beside
 # the others is played again once they are over, alone: they share the card's memory,
 # which four of them can run out of together (the fast arm's pilots at 4,020, on
 # 2026-11-04).
@@ -84,6 +88,11 @@ MIRROR_DECKS=${MIRROR_DECKS:-}
 # Another network's mirrors on the same deals, the reading's reference, and one told beside.
 MIRRORS_REFERENCE=${MIRRORS_REFERENCE:-}
 MIRRORS_BESIDE=${MIRRORS_BESIDE:-}
+# The shape of the network trained and measured, where it is not the pooled board.
+BOARD=${BOARD:-}
+# Reading 1's marks, where a batch fixed others than the first batch's.
+LEARNS=${LEARNS:-}
+DOES_NOT=${DOES_NOT:-}
 PYTHON=${PYTHON:-}
 LOGS=${LOGS:-$OUT/logs}
 # shellcheck source=experiments/commands/at-once.sh
@@ -146,6 +155,10 @@ if [ "${OLD_POINTS##* }" != "$last_point" ]; then
 fi
 python=(uv run python)
 [ -z "$PYTHON" ] || python=("$PYTHON")
+# The run's own networks are played in their shape; another network, an opponent or a
+# champion, is read in its own.
+board=()
+[ -z "$BOARD" ] || board=(--board-representation "$BOARD")
 cargo build --release
 mkdir -p "$RUNS" "$OUT"
 
@@ -182,23 +195,24 @@ playing() {
 # measures: the measure's games, a file at most once until `queued` is emptied.
 measures() {
   local point mean deck teacher
-  played "$OUT/0/pairings" "$PAIRINGS" "$NETWORK" --opponent-checkpoint "$NETWORK"
-  played "$OUT/0/held-out" "$HELD_OUT" "$NETWORK" --opponent-checkpoint "$NETWORK"
-  played "$OUT/0/pilots" "$PILOTS" "$NETWORK"
+  played "$OUT/0/pairings" "$PAIRINGS" "$NETWORK" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  played "$OUT/0/held-out" "$HELD_OUT" "$NETWORK" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  played "$OUT/0/pilots" "$PILOTS" "$NETWORK" "${board[@]}"
   for point in $POINTS; do
     mean=$RUNS/$RUN-mean/$point.pt
-    played "$OUT/$point/pairings" "$PAIRINGS" "$mean" --opponent-checkpoint "$NETWORK"
+    played "$OUT/$point/pairings" "$PAIRINGS" "$mean" "${board[@]}" --opponent-checkpoint "$NETWORK"
   done
   for point in $OLD_POINTS; do
     mean=$RUNS/$RUN-mean/$point.pt
-    played "$OUT/$point/old" "$OLD" "$mean" --opponent-checkpoint "$NETWORK"
+    played "$OUT/$point/old" "$OLD" "$mean" "${board[@]}" --opponent-checkpoint "$NETWORK"
   done
   mean=$RUNS/$RUN-mean/$UPDATES.pt
-  played "$OUT/$UPDATES/held-out" "$HELD_OUT" "$mean" --opponent-checkpoint "$NETWORK"
-  played "$OUT/$UPDATES/pilots" "$PILOTS" "$mean"
+  played "$OUT/$UPDATES/held-out" "$HELD_OUT" "$mean" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  played "$OUT/$UPDATES/pilots" "$PILOTS" "$mean" "${board[@]}"
   for deck in "${mirrored[@]}"; do
     teacher=$(awk -v deck="$deck" '$1 == deck {print $2}' "$LIST")
-    played "$OUT/$UPDATES/mirrors/$deck.plays" "$MIRRORS/$deck.json" "$mean" --opponent-checkpoint "$teacher"
+    played "$OUT/$UPDATES/mirrors/$deck.plays" "$MIRRORS/$deck.json" "$mean" "${board[@]}" \
+      --opponent-checkpoint "$teacher"
     played "$OUT/$UPDATES/mirrors/$deck.held" "$MIRRORS/$deck.json" "$teacher" --opponent-checkpoint "$mean"
   done
 }
@@ -255,7 +269,7 @@ if [[ " $PARTS " == *" run "* ]]; then
     --pool-slots "$FAST_SLOTS" --rollout-estimates kept
     --duels-in-flight "$IN_FLIGHT" --minibatch "$MINIBATCH" --inference-graphs 0 --pool-groups 2
     --self-play-duels "$DUELS" --self-play-weights "$RUNS/$RUN.weights.json"
-    --identity-learning-rate-scale "$IDENTITY_SCALE"
+    --identity-learning-rate-scale "$IDENTITY_SCALE" "${board[@]}"
   )
   if [ -n "$DISTILL_REFERENCE" ]; then
     arguments+=(
@@ -303,5 +317,7 @@ if [[ " $PARTS " == *" measure "* ]]; then
   report=(--points "${POINTS// /,}" --run "$RUN")
   [ -z "$MIRRORS_REFERENCE" ] || report+=(--reference "$MIRRORS_REFERENCE")
   [ -z "$MIRRORS_BESIDE" ] || report+=(--beside "$MIRRORS_BESIDE")
+  [ -z "$LEARNS" ] || report+=(--learns "$LEARNS")
+  [ -z "$DOES_NOT" ] || report+=(--does-not "$DOES_NOT")
   "${python[@]}" tools/pool_batch_report.py "$OUT" "${report[@]}" | tee "$OUT/report.txt"
 fi

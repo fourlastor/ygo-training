@@ -65,10 +65,11 @@ def games(table: dict[str, list[float]]) -> list[float]:
     return [game for name in sorted(table) for game in table[name]]
 
 
-def learns(gain: float, error_: float) -> str:
-    if gain - ERRORS * error_ >= LEARNS:
+def learns(gain: float, error_: float, at_least: float = LEARNS, at_most: float = DOES_NOT) -> str:
+    """Reading 1, at its marks, or at others a later batch fixed."""
+    if gain - ERRORS * error_ >= at_least:
         return "learns"
-    if gain + ERRORS * error_ <= DOES_NOT:
+    if gain + ERRORS * error_ <= at_most:
         return "does not"
     return "not decided"
 

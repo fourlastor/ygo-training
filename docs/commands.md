@@ -2011,7 +2011,13 @@ network answers as it did until training moves it
 (`tests/test_switch_board.py`). It keeps the checkpoint's step, optimizer
 state and random states, and a run begins from it with `--resume` and the
 shape named; `experiments/commands/champions.sh` makes such a run as the
-shape `switched` of its control.
+shape `switched` of its control, and `experiments/commands/pool-batch.sh`
+trains and measures a batch of the expanded pool in the shape named by
+`BOARD` (batch six's arm `switched`, `experiments/commands/pool-batch-six.sh`;
+its two arms head to head by `experiments/commands/pool-batch-six-arms.sh`,
+read by `tools/pool_arms_report.py`). `evaluate-suite` reads the network it
+plays in the shape `--board-representation` names, and its opponent's in
+the opponent's own.
 
 `train --card-table FILE` with `--card-descriptions`, `--hide-identities
 SHARE` or both tells the model more of a card than its input gives, by the

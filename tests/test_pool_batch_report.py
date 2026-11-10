@@ -310,6 +310,47 @@ def test_the_suites_of_batch_five_are_the_tools():
         assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
 
 
+def test_the_suites_of_batch_six_are_the_tools():
+    # From batch five: its new decks old too, game-0335 left out of the new, a hundred
+    # new decks at half batch five's games each, and the arms' suite over all the decks.
+    left = frozenset(
+        {"game-0037", "game-0065", "game-0093", "game-0167", "game-0171", "game-0233", "game-0335"}
+    )
+    new = [deck for deck in suites.numbered("game-0269:game-0369") if deck not in left]
+    held_out = suites.numbered("game-0370:game-0381")
+    assert len(new) == 100 and len(held_out) == 12
+    made = suites.suites("six", new, held_out, left, pairings_games=16, arms=32)
+    for name, told in made.items():
+        assert (
+            json.loads((ROOT / "eval_suites" / f"{name}.json").read_text(encoding="utf8")) == told
+        )
+    old = [case["learner"] for case in made["pool-batch-six-old-pairings-checkpoint"]["cases"]]
+    assert len(old) == 333
+    assert old[71:] == [deck for deck in suites.numbered("game-0001:game-0268") if deck not in left]
+    assert {case["games"] for case in made["pool-batch-six-pairings-checkpoint"]["cases"]} == {16}
+    drawn = made["pool-batch-six-arms"]["cases"]
+    assert [case["learner"] for case in drawn] == old + new
+    for case in drawn:
+        met = case["opponent"].split(",")
+        assert len(set(met)) == 32 and case["learner"] not in met
+        assert set(met) <= set(old + new)
+        assert case["games"] == 2 and case["opponent_policy"] == "checkpoint"
+    for case in (
+        made["pool-batch-six-pairings-checkpoint"]["cases"]
+        + made["pool-batch-six-held-out-checkpoint"]["cases"]
+    ):
+        assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
+
+
+def test_a_batch_reads_the_new_decks_at_the_marks_it_fixed(tmp_path):
+    # Six points, under 5 by two standard errors: not decided at the first batch's
+    # marks, learns at batch six's.
+    found = run(tmp_path, 0.06, 0.51)
+    assert found["learns"] == "not decided"
+    assert tool.report(tmp_path, POINTS, "batch-one", marks=(0.03, 0.01))["learns"] == "learns"
+    assert tool.report(tmp_path, POINTS, "batch-one", marks=(0.12, 0.10))["learns"] == "does not"
+
+
 def test_the_old_decks_are_told_apart_by_the_decks_of_each_pairing(tmp_path):
     found = run(tmp_path, 0.10, 0.51)
     assert "old apart" not in found

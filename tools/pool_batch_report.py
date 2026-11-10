@@ -31,6 +31,9 @@ half a win (`tools/mirror_pairs.py`): kept when the difference is at least -2 po
 two standard errors, lost when at most -2 points by two, otherwise not decided. No one
 mirror has a floor of its own: `seventy-one-champions`' own check fails the one above.
 
+From batch six (fixed on 2026-11-10), reading 1's marks are given, `--learns 0.03
+--does-not 0.01`: the new decks now start near 45% and end near 50% against the start.
+
 Told beside them, without a mark: the gain and the old decks at the points before the
 last; the old decks' share by the two decks of a pairing, both of the seventy-one, both
 game Decks or one of each, where a batch before made game Decks old; each new deck's
@@ -50,7 +53,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import mirror_pairs
-from first_batch_report import cases, games, holds, learns
+from first_batch_report import DOES_NOT, LEARNS, cases, games, holds, learns
 from fourteen_decks_report import ERRORS, kept_mirrors, number
 from specialist_distillation_report import shares, spent
 from two_decks_report import mean, paired, told
@@ -93,7 +96,9 @@ def report(
     run: str,
     reference: Path | None = None,
     beside: Path | None = None,
+    marks: tuple[float, float] = (LEARNS, DOES_NOT),
 ) -> dict[str, Any]:
+    """`marks`: reading 1's, the gain it learns at and does not at."""
     start = cases(directory / "0" / "pairings.json")
     tables = {point: cases(directory / str(point) / "pairings.json") for point in points}
     last = points[-1]
@@ -107,7 +112,7 @@ def report(
         "start": mean(games(start)),
         "gains": gains,
         "each": {name: mean(tables[last][name]) - mean(start[name]) for name in sorted(start)},
-        "learns": learns(gains[last]["gap"], gains[last]["error"]),
+        "learns": learns(gains[last]["gap"], gains[last]["error"], *marks),
         "old": old,
         "holds": holds(old[last]["share"], old[last]["error"]),
     }
@@ -272,9 +277,22 @@ def main() -> None:
     parser.add_argument(
         "--beside", type=Path, help="the mirrors of a network told beside, deal by deal"
     )
+    parser.add_argument(
+        "--learns", type=float, default=LEARNS, help="the gain reading 1 learns at, a share"
+    )
+    parser.add_argument(
+        "--does-not", type=float, default=DOES_NOT, help="the gain reading 1 does not at, a share"
+    )
     args = parser.parse_args()
     points = [int(point) for point in args.points.split(",")]
-    found = report(args.directory, points, args.run, args.reference, args.beside)
+    found = report(
+        args.directory,
+        points,
+        args.run,
+        args.reference,
+        args.beside,
+        (args.learns, args.does_not),
+    )
     (args.directory / "report.json").write_text(
         json.dumps(found, indent=1, default=str), encoding="utf8"
     )
