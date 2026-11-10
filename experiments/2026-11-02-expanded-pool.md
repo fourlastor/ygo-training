@@ -8,10 +8,12 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-10 (the screen of the network under PPO read: for Cyber the
-board as its cards is stronger, 58.4% head to head, and the history is not shown to be
-needed; before it, batch four read: with the seventy-one held to `seventy-one-champions`,
-the mirrors are kept while the new decks learn and the old decks hold)
+**Last updated:** 2026-11-10 (a second session of the screen fixed: Blackwing, twice the
+training and the switch of a trained network; before it, the screen of the network under
+PPO read: for Cyber the board as its cards is stronger, 58.4% head to head, and the
+history is not shown to be needed; before it, batch four read: with the seventy-one held
+to `seventy-one-champions`, the mirrors are kept while the new decks learn and the old
+decks hold)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -1110,11 +1112,73 @@ step leaves the network as it was. The history stays. The screen does not tell w
 the lever holds for other decks, or for one network of hundreds of decks, which is the
 pool's question.
 
+## The network under PPO, a second session (design and readings fixed on 2026-11-10, before anything was built)
+
+The screen found the board as its cards stronger for Cyber: 58.4% head to head against
+the control, under a point over it against `all71`. Three questions follow from it. They
+were agreed on 2026-11-10 to run in one session on a rented card before batch five is
+read, so that their answers stand beside batch five's when the next batch is designed:
+
+- whether the edge holds for a second deck;
+- whether it holds after twice the training, or the control closes it;
+- whether a network trained on the pooled board takes the attention from where it
+  stands. The pool's network cannot be made again cheaply, so this would be its route.
+  The attention is only added to each answer (`action + board_fusion(context)`): with
+  `board_fusion` at zero, the switched network answers as the one it came from.
+
+- **The arms**, five runs at once:
+  - `blackwing` and `blackwing-tokens`: Blackwing from scratch by the champions' recipe at
+    seed 2012, as the screen's Cyber arms were made: 240 updates of copy, then 720 of PPO.
+  - `cyber` and `cyber-tokens` go on: the screen's two runs continue from 720 to 1,440
+    updates of PPO, everything else as it was.
+  - `cyber-switched`: `cyber` at 720 updates of PPO, given the board as its cards from
+    there on with `board_fusion` set to zero (`tools/switch_board.py`), then 720 updates of
+    PPO as the control's continuation: from the same checkpoint, with its optimizer's
+    state and the same rate.
+- **Measured** as the screen was, each run by its last three checkpoints (Blackwing's at
+  480, 600 and 720 updates of PPO, Cyber's at 1,200, 1,320 and 1,440): head to head against
+  its control, checkpoint for checkpoint, on the deck's mirror suite (2,048 deals, each
+  from both seats), a deal's games together; each run against `all71` in the mirror.
+
+Readings, with the screen's marks:
+
+1. *A second deck*: `blackwing-tokens` against `blackwing`: **stronger** when it wins at
+   least 54% by two standard errors of the deals, **weaker** when at most 46% by two,
+   otherwise **not a large lever for Blackwing**.
+2. *Twice the training*: `cyber-tokens` against `cyber` at 1,200 to 1,440 updates: the edge
+   **holds** when it is stronger by the same mark; otherwise it is **not shown to hold**,
+   its share told beside the screen's 58.4%.
+3. *The switch*: `cyber-switched` against `cyber` at the same checkpoints: the switch
+   **pays** when it wins at least 54% by two standard errors, **harms** when at most 46%
+   by two, otherwise it is **not shown**. A gain smaller than the screen's eight points
+   would often be missed: a true four points passes about a third of the time.
+
+Told beside them, without a mark: each run against `all71`, the seconds an update and the
+hours.
+
+**Checks with no training**, on the development machine while the session is prepared,
+read by the same paired deals on Cyber's mirror suite:
+
+- the two copies' last checkpoints (240 updates) head to head: whether the edge was there
+  before PPO, told without a mark;
+- `cyber-tokens` and `cyber` at 720 updates of PPO, each against `cyber-old` at 720, the
+  arm of [Cyber champion](2026-10-23-cyber-champion.md) made by the same recipe at the
+  same seed: the edge **carries to a third network** when `cyber-tokens` wins more against
+  it than the control does, by two standard errors of the deals paired; otherwise it is
+  **not shown to carry**, and the edge head to head may be one network's over its sibling.
+
+What follows from the readings is decided beside batch five's results.
+
+**Where it runs**: a pod rented for it, an RTX 4090 or an RTX 3090 of Runpod's Secure
+Cloud, whichever is available (agreed on 2026-11-10), the five runs at once; some five
+hours. The checks run on the development machine. Nothing of it runs on the CUDA machine.
+
 **Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
 `a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
 a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
 `game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
 held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
 seconds an update; some 25 hours with its measure. Beside the batches, the screen of
-the network under PPO is read (its results above). What the board as its cards is to
-become is to be decided beside batch five's results.
+the network under PPO is read (its results above), and its second session is fixed and
+is being built. What the board as its cards is to become is to be decided beside batch
+five's results.
