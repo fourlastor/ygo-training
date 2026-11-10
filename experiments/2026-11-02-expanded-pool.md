@@ -8,9 +8,10 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-09 (a screen of the network under PPO fixed beside the batches;
-before it, batch four read: with the seventy-one held to `seventy-one-champions`, the
-mirrors are kept while the new decks learn and the old decks hold)
+**Last updated:** 2026-11-10 (the screen of the network under PPO read: for Cyber the
+board as its cards is stronger, 58.4% head to head, and the history is not shown to be
+needed; before it, batch four read: with the seventy-one held to `seventy-one-champions`,
+the mirrors are kept while the new decks learn and the old decks hold)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -1055,13 +1056,52 @@ a larger test, ten pairs, shows that it can go.
 agreed before the pod is created; some three to four hours. Nothing of it runs on the CUDA
 machine.
 
+## The network under PPO: the screen's results (read on 2026-11-10)
+
+Run at `359322b7` (`experiments/commands/network-screen.sh`) on a pod rented for it, an
+RTX 4090 of Runpod's Secure Cloud at $0.89 an hour with 36 threads. The three runs went at
+once through MPS from 2026-11-09 22:24, were measured on the same card, and were read at
+01:43 on 2026-11-10.
+
+- Each run trained in its own shape at both stages, as its checkpoints and metrics carry
+  it, all three with the same 7,243,755 parameters.
+- Their PPO played the designed mix: some 258 of an update's 520 duels were the mirror
+  against itself, and no duel failed.
+- A run took 2.7 hours, copy and PPO. An update of PPO took 10.9 seconds for the control
+  and 11.1 for each variant, the three sharing the card. The pod ran 3.5 hours, about
+  $3.10.
+
+1. *The board as its cards*: **stronger**. `cyber-tokens` wins 58.4% ± 0.4% against the
+   control over their last three checkpoints (2,048 deals, each from both seats, 12,288
+   games). It is over 54% at each of them: 59.4%, 58.2% and 57.6% at 480, 600 and 720
+   updates of PPO, ± 0.7 each.
+2. *The history*: **not shown to be needed**. `cyber-no-history` wins 45.5% ± 0.5%: under
+   46%, but not by two standard errors. By checkpoint it wins 42.3%, 46.0% and 48.0%, the
+   gap closing as PPO goes on.
+
+Told beside, without a mark:
+
+- **Against `all71` in the mirror:**
+  - the control 74.7% ± 0.5%, where the two arms of
+    [Cyber champion](2026-10-23-cyber-champion.md) stood at 74.4% and 76.4%;
+  - `cyber-tokens` 75.5% ± 0.4%, +0.8 ± 0.6 points over the control, the deals paired;
+  - `cyber-no-history` 72.5% ± 0.5%, −2.2 ± 0.6.
+
+  Head to head, the board as its cards is eight points over the control. Against the
+  older network it is under one point over it.
+- **The copies end alike:** the imitation loss over their last 20 updates is 0.155 for the
+  control, 0.154 for the board as its cards and 0.163 without the history.
+
+By the design, cards that attend to each other are worth a build and a new format, and
+every seat's format changes with it: the web client's and the 3D game's. The history
+stays. The screen does not tell whether the lever holds for other decks, or for one
+network of hundreds of decks, which is the pool's question.
+
 **Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
 `a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
 a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
 `game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
 held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
 seconds an update; some 25 hours with its measure. Beside the batches, the screen of
-the network under PPO (its section above) runs on a rented card since 2026-11-09 22:24 at
-`359322b7` (`experiments/commands/network-screen.sh`): an RTX 4090 at $0.89 an hour, the
-three runs at once through MPS, each on the card in its own shape, the copies at 7 to 8
-seconds an update.
+the network under PPO is read (its results above). What the board as its cards is to
+become is to be decided beside batch five's results.

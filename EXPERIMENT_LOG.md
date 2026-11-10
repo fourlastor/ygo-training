@@ -60,7 +60,14 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   decks hold, 50.2% ± 0.1%; the new decks learn, +6.0 ± 0.1 points from 43.8%, each
   batch's new decks starting higher and gaining less. The decks trained on hold 70.6%
   of the pool's cards. Batch five, fixed on 2026-11-09, goes on the same way with fifty
-  more Decks from batch four's network.
+  more Decks from batch four's network. A screen of the network under PPO, fixed on
+  2026-11-09, ran beside the batches on a rented card: Cyber by the champions' recipe
+  from scratch in three shapes. It was read on 2026-11-10:
+  - the board as its cards is stronger, 58.4% ± 0.4% head to head against the network
+    as it is, and +0.8 ± 0.6 points against `all71`;
+  - without its history the network wins 45.5% ± 0.5%, so the history is not shown to
+    be needed.
+
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
