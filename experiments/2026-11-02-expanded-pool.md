@@ -1092,10 +1092,23 @@ Told beside, without a mark:
 - **The copies end alike:** the imitation loss over their last 20 updates is 0.155 for the
   control, 0.154 for the board as its cards and 0.163 without the history.
 
-By the design, cards that attend to each other are worth a build and a new format, and
-every seat's format changes with it: the web client's and the 3D game's. The history
-stays. The screen does not tell whether the lever holds for other decks, or for one
-network of hundreds of decks, which is the pool's question.
+The design took the board as its cards, if stronger, for a build and a new format. The
+shape tested needs neither:
+
+- Both shapes own the same four matrices of the attention (`board_query`, `board_key`,
+  `board_value`, `board_fusion`); the pooled board does not read them.
+- The shape is in a checkpoint's metadata, the format stays 15, and no array of the input
+  changes.
+- `tools/export_checkpoint.py` already names the four matrices for a forward pass written
+  elsewhere.
+
+What a seat needs is that one step in its own forward pass, held to the trainer by
+`outputs.json`: each answer attends to the cards in the monster zones and the spell and
+trap zones, and adds what it reads through `board_fusion`. Whether the web client's and
+the 3D game's seats have the step is not checked here. With `board_fusion` at zero, the
+step leaves the network as it was. The history stays. The screen does not tell whether
+the lever holds for other decks, or for one network of hundreds of decks, which is the
+pool's question.
 
 **Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
 `a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
