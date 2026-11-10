@@ -80,8 +80,10 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   Batch five, read on 2026-11-10: the mirrors kept, −1.1 ± 0.4 points against
   `seventy-one-champions`; the old decks hold, 50.1% ± 0.1%; the new decks not decided,
   +4.6 ± 0.1 points from 45.4%, gaining less in each batch. The decks trained on hold
-  73.7% of the pool's cards. Batch six waits for its design, agreed with both results
-  together.
+  73.7% of the pool's cards. Batch six, fixed on 2026-11-10, takes a hundred new
+  Decks in two arms from batch five's network: as it is, and given the board as its
+  cards. The arms are read head to head across the pool, the switch paying at 51% by two
+  standard errors; the new decks' mark is now 3 points.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:

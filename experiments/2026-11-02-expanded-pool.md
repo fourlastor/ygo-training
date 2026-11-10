@@ -8,8 +8,11 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-10 (batch five read: the mirrors kept and the old decks hold,
-the new decks not decided at +4.6 points; the screen's second session read: the board as
+**Last updated:** 2026-11-10 (batch six fixed: a hundred new decks in two arms, the pool's
+network as it is and given the board as its cards, read head to head; two measurements of
+a review of the learning recorded beside the batches; batch five read: the mirrors kept
+and the old decks hold, the new decks not decided at +4.6 points; the screen's second
+session read: the board as
 its cards ahead by 3.7 points for Blackwing and 2.5 for Cyber after twice the training,
 neither a large lever, and the switch of a trained network not shown; before them, the
 screen of the network under PPO read: for Cyber the board as its cards is stronger,
@@ -1298,9 +1301,109 @@ that follow: within 0.8 points of its control by two standard errors, where the 
 in that shape from the start keeps 2.5. The pool's network could take the attention by
 that route alone, or be made again from the start.
 
+## Beside the batches: two measurements of a review of the learning (recorded on 2026-11-10)
+
+A review of what could improve the learning, made on 2026-11-09 beside batch five,
+measured two things on the development machine, each in a worktree of its own whose code
+is not committed. Neither trains anything.
+
+- **What a seat has seen and is not shown.** Over all71's four held updates (264,111
+  decisions), a seat is not shown a card it has seen at 23.2% ± 0.7% of its decisions:
+  - at 18.0% a card in the other player's hand, 0.25 of its 2.43 unseen hand cards at
+    a decision;
+  - at 7.0% a card face-down on the field;
+  - at none in the first turn and at 27.9% from the eleventh.
+
+  The count is an upper bound: every card seen counts, whether or not a person could
+  still tell which it is. What showing them would be worth is not measured. The count
+  needs a mark kept on each card through the policies' projection, a patch of that
+  repository's which is not taken.
+- **An attending reader for the critic that sees the hidden cards**
+  ([Privileged critic](2026-10-22-privileged-critic.md)): two readings, fixed before
+  the fit, of a critic whose cards attend to each other, hands and face-down cards
+  among them, against the policy's head. Fitted warm on the same games, 200 updates
+  from all71's last checkpoint, read on 2,080 held duels. Neither is met.
+  - Over every held decision the head explains 0.404 of a result, the attending
+    critic 0.002 ± 0.005 more (the mark: 0.10 more by two standard errors), and the
+    critic of that record fitted again 0.012 ± 0.006 more. At 400 updates the same:
+    0.004 ± 0.009 and 0.011 ± 0.009.
+  - Ranking two answers played on from one position (2,000 decisions, four pairs
+    each), the head follows their worth at 0.163 ± 0.035 and the attending critic at
+    0.189 ± 0.036: 0.026 ± 0.013 more, where the mark was twice the head's.
+
+  Nothing follows for the CUDA machine.
+
+## Batch six, in two arms (design and readings fixed on 2026-11-10, before anything was built)
+
+Batch six goes on as batch five with three changes, agreed on 2026-11-10:
+
+- a hundred new decks instead of fifty, at the same length;
+- the third reading's mark at 3 points: the new decks now start near 45% and end near
+  50% against the start;
+- two arms, one of them given the board as its cards at its start. The second session
+  did not show the switch for one deck; the arms ask it of the pool's network, so that
+  whether the switch is kept is decided on their results.
+
+- **Start**: batch five's mean at 7,680 updates (step 71,280).
+  - `pooled`: as it is.
+  - `switched`: given the board as its cards with `board_fusion` at zero
+    (`tools/switch_board.py`), so that it answers as `pooled`'s start does.
+- **Decks**:
+  - New, a hundred: `game-0269` to `game-0369` but `game-0335`, the twelve held out
+    until now among them; of the lists usable as they stand, those that bring the most
+    new cards.
+  - Old, 333: the seventy-one and the 262 game Decks of the batches before, `game-0001`
+    to `game-0268` but `game-0037`, `game-0065`, `game-0093`, `game-0167`, `game-0171`
+    and `game-0233`.
+  - Held out: `game-0370` to `game-0381`.
+- **Run**: as batch five's, over all 433 decks.
+  - The two arms are the same but for the shape of their start: the same seed and
+    weights, and the same frozen networks held to, batch five's mean and
+    `seventy-one-champions`, each answering in its own shape.
+  - 7,680 updates. A new deck plays 5.65 games an update, some 43,400 over the run,
+    half of batch five's; an old deck plays 1.43 and an old mirror 0.12 duels. Of the
+    79.0 duels an update between two old decks, 10.3 are between two of the
+    seventy-one.
+  - Some 20 hours an arm on the CUDA machine, `pooled` first.
+- **Measured** as batch five's, each arm into its own folder, but the new decks' pairings
+  are played at 16 games each instead of 32: twice the decks, the same games.
+  - `switched` takes `pooled`'s measures at 0, its start answering the same, except the
+    pilots' suite, which it plays itself. Those games must be the same, game by game, or
+    the switch is not what it was taken for.
+  - Some 5 hours for `pooled`'s measure and 4 for `switched`'s.
+- **Head to head**: after both, the two arms' means at 7,680 updates.
+  - Each of the 433 decks plays 32 others drawn at random (seed 2012), two games each,
+    one from each seat.
+  - Each game is played once with each arm in the learner's seat: 27,712 deals, a
+    deal's two games together.
+  - The same at 3,840 updates, told beside.
+
+Readings, at 7,680 updates. The first three are each arm's own, as batch five's but the
+third's mark:
+
+1. *The mirrors are kept*: as batch five's.
+2. *The old decks hold*: as batch five's, on every ordered pairing of the 333 old decks.
+3. *The new decks learn*: the mean over the hundred of each deck's share against the
+   start, less at the start, the deals paired: **learns** when at least 3 points by two
+   standard errors, **does not** when at most 1 point by two, otherwise **not decided**.
+4. *The switch*: `switched` head to head against `pooled`: **pays** when it wins at least
+   51% of the deals by two standard errors, **harms** when at most 49% by two, otherwise
+   **not shown**.
+
+Told beside them, without a mark:
+
+- for each arm, what batch five's told;
+- the two arms' differences, deal by deal, on the measures they share: the new decks
+  against the start, the old decks, the twelve held out, the pilots, and the mirrors
+  against their champions;
+- the head to head at 3,840 updates;
+- the hours.
+
+Which arm the pool goes on from is decided on these results, as agreed on 2026-11-10.
+
 **Current next step:** batch five is read: the mirrors kept, the old decks hold, the new
 decks not decided at +4.6 points. The second session is read: the board as its cards
 not a large lever for Blackwing, its edge not shown to hold for Cyber after twice the
-training, and the switch not shown. Batch six waits for its design, to be agreed with both
-results together, as agreed on 2026-11-10: its size, the third reading's mark, and
-whether the board as its cards goes into it. The pod is stopped.
+training, and the switch not shown. Batch six is designed, in two arms, `pooled` and
+`switched`, to be built, smoke-tested on the processor and queued on the CUDA machine.
+The pod is stopped.
