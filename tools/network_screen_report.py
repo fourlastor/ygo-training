@@ -11,7 +11,9 @@ head in the deck's mirror, checkpoint for checkpoint, the variant in the
 learner's seat and then the control; `NAME/` each run against `all71`;
 `NAME-copy.metrics.jsonl` and `NAME.metrics.jsonl` its copy and its PPO.
 A variant is named after its control: `CONTROL-tokens`, the board as its
-cards, or `CONTROL-no-history`, without its own earlier answers.
+cards, `CONTROL-no-history`, without its own earlier answers, or
+`CONTROL-switched`, the control given the board as its cards part of the way
+(`tools/switch_board.py`), which has no copy of its own.
 
 The readings, fixed on 2026-11-09 before anything was built: a variant's
 last three checkpoints against the control's, every deal from both seats, a
@@ -23,6 +25,11 @@ deal's games together, its share with two standard errors of the deals.
 - Without its history: the history is **needed** when the variant wins at
   most 46% by two standard errors, otherwise it is **not shown to be
   needed**, which frees nothing.
+
+The second session's, fixed on 2026-11-10 before anything was built: the
+board as its cards as above, for Blackwing and for Cyber after twice the
+training; and the switch, which **pays** at 54% or more by two standard
+errors, **harms** at 46% or less by two, and is otherwise **not shown**.
 """
 
 from __future__ import annotations
@@ -40,7 +47,7 @@ from two_decks_report import deals, hours, mean, told
 STRONGER = 0.54
 WEAKER = 0.46
 ERRORS = 2.0
-SHAPES = ("tokens", "no-history")
+SHAPES = ("tokens", "no-history", "switched")
 
 
 def reading(shape: str, share: float, error_: float) -> str:
@@ -55,6 +62,12 @@ def reading(shape: str, share: float, error_: float) -> str:
         if share + ERRORS * error_ <= WEAKER:
             return "the history needed"
         return "the history not shown to be needed"
+    if shape == "switched":
+        if share - ERRORS * error_ >= STRONGER:
+            return "the switch pays"
+        if share + ERRORS * error_ <= WEAKER:
+            return "the switch harms"
+        return "the switch not shown"
     raise SystemExit(f"A variant is of the shape {' or '.join(SHAPES)}, not {shape}")
 
 

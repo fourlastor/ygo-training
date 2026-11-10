@@ -75,6 +75,24 @@ def test_the_rules_at_their_edges():
     assert tool.reading("no-history", 0.45, 0.004) == "the history needed"
     assert tool.reading("no-history", 0.45, 0.006) == "the history not shown to be needed"
     assert tool.reading("no-history", 0.60, 0.004) == "the history not shown to be needed"
+    # The switch of a trained network: 54% and 46%, by two standard errors.
+    assert tool.reading("switched", 0.55, 0.004) == "the switch pays"
+    assert tool.reading("switched", 0.55, 0.006) == "the switch not shown"
+    assert tool.reading("switched", 0.45, 0.004) == "the switch harms"
+
+
+def test_a_switched_run_is_read_without_a_copy_of_its_own(tmp_path):
+    for name, share in (("cyber", 76), ("cyber-switched", 78)):
+        measured(tmp_path / name, share)
+    measured(tmp_path / "cyber-switched-against-cyber", 60)
+    timed(tmp_path, "cyber-copy", [1800.0])
+    timed(tmp_path, "cyber", [10.0, 14.0])
+    timed(tmp_path, "cyber-switched", [12.0, 12.0])
+    result = tool.report(tmp_path, "cyber", ["cyber-switched"])
+    switched = result["variants"]["cyber-switched"]
+    assert switched["reading"] == "the switch pays"
+    assert switched["hours"] is None and switched["seconds an update"] == pytest.approx(12.0)
+    assert "cyber-switched: the switch pays. 60.0%" in tool.shown(result)
 
 
 def test_a_variant_is_named_after_its_control(tmp_path):

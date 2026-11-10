@@ -2003,6 +2003,16 @@ taught, and a run that goes on is refused another. `tools/export_checkpoint.py`
 refuses one that leaves anything out, which a forward pass written
 elsewhere does not know.
 
+`tools/switch_board.py CHECKPOINT --output FILE` gives a network trained with
+its board pooled the board as its cards (`--board-representation
+individual-tokens`) from where it stands: both shapes own the same weights,
+and the attention's fusion (`board_fusion`) is set to zero, so the switched
+network answers as it did until training moves it
+(`tests/test_switch_board.py`). It keeps the checkpoint's step, optimizer
+state and random states, and a run begins from it with `--resume` and the
+shape named; `experiments/commands/champions.sh` makes such a run as the
+shape `switched` of its control.
+
 `train --card-table FILE` with `--card-descriptions`, `--hide-identities
 SHARE` or both tells the model more of a card than its input gives, by the
 code the input carries: checkpoint format 16 (`ygo_training/card_table.py`;

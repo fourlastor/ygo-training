@@ -15,8 +15,12 @@
 # DECK-SEED. A SHAPE makes the network another shape from the first, at both
 # stages: tokens, the board as its cards (--board-representation
 # individual-tokens), or no-history, without its own earlier answers
-# (--leave-out history); the run is named with -SHAPE after. A finished run is
-# skipped, an interrupted one goes on.
+# (--leave-out history); the run is named with -SHAPE after. The shape
+# switched has no copy of its own: it is its control at SWITCHED updates of
+# PPO given the board as its cards from there on, board_fusion at zero
+# (tools/switch_board.py), and goes on as the control does to UPDATES; its
+# control is made that far first. A finished run is skipped, an interrupted
+# one goes on.
 #
 # measure. Into OUT, each a pair of files with the first network in the
 # learner's seat and then the other, by each run's last three checkpoints:
@@ -45,6 +49,8 @@ STEP=${STEP:-120}
 ITSELF=${ITSELF:-260}
 RATE=${RATE:-1e-4}
 SEED=${SEED:-2012}
+# The control's update of PPO a run of the shape switched begins from.
+SWITCHED=${SWITCHED:-720}
 # fast's settings: two updates' duels in flight, the pool's slots to hold
 # them, minibatches of 512, the calls as they are in two groups.
 IN_FLIGHT=${IN_FLIGHT:-1040}
@@ -93,11 +99,15 @@ name() {
 # and one that leaves out a part of its input is loaded leaving it out).
 shaped() {
   case "$(shape "$1")" in
-    tokens) echo --board-representation individual-tokens ;;
+    tokens | switched) echo --board-representation individual-tokens ;;
     no-history) echo --leave-out history ;;
   esac
 }
-learning() { [ "$(shape "$1")" != tokens ] || echo --board-representation individual-tokens; }
+learning() {
+  case "$(shape "$1")" in
+    tokens | switched) echo --board-representation individual-tokens ;;
+  esac
+}
 # control RUN: the run of the same deck and seed without a shape.
 control() { echo "${1%%@*}"; }
 # first DECK: the first run of DECK, where FIRST names one.
@@ -124,7 +134,11 @@ for run in $RUNNING; do
   fi
   if [ -n "$(shape "$run")" ]; then
     if [ -z "$(shaped "$run")" ]; then
-      echo "A shape is tokens or no-history, not $(shape "$run") ($run)" >&2
+      echo "A shape is tokens, no-history or switched, not $(shape "$run") ($run)" >&2
+      exit 1
+    fi
+    if [ "$(shape "$run")" = switched ] && ((SWITCHED % STEP || SWITCHED >= UPDATES - 2 * STEP)); then
+      echo "SWITCHED is a multiple of STEP before the last three checkpoints, not $SWITCHED" >&2
       exit 1
     fi
     if [[ " $PARTS " == *" measure "* ]] && [[ " $RUNNING " != *" $(control "$run") "* ]]; then
@@ -189,6 +203,24 @@ if [[ " $PARTS " == *" arms "* ]]; then
     named=$(name "$run")
     read -r -a shaping <<< "$(shaped "$run")"
     echo "$(date +%H:%M) $named begins"
+    if [ "$(shape "$run")" = switched ]; then
+      begun="$RUNS/$named.begun.pt"
+      if [ ! -f "$begun" ]; then
+        from=$(checkpoint "$RUNS/$(name "$(control "$run")")" "$COPY" "$SWITCHED")
+        if [ ! -f "$from" ]; then
+          echo "Missing $from: a switched run begins once its control is made that far" >&2
+          exit 1
+        fi
+        "${python[@]}" tools/switch_board.py "$from" --output "$begun"
+      fi
+      made "$named" $((COPY + SWITCHED)) $((UPDATES - SWITCHED)) "$STEP" "$(deck "$run")" \
+        "$(seed "$run")" --pool-slots "$FAST_SLOTS" --self-play-duels "$ITSELF" \
+        --rollout-estimates kept --duels-in-flight "$IN_FLIGHT" --minibatch "$MINIBATCH" \
+        --inference-graphs 0 --pool-groups 2 "${shaping[@]}" "${options[@]}" \
+        --resume "$begun" --resume-learning-rate "$RATE"
+      echo "$(date +%H:%M) $named ends"
+      continue
+    fi
     made "$named-copy" 0 "$COPY" "$COPY" "$(deck "$run")" "$(seed "$run")" \
       --pool-slots "$SLOTS" --imitation-only-updates 1000000 --imitation-value-weight 0.5 \
       --imitation-value-positions 4 --minibatch 256 --duels-in-flight 0 "${shaping[@]}"
@@ -254,7 +286,9 @@ if [[ " $PARTS " == *" measure "* ]]; then
         pair "$named-against-$(basename "$firsts")" "$point" "$champion" "$before" "$played"
       fi
     done
-    for part in "$named-copy" "$named"; do
+    parts=("$named-copy" "$named")
+    [ "$(shape "$run")" != switched ] || parts=("$named")
+    for part in "${parts[@]}"; do
       cp "$RUNS/$part/metrics.jsonl" "$OUT/$part.metrics.jsonl"
       cp "$RUNS/$part/run.json" "$OUT/$part.run.json"
     done
