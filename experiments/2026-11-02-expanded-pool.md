@@ -1196,6 +1196,7 @@ a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
 `game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
 held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
 seconds an update; some 25 hours with its measure. Beside the batches, the screen of
-the network under PPO is read (its results above), and its second session is fixed and
-is being built. What the board as its cards is to become is to be decided beside batch
-five's results.
+the network under PPO is read (its results above), and its second session runs on a
+rented card since 2026-11-10 12:00. Batch six waits for that session's readings, agreed
+on 2026-11-10, so that whether the board as its cards goes into it is decided with
+batch five's results and the session's together.
