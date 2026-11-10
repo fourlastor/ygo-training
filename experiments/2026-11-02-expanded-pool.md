@@ -8,12 +8,12 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-10 (a second session of the screen fixed: Blackwing, twice the
-training and the switch of a trained network; before it, the screen of the network under
-PPO read: for Cyber the board as its cards is stronger, 58.4% head to head, and the
-history is not shown to be needed; before it, batch four read: with the seventy-one held
-to `seventy-one-champions`, the mirrors are kept while the new decks learn and the old
-decks hold)
+**Last updated:** 2026-11-10 (batch five read: the mirrors kept and the old decks hold,
+the new decks not decided at +4.6 points; the screen's second session read: the board as
+its cards ahead by 3.7 points for Blackwing and 2.5 for Cyber after twice the training,
+neither a large lever, and the switch of a trained network not shown; before them, the
+screen of the network under PPO read: for Cyber the board as its cards is stronger,
+58.4% head to head, and the history is not shown to be needed)
 
 The goal since 2026-10-24 has been a champion of all seventy-one decks and then the
 pool around them. The first is released as
@@ -1190,13 +1190,117 @@ both seats).
 - Beside them: the control itself wins 46.2% against `cyber-old`, two runs of one recipe
   3.8 points apart, where two runs on the same pilot were 1.9 ± 0.4 apart.
 
-**Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
-`a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
-a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
-`game-0233` in none, some 14,600 decisions an update distilled. Some 2,400 of those are
-held to `seventy-one-champions`, at a divergence of 0.054 over the first 45 updates. 9.5
-seconds an update; some 25 hours with its measure. Beside the batches, the screen of
-the network under PPO is read (its results above), and its second session runs on a
-rented card since 2026-11-10 12:00. Batch six waits for that session's readings, agreed
-on 2026-11-10, so that whether the board as its cards goes into it is decided with
-batch five's results and the session's together.
+## Batch five's results (read on 2026-11-10)
+
+Batch five ran on the CUDA machine from 2026-11-09 14:49 at `a6166be6`, 20.3 hours, 9.5
+seconds an update, and its measure 3.9 hours more (`analysis/expanded-pool/batch-five/report.txt`).
+Its first updates gave a new deck 10.31 games and an old one 1.85, as designed, all 333
+decks seated and `game-0233` in none.
+
+1. *The mirrors are kept*: **kept**, −1.1 ± 0.4 points deal by deal against
+   `seventy-one-champions`' check, forty-five of the seventy-one lower. Against their
+   champions they stand at 49.6% ± 0.3%. The most lost are `cyber` −8.6, `spirit` −7.4,
+   `chaos` −7.0, `nordic` and `volcanic` −6.6; the most won `gusto` +8.6, `gishki` and
+   `naturia` +5.5.
+2. *The old decks hold*: **hold**, 50.1% ± 0.1% head to head against the start, frozen,
+   on every ordered pairing of the 283 old decks (640,712 games).
+3. *The new decks learn*: **not decided**, +4.6 ± 0.1 points against the start after
+   7,680 updates, from 45.4%: under 5 points by two standard errors, over 2 by two.
+   Every one of the fifty gained, from +0.8 (`game-0231`) to +16.8 (`game-0225`); nine
+   gained under two points, the least `game-0231` +0.8, `game-0232` +1.0 and `game-0240`
+   +1.1.
+
+Beside them:
+
+- At 3,840 updates, half the games: the new decks +4.0 ± 0.1, seven eighths of the end's
+  gain.
+- The old decks at 7,680 by the two decks of a pairing: both of the seventy-one 50.1% ±
+  0.2%, both game Decks 50.2% ± 0.1%, one of each 50.1% ± 0.1%.
+- The mirrors deal by deal against each network before (`tools/mirror_pairs.py`):
+  - Batch five against batch four: −0.1 ± 0.3 points, thirty-six of the seventy-one
+    lower.
+  - Against `seventy-one-champions`, network by network: `distilled` −0.1, batch two
+    −0.5, batch three −1.7, batch four −0.9, batch five −1.1, each ± 0.3 or 0.4.
+  - `cyber` against `seventy-one-champions`: −6.2, −11.3, −14.5, −11.7 and now −8.6.
+- The lowest mirrors against their champions: `deckout` 34.4%, `pyramid` 43.0%,
+  `dragunity` and `infernity` 43.4%, `macro-dd` 44.5%.
+- The divergence at the old decks' decisions in duels between two old decks, some
+  14,500 an update, 2,300 of them the seventy-one's in their duels with each other:
+  - From the start: 0.009 over the first 500 updates and 0.017 over the last 500, where
+    batch four's went from 0.010 to 0.018.
+  - The seventy-one's from `seventy-one-champions`: 0.052 over the first ten updates,
+    0.056 over the first hundred, 0.059 from the 250th to the 1,000th and 0.060 over the
+    last 1,440.
+- The twelve held out, `game-0269` to `game-0280`, trained on nothing: +0.4 ± 0.1 points
+  from 54.4%.
+- The new decks against the thirteen decks' pilots: 41.4% from 37.3%, +4.1 ± 0.2.
+- 296 duels of some 3.99 million failed (`tools/failed_duels.py`).
+  - 88 filled their arenas and ended there: 47 with `game-0195` in a seat, 27 with
+    `game-0085` and 13 with `game-0262`, new in this batch; 21, 21, 24 and 22 over the
+    run's four quarters.
+  - Cards seen before: Fake Feather 106, at its two lines, now with `game-0261` too;
+    Planet Pollutant Virus 49, Beast Rising 25, Neo Flamvell Shaman 6, now with
+    `game-0218` too, Gauntlet Warrior 4, Pyro Clock of Destiny and Lord British Space
+    Fighter 2 each, and one each of Mind Control, Serial Spell, Rivalry of Warlords and
+    Orbital Bombardment; one recursive event trigger.
+  - New: Human-Wave Tactics 7 (`game-0073`), and one each of Nettles (`game-0230`) and
+    Shock Troops of the Ice Barrier (`game-0221`).
+
+The mirrors are kept and the old decks hold, as in batch four. The new decks gain less
+again: 30.4% and +8.9 points in batch two, 39.2% and +6.9 in batch three, 43.8% and +6.0
+in batch four, 45.4% and +4.6 here, ending at 39.3%, 46.1%, 49.8% and 50.0% against the
+start. The next twelve stand at 54.4% before any training. The decks trained on now hold
+2,997 of the pool's 4,065 cards, 73.7%. Of the 484 game lists usable as they stand, 214
+are left after batch five's, the twelve held out among them; they bring some 260 cards
+more, to about 80%: the next fifty some 96, the next hundred some 146. The third reading
+is not decided, so by the design the batches do not go on the same way by themselves:
+batch six is designed with the second session's readings beside these.
+
+## The second session's results (read on 2026-11-10)
+
+Run at `a13bf9fd` (`experiments/commands/network-screen-two.sh`) on a pod rented for it,
+an RTX 4090 of Runpod's Secure Cloud at $0.89 an hour with 32 threads. The five runs went
+at once through MPS from 2026-11-10 12:00 to 15:41, and the two decks were measured at
+once on the same card after them.
+
+- Each run trained in its own shape, as its checkpoints and metrics carry it;
+  `cyber-switched` in the board as its cards from its first update.
+- No duel failed.
+- An update of PPO took 15.1 seconds for `blackwing` and 13.1 for `blackwing-tokens`,
+  17.6, 17.9 and 18.1 for `cyber`, `cyber-tokens` and `cyber-switched`, the five
+  sharing the card; an update of Blackwing's copies 9.7 and 10.6. The pod ran 4.6 hours,
+  about $4.10.
+
+1. *A second deck*: **not a large lever for Blackwing**. `blackwing-tokens` wins 53.7% ±
+   0.4% against `blackwing` over their last three checkpoints (2,048 deals, each from both
+   seats): 53.1%, 55.5% and 52.6% at 480, 600 and 720 updates of PPO, ± 0.6 or 0.7 each.
+2. *Twice the training*: **not shown to hold**. `cyber-tokens` wins 52.5% ± 0.5% against
+   `cyber` at 1,200 to 1,440 updates: 52.5%, 51.8% and 53.1%, ± 0.7 each, where the
+   screen found 58.4% at 480 to 720.
+3. *The switch*: **not shown**. `cyber-switched` wins 50.0% ± 0.4% against `cyber` at the
+   same checkpoints: 49.7%, 49.8% and 50.5%, ± 0.7 each. By two standard errors it is
+   within 0.8 points of the control.
+
+Told beside, each against `all71` in the mirror, the deals paired against the control:
+
+- `blackwing` 64.9% ± 0.5%; `blackwing-tokens` 66.4% ± 0.5%, +1.5 ± 0.5 points.
+- `cyber` 78.5% ± 0.4%, from 74.7% at 480 to 720; `cyber-tokens` 78.8% ± 0.4%, +0.3 ±
+  0.5, from 75.5%; `cyber-switched` 78.2% ± 0.4%, −0.3 ± 0.5.
+
+The board as its cards, in a run made in that shape from the start, stays ahead of the
+pooled board for both decks, by less than the screen's mark: Blackwing's by 3.7 points
+head to head, Cyber's by 2.5 after twice the training, where the screen's checkpoints
+had 8.4. Both are over 50% by more than five standard errors. Against `all71` it adds
+1.5 points for Blackwing and 0.3 for Cyber. Cyber's control closed most of the gap as PPO
+went on, both runs rising some four points against `all71`. A network trained on the
+pooled board and given the attention at 720 updates gains nothing measured in the 720
+that follow: within 0.8 points of its control by two standard errors, where the run made
+in that shape from the start keeps 2.5. The pool's network could take the attention by
+that route alone, or be made again from the start.
+
+**Current next step:** batch five is read: the mirrors kept, the old decks hold, the new
+decks not decided at +4.6 points. The second session is read: the board as its cards
+not a large lever for Blackwing, its edge not shown to hold for Cyber after twice the
+training, and the switch not shown. Batch six waits for its design, to be agreed with both
+results together, as agreed on 2026-11-10: its size, the third reading's mark, and
+whether the board as its cards goes into it. The pod is stopped.

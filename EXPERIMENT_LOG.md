@@ -68,11 +68,20 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   - without its history the network wins 45.5% ± 0.5%, so the history is not shown to
     be needed.
 
-  Its second session, fixed on 2026-11-10, runs on a rented card: Blackwing in two
+  Its second session, fixed on 2026-11-10, ran on a rented card: Blackwing in two
   shapes, the Cyber pair on to twice the training, and the Cyber control switched to the
   board as its cards at 720 updates. Its checks with no training were read that day: the
   edge carries to a third network, +8.5 ± 1.0 points against `cyber-old` over the
-  control.
+  control. The session itself was read the same day:
+  - Blackwing's board as its cards wins 53.7% ± 0.4% head to head, not a large lever;
+  - Cyber's, after twice the training, 52.5% ± 0.5%, so the edge is not shown to hold;
+  - the switched control wins 50.0% ± 0.4%, so the switch is not shown.
+
+  Batch five, read on 2026-11-10: the mirrors kept, −1.1 ± 0.4 points against
+  `seventy-one-champions`; the old decks hold, 50.1% ± 0.1%; the new decks not decided,
+  +4.6 ± 0.1 points from 45.4%, gaining less in each batch. The decks trained on hold
+  73.7% of the pool's cards. Batch six waits for its design, agreed with both results
+  together.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
