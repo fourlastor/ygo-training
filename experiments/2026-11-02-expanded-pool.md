@@ -1404,6 +1404,17 @@ Which arm the pool goes on from is decided on these results, as agreed on 2026-1
 **Current next step:** batch five is read: the mirrors kept, the old decks hold, the new
 decks not decided at +4.6 points. The second session is read: the board as its cards
 not a large lever for Blackwing, its edge not shown to hold for Cyber after twice the
-training, and the switch not shown. Batch six is designed, in two arms, `pooled` and
-`switched`, to be built, smoke-tested on the processor and queued on the CUDA machine.
-The pod is stopped.
+training, and the switch not shown. Batch six runs on the CUDA machine since 2026-11-10
+16:46 at `2138255d` (`experiments/commands/pool-batch-six.sh`), `pooled` first, `switched`
+queued after it and the head to head after both
+(`experiments/commands/pool-batch-six-arms.sh`). `pooled`'s first 27 updates are as
+designed:
+
+- a new deck 5.64 games an update and an old one 1.43;
+- all 433 decks seated and `game-0335` in none;
+- some 12,700 decisions an update distilled, 1,500 of them held to
+  `seventy-one-champions`, at a divergence of 0.061 over the first ten updates;
+- 10.4 seconds an update.
+
+That is some 27 hours with its measure, and as long again for `switched`. The pod is
+stopped.
