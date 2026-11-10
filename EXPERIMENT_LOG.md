@@ -68,6 +68,12 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   - without its history the network wins 45.5% ± 0.5%, so the history is not shown to
     be needed.
 
+  Its second session, fixed on 2026-11-10, runs on a rented card: Blackwing in two
+  shapes, the Cyber pair on to twice the training, and the Cyber control switched to the
+  board as its cards at 720 updates. Its checks with no training were read that day: the
+  edge carries to a third network, +8.5 ± 1.0 points against `cyber-old` over the
+  control.
+
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
   blank keys not decided, +0.8 ± 0.2 points playing such cards and +0.4 ± 0.1 facing
