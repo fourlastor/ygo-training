@@ -1173,6 +1173,23 @@ What follows from the readings is decided beside batch five's results.
 Cloud, whichever is available (agreed on 2026-11-10), the five runs at once; some five
 hours. The checks run on the development machine. Nothing of it runs on the CUDA machine.
 
+## The second session: the checks with no training (read on 2026-11-10)
+
+Played on the development machine's processor with the code of `a13bf9fd`
+(`experiments/commands/network-screen-checks.sh`), read by
+`tools/network_screen_checks.py`, each on Cyber's mirror suite (2,048 deals, each from
+both seats).
+
+- *The edge against a third network*: it **carries to a third network**. Against
+  `cyber-old` at 720 updates, `cyber-tokens` wins 54.8% ± 0.7% and the control 46.2% ±
+  0.7%: +8.5 ± 1.0 points, the deals paired. The edge head to head is found again against
+  a third network of the same recipe, so it is strength in the mirror, not one network's
+  over its sibling.
+- Told without a mark, the copies head to head: the board as its cards wins 51.6% ± 0.6%
+  against the control's copy. Most of the edge came under PPO.
+- Beside them: the control itself wins 46.2% against `cyber-old`, two runs of one recipe
+  3.8 points apart, where two runs on the same pilot were 1.9 ± 0.4 apart.
+
 **Current next step:** batch five runs on the CUDA machine since 2026-11-09 14:49 at
 `a6166be6` (`experiments/commands/pool-batch-five.sh`). Its first updates are as designed:
 a new deck 10.31 games an update and an old one 1.85, all 333 decks seated and
