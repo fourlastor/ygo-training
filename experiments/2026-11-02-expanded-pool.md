@@ -1431,5 +1431,7 @@ designed:
   `seventy-one-champions`, at a divergence of 0.061 over the first ten updates;
 - 10.4 seconds an update.
 
-That is some 27 hours with its measure, and as long again for `switched`. The pod is
-stopped.
+`pooled` trained its 7,680 updates by 2026-11-11 15:20. Its held-out measure at 0
+failed on `game-0379`, left out since (above). A task of its own at `0368d3f4` finishes
+the measure once the first ends, then `switched` runs and the head to head after it.
+The pod is stopped.
