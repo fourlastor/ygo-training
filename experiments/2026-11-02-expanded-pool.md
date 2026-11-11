@@ -1423,22 +1423,78 @@ is set aside and played again (`experiments/commands/pool-batch-six.sh`). `poole
 first task fails at the end of its measure, so a task of its own finishes the measure
 before `switched` runs.
 
-**Current next step:** batch five is read: the mirrors kept, the old decks hold, the new
-decks not decided at +4.6 points. The second session is read: the board as its cards
-not a large lever for Blackwing, its edge not shown to hold for Cyber after twice the
-training, and the switch not shown. Batch six runs on the CUDA machine since 2026-11-10
-16:46 at `2138255d` (`experiments/commands/pool-batch-six.sh`), `pooled` first, `switched`
-queued after it and the head to head after both
-(`experiments/commands/pool-batch-six-arms.sh`). `pooled`'s first 27 updates are as
-designed:
+## Batch six: `pooled`'s results (read on 2026-11-11)
 
-- a new deck 5.64 games an update and an old one 1.43;
-- all 433 decks seated and `game-0335` in none;
-- some 12,700 decisions an update distilled, 1,500 of them held to
+`pooled` ran on the CUDA machine from 2026-11-10 16:46 at `2138255d`, 22.6 hours, 10.6
+seconds an update. Its measure took some six hours more, the held out played again by a
+task of its own at `0368d3f4` (`analysis/expanded-pool/batch-six-pooled/report.txt`). Its
+first updates were as designed: a new deck 5.64 games an update and an old one 1.43, all
+433 decks seated and `game-0335` in none, some 12,700 decisions an update distilled and
+1,500 of them held to `seventy-one-champions`.
+
+1. *The mirrors are kept*: **not decided**, −1.3 ± 0.4 points deal by deal against
+   `seventy-one-champions`' check, forty-six of the seventy-one lower: above −2 points,
+   but not by two standard errors. Against their champions they stand at 49.4% ± 0.3%.
+   The most lost are `cyber` −8.6, `volcanic` −7.8, `x-saber` −7.0, `blackwing` and
+   `scrap` −6.6; the most won `dark-world`, `gishki` and `gusto` +5.1.
+2. *The old decks hold*: **hold**, 50.2% ± 0.1% head to head against the start, frozen,
+   on every ordered pairing of the 333 old decks (887,112 games).
+3. *The new decks learn*: **learns**, +3.7 ± 0.1 points against the start after 7,680
+   updates, from 51.8%. None of the hundred lost ground and twenty-nine gained under two
+   points, the least `game-0323` +0.0, `game-0352` +0.1 and `game-0356` +0.3, the most
+   `game-0306` +9.6, `game-0337` +12.3 and `game-0365` +14.0.
+
+Beside them:
+
+- At 3,840 updates, half the games: the new decks +3.1 ± 0.1, five sixths of the end's
+  gain.
+- The old decks at 7,680 by the two decks of a pairing: both of the seventy-one 50.3% ±
+  0.2%, both game Decks 50.3% ± 0.1%, one of each 50.1% ± 0.1%.
+- The mirrors deal by deal against batch five's: −0.2 ± 0.3 points, forty of the
+  seventy-one lower. Against `seventy-one-champions`, batch by batch from batch four:
+  −0.9, −1.1 and −1.3, each ± 0.3 or 0.4; `cyber` −8.6, as in batch five.
+- The lowest mirrors against their champions: `deckout` 38.7%, `blackwing` 41.4%,
+  `herald` 42.2%, `macro-dd` 43.4%, `gladiator` 44.1%.
+- The divergence at the old decks' decisions in duels between two old decks, some
+  13,500 an update, 1,780 of them the seventy-one's in their duels with each other:
+  - From the start: 0.010 over the first 500 updates and 0.019 over the last 500, where
+    batch five's went from 0.009 to 0.017.
+  - The seventy-one's from `seventy-one-champions`: 0.061 over the first ten updates and
+    over the first hundred, 0.064 from the 250th to the 1,000th and 0.067 over the last
+    1,440, where batch five's went from 0.052 to 0.060.
+- The eleven held out, trained on nothing: +0.4 ± 0.1 points from 50.6%.
+- The new decks against the thirteen decks' pilots: 47.5% from 44.0%, +3.5 ± 0.1.
+- 490 duels of some 3.99 million failed (`tools/failed_duels.py`).
+  - 151 filled their arenas and ended there: 53 with `game-0195` in a seat, 44 with
+    `game-0085`, 24 with `game-0289`, 18 with `game-0304` and 13 with `game-0340`, new in
+    this batch, and 12 with `game-0262`; 33, 35, 38 and 45 over the run's four quarters.
+  - Planet Pollutant Virus 239, now with `game-0321` too, against 49 in batch five.
+  - Cards seen before: Fake Feather 39, at its two lines, Beast Rising 21, Neo Flamvell
+    Shaman 10, Pyro Clock of Destiny, Mind Control and Rivalry of Warlords 4 each,
+    Orbital Bombardment 2 and Gauntlet Warrior 1.
+  - New: Infestation Wave 5 (`game-0293`), Ultimate Obedient Fiend 3 (`game-0273`),
+    Compulsory Evacuation Device 2 (`six-samurai`), and one each of Mei-Kou, Master of
+    Barriers (`spellcaster`), Lightforce Sword (`game-0020`), Gozen Match (`game-0319`),
+    The Six Samurai - Yariza (`game-0070`) and Exiled Force (`game-0354`).
+
+The old decks hold and the new decks learn by the batch's mark. The mirrors are not
+decided. They stand where batch five left them (−0.2 ± 0.3), but against
+`seventy-one-champions` the batches since batch four read −0.9, −1.1 and −1.3, and the
+seventy-one's divergence from it rose again. The new decks start higher and gain less:
+45.4% and +4.6 points in batch five, 51.8% and +3.7 here, ending at 55.5% against the
+start. `switched`'s readings and the head to head are read when they are done.
+
+**Current next step:** batch six runs on the CUDA machine in two arms
+(`experiments/commands/pool-batch-six.sh`). `pooled` is read (above). `switched` runs
+since 2026-11-11 21:25 at `0368d3f4`, and its first 27 updates are as designed:
+
+- the same mix as `pooled`'s: all 433 decks seated, `game-0335` and `game-0379` in none,
+  a new deck and an old one as many games an update as in `pooled`'s first updates;
+- some 13,100 decisions an update distilled, 1,560 of them held to
   `seventy-one-champions`, at a divergence of 0.061 over the first ten updates;
-- 10.4 seconds an update.
+- the board's fusion grown from zero to 0.94 in norm by the 30th update;
+- 10.9 seconds an update.
 
-`pooled` trained its 7,680 updates by 2026-11-11 15:20. Its held-out measure at 0
-failed on `game-0379`, left out since (above). A task of its own at `0368d3f4` finishes
-the measure once the first ends, then `switched` runs and the head to head after it.
-The pod is stopped.
+Its run and measure take some 28 hours. Then the two arms play head to head
+(`experiments/commands/pool-batch-six-arms.sh`), and the arm the pool goes on from is
+decided on the results. The pod is stopped.

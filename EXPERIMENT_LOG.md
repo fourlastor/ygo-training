@@ -83,7 +83,11 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   73.7% of the pool's cards. Batch six, fixed on 2026-11-10, takes a hundred new
   Decks in two arms from batch five's network: as it is, and given the board as its
   cards. The arms are read head to head across the pool, the switch paying at 51% by two
-  standard errors; the new decks' mark is now 3 points.
+  standard errors; the new decks' mark is now 3 points. Its arm `pooled`, read on
+  2026-11-11: the old decks hold, 50.2% ± 0.1%; the new decks learn, +3.7 ± 0.1 points
+  from 51.8%; the mirrors not decided, −1.3 ± 0.4 points against
+  `seventy-one-champions` and −0.2 ± 0.3 against batch five. `switched` runs, the head
+  to head after it.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
