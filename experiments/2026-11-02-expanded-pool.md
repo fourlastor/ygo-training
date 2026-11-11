@@ -1423,6 +1423,17 @@ is set aside and played again (`experiments/commands/pool-batch-six.sh`). `poole
 first task fails at the end of its measure, so a task of its own finishes the measure
 before `switched` runs.
 
+On 2026-11-11 at 23:15 `switched` stopped at its 590th update on such a selection, in a
+duel the failed round did not name. From `ba221814` a selection the seat's rules leave no
+answer ends its duel there, as a card's failed script does:
+- the duel is kept with its record among the run's failed duels;
+- in training it counts as a duel cut off, a loss to the seats that train;
+- in a measure it counts as a draw cut off.
+
+`pooled` met none in its run or its measures, so it plays the same either way.
+`switched` goes on from its last checkpoint at that commit, and the head to head after
+it.
+
 ## Batch six: `pooled`'s results (read on 2026-11-11)
 
 `pooled` ran on the CUDA machine from 2026-11-10 16:46 at `2138255d`, 22.6 hours, 10.6
@@ -1495,6 +1506,7 @@ since 2026-11-11 21:25 at `0368d3f4`, and its first 27 updates are as designed:
 - the board's fusion grown from zero to 0.94 in norm by the 30th update;
 - 10.9 seconds an update.
 
-Its run and measure take some 28 hours. Then the two arms play head to head
-(`experiments/commands/pool-batch-six-arms.sh`), and the arm the pool goes on from is
-decided on the results. The pod is stopped.
+It stopped at its 590th update on a selection with no answer (above) and goes on from
+its last checkpoint at `ba221814`. Its run and measure take some 26 hours more. Then the
+two arms play head to head (`experiments/commands/pool-batch-six-arms.sh`), and the arm
+the pool goes on from is decided on the results. The pod is stopped.
