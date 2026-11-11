@@ -10,7 +10,7 @@ use std::sync::Arc;
 use ygo_env::{Control, Environment, Options, Over, SeatSetup, Setup, View};
 use ygo_policies::{cards::CardDatabase, registry};
 use ygo_policies_duel::{Core, Deck, DuelOptions, Recorded, State};
-use ygo_policies_ocgcore::{wire::msg, Seat, SqliteCards};
+use ygo_policies_ocgcore::{wire::msg, Message, Seat, SqliteCards};
 
 const IDLE: u8 = 1;
 const BATTLE: u8 = 2;
@@ -473,4 +473,47 @@ fn a_duel_whose_card_script_fails_ends_cut_off_with_what_failed_and_its_record()
     });
     assert_eq!(answers, over.decisions);
     assert_eq!(again, Err(failure));
+}
+
+/// A seat answering at random from a seed of its own.
+fn at_random(seed: u64) -> impl FnMut(&View) -> usize {
+    let mut state = seed.wrapping_mul(0x9E37_79B9_7F4A_7C15) | 1;
+    move |decision| {
+        state ^= state << 13;
+        state ^= state >> 7;
+        state ^= state << 17;
+        (state % decision.choices.len() as u64) as usize
+    }
+}
+
+#[test]
+fn a_duel_whose_selection_has_no_answer_ends_cut_off_with_its_record() {
+    // game-0379's Flame Ruler counts as two tributes for a FIRE monster, which
+    // the engine takes alone; the policies' selection counts one tribute a
+    // card, so where it is the only monster to tribute nothing can be picked.
+    let games = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../data/decks/games");
+    let decks = std::env::join_paths([root().join("decks"), games]).unwrap();
+    let scripts = root().join("vendor/CardScripts");
+    let environment = Environment::open(&cards(), &scripts, Path::new(&decks)).unwrap();
+    let callers = [seat(Control::Caller, true, false), seat(Control::Caller, true, false)];
+    let duel = setup(8, ["game-0379", "game-0379"], callers);
+    let (_, decisions, over) = play(&environment, &duel, at_random(8));
+    assert!(over.limit && over.winner.is_none());
+    assert_eq!(over.failure.as_deref(), Some(ygo_env::seat::NO_LEGAL_ANSWER));
+    assert!(!decisions.is_empty(), "the selection comes in the course of the duel");
+    let record = Recorded::from_json(&over.record.expect("the duel's record")).unwrap();
+    assert_eq!(record.responses.len(), over.decisions);
+    // The record plays the duel again to the same selection: Flame Ruler
+    // alone, worth the two tributes asked.
+    let core = Core::open(None, &cards(), &scripts).unwrap();
+    let (mut answers, mut last) = (0, None);
+    let again = core.replay(&record, None, &mut |shown| match shown {
+        ygo_policies_duel::Replayed::Answer(..) => answers += 1,
+        ygo_policies_duel::Replayed::Message(message) => last = Some(message.clone()),
+        _ => {}
+    });
+    assert_eq!(answers, over.decisions);
+    assert!(again.is_err(), "the record ends before the duel does");
+    let Some(Message::SelectTribute(asked)) = last else { panic!("{last:?}") };
+    assert_eq!((asked.min, asked.cards.len(), asked.cards[0].value), (2, 1, 2), "{asked:?}");
 }

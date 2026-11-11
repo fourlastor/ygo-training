@@ -168,7 +168,8 @@ class DuelPool:
 
     def failed(self) -> list[dict[str, Any]]:
         """The duels the engine stopped since this was last asked, a card's
-        script failing in them or their arena found full: each ended as one
+        script failing in them or their arena found full, or a selection the
+        seat's rules leave no answer: each ended as one
         the limit stops, and is reported with what it was submitted as
         (``about``, ``setup``), its number, what the engine said
         (``failure``), its answers and turns, and its record so far, which

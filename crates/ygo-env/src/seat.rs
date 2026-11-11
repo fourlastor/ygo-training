@@ -142,6 +142,12 @@ enum Selection {
     Sequential { sequential: Sequential, picked: Vec<usize>, steps: Vec<Step> },
 }
 
+/// What [`Table::feed`] says of a selection the seat's rules leave no answer
+/// to, where the engine would take one: a tribute the policies count card by
+/// card, where one card pays two (its `release_param`) and is the only way
+/// to pay.  An episode ends such a duel as it ends one whose script failed.
+pub const NO_LEGAL_ANSWER: &str = "a selection offers no legal answer";
+
 /// A selection the engine asks of one seat, answered step by step.
 ///
 /// Most selections are one decision.  Card and sum selections are several:
@@ -162,11 +168,11 @@ impl Asked {
             Some(sequential) => {
                 let (decision, steps) = sequential.step(&[]);
                 if steps.is_empty() {
-                    return Err("a selection offers no legal answer".into());
+                    return Err(NO_LEGAL_ANSWER.into());
                 }
                 Ok(Asked { observation, decision, selection: Selection::Sequential { sequential, picked: Vec::new(), steps } })
             }
-            None if prompt.responses.is_empty() => Err("a selection offers no legal answer".into()),
+            None if prompt.responses.is_empty() => Err(NO_LEGAL_ANSWER.into()),
             None => Ok(Asked { observation, decision: prompt.decision, selection: Selection::Plain { responses: prompt.responses } }),
         }
     }

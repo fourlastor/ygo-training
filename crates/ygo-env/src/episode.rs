@@ -30,7 +30,7 @@ use crate::features::{self, Features};
 
 use crate::follow::{Follower, Label};
 use crate::pack::{self, Batch, Packed};
-use crate::seat::{Asked, Sight, Table};
+use crate::seat::{Asked, Sight, Table, NO_LEGAL_ANSWER};
 use crate::trail::{standing, Trail};
 use crate::view::{self, View};
 use crate::Result;
@@ -144,9 +144,10 @@ pub struct Over {
     /// Selections of a recorded seat that its pilot would have answered otherwise.
     pub departures: usize,
     pub record: Option<serde_json::Value>,
-    /// What the engine reported, where it stopped the duel: a card's script
-    /// that failed, or the duel's arena found full.  Such a duel ends as one
-    /// the limit stops, its record with it, to be played again.
+    /// What stopped the duel: as the engine reported it, a card's script
+    /// that failed or the duel's arena found full; or a selection the seat's
+    /// rules leave no answer ([`crate::seat::NO_LEGAL_ANSWER`]).  Such a duel
+    /// ends as one the limit stops, its record with it, to be played again.
     pub failure: Option<String>,
 }
 
@@ -491,28 +492,17 @@ impl Episode<'_> {
         let step = match stepped {
             Ok(step) => step,
             // An error the engine reported: a card's script failed, or the
-            // duel's arena is full.  The duel cannot go on, and ends there as
-            // one the limit stops, with what was reported and its record.
+            // duel's arena is full.  The duel cannot go on, and ends there.
             // Any other error is of the messages read, and stops the caller.
             Err(message) if !self.duel.errors().is_empty() => {
-                self.finish_followers();
-                self.over = Some(Over {
-                    winner: None,
-                    reason: None,
-                    turns: self.turns,
-                    decisions: self.decisions,
-                    limit: true,
-                    digest: format!("{:016x}", self.digest),
-                    departures: self.departures,
-                    record: Some(self.kept.to_json()),
-                    failure: Some(message),
-                });
+                self.cut_off(message);
                 return Ok(());
             }
             Err(message) => return Err(message),
         };
         let mut pending = None;
-        for sent in &step.messages {
+        let mut unanswered = None;
+        'messages: for sent in &step.messages {
             if !sent.refresh {
                 match sent.bytes.first() {
                     Some(&msg::RETRY) => return Err("the engine rejected an answer".into()),
@@ -543,13 +533,26 @@ impl Episode<'_> {
                 if let Some(sight) = &mut seat.sight {
                     sight.feed(&sent.bytes)?;
                 }
-                if let Some(asked) = seat.table.feed(&sent.bytes, &mut seat.followers)? {
+                let asked = match seat.table.feed(&sent.bytes, &mut seat.followers) {
+                    // A selection the seat's rules leave no answer: the duel
+                    // cannot go on either, and ends there.
+                    Err(message) if message == NO_LEGAL_ANSWER => {
+                        unanswered = Some(message);
+                        break 'messages;
+                    }
+                    fed => fed?,
+                };
+                if let Some(asked) = asked {
                     if pending.is_some() {
                         return Err("two seats are asked in one batch of messages".into());
                     }
                     pending = Some(Pending { player, asked, message: sent.bytes.clone(), step: 0, shown: None });
                 }
             }
+        }
+        if let Some(message) = unanswered {
+            self.cut_off(message);
+            return Ok(());
         }
         if matches!(step.state, State::Over(_)) || self.decisions >= self.limit {
             self.finish_followers();
@@ -712,6 +715,23 @@ impl Episode<'_> {
         };
         self.respond(response);
         Ok(None)
+    }
+
+    /// End the duel where it stands, as one the limit stops, with what
+    /// stopped it and its record so far (`Over::failure`).
+    fn cut_off(&mut self, failure: String) {
+        self.finish_followers();
+        self.over = Some(Over {
+            winner: None,
+            reason: None,
+            turns: self.turns,
+            decisions: self.decisions,
+            limit: true,
+            digest: format!("{:016x}", self.digest),
+            departures: self.departures,
+            record: Some(self.kept.to_json()),
+            failure: Some(failure),
+        });
     }
 
     /// Every decision still followed has its horizon here: its label, as
