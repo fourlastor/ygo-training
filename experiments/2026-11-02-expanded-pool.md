@@ -1408,8 +1408,15 @@ On 2026-11-11 `game-0379`, one of the twelve held out, was left out of the held 
 - The policies' decision (`ygo-policies-ocgcore`) builds a tribute selection as a
   selection of cards, one tribute a card. Where the one card is the only way to pay both
   tributes, the selection offers no answer and the round fails.
-- Some two dozen trained decks hold such a card and none has failed a round in the
-  batches. The fault waits for the experiment's end with the scripts that failed.
+- Some two dozen trained decks hold such a card, `fish` and `arcana` among the
+  seventy-one, and none has failed a round in the batches. Where such a card is offered
+  beside other monsters, the seat cannot give it alone: it gives as many cards as
+  tributes, one more than the engine takes, the pilots as the network. Every comparison of
+  the experiment shares it.
+- The fault waits for the experiment's end with the scripts that failed, as agreed on
+  2026-11-11, and `game-0379` stays out of the batches until then. Its fix changes those
+  decks' questions, so it moves the policies' pin and may cost the digest of a champion
+  recording that holds such a selection.
 
 The held out are eleven, the same for both arms. A held-out measure made on other decks
 is set aside and played again (`experiments/commands/pool-batch-six.sh`). `pooled`'s
