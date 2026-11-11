@@ -13,7 +13,10 @@
 # seventy-one-champions' check and beside batch five's. game-0037, game-0065, game-0093,
 # game-0167, game-0171 and game-0335 hold a card that names a card, a question of 4,096
 # answers, and game-0233 Last Turn, whose forced battle inside an attack takes the engine
-# down: they are left out.
+# down: they are left out. game-0379, held out, is left out of the held out since 2026-11-11:
+# its Flame Ruler counts as two tributes, which the seat's card-by-card tribute selection
+# does not count, and a selection with no answer fails the round. A held-out measure made on
+# other decks than the suite's is set aside and played again.
 #
 # switched takes pooled's measures at 0 where pooled has made them, its start answering the
 # same, but for the pilots', which it plays itself: the same games, one by one
@@ -33,6 +36,7 @@ case $ARM in
     ;;
 esac
 START=${START:-runs/expanded-pool/batch-five-mean/7680.pt}
+HELD_OUT=${HELD_OUT:-eval_suites/pool-batch-six-held-out-checkpoint.json}
 RUNS=${RUNS:-runs/expanded-pool}
 ANALYSIS=${ANALYSIS:-analysis/expanded-pool}
 RUN=batch-six-$ARM
@@ -61,6 +65,21 @@ if [ "$ARM" = switched ]; then
     fi
   done
 fi
+for made in "$OUT"/*/held-out.json; do
+  [ -f "$made" ] || continue
+  if ! "${python[@]}" - "$made" "$HELD_OUT" << 'SCRIPT'; then
+import json
+import sys
+
+made, suite = sys.argv[1:3]
+(record,) = json.load(open(made, encoding="utf8"))["records"]
+asked = {case["name"] for case in json.load(open(suite, encoding="utf8"))["cases"]}
+sys.exit(0 if set(record["evaluation_suite"]) == asked else 1)
+SCRIPT
+    echo "$made was played on other decks than $HELD_OUT: set aside, to be played again" >&2
+    mv "$made" "$made.other-decks"
+  fi
+done
 RUN=$RUN RUNS=$RUNS OUT=$OUT NETWORK=$network BOARD=$board \
   FIRST=${FIRST:-71280} UPDATES=${UPDATES:-7680} POINTS=${POINTS:-3840 7680} \
   OLD_POINTS=${OLD_POINTS:-7680} \
@@ -70,7 +89,7 @@ RUN=$RUN RUNS=$RUNS OUT=$OUT NETWORK=$network BOARD=$board \
   OLD_SCALE=0.4 DISTILL_REFERENCE=$START \
   DISTILL_SECOND=${DISTILL_SECOND:-runs/seventy-one-champions/ppo-mean/21900.pt} \
   PAIRINGS=${PAIRINGS:-eval_suites/pool-batch-six-pairings-checkpoint.json} \
-  HELD_OUT=${HELD_OUT:-eval_suites/pool-batch-six-held-out-checkpoint.json} \
+  HELD_OUT=$HELD_OUT \
   PILOTS=${PILOTS:-eval_suites/pool-batch-six-against-pilots.json} \
   OLD=${OLD:-eval_suites/pool-batch-six-old-pairings-checkpoint.json} \
   MIRRORS_REFERENCE=${MIRRORS_REFERENCE:-analysis/seventy-one-champions/checks/20160} \

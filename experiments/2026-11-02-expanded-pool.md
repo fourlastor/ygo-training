@@ -1401,6 +1401,21 @@ Told beside them, without a mark:
 
 Which arm the pool goes on from is decided on these results, as agreed on 2026-11-10.
 
+On 2026-11-11 `game-0379`, one of the twelve held out, was left out of the held out:
+`pooled`'s held-out measure at 0 failed on it.
+- Its three Flame Rulers each count as two tributes for a FIRE monster, and it plays
+  Level 10 FIRE monsters.
+- The policies' decision (`ygo-policies-ocgcore`) builds a tribute selection as a
+  selection of cards, one tribute a card. Where the one card is the only way to pay both
+  tributes, the selection offers no answer and the round fails.
+- Some two dozen trained decks hold such a card and none has failed a round in the
+  batches. The fault waits for the experiment's end with the scripts that failed.
+
+The held out are eleven, the same for both arms. A held-out measure made on other decks
+is set aside and played again (`experiments/commands/pool-batch-six.sh`). `pooled`'s
+first task fails at the end of its measure, so a task of its own finishes the measure
+before `switched` runs.
+
 **Current next step:** batch five is read: the mirrors kept, the old decks hold, the new
 decks not decided at +4.6 points. The second session is read: the board as its cards
 not a large lever for Blackwing, its edge not shown to hold for Cyber after twice the

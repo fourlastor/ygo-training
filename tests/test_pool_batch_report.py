@@ -313,12 +313,23 @@ def test_the_suites_of_batch_five_are_the_tools():
 def test_the_suites_of_batch_six_are_the_tools():
     # From batch five: its new decks old too, game-0335 left out of the new, a hundred
     # new decks at half batch five's games each, and the arms' suite over all the decks.
+    # game-0379 left out of the held out since 2026-11-11: its Flame Ruler counts as two
+    # tributes, which the seat's tribute selection does not count.
     left = frozenset(
-        {"game-0037", "game-0065", "game-0093", "game-0167", "game-0171", "game-0233", "game-0335"}
+        {
+            "game-0037",
+            "game-0065",
+            "game-0093",
+            "game-0167",
+            "game-0171",
+            "game-0233",
+            "game-0335",
+            "game-0379",
+        }
     )
     new = [deck for deck in suites.numbered("game-0269:game-0369") if deck not in left]
-    held_out = suites.numbered("game-0370:game-0381")
-    assert len(new) == 100 and len(held_out) == 12
+    held_out = [deck for deck in suites.numbered("game-0370:game-0381") if deck not in left]
+    assert len(new) == 100 and len(held_out) == 11
     made = suites.suites("six", new, held_out, left, pairings_games=16, arms=32)
     for name, told in made.items():
         assert (
