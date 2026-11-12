@@ -137,3 +137,51 @@ def test_a_reading_after_forty_updates_a_deck_takes_its_own_mark(tmp_path):
     found = tool.report(directory, 21, 40, 5, DECKS, mark=0.0038)
     assert found["mark"] == 0.0038
     assert found["arms"]["wide"]["reading"] == "not a lever at this length"
+
+
+def suite(path: Path, games: list[str]) -> None:
+    """A suite of one case, its games' outcomes for the network in the learner's seat."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    told = {"case": {"outcomes": games, "by_opponent": {}}}
+    path.write_text(json.dumps({"records": [{"evaluation_suite": told}]}), encoding="utf8")
+
+
+def heads(folder: Path, won: dict[str, int], deals: int = 10, decks: list[str] = DECKS) -> Path:
+    """Each run wins the first so many deals of each deck from both seats, and loses the rest."""
+    for deck in decks:
+        for run, count in won.items():
+            outcomes = ["win"] * count + ["loss"] * (deals - count)
+            suite(folder / deck / f"{run}.plays.json", outcomes)
+            # The teacher plays these in the learner's seat: it loses what the run wins.
+            flipped = ["loss" if game == "win" else "win" for game in outcomes]
+            suite(folder / deck / f"{run}.held.json", flipped)
+    return folder
+
+
+def test_each_run_is_told_head_to_head_against_the_teachers_and_each_arm_less_control(tmp_path):
+    folder = heads(tmp_path / "heads", {"control": 4, "wide": 6, "narrow": 3, "slow": 4})
+    each = tool.heads(folder, DECKS)
+    assert each["control"]["share"] == pytest.approx(0.4)
+    assert each["control"]["deals"] == 20
+    assert each["wide"]["share"] == pytest.approx(0.6)
+    # wide wins every deal control wins and two more of each deck's ten.
+    assert each["wide"]["less control"]["gap"] == pytest.approx(0.2)
+    assert each["narrow"]["less control"]["gap"] == pytest.approx(-0.1)
+    assert each["slow"]["less control"] == {"gap": 0.0, "error": 0.0}
+
+
+def test_the_head_to_head_is_told_beside_the_readings(tmp_path):
+    directory = runs(tmp_path, {"wide": 0.003})
+    won = {"control": 4, "wide": 6, "narrow": 3, "slow": 4}
+    folder = heads(tmp_path / "heads", won, decks=tool.FOURTEEN)
+    found = tool.report(directory, 21, 40, 5, DECKS, against_teachers=folder)
+    assert found["against the teachers"]["wide"]["share"] == pytest.approx(0.6)
+    shown = tool.shown(found)
+    assert "Head to head against the fourteen decks' teachers in their mirrors, 140 deals" in shown
+    assert "less control, deal by deal: wide +20.00 ± 3.39 points" in shown
+
+
+def test_a_deck_without_its_head_to_head_is_refused(tmp_path):
+    folder = heads(tmp_path / "heads", {"control": 4, "wide": 6, "narrow": 3, "slow": 4})
+    with pytest.raises(SystemExit, match="Missing"):
+        tool.heads(folder, [*DECKS, "cyber"])

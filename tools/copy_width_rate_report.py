@@ -25,7 +25,11 @@ there, 0.38 points (``--mark 0.0038``).
 
 Told beside them: on the fourteen decks, each run beside the fourteen decks' copy at the
 same updates a deck; `control` against `seventy-one-champions`' copy update by update;
-the seconds an update and the hours.
+the seconds an update and the hours. With ``--heads``, each run's last checkpoint head to
+head against the teacher of each of the fourteen decks in its mirror, every deal from both
+seats, as `experiments/commands/copy-width-rate-heads.sh` leaves them
+(``HEADS/DECK/RUN.plays.json`` and ``.held.json``): each run's share of the deals, and each
+arm less `control` deal by deal.
 """
 
 from __future__ import annotations
@@ -36,6 +40,12 @@ import math
 import sys
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from specialist_distillation_report import shares as deal_shares
+from two_decks_report import paired
+from two_decks_report import told as told_shares
 
 MARK = 0.0025
 ERRORS = 2.0
@@ -139,6 +149,19 @@ def reading(gap: float, error: float, mark: float = MARK) -> str:
     return "not a lever at this length"
 
 
+def heads(folder: Path, decks: list[str] = FOURTEEN) -> dict[str, Any]:
+    """Each run head to head against the decks' teachers: its share of every deal of every
+    deck, each deal's two games together, and each arm's less `control`'s deal by deal."""
+    found: dict[str, list[float]] = {run: [] for run in RUNS}
+    for deck in decks:
+        for run in RUNS:
+            found[run].extend(deal_shares(folder / deck / run))
+    each: dict[str, Any] = {run: told_shares(found[run]) for run in RUNS}
+    for arm in ARMS:
+        each[arm]["less control"] = paired(found[arm], found["control"])
+    return each
+
+
 def report(
     directory: Path,
     first: int,
@@ -148,6 +171,7 @@ def report(
     reference: Path | None = None,
     fourteen: Path | None = None,
     mark: float = MARK,
+    against_teachers: Path | None = None,
 ) -> dict[str, Any]:
     runs = {run: shares(directory / f"{run}.metrics.jsonl") for run in RUNS}
     found: dict[str, Any] = {
@@ -180,6 +204,8 @@ def report(
         found["control against the reference"] = against(
             runs["control"], theirs, 1, max(runs["control"]), stretch, decks
         )
+    if against_teachers is not None:
+        found["against the teachers"] = heads(against_teachers)
     found["hours"] = {
         run: {
             "seconds an update": mean(told) if told else None,
@@ -220,6 +246,24 @@ def shown(found: dict[str, Any]) -> str:
             f"  control less seventy-one-champions' copy, update by update: "
             f"{points(told['gap'])} ± {100 * told['error']:.2f} points over {told['updates']:,}"
         )
+    if "against the teachers" in found:
+        each = found["against the teachers"]
+        lines.append(
+            f"  Head to head against the fourteen decks' teachers in their mirrors, "
+            f"{each['control']['deals']:,} deals from both seats: "
+            + ", ".join(
+                f"{run} {100 * each[run]['share']:.1f}% ± {100 * each[run]['error']:.1f}%"
+                for run in RUNS
+            )
+        )
+        lines.append(
+            "    less control, deal by deal: "
+            + ", ".join(
+                f"{arm} {points(each[arm]['less control']['gap'])} "
+                f"± {100 * each[arm]['less control']['error']:.2f} points"
+                for arm in ARMS
+            )
+        )
     for run, spent in found["hours"].items():
         if spent["hours"] is not None:
             lines.append(
@@ -237,12 +281,21 @@ def main() -> None:
     parser.add_argument("--reference", type=Path)
     parser.add_argument("--fourteen", type=Path)
     parser.add_argument("--mark", type=float, default=MARK, help="the reading's mark, a share")
+    parser.add_argument("--heads", type=Path, help="the runs head to head against the teachers")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     first, last = (int(value) for value in args.window.split(","))
     decks = None if not args.decks else args.decks.split(",")
     found = report(
-        args.directory, first, last, args.stretch, decks, args.reference, args.fourteen, args.mark
+        args.directory,
+        first,
+        last,
+        args.stretch,
+        decks,
+        args.reference,
+        args.fourteen,
+        args.mark,
+        args.heads,
     )
     if args.output is not None:
         args.output.write_text(json.dumps(found, indent=2) + "\n", encoding="utf8")
