@@ -41,9 +41,12 @@ STEP=${STEP:-142}
 SLOW_FROM=${SLOW_FROM:-710}
 SLOW_RATE=${SLOW_RATE:-1e-4}
 SEED=${SEED:-2012}
-# The updates read, the first and the last; stretches of so many updates for the errors.
+# The updates read, the first and the last; stretches of so many updates for the errors;
+# the readings' mark, a share. Gone on to forty updates a deck: UPDATES=2840
+# WINDOW=1421,2840 MARK=0.0038, each copy from where it stands.
 WINDOW=${WINDOW:-711,1420}
 STRETCH=${STRETCH:-71}
+MARK=${MARK:-0.0025}
 RUNS=${RUNS:-runs/copy-width-rate}
 OUT=${OUT:-analysis/copy-width-rate}
 REFERENCE=${REFERENCE:-analysis/seventy-one-champions/taught.metrics.jsonl}
@@ -174,5 +177,5 @@ beside=()
 [ ! -f "$REFERENCE" ] || beside+=(--reference "$REFERENCE")
 [ ! -f "$FOURTEEN" ] || beside+=(--fourteen "$FOURTEEN")
 "${python[@]}" tools/copy_width_rate_report.py "$OUT" --window "$WINDOW" --stretch "$STRETCH" \
-  --decks "$DECKS" "${beside[@]}" --output "$OUT/report.json" | tee "$OUT/report.txt"
+  --decks "$DECKS" --mark "$MARK" "${beside[@]}" --output "$OUT/report.json" | tee "$OUT/report.txt"
 echo "The copies are read: $OUT/report.txt"

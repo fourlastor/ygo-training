@@ -128,3 +128,12 @@ def test_a_run_short_of_the_window_is_refused(tmp_path):
     directory = runs(tmp_path, {}, updates=30)
     with pytest.raises(SystemExit, match="missing"):
         tool.report(directory, 21, 40, 5, DECKS)
+
+
+def test_a_reading_after_forty_updates_a_deck_takes_its_own_mark(tmp_path):
+    # +0.30 points: a lever at the first mark (0.25), not at the second (0.38).
+    directory = runs(tmp_path, {"wide": 0.003, "narrow": 0.003, "slow": 0.003})
+    assert tool.report(directory, 21, 40, 5, DECKS)["arms"]["wide"]["reading"] == "fits better"
+    found = tool.report(directory, 21, 40, 5, DECKS, mark=0.0038)
+    assert found["mark"] == 0.0038
+    assert found["arms"]["wide"]["reading"] == "not a lever at this length"

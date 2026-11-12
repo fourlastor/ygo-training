@@ -1628,6 +1628,14 @@ has room to spare. `slow` fitting better says a rate lowered as the copy goes fi
 deck better. What follows is decided on the results, beside those of the fourteen decks
 made from scratch.
 
+Agreed on 2026-11-12 while the copies ran, before any reading: where any of the three is
+not a lever at this length, the four copies go on to forty updates a deck (2,840
+updates) on the same card, each from where it stands, and are read again by the same rule
+over twenty to forty updates a deck (updates 1,421 to 2,840). The mark is then half the
+gap between the two copies there, 0.38 points (95.38% against 96.14%), and the readings at
+twenty updates a deck are told beside. Otherwise the card is stopped once what it made is
+here.
+
 Told beside them, without a mark:
 
 - on the fourteen decks alone, each arm and `control` beside the fourteen decks' copy over

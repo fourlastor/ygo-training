@@ -18,7 +18,10 @@ The readings, fixed on 2026-11-12 before anything was built: each of `wide`, `na
 difference and two standard errors of its means over the window's stretches. It **fits
 better** when at least 0.25 points over by two standard errors, **fits worse** when at
 least 0.25 under by two, otherwise it is **not a lever at this length**: half of the gap
-between the two copies over ten to twenty updates a deck.
+between the two copies over ten to twenty updates a deck. Agreed on 2026-11-12, before
+the results: where any of the three is not a lever, the copies go on to forty updates a
+deck and are read again over twenty to forty (updates 1,421 to 2,840), at half the gap
+there, 0.38 points (``--mark 0.0038``).
 
 Told beside them: on the fourteen decks, each run beside the fourteen decks' copy at the
 same updates a deck; `control` against `seventy-one-champions`' copy update by update;
@@ -128,10 +131,10 @@ def against(
     return {"gap": mean(gaps), "error": error, "updates": len(gaps), "stretches": len(pieces)}
 
 
-def reading(gap: float, error: float) -> str:
-    if gap - ERRORS * error >= MARK:
+def reading(gap: float, error: float, mark: float = MARK) -> str:
+    if gap - ERRORS * error >= mark:
         return "fits better"
-    if gap + ERRORS * error <= -MARK:
+    if gap + ERRORS * error <= -mark:
         return "fits worse"
     return "not a lever at this length"
 
@@ -144,17 +147,19 @@ def report(
     decks: list[str] | None,
     reference: Path | None = None,
     fourteen: Path | None = None,
+    mark: float = MARK,
 ) -> dict[str, Any]:
     runs = {run: shares(directory / f"{run}.metrics.jsonl") for run in RUNS}
     found: dict[str, Any] = {
         "window": [first, last],
+        "mark": mark,
         "control": window_share(runs["control"], first, last, decks),
         "arms": {},
     }
     for arm in ARMS:
         told = against(runs[arm], runs["control"], first, last, stretch, decks)
         told["share"] = window_share(runs[arm], first, last, decks)
-        told["reading"] = reading(told["gap"], told["error"])
+        told["reading"] = reading(told["gap"], told["error"], mark)
         found["arms"][arm] = told
     # The fourteen decks, each run beside the fourteen decks' copy at the same updates a
     # deck: a run of N decks is past update U where that copy is past U * 14 / N.
@@ -231,11 +236,14 @@ def main() -> None:
     parser.add_argument("--decks", help="the decks read, comma-separated: every deck if none")
     parser.add_argument("--reference", type=Path)
     parser.add_argument("--fourteen", type=Path)
+    parser.add_argument("--mark", type=float, default=MARK, help="the reading's mark, a share")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     first, last = (int(value) for value in args.window.split(","))
     decks = None if not args.decks else args.decks.split(",")
-    found = report(args.directory, first, last, args.stretch, decks, args.reference, args.fourteen)
+    found = report(
+        args.directory, first, last, args.stretch, decks, args.reference, args.fourteen, args.mark
+    )
     if args.output is not None:
         args.output.write_text(json.dumps(found, indent=2) + "\n", encoding="utf8")
     print(shown(found))
