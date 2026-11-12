@@ -1539,8 +1539,8 @@ make the seventy-one only where the board as its cards is stronger there.
   (`eval_suites/fourteen-decks-pairings-quick-checkpoint.json`, seed 2012):
   - `tokens` head to head against `pooled` at their last three checkpoints (after 4,000,
     4,240 and 4,320 updates of PPO), checkpoint for checkpoint. Each game is played once
-    with each arm in the learner's seat, and a deal's two games are read together:
-    37,632 deals.
+    with each arm in the learner's seat, and a deal's games at the three checkpoints are
+    read together, as the screens read theirs: 12,544 deals of six games.
   - The same for the two copies' last checkpoints and after 1,360 and 2,800 updates of
     PPO.
   - Each arm's last three checkpoints against `all71`, on the same deals as that record's
