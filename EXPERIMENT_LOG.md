@@ -93,7 +93,9 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   made so only if the board as its cards is stronger there. Beside them, fixed and read
   on 2026-11-12 on a rented card: the seventy-one's copy at twenty updates a deck fits
   the teachers' answers better twice as wide (+0.61 ± 0.01 points) and with a third of
-  its rate from halfway (+0.45 ± 0.02), and worse half as wide (−1.15 ± 0.01).
+  its rate from halfway (+0.45 ± 0.02), and worse half as wide (−1.15 ± 0.01); head to
+  head against the teachers twice as wide wins 2.32 ± 0.19 points more of its deals,
+  the lower rate 0.55 ± 0.17 more, and half as wide 3.37 ± 0.20 fewer.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:

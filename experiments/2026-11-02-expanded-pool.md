@@ -10,7 +10,8 @@ and closed. Its design and readings are to be fixed before anything is built.
 
 **Last updated:** 2026-11-12 (the copy's width and rate read at seventy-one decks: twice
 as wide and a third of the rate from halfway each fit the teachers' answers better, half
-as wide worse, the head to head beside it played after; the board as its cards from
+as wide worse, and head to head against the teachers twice as wide wins 2.3 points more
+of its deals and half as wide 3.4 fewer; the board as its cards from
 scratch at fourteen decks fixed,
 a pair of networks made by the fourteen decks' recipe to tell whether the seventy-one are
 made so; on 2026-11-11 batch six's `pooled` read, the old decks holding, the new decks
@@ -1683,20 +1684,31 @@ Beside them, without a mark:
   bit for bit.
 - Twice the width cost the card no time with four copies on it: 18.8 seconds an update
   against `control`'s 18.5. Its checkpoint is 182 MB against 85 MB.
-- Each copy's last checkpoint head to head against the teachers in the fourteen decks'
-  mirrors, every deal from both seats: played after (below).
+- Each copy's last checkpoint (update 1,420) head to head against the teachers in the
+  fourteen decks' mirrors, each deck's suite of 2,048 deals at seed 2012 from both
+  seats, 229,376 games with none failed. Played on the development machine's processor,
+  whose suites play the CUDA machine's games (measured on 2026-10-10) and where the
+  teachers are too, instead of waiting for the CUDA machine
+  (`experiments/commands/copy-width-rate-heads.sh`). `control` 42.6% ± 0.2%, `wide`
+  44.9%, `narrow` 39.3%, `slow` 43.2%. Less `control`, deal by deal:
+  - `wide` +2.32 ± 0.19 points, ahead on thirteen of the fourteen decks, from −0.3
+    (Heroes) to +4.2 (Gladiator);
+  - `narrow` −3.37 ± 0.20 points, behind on all fourteen, from −0.3 (Crystal) to −7.3
+    (Heroes);
+  - `slow` +0.55 ± 0.17 points, from −1.0 (Monarch) to +1.9 (Dragunity).
+
+  At twenty updates a deck, an eighth of a copy: `seventy-one-champions`' copy had 46.4%
+  against the same teachers after 160.
 
 As the design reads them: the width holds the copy back at seventy-one decks, and by
 that reading more so at the pool's hundreds; today's width has no room to spare; and a
 rate lowered as the copy goes fits each deck better. All three are the share of the
-teachers' answers in the games imitated. Whether a closer fit plays better is for the
-head to head to show, and `wide` was not tried at another rate. What follows is decided
-on these results beside those of the fourteen decks made from scratch.
-
-The head to head runs on the development machine's processor, whose suites play the
-CUDA machine's games (measured on 2026-10-10), where the teachers are too, instead of
-waiting for the CUDA machine (`experiments/commands/copy-width-rate-heads.sh`, the deck's
-suite of 2,048 deals at seed 2012 from both seats).
+teachers' answers in the games imitated, and the head to head goes the same way: the
+closer fit plays the teachers better, by 2.3 points twice as wide and 0.6 at the lower
+rate, and half as wide plays them 3.4 points worse. Whether the gains last to a copy's
+end, and whether the two add up (`wide` was not tried at another rate), is not measured.
+What follows is decided on these results beside those of the fourteen decks made from
+scratch.
 
 **Current next step:** batch six runs on the CUDA machine in two arms
 (`experiments/commands/pool-batch-six.sh`). `pooled` is read (above). `switched` runs
@@ -1714,8 +1726,8 @@ its last checkpoint at `ba221814`. Its run and measure take some 26 hours more. 
 two arms play head to head (`experiments/commands/pool-batch-six-arms.sh`), and the arm
 the pool goes on from is decided on the results.
 
-The copy's width and rate are read (above) and the rented card is stopped; the copies'
-head to head against the teachers is played on the development machine. After batch
+The copy's width and rate are read, with the copies' head to head against the teachers
+(above). After batch
 six's head to head, the board as its cards is made from scratch at fourteen decks
 (above). Whether a seventh batch follows, and at what length, is decided on batch six's
 results. In every batch so far the new decks took 84% to 88% of their gain in the first
