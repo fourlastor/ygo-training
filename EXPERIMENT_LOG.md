@@ -86,8 +86,11 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   standard errors; the new decks' mark is now 3 points. Its arm `pooled`, read on
   2026-11-11: the old decks hold, 50.2% ± 0.1%; the new decks learn, +3.7 ± 0.1 points
   from 51.8%; the mirrors not decided, −1.3 ± 0.4 points against
-  `seventy-one-champions` and −0.2 ± 0.3 against batch five. `switched` runs, the head
-  to head after it.
+  `seventy-one-champions` and −0.2 ± 0.3 against batch five. The decks trained on now
+  hold 77.5% of the pool's cards. `switched` runs, the head to head after it. After
+  them, fixed on 2026-11-12: the fourteen decks made from scratch twice, the pooled board
+  and the board as its cards, read head to head at the same marks. The seventy-one are
+  made so only if the board as its cards is stronger there.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:

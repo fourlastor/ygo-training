@@ -8,7 +8,11 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-10 (batch six fixed: a hundred new decks in two arms, the pool's
+**Last updated:** 2026-11-12 (the board as its cards from scratch at fourteen decks fixed,
+a pair of networks made by the fourteen decks' recipe to tell whether the seventy-one are
+made so; on 2026-11-11 batch six's `pooled` read, the old decks holding, the new decks
+learning +3.7 points and the mirrors not decided, and `switched` stopped on a selection
+with no answer and gone on; before that, on 2026-11-10, batch six fixed: a hundred new decks in two arms, the pool's
 network as it is and given the board as its cards, read head to head; two measurements of
 a review of the learning recorded beside the batches; batch five read: the mirrors kept
 and the old decks hold, the new decks not decided at +4.6 points; the screen's second
@@ -1488,12 +1492,91 @@ Beside them:
     Barriers (`spellcaster`), Lightforce Sword (`game-0020`), Gozen Match (`game-0319`),
     The Six Samurai - Yariza (`game-0070`) and Exiled Force (`game-0354`).
 
+The 433 decks of the batch, the same in both arms, hold 3,149 of the pool's 4,065
+cards, 77.5%, from 2,997 after batch five, counted as then: the names in their main and
+extra decks. The 113 usable lists not yet taken would bring 120 more, to 3,269 (80.4%),
+and the nine kept out until the fixes held for the experiment's end 19 that no other
+list holds, to 3,288 (80.9%).
+
 The old decks hold and the new decks learn by the batch's mark. The mirrors are not
 decided. They stand where batch five left them (−0.2 ± 0.3), but against
 `seventy-one-champions` the batches since batch four read −0.9, −1.1 and −1.3, and the
 seventy-one's divergence from it rose again. The new decks start higher and gain less:
 45.4% and +4.6 points in batch five, 51.8% and +3.7 here, ending at 55.5% against the
 start. `switched`'s readings and the head to head are read when they are done.
+
+## The board as its cards from scratch, at fourteen decks (design and readings fixed on 2026-11-12, before anything was built)
+
+Made from scratch, the board as its cards was ahead for single decks: 53.7% head to head
+for Blackwing and 52.5% for Cyber after twice the training, each about a point over its
+control against `all71`. Switched into a trained network it was not shown (50.0%), and
+batch six's `switched` arm asks the same of the pool's network. What remains open is a
+network of many decks made from scratch with the board as its cards. Made for the
+seventy-one by `seventy-one-champions`' recipe, that takes some five days of the CUDA
+machine. It was agreed on 2026-11-12 to ask it first of the fourteen decks of
+[A network of fourteen decks](2026-10-26-fourteen-decks.md), in a day and a half, and to
+make the seventy-one only where the board as its cards is stronger there.
+
+- **The arms**, `pooled` and `tokens`: two networks of the fourteen decks from scratch,
+  seed 2012, the same in everything but the board, which `tokens` takes as its cards at
+  both stages (`--board-representation individual-tokens`). The two are trained at once,
+  as that record's `quarter` and `half` were.
+- **The copy**: each deck's games are its champion's recorded games, played again with its
+  answers and imitated. The recordings are those of the seventy-one, whose teachers for
+  these fourteen decks are the fourteen decks' network's own. 2,240 updates of 520 duels,
+  160 a deck: 260 in the mirrors, both seats imitated, and 260 against the thirteen decks'
+  pilots. At 3e-4, in minibatches of 256 with no duels in flight, every game seen once and
+  its result at four of its positions; a checkpoint every 80 updates. Each deck's copy
+  takes 41,600 of its 44,000 recorded mirror games and 3,200 of the 4,000 against each
+  pilot, as `seventy-one-champions`' copy did.
+- **PPO**: from each copy's last checkpoint, as that record's `quarter` arm: 4,320
+  updates of 520 duels at 1e-4 with `fast`'s settings, every duel against itself and none
+  against a pilot, a quarter of them in the mirrors (each mirror weighed 13, each other
+  ordered pairing 3). A checkpoint every 240 updates of the trainer's count, which goes on
+  from the copy's 2,240. Each deck has some 320,900 games, as many as
+  `seventy-one-champions`' PPO gave each of its decks.
+- **Measured** on the 196 ordered pairings of the fourteen decks, 64 games each
+  (`eval_suites/fourteen-decks-pairings-quick-checkpoint.json`, seed 2012):
+  - `tokens` head to head against `pooled` at their last three checkpoints (after 4,000,
+    4,240 and 4,320 updates of PPO), checkpoint for checkpoint. Each game is played once
+    with each arm in the learner's seat, and a deal's two games are read together:
+    37,632 deals.
+  - The same for the two copies' last checkpoints and after 1,360 and 2,800 updates of
+    PPO.
+  - Each arm's last three checkpoints against `all71`, on the same deals as that record's
+    `quarter` arm.
+
+Reading, with the marks of batch six's head to head, so that the switch and the network
+made from scratch read alike:
+
+1. *The board as its cards from scratch*: `tokens` against `pooled` at the last three
+   checkpoints is **stronger** when it wins at least 51% of the deals by two standard
+   errors and **weaker** when at most 49% by two; otherwise it is **not decided**.
+
+What follows was agreed on 2026-11-12. The seventy-one are made from scratch with the
+board as its cards only when the reading is **stronger**, after the fixes held for the
+experiment's end and against `seventy-one-champions`. Otherwise the route from scratch is
+dropped.
+
+Told beside it, without a mark:
+
+- the head to head of the copies and after 1,360 and 2,800 updates of PPO: whether an edge
+  comes from the copy or from PPO, and whether it grows or closes as Cyber's did;
+- each arm against `all71`, and the two deal by deal;
+- `pooled` against that record's `quarter` arm against `all71` on the same deals: whether
+  a copy from recordings, at today's pins, lands where the copy that asked its champions
+  did;
+- the copies' imitation losses, the seconds an update and the hours.
+
+**Where and when**: on the CUDA machine's queue at high priority, after batch six's head
+to head. By reckoning some 10 hours for the two copies, 14 for PPO and 2 to measure. That
+record's copy, which asked its champions, took 13.4 hours; its two arms of PPO took 12.6
+and 12.8 hours at once; `seventy-one-champions`' copy from recordings took 11.2 seconds an
+update. A copy from recordings stops at the first game that plays again with another
+digest, so the test runs before the pins move. The fixes held for the experiment's end
+reach the fourteen decks only through four scripts that failed a few times in all the
+batches (Compulsory Evacuation Device, Enemy Controller, Fire Princess and Mei-Kou,
+Master of Barriers), so its answer stands after them.
 
 **Current next step:** batch six runs on the CUDA machine in two arms
 (`experiments/commands/pool-batch-six.sh`). `pooled` is read (above). `switched` runs
@@ -1510,3 +1593,8 @@ It stopped at its 590th update on a selection with no answer (above) and goes on
 its last checkpoint at `ba221814`. Its run and measure take some 26 hours more. Then the
 two arms play head to head (`experiments/commands/pool-batch-six-arms.sh`), and the arm
 the pool goes on from is decided on the results. The pod is stopped.
+
+After the head to head, the board as its cards is made from scratch at fourteen decks
+(above). Whether a seventh batch follows, and at what length, is decided on batch six's
+results. In every batch so far the new decks took 84% to 88% of their gain in the first
+half of the updates.
