@@ -96,6 +96,8 @@ class PpoTrainer(Trainer):
         if self.device == "cuda":
             torch.cuda.manual_seed_all(config.seed)
         self.model = PolicyValueNet(
+            embedding_dim=config.embedding_dim,
+            hidden_dim=config.hidden_dim,
             board_representation=config.board_representation,
             leave_out=config.leave_out,
             cards=None if config.card_table is None else CardTable.read(config.card_table),

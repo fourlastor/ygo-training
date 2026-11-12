@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import json
 import os
 import random
@@ -105,6 +106,27 @@ def card_options(model: torch.nn.Module) -> dict[str, Any]:
     }
 
 
+# How wide every network was before a checkpoint could say otherwise:
+# `PolicyValueNet`'s own widths.
+WIDTHS = {
+    name: int(inspect.signature(PolicyValueNet.__init__).parameters[name].default)
+    for name in ("embedding_dim", "hidden_dim")
+}
+
+
+def network_widths(model: torch.nn.Module) -> dict[str, int]:
+    """How wide a model is: a card's identity and what each answer is told of
+    a card (``embedding_dim``), and what it carries of a decision
+    (``hidden_dim``)."""
+    return {name: int(getattr(model, name, width)) for name, width in WIDTHS.items()}
+
+
+def saved_network_widths(metadata: dict[str, Any]) -> dict[str, int]:
+    """How wide a checkpoint's model is: as its description says, which it
+    says only where they are other than `WIDTHS`."""
+    return {name: int(metadata.get(name, width)) for name, width in WIDTHS.items()}
+
+
 def saved_card_options(metadata: dict[str, Any]) -> dict[str, Any]:
     """What a checkpoint's model was told of a card beside its input: nothing
     for one of format 15."""
@@ -199,6 +221,17 @@ def write(
             raise ValueError(
                 f"Checkpoint metadata {name} is {metadata[name]!r}, the model's {value!r}"
             )
+    # A model of other widths than every network had says so; one of those
+    # widths is described as before.
+    widths = network_widths(model)
+    if widths != WIDTHS:
+        for name, value in widths.items():
+            metadata.setdefault(name, value)
+    if saved_network_widths(metadata) != widths:
+        raise ValueError(
+            f"Checkpoint metadata says the network is {saved_network_widths(metadata)} wide, "
+            f"the model is {widths}"
+        )
     path.parent.mkdir(parents=True, exist_ok=True)
     try:
         torch.save(
@@ -372,6 +405,12 @@ def load(
                 f"{'does' if mine else 'does not'}: build it as the checkpoint says "
                 "(`checkpoints.saved_card_options`)"
             )
+    saved_widths = saved_network_widths(saved_metadata)
+    if isinstance(model, PolicyValueNet) and saved_widths != network_widths(model):
+        raise ValueError(
+            f"The checkpoint's network is {saved_widths} wide, this one {network_widths(model)}: "
+            "build it as the checkpoint says (`checkpoints.saved_network_widths`)"
+        )
     saved_optimizer = payload.get("optimizer")
     model.load_state_dict(payload["model"])
     if hasattr(model, "leave_out"):
@@ -414,6 +453,7 @@ def load_inference_model(
     described = inspected.get("metadata", {})
     cards = saved_card_options(described)
     model = PolicyValueNet(
+        **saved_network_widths(described),
         board_representation=str(described.get("board_representation")),
         leave_out=left_out(described.get("leave_out", ())),
         cards=CardTable.of_state(inspected["model"]),

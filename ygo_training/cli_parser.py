@@ -138,6 +138,21 @@ def _train_parser(commands: Any, command: Command, default_learner: str) -> None
     )
     parser.add_argument("--run", type=Path, default=Path("runs/training"))
     parser.add_argument(
+        "--embedding-dim",
+        type=int,
+        default=96,
+        help=(
+            "how wide a card's identity and what each answer is told of a card are; a "
+            "checkpoint keeps it, and what plays one builds the network it says (default: 96)"
+        ),
+    )
+    parser.add_argument(
+        "--hidden-dim",
+        type=int,
+        default=192,
+        help="how wide what the network carries of a decision is; a checkpoint keeps it (default: 192)",
+    )
+    parser.add_argument(
         "--leave-out",
         type=_parts_left_out,
         default=(),

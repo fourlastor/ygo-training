@@ -1578,6 +1578,72 @@ reach the fourteen decks only through four scripts that failed a few times in al
 batches (Compulsory Evacuation Device, Enemy Controller, Fire Princess and Mei-Kou,
 Master of Barriers), so its answer stands after them.
 
+## The copy's width and rate, at seventy-one decks (design and readings fixed on 2026-11-12, before anything was built)
+
+`seventy-one-champions`' copy fitted each of the fourteen decks less well than the
+fourteen decks' copy did, on the same teachers at the same updates a deck: 46.4% head to
+head against them where the other had 48.4%. Its record left open what limits it, the
+network's size or a rate held at 3e-4 through five times the steps. Counted over the
+fourteen decks' decisions, each deck alike as that record counts, the two copies' share of
+the teachers' answers is level to ten updates a deck, the seventy-one's copy ahead at
+first. It falls behind after that: 94.70% against 95.20% at 10 to 20 updates a deck,
+95.38% against 96.14% at 20 to 40, and the gap goes on widening. The seventy-one's copy
+stands at 94.80% over all its decks at 10 to 20.
+
+The network has never been a variable but for its board, and its width is not yet an
+option. It becomes one with this test (`train --embedding-dim --hidden-dim`): a
+checkpoint of other widths says so, and whatever plays one builds the network it says. A
+checkpoint of today's widths is described as before.
+
+- **The arms**, four at once on a rented card. Each copies the seventy-one from their
+  recordings from scratch as `seventy-one-champions`' copy did: seed 2012, the same
+  recorded games in the same order, 520 duels an update, 260 in the mirrors with both
+  seats imitated and 260 against the thirteen decks' pilots, minibatches of 256 with no
+  duels in flight, every game seen once and its result at four of its positions; a
+  checkpoint every 142 updates.
+  - `control`: as that copy, at 3e-4. It also shows whether the card plays that copy's
+    updates again.
+  - `wide`: twice as wide: a card's identity 192 wide and a decision 384
+    (today 96 and 192).
+  - `narrow`: half as wide: 48 and 96.
+  - `slow`: `control` from its checkpoint after ten updates a deck (710 updates), on at
+    1e-4, a third of the rate, from the same state and on the same games after it.
+- **Length**: twenty updates a deck, 1,420 updates; `slow` the last 710 of them.
+- **Measured** from each run's own metrics, with no game played for it: the share of the
+  teachers' answers the network picks at the decisions it imitates, each deck alike, over
+  ten to twenty updates a deck (updates 711 to 1,420). Each arm is read against `control`
+  update by update, the two imitating the same games, by the mean difference and two
+  standard errors of its means over the window's ten stretches of 71 updates.
+
+Readings, the same for each of `wide`, `narrow` and `slow` against `control`. The mark is
+half of the gap between the two copies over that window:
+
+1. it **fits better** when it picks the teachers' answers at least 0.25 points more often
+   by two standard errors, and **fits worse** when at least 0.25 points less by two;
+   otherwise it is **not a lever at this length**.
+
+Read together: `wide` fitting better says the width holds the copy back at seventy-one
+decks, and more so for the pool's hundreds. `narrow` not fitting worse says today's width
+has room to spare. `slow` fitting better says a rate lowered as the copy goes fits each
+deck better. What follows is decided on the results, beside those of the fourteen decks
+made from scratch.
+
+Told beside them, without a mark:
+
+- on the fourteen decks alone, each arm and `control` beside the fourteen decks' copy over
+  the same window: how much of the gap a change closes;
+- `control` against `seventy-one-champions`' copy update by update, whether the rented
+  card plays its updates again;
+- where an arm fits better or worse, its last checkpoint head to head against the teachers
+  in the fourteen decks' mirrors, on the CUDA machine afterwards;
+- the seconds an update and the hours.
+
+**Where**: an RTX 4090 of Runpod's Secure Cloud, $0.89 an hour on 2026-11-12, with 32
+threads or more, the four at once. By reckoning some 8 to 10 hours: on the CUDA machine
+an update of that copy took 12.5 seconds, 6.9 of them training on its card. The copies
+use the seventy-one's recordings, which play only at today's pins, so it runs before the
+fixes move them. Nothing of it runs on the CUDA machine but the head to head beside.
+
 **Current next step:** batch six runs on the CUDA machine in two arms
 (`experiments/commands/pool-batch-six.sh`). `pooled` is read (above). `switched` runs
 since 2026-11-11 21:25 at `0368d3f4`, and its first 27 updates are as designed:

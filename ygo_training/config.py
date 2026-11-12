@@ -191,6 +191,12 @@ class TrainerConfig:
     rollout_temperature: float = 1.0
     duel_gae_lambda: float = 1.0
     board_representation: str = "mean-pool"
+    # How wide the network is: a card's identity and what its answers are told
+    # of a card (`embedding_dim`), and what it carries of a decision
+    # (`hidden_dim`). A checkpoint of other widths than these keeps its own
+    # (`checkpoints.saved_network_widths`).
+    embedding_dim: int = 96
+    hidden_dim: int = 192
     # Parts of LEAVE_OUT the model does not read: each is given nothing where
     # it was, and the network keeps every weight it has, so that models that
     # read less begin as the same network under the same seed.  A checkpoint
@@ -450,6 +456,9 @@ class TrainerConfig:
             raise ValueError("duel_gae_lambda must be between 0 and 1")
         if self.board_representation not in BOARD_REPRESENTATIONS:
             raise ValueError("board_representation must be mean-pool or individual-tokens")
+        # A card's identity is two halves of embedding_dim (`CardIdentityEmbedding`).
+        if self.embedding_dim < 2 or self.hidden_dim < 1:
+            raise ValueError("embedding_dim is 2 at least and hidden_dim 1 at least")
         if any(part not in LEAVE_OUT for part in self.leave_out) or len(set(self.leave_out)) != len(
             self.leave_out
         ):

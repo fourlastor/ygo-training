@@ -12,7 +12,15 @@ from typing import Any
 
 import torch
 
-from .checkpoints import card_options, discard, finish, folded_pairing, load, saved_card_options
+from .checkpoints import (
+    card_options,
+    discard,
+    finish,
+    folded_pairing,
+    load,
+    saved_card_options,
+    saved_network_widths,
+)
 from .cli_parser import build_parser
 from .config import (
     GAE_UNIT,
@@ -284,6 +292,8 @@ def trainer_config(args: argparse.Namespace) -> TrainerConfig:
         rollout_temperature=args.rollout_temperature,
         duel_gae_lambda=args.duel_gae_lambda,
         board_representation=args.board_representation,
+        embedding_dim=args.embedding_dim,
+        hidden_dim=args.hidden_dim,
         leave_out=args.leave_out,
         card_table=None if args.card_table is None else str(args.card_table),
         card_descriptions=args.card_descriptions,
@@ -450,6 +460,8 @@ def train(args: argparse.Namespace) -> None:
         "rollout_temperature": args.rollout_temperature,
         "duel_gae_lambda": args.duel_gae_lambda,
         "board_representation": config.board_representation,
+        "embedding_dim": config.embedding_dim,
+        "hidden_dim": config.hidden_dim,
         "leave_out": list(config.leave_out),
         # What the model is told of a card beside its input (format 16).
         "card_table": None
@@ -629,20 +641,25 @@ def _with_failed_duels(record: dict[str, Any], failed: list[dict[str, Any]]) -> 
 
 def _told_as(checkpoints: list[Path]) -> dict[str, Any]:
     """The trainer's model built as the checkpoints' were, for them to load
-    into it: told of a card what the first one's was (from format 16), its
-    table the one that checkpoint carries.  Checkpoints measured together
-    are told the same: `checkpoints.load` refuses one that is not."""
+    into it: as wide as the first one's, and told of a card what it was (from
+    format 16), its table the one that checkpoint carries.  Checkpoints
+    measured together are built the same: `checkpoints.load` refuses one
+    that is not."""
     if not checkpoints or not checkpoints[0].is_file():
         return {}
     payload = torch.load(checkpoints[0], map_location="cpu", weights_only=False)
-    told = saved_card_options(payload.get("metadata", {}))
-    if not (told["card_descriptions"] or told["hide_identities"]):
-        return {}
-    return {
-        "card_table": str(checkpoints[0]),
-        "card_descriptions": told["card_descriptions"],
-        "hide_identities": told["hide_identities"],
-    }
+    metadata = payload.get("metadata", {})
+    built: dict[str, Any] = saved_network_widths(metadata)
+    told = saved_card_options(metadata)
+    if told["card_descriptions"] or told["hide_identities"]:
+        built.update(
+            {
+                "card_table": str(checkpoints[0]),
+                "card_descriptions": told["card_descriptions"],
+                "hide_identities": told["hide_identities"],
+            }
+        )
+    return built
 
 
 def evaluate_suite_checkpoints(args: argparse.Namespace) -> None:
