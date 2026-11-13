@@ -1846,8 +1846,9 @@ The batch's 546 decks hold 3,269 of the pool's 4,065 cards (80.4%), counted as b
 The nine lists kept out hold 19 more that no other list holds. What follows the batch is
 decided on its results and the fourteen decks'.
 
-**Current next step:** batch seven is fixed (above), to be built and run on the CUDA
-machine after the fourteen decks' runs, some 18 hours with its measure.
+**Current next step:** batch seven is fixed (above) and built
+(`experiments/commands/pool-batch-seven.sh`), to run on the CUDA machine after the
+fourteen decks' runs, some 18 hours with its measure.
 
 The board as its cards is made from scratch at fourteen decks (above), on the CUDA
 machine since 2026-11-13 02:56 at `9f0f8c9c`, some 30 hours. The copy's width and rate

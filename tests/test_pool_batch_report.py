@@ -353,6 +353,43 @@ def test_the_suites_of_batch_six_are_the_tools():
         assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
 
 
+def test_the_suites_of_batch_seven_are_the_tools():
+    # From batch six's pooled: its new decks old too, and every usable list left new, so
+    # that none is held out and there is no suite of theirs. game-0397's Archfiend's Oath
+    # names a card; game-0379 waits for the fix of the seat's tribute selection.
+    left = frozenset(
+        {
+            "game-0037",
+            "game-0065",
+            "game-0093",
+            "game-0167",
+            "game-0171",
+            "game-0233",
+            "game-0335",
+            "game-0379",
+            "game-0397",
+        }
+    )
+    new = [deck for deck in suites.numbered("game-0370:game-0484") if deck not in left]
+    assert len(new) == 113
+    made = suites.suites("seven", new, [], left, pairings_games=16)
+    assert set(made) == {
+        "pool-batch-seven-pairings-checkpoint",
+        "pool-batch-seven-old-pairings-checkpoint",
+        "pool-batch-seven-against-pilots",
+    }
+    for name, told in made.items():
+        assert (
+            json.loads((ROOT / "eval_suites" / f"{name}.json").read_text(encoding="utf8")) == told
+        )
+    old = [case["learner"] for case in made["pool-batch-seven-old-pairings-checkpoint"]["cases"]]
+    assert len(old) == 433
+    assert old[71:] == [deck for deck in suites.numbered("game-0001:game-0369") if deck not in left]
+    assert {case["games"] for case in made["pool-batch-seven-pairings-checkpoint"]["cases"]} == {16}
+    for case in made["pool-batch-seven-pairings-checkpoint"]["cases"]:
+        assert (ROOT / "data/decks/games" / f"{case['learner']}.ydk").is_file()
+
+
 def test_a_batch_reads_the_new_decks_at_the_marks_it_fixed(tmp_path):
     # Six points, under 5 by two standard errors: not decided at the first batch's
     # marks, learns at batch six's.

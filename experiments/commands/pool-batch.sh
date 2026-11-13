@@ -25,9 +25,9 @@
 # checkpoints the run kept by then, and at 0 by NETWORK: each new deck against
 # NETWORK at each old deck (PAIRINGS), and at each of OLD_POINTS, the points where
 # unset, every ordered pairing of the old decks head to head against it (OLD). After
-# the last point: the next decks against NETWORK (HELD_OUT), at 0 too; the new decks
-# against the thirteen decks' pilots (PILOTS), at 0 too; and each of MIRROR_DECKS head
-# to head in its mirror against its champion. Then the run's metrics and the report
+# the last point: the next decks against NETWORK (HELD_OUT, where set), at 0 too; the
+# new decks against the thirteen decks' pilots (PILOTS), at 0 too; and each of MIRROR_DECKS
+# head to head in its mirror against its champion. Then the run's metrics and the report
 # (tools/pool_batch_report.py), the mirrors read deal by deal against those in
 # MIRRORS_REFERENCE where set and told beside those in MIRRORS_BESIDE, the new decks read at
 # the marks LEARNS and DOES_NOT where set (shares). What fails beside
@@ -79,7 +79,8 @@ IN_FLIGHT=${IN_FLIGHT:-1040}
 FAST_SLOTS=${FAST_SLOTS:-52}
 MINIBATCH=${MINIBATCH:-512}
 PAIRINGS=${PAIRINGS:-eval_suites/pool-batch-one-pairings-checkpoint.json}
-HELD_OUT=${HELD_OUT:-eval_suites/pool-batch-one-held-out-checkpoint.json}
+# The next decks, trained on nothing: none where set empty (batch seven's).
+HELD_OUT=${HELD_OUT-eval_suites/pool-batch-one-held-out-checkpoint.json}
 PILOTS=${PILOTS:-eval_suites/pool-batch-one-against-pilots.json}
 OLD=${OLD:-eval_suites/pool-batch-one-old-pairings-checkpoint.json}
 MIRRORS=${MIRRORS:-analysis/seventy-one-champions/checks/suites}
@@ -116,7 +117,7 @@ if [ -n "$MIRROR_DECKS" ]; then
 else
   mirrored=("${seventy_one[@]}")
 fi
-for path in "$NETWORK" "$PAIRINGS" "$HELD_OUT" "$PILOTS" "$OLD" $DISTILL_SECOND; do
+for path in "$NETWORK" "$PAIRINGS" ${HELD_OUT:+"$HELD_OUT"} "$PILOTS" "$OLD" $DISTILL_SECOND; do
   if [ ! -f "$path" ]; then
     echo "Missing $path" >&2
     exit 1
@@ -196,7 +197,9 @@ playing() {
 measures() {
   local point mean deck teacher
   played "$OUT/0/pairings" "$PAIRINGS" "$NETWORK" "${board[@]}" --opponent-checkpoint "$NETWORK"
-  played "$OUT/0/held-out" "$HELD_OUT" "$NETWORK" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  if [ -n "$HELD_OUT" ]; then
+    played "$OUT/0/held-out" "$HELD_OUT" "$NETWORK" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  fi
   played "$OUT/0/pilots" "$PILOTS" "$NETWORK" "${board[@]}"
   for point in $POINTS; do
     mean=$RUNS/$RUN-mean/$point.pt
@@ -207,7 +210,9 @@ measures() {
     played "$OUT/$point/old" "$OLD" "$mean" "${board[@]}" --opponent-checkpoint "$NETWORK"
   done
   mean=$RUNS/$RUN-mean/$UPDATES.pt
-  played "$OUT/$UPDATES/held-out" "$HELD_OUT" "$mean" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  if [ -n "$HELD_OUT" ]; then
+    played "$OUT/$UPDATES/held-out" "$HELD_OUT" "$mean" "${board[@]}" --opponent-checkpoint "$NETWORK"
+  fi
   played "$OUT/$UPDATES/pilots" "$PILOTS" "$mean" "${board[@]}"
   for deck in "${mirrored[@]}"; do
     teacher=$(awk -v deck="$deck" '$1 == deck {print $2}' "$LIST")

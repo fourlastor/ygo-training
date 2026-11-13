@@ -16,6 +16,13 @@ plays once in the learner's seat against the other.
     uv run python tools/pool_batch_suites.py six --new game-0269:game-0369 \\
         --held-out game-0370:game-0381 --pairings-games 16 --arms 32 \\
         --leave-out game-0037,game-0065,game-0093,game-0167,game-0171,game-0233,game-0335
+
+A batch that takes every list left holds none out (batch seven's, fixed on 2026-11-13),
+and has no `held-out` suite:
+
+    uv run python tools/pool_batch_suites.py seven --new game-0370:game-0484 \\
+        --pairings-games 16 \\
+        --leave-out game-0037,game-0065,game-0093,game-0167,game-0171,game-0233,game-0335,game-0379,game-0397
 """
 
 from __future__ import annotations
@@ -91,8 +98,9 @@ def suites(
     pairings_games: int = GAMES["pairings"],
     arms: int = 0,
 ) -> dict[str, dict]:
-    """`left`: the game decks no batch trained, which are not old either. `arms`: how
-    many decks each of the batch's meets in the arms' suite, none without one."""
+    """`left`: the game decks no batch trained, which are not old either. `held_out`:
+    none, no suite of theirs. `arms`: how many decks each of the batch's meets in the
+    arms' suite, none without one."""
     first = int(new[0].rsplit("-", 1)[1])
     earlier = numbered(f"game-0001:game-{first - 1:04d}") if first > 1 else []
     old = seventy_one() + [deck for deck in earlier if deck not in left]
@@ -103,13 +111,14 @@ def suites(
         f"pool-batch-{batch}-old-pairings-checkpoint": suite(
             f"pool-batch-{batch}-old-pairings-checkpoint", old, old, GAMES["old-pairings"]
         ),
-        f"pool-batch-{batch}-held-out-checkpoint": suite(
-            f"pool-batch-{batch}-held-out-checkpoint", held_out, old, GAMES["held-out"]
-        ),
         f"pool-batch-{batch}-against-pilots": suite(
             f"pool-batch-{batch}-against-pilots", new, None, GAMES["against-pilots"]
         ),
     }
+    if held_out:
+        made[f"pool-batch-{batch}-held-out-checkpoint"] = suite(
+            f"pool-batch-{batch}-held-out-checkpoint", held_out, old, GAMES["held-out"]
+        )
     if arms:
         made[f"pool-batch-{batch}-arms"] = drawn(f"pool-batch-{batch}-arms", old + new, arms)
     return made
@@ -119,7 +128,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("batch")
     parser.add_argument("--new", required=True)
-    parser.add_argument("--held-out", required=True)
+    parser.add_argument(
+        "--held-out", default="", help="the next decks, trained on nothing: none where not given"
+    )
     parser.add_argument(
         "--leave-out",
         default="",
@@ -138,7 +149,9 @@ def main() -> None:
     args = parser.parse_args()
     left = set(args.leave_out.split(",")) - {""}
     new = [deck for deck in numbered(args.new) if deck not in left]
-    held_out = [deck for deck in numbered(args.held_out) if deck not in left]
+    held_out = (
+        [deck for deck in numbered(args.held_out) if deck not in left] if args.held_out else []
+    )
     made = suites(args.batch, new, held_out, frozenset(left), args.pairings_games, args.arms)
     for name, told in made.items():
         (args.into / f"{name}.json").write_text(json.dumps(told, indent=2) + "\n", encoding="utf8")
