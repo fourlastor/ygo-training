@@ -8,7 +8,10 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-13 (batch seven fixed, from `pooled`: the 113 usable lists not
+**Last updated:** 2026-11-14 (the board as its cards made from scratch at fourteen decks
+read: not decided, `tokens` winning 49.85% of the deals against `pooled`, so the
+seventy-one are not made from scratch with it; on 2026-11-13, batch seven fixed, from
+`pooled`: the 113 usable lists not
 yet taken at half batch six's length, none held out, the new decks' mark at 2 points;
 before it the same day, batch six's `switched` read and the two arms head to head:
 the switch not shown, `switched` winning 50.0% of the deals against `pooled`, a fifth of
@@ -1846,11 +1849,47 @@ The batch's 546 decks hold 3,269 of the pool's 4,065 cards (80.4%), counted as b
 The nine lists kept out hold 19 more that no other list holds. What follows the batch is
 decided on its results and the fourteen decks'.
 
-**Current next step:** batch seven is fixed (above) and built
-(`experiments/commands/pool-batch-seven.sh`), to run on the CUDA machine after the
-fourteen decks' runs, some 18 hours with its measure.
+## The board as its cards from scratch, at fourteen decks: results (read on 2026-11-14)
 
-The board as its cards is made from scratch at fourteen decks (above), on the CUDA
-machine since 2026-11-13 02:56 at `9f0f8c9c`, some 30 hours. The copy's width and rate
-are read, with the copies' head to head against the teachers (above). The scripts that
-failed and the selection with no answer wait for the experiment's end.
+The two arms ran at once on the CUDA machine from 2026-11-13 02:56 at `9f0f8c9c` to
+2026-11-14 00:11, 21.3 hours against the 30 reckoned
+(`experiments/commands/fourteen-tokens.sh`, `analysis/fourteen-tokens/report.txt`). No
+duel failed in the copies or in PPO, and every game of the measures played, 225,792 in
+all with 16 drawn.
+
+1. *The board as its cards from scratch*: **not decided**. `tokens` wins 49.85% ± 0.14%
+   of the 12,544 deals head to head against `pooled` at 4,000, 4,240 and 4,320 updates
+   of PPO, within half a point of even by two standard errors.
+
+Beside it:
+
+- The head to head along the way: 50.1% ± 0.2% at the copies' last checkpoints, 50.1% ±
+  0.2% after 1,360 updates of PPO and 50.5% ± 0.2% after 2,800. No edge comes from the
+  copy, and along PPO the two stay within a point of even.
+- Against `all71` at the last three checkpoints: `pooled` 56.1% ± 0.4%, `tokens` 56.0% ±
+  0.4%; `tokens` less `pooled`, deal by deal, −0.1 ± 0.3 points.
+- `pooled` less the fourteen decks' `quarter` arm against `all71` on the same deals
+  (56.2% ± 0.4%): −0.1 ± 0.3 points. A copy from recordings, at today's pins, lands
+  where the copy that asked its champions did.
+- The copies over their last 80 updates: `pooled`'s imitation loss 0.113 and 97.6% of
+  the teachers' answers, `tokens`' 0.117 and 97.4%. Each took 12.0 seconds an update and
+  7.5 hours, the two at once, where that record's one copy, which asked its champions,
+  took 13.4 hours.
+- PPO: `pooled` 10.4 seconds an update and 12.4 hours, `tokens` 10.6 and 12.8, the two
+  at once. The board as its cards costs 3% an update here, 6% in batch six's
+  `switched`.
+
+Made from scratch at fourteen decks, as switched into a trained network, the board as its
+cards is not shown to pay; it was ahead only for single decks. As agreed on 2026-11-12,
+the seventy-one are not made from scratch with the board as its cards. Whether they are
+made from scratch at all, with today's board and the copy's width or rate changed
+(above), is decided on these results and the copy's.
+
+**Current next step:** batch seven (above) runs on the CUDA machine since 2026-11-14
+00:11 at `5b645ced`, some 18 hours with its measure.
+
+The board as its cards made from scratch at fourteen decks is read (above), as are the
+copy's width and rate with the copies' head to head against the teachers. Whether the
+seventy-one are made from scratch, with today's board and a wider network or a rate
+lowered as the copy goes, is decided on them. The scripts that failed and the selection
+with no answer wait for the experiment's end.
