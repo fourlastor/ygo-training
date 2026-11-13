@@ -8,7 +8,11 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-12 (the copy's width and rate read at seventy-one decks: twice
+**Last updated:** 2026-11-13 (batch six's `switched` read and the two arms head to head:
+the switch not shown, `switched` winning 50.0% of the deals against `pooled`, a fifth of
+a point behind it on the new decks and 6% slower an update, the old decks holding, the
+new decks learning and the mirrors not decided in both; before that, on 2026-11-12, the
+copy's width and rate read at seventy-one decks: twice
 as wide and a third of the rate from halfway each fit the teachers' answers better, half
 as wide worse, and head to head against the teachers twice as wide wins 2.3 points more
 of its deals and half as wide 3.4 fewer; the board as its cards from
@@ -1507,7 +1511,7 @@ decided. They stand where batch five left them (−0.2 ± 0.3), but against
 `seventy-one-champions` the batches since batch four read −0.9, −1.1 and −1.3, and the
 seventy-one's divergence from it rose again. The new decks start higher and gain less:
 45.4% and +4.6 points in batch five, 51.8% and +3.7 here, ending at 55.5% against the
-start. `switched`'s readings and the head to head are read when they are done.
+start. `switched`'s readings and the head to head were read on 2026-11-13 (below).
 
 ## The board as its cards from scratch, at fourteen decks (design and readings fixed on 2026-11-12, before anything was built)
 
@@ -1710,25 +1714,83 @@ end, and whether the two add up (`wide` was not tried at another rate), is not m
 What follows is decided on these results beside those of the fourteen decks made from
 scratch.
 
-**Current next step:** batch six runs on the CUDA machine in two arms
-(`experiments/commands/pool-batch-six.sh`). `pooled` is read (above). `switched` runs
-since 2026-11-11 21:25 at `0368d3f4`, and its first 27 updates are as designed:
+## Batch six: `switched`'s results and the head to head (read on 2026-11-13)
 
-- the same mix as `pooled`'s: all 433 decks seated, `game-0335` and `game-0379` in none,
-  a new deck and an old one as many games an update as in `pooled`'s first updates;
-- some 13,100 decisions an update distilled, 1,560 of them held to
-  `seventy-one-champions`, at a divergence of 0.061 over the first ten updates;
-- the board's fusion grown from zero to 0.94 in norm by the 30th update;
-- 10.9 seconds an update.
+`switched` ran on the CUDA machine from 2026-11-11 21:25 at `0368d3f4` and, from its
+590th update, from 23:39 at `d323c925`, which holds `ba221814` (above). Its 7,680 updates
+took 24.0 hours, 11.2 seconds an update against `pooled`'s 10.6: the board as its cards
+costs the run 6%. Its measure ended on 2026-11-13 at 02:16
+(`analysis/expanded-pool/batch-six-switched/report.txt`) and the head to head at 02:56
+(`experiments/commands/pool-batch-six-arms.sh`,
+`analysis/expanded-pool/batch-six-arms/report.txt`). Over the whole run its mix was
+`pooled`'s: all 433 decks seated and `game-0335` in none, a new deck and an old one as
+many games an update, and some 13,500 decisions an update distilled, 1,780 of them held
+to `seventy-one-champions`. Its first updates were as designed: by the 30th the board's
+fusion had grown from zero to 0.94 in norm.
 
-It stopped at its 590th update on a selection with no answer (above) and goes on from
-its last checkpoint at `ba221814`. Its run and measure take some 26 hours more. Then the
-two arms play head to head (`experiments/commands/pool-batch-six-arms.sh`), and the arm
-the pool goes on from is decided on the results.
+1. *The mirrors are kept*: **not decided**, −1.3 ± 0.4 points deal by deal against
+   `seventy-one-champions`' check, forty-four of the seventy-one lower, as `pooled`'s.
+   Against their champions they stand at 49.3% ± 0.3%. The most lost are `cyber` −10.9,
+   `garden` and `volcanic` −7.8, `karakuri` and `nordic` −7.0; the most won `gishki`
+   +6.2, `gusto` and `naturia` +5.1.
+2. *The old decks hold*: **hold**, 50.2% ± 0.1% head to head against the start, frozen.
+3. *The new decks learn*: **learns**, +3.5 ± 0.1 points against the start after 7,680
+   updates, from 51.8%. The least `game-0352` +0.1, `game-0356` and `game-0323` +0.4, the
+   most `game-0292` +9.3, `game-0337` +12.2 and `game-0365` +13.9.
+4. *The switch*: **not shown**. `switched` wins 50.0% ± 0.1% of the 27,712 deals head to
+   head against `pooled` at 7,680 updates (50.05% ± 0.12%), within three tenths of a point
+   of even by two standard errors.
 
-The copy's width and rate are read, with the copies' head to head against the teachers
-(above). After batch
-six's head to head, the board as its cards is made from scratch at fourteen decks
-(above). Whether a seventh batch follows, and at what length, is decided on batch six's
-results. In every batch so far the new decks took 84% to 88% of their gain in the first
-half of the updates.
+Beside them:
+
+- The head to head at 3,840 updates: 49.9% ± 0.1%.
+- `switched` less `pooled`, deal by deal at 7,680 updates:
+  - the new decks against the start −0.18 ± 0.05 points: `switched` learns them a fifth
+    of a point less;
+  - the old decks −0.02 ± 0.03, the eleven held out −0.01 ± 0.11;
+  - the new decks against the pilots −0.07 ± 0.12;
+  - the mirrors against their champions −0.05 ± 0.30, thirty-four of the seventy-one
+    lower.
+- `switched`'s start played the pilots' 83,200 games at 0 as `pooled`'s did, every one:
+  given the board as its cards with `board_fusion` at zero, it answered as the network it
+  came from.
+- At 3,840 updates the new decks +3.1 ± 0.1, as `pooled`'s.
+- The mirrors deal by deal against batch five's: −0.3 ± 0.3 points, forty-three of the
+  seventy-one lower. The lowest against their champions: `deckout` 35.5%, `malefic`
+  42.6%, `rock-block` 43.0%, `pyramid` 43.4%, `blackwing` 44.1%.
+- The divergence at the old decks' decisions, read as `pooled`'s:
+  - from the start, 0.0105 over the first 500 updates and 0.0194 over the last 500,
+    against `pooled`'s 0.0101 and 0.0189;
+  - the seventy-one's from `seventy-one-champions`, 0.061, 0.062, 0.065 and 0.068 over
+    the same four stretches as `pooled`'s 0.061, 0.061, 0.064 and 0.067.
+- The eleven held out, trained on nothing: +0.3 ± 0.1 points from 50.6%.
+- The new decks against the thirteen decks' pilots: 47.5% from 44.0%, +3.4 ± 0.1.
+- 468 duels of some 3.99 million failed (`tools/failed_duels.py`).
+  - 132 filled their arenas and ended there: 45 with `game-0195` in a seat, 29 with
+    `game-0085`, 21 with `game-0304`, 17 with `game-0289` and 10 with `game-0262`; 32,
+    34, 30 and 36 over the run's four quarters.
+  - Planet Pollutant Virus 241.
+  - Cards seen before: Fake Feather 32, at its two lines, Beast Rising 27, Neo Flamvell
+    Shaman 7, Pyro Clock of Destiny and Infestation Wave 5 each, Mind Control and Rivalry
+    of Warlords 3 each, Ultimate Obedient Fiend and Batteryman Fuel Cell 2 each, and one
+    each of six more.
+  - New: Diamond-Dust Cyclone (`game-0053`) and Gravi-Crush Dragon (`game-0302`), one
+    each.
+  - The selection with no answer at the 590th update (`game-0186`), cut off as
+    `ba221814` does; there was no other.
+
+The two arms are not told apart. Head to head the switch is not shown, and on the
+measures they share `switched` is behind by a fifth of a point on the new decks alone,
+at 6% more time an update. Switched into the pool's trained network, as into Cyber's,
+the board as its cards is not shown to pay. Whether it pays made from scratch is asked of
+the fourteen decks (above).
+
+**Current next step:** batch six is read in both arms (above). The arm the pool goes on
+from, and whether a seventh batch follows and at what length, are decided on these
+results, as agreed on 2026-11-10. In every batch so far the new decks took 84% to 88% of
+their gain in the first half of the updates.
+
+The board as its cards is made from scratch at fourteen decks (above), on the CUDA
+machine since 2026-11-13 02:56 at `9f0f8c9c`, some 30 hours. The copy's width and rate
+are read, with the copies' head to head against the teachers (above). The scripts that
+failed and the selection with no answer wait for the experiment's end.
