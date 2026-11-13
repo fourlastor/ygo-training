@@ -8,7 +8,9 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-13 (batch six's `switched` read and the two arms head to head:
+**Last updated:** 2026-11-13 (batch seven fixed, from `pooled`: the 113 usable lists not
+yet taken at half batch six's length, none held out, the new decks' mark at 2 points;
+before it the same day, batch six's `switched` read and the two arms head to head:
 the switch not shown, `switched` winning 50.0% of the deals against `pooled`, a fifth of
 a point behind it on the new decks and 6% slower an update, the old decks holding, the
 new decks learning and the mirrors not decided in both; before that, on 2026-11-12, the
@@ -1785,10 +1787,67 @@ at 6% more time an update. Switched into the pool's trained network, as into Cyb
 the board as its cards is not shown to pay. Whether it pays made from scratch is asked of
 the fourteen decks (above).
 
-**Current next step:** batch six is read in both arms (above). The arm the pool goes on
-from, and whether a seventh batch follows and at what length, are decided on these
-results, as agreed on 2026-11-10. In every batch so far the new decks took 84% to 88% of
-their gain in the first half of the updates.
+## Batch seven (design and readings fixed on 2026-11-13, before anything was built)
+
+The pool goes on from `pooled`, agreed on 2026-11-13 on batch six's results. Batch seven
+goes on as `pooled` with three changes, agreed the same day:
+
+- its new decks are every usable list not yet taken, so none is held out: the games'
+  lists end with it, but for the nine kept out until the fixes held for the experiment's
+  end;
+- half batch six's length: in every batch so far the new decks took 84% to 88% of their
+  gain in the first half of the updates;
+- the third reading's mark at 2 points: batch six's new decks had gained 3.1 points by
+  its 3,840th update, from 51.8%, and these lists each bring one card that the lists
+  before them in the order do not, and play fewer games.
+
+- **Start**: `pooled`'s mean at 7,680 updates (step 78,960).
+- **Decks**:
+  - New, 113: `game-0370` to `game-0484` but `game-0379` and `game-0397`, the eleven held
+    out until now among them. They bring 120 cards that no deck of the batches before
+    holds.
+    - `game-0397` holds Archfiend's Oath, a card that names a card, and is left out as
+      the six lists before it that hold one are.
+    - `game-0379` stays out until the double-tribute fix (above).
+  - Old, 433: the seventy-one and the 362 game Decks of the batches before, `game-0001`
+    to `game-0369` but `game-0037`, `game-0065`, `game-0093`, `game-0167`, `game-0171`,
+    `game-0233` and `game-0335`.
+  - Held out: none.
+- **Run**: as `pooled`'s, over all 546 decks.
+  - Held to the same two frozen networks: at an old deck's decisions in a duel between
+    two old decks, the start, and in a duel between two of the seventy-one,
+    `seventy-one-champions`.
+  - 3,840 updates. A new deck plays 4.88 games an update, some 18,700 over the run,
+    where batch six's had played some 21,700 by its 3,840th update; an old deck plays
+    1.13 and an old mirror 0.10 duels. Of the 80.2 duels an update between two old
+    decks, 7.8 are between two of the seventy-one.
+  - Some 11 hours on the CUDA machine.
+- **Measured** as `pooled`'s, at the start by the start and after 1,920 and 3,840
+  updates by the mean of the last six kept checkpoints, the old decks and the mirrors
+  after 3,840 alone (`eval_suites/pool-batch-seven-*.json`).
+  - With no deck held out, there is no held-out measure.
+  - The new decks' pairings grow to 782,864 games at each point and the old decks' to
+    1,499,912, the measure to some seven hours.
+
+Readings, at 3,840 updates, as batch six's but the third's mark:
+
+1. *The mirrors are kept*: as batch six's, deal by deal against
+   `seventy-one-champions`' check.
+2. *The old decks hold*: as batch six's, on every ordered pairing of the 433 old decks.
+3. *The new decks learn*: the mean over the 113 of each deck's share against the start,
+   less at the start, the deals paired: **learns** when at least 2 points by two
+   standard errors, **does not** when at most 1 point by two, otherwise **not
+   decided**.
+
+Told beside them, without a mark: what `pooled`'s told but the held out; the new decks at
+1,920 updates; the mirrors deal by deal against `pooled`'s; the failed duels; the hours.
+
+The batch's 546 decks hold 3,269 of the pool's 4,065 cards (80.4%), counted as before.
+The nine lists kept out hold 19 more that no other list holds. What follows the batch is
+decided on its results and the fourteen decks'.
+
+**Current next step:** batch seven is fixed (above), to be built and run on the CUDA
+machine after the fourteen decks' runs, some 18 hours with its measure.
 
 The board as its cards is made from scratch at fourteen decks (above), on the CUDA
 machine since 2026-11-13 02:56 at `9f0f8c9c`, some 30 hours. The copy's width and rate
