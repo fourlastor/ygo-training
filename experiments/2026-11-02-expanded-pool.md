@@ -8,7 +8,10 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-14 (the board as its cards made from scratch at fourteen decks
+**Last updated:** 2026-11-14 (the seventy-one's copy twice as wide, with a third of the
+rate from halfway, fixed: PPO from it only where it is stronger head to head than
+`seventy-one-champions`' copy; before it the same day, the board as its cards made from
+scratch at fourteen decks
 read: not decided, `tokens` winning 49.85% of the deals against `pooled`, so the
 seventy-one are not made from scratch with it; on 2026-11-13, batch seven fixed, from
 `pooled`: the 113 usable lists not
@@ -1885,11 +1888,63 @@ the seventy-one are not made from scratch with the board as its cards. Whether t
 made from scratch at all, with today's board and the copy's width or rate changed
 (above), is decided on these results and the copy's.
 
-**Current next step:** batch seven (above) runs on the CUDA machine since 2026-11-14
-00:11 at `5b645ced`, some 18 hours with its measure.
+## The seventy-one's copy twice as wide (design and readings fixed on 2026-11-14, before anything was built)
 
-The board as its cards made from scratch at fourteen decks is read (above), as are the
-copy's width and rate with the copies' head to head against the teachers. Whether the
-seventy-one are made from scratch, with today's board and a wider network or a rate
-lowered as the copy goes, is decided on them. The scripts that failed and the selection
-with no answer wait for the experiment's end.
+The board as its cards is not made from scratch (above), but the copy's width and rate
+(above) leave another reason to make the seventy-one so. At twenty updates a deck, twice
+the width and a third of the rate from halfway each fitted the teachers' answers better
+and played the teachers better; whether the gains last to a copy's end, and whether the
+two add up, was not measured. It was agreed on 2026-11-14 to make the seventy-one's copy
+with both, in full, and to go on to PPO only where it is stronger than
+`seventy-one-champions`' copy (`taught`). The fourteen decks would not tell: there
+today's width fits each deck as well as twice the width does at seventy-one, 95.20% of
+the teachers' answers at ten to twenty updates a deck against 95.30%.
+
+- **The copy**, `wide`: one network of the seventy-one decks from scratch, made from
+  their recordings as `taught` was: seed 2012, the same recorded games in the same
+  order, 11,360 updates of 520 duels, 160 a deck, 260 in the mirrors with both seats
+  imitated and 260 against the thirteen decks' pilots, in minibatches of 256 with no
+  duels in flight, every game seen once and its result at four of its positions; a
+  checkpoint every 142 updates. Two changes, the copy's width and rate:
+  - twice as wide, a card's identity 192 wide and a decision 384;
+  - at 3e-4 to its 5,680th update, halfway, and at 1e-4 after it, from the same state
+    and on the same games.
+- **Where and when**: on the CUDA machine's queue at high priority after batch seven,
+  before the pins move, since a copy from recordings stops at the first game that plays
+  again with another digest. `taught` took 35.3 hours there, 11.2 seconds an update, 6.4
+  of them learning. The width's cost alone on that card is not known: by reckoning some
+  36 to 44 hours, and the measure some 2.
+- **Measured** at its last checkpoint, after 11,360 updates:
+  - head to head against `taught`'s last checkpoint on the pairings of
+    `seventy-one-champions`' checks (every ordered pairing of the seventy-one, 4 games
+    each), each game played once with each copy in the learner's seat: 20,164 deals;
+  - each copy as those checks measured `taught` before PPO: head to head against each
+    teacher in its mirror on 128 deals from both seats, and against `all71` on the
+    checks' pairings, the two copies played now on the same deals;
+  - head to head against each teacher in its mirror on every deal of its suite, 2,048
+    from both seats, beside `taught`'s on the same deals (measured on 2026-10-30, 46.9%);
+  - the share of the teachers' answers at the decisions imitated, each deck alike, update
+    by update against `taught`'s on the same games: over the first half, where only the
+    width differs, over the second, and over the last twenty updates a deck.
+
+Reading, with the marks of batch six's head to head and of the fourteen decks made from
+scratch:
+
+1. *The wide copy*: `wide` against `taught` head to head is **stronger** when it wins at
+   least 51% of the deals by two standard errors, **weaker** when at most 49% by two,
+   otherwise **not decided**.
+
+What follows was agreed on 2026-11-14. PPO goes on from `wide` only where it is
+**stronger**, after the fixes held for the experiment's end, its design fixed when the
+copy is read. Otherwise the route from scratch is dropped.
+
+Told beside it, without a mark: the checks against `taught`'s deal by deal, the mirrors
+and the pairings against `all71`; the teachers head to head, deal by deal against
+`taught`'s; the fit over each half and at the end, whether each change's gain lasts; the
+seconds an update and the hours.
+
+**Current next step:** batch seven (above) runs on the CUDA machine since 2026-11-14
+00:11 at `5b645ced`, some 18 hours with its measure. The seventy-one's copy twice as wide
+is fixed (above), to be built and to run after it.
+
+The scripts that failed and the selection with no answer wait for the experiment's end.

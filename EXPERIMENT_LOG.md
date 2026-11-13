@@ -103,7 +103,10 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   head against the teachers twice as wide wins 2.32 ± 0.19 points more of its deals,
   the lower rate 0.55 ± 0.17 more, and half as wide 3.37 ± 0.20 fewer. Batch seven,
   fixed on 2026-11-13, goes on from `pooled`: the 113 usable lists not yet taken, none
-  held out, at half batch six's length, the new decks' mark at 2 points.
+  held out, at half batch six's length, the new decks' mark at 2 points. Fixed on
+  2026-11-14, on the copy's width and rate: the seventy-one's copy made again twice as
+  wide, with a third of the rate from halfway, and PPO from it only where it is stronger
+  head to head than `seventy-one-champions`' copy.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
