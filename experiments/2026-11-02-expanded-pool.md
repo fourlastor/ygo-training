@@ -1945,6 +1945,7 @@ seconds an update and the hours.
 
 **Current next step:** batch seven (above) runs on the CUDA machine since 2026-11-14
 00:11 at `5b645ced`, some 18 hours with its measure. The seventy-one's copy twice as wide
-is fixed (above), to be built and to run after it.
+is fixed and built (above, `experiments/commands/seventy-one-wide.sh`), to run after it,
+some 38 to 46 hours with its measure.
 
 The scripts that failed and the selection with no answer wait for the experiment's end.
