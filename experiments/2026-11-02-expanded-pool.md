@@ -8,7 +8,11 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-14 (the seventy-one's copy twice as wide, with a third of the
+**Last updated:** 2026-11-14 (batch seven read: the old decks hold, the new decks learn
++2.8 points from 50.1%, the mirrors not decided at −1.5 points against
+`seventy-one-champions`, and the games' usable lists all taken but the nine kept out
+until the fixes; before it the same day, the seventy-one's copy twice as wide, with a
+third of the
 rate from halfway, fixed: PPO from it only where it is stronger head to head than
 `seventy-one-champions`' copy; before it the same day, the board as its cards made from
 scratch at fourteen decks
@@ -1943,9 +1947,80 @@ and the pairings against `all71`; the teachers head to head, deal by deal agains
 `taught`'s; the fit over each half and at the end, whether each change's gain lasts; the
 seconds an update and the hours.
 
-**Current next step:** batch seven (above) runs on the CUDA machine since 2026-11-14
-00:11 at `5b645ced`, some 18 hours with its measure. The seventy-one's copy twice as wide
-is fixed and built (above, `experiments/commands/seventy-one-wide.sh`), to run after it,
-some 38 to 46 hours with its measure.
+## Batch seven's results (read on 2026-11-14)
 
-The scripts that failed and the selection with no answer wait for the experiment's end.
+Batch seven ran on the CUDA machine from 2026-11-14 00:11 at `5b645ced`. Its 3,840
+updates took 12.0 hours, 11.2 seconds an update against `pooled`'s 10.6, and its measure
+10.8 more, to 22:57, where some seven were reckoned
+(`analysis/expanded-pool/batch-seven/report.txt`). The pairings at 1,920 updates ran out
+of the card's memory beside the other measures and were played again alone after them,
+2.9 of those hours. Over the whole run its mix was as designed: all 546 decks seated and
+none of the nine left out, a new deck 4.88 games an update and an old one 1.13, and some
+14,200 decisions an update distilled, 1,370 of them held to `seventy-one-champions`.
+
+1. *The mirrors are kept*: **not decided**, −1.5 ± 0.4 points deal by deal against
+   `seventy-one-champions`' check, forty-four of the seventy-one lower: above −2 points,
+   but not by two standard errors. Against their champions they stand at 49.2% ± 0.3%.
+   The most lost are `cyber` −9.8, `scrap` −7.8, `reptilianne` and `volcanic` −7.4 and
+   `machina` −7.0; the most won `gemini` and `gishki` +2.7, `rock-block` +3.9 and `gusto`
+   +5.1.
+2. *The old decks hold*: **hold**, 50.08% ± 0.04% head to head against the start, frozen,
+   on every ordered pairing of the 433 old decks (1,499,912 games).
+3. *The new decks learn*: **learns**, +2.77 ± 0.04 points against the start after 3,840
+   updates, from 50.1%. One of the 113 lost ground, `game-0402` −0.1, and fifty gained
+   under two points, the least after it `game-0459` +0.2 and `game-0381` and `game-0462`
+   +0.4; the most `game-0481` +9.2, `game-0460` +9.7 and `game-0467` +13.7.
+
+Beside them:
+
+- At 1,920 updates, half the games: the new decks +2.17 ± 0.04, 78% of the end's gain,
+  where every batch before had taken 84% to 88% of its gain by its half. Batch six's new
+  decks had gained 3.1 points by their 3,840th update.
+- The old decks at 3,840 by the two decks of a pairing: both of the seventy-one 49.9% ±
+  0.2%, both game Decks 50.1% ± 0.0%, one of each 50.0% ± 0.1%.
+- The mirrors deal by deal against `pooled`'s at 7,680: −0.2 ± 0.3 points, thirty-four of
+  the seventy-one lower. Against `seventy-one-champions`, batch by batch from batch four:
+  −0.9, −1.1, −1.3 and −1.5, each ± 0.3 or 0.4; `cyber` −9.8, after −8.6 in batches five
+  and six.
+- The lowest mirrors against their champions: `deckout` 37.1%, `dragunity` 41.0%,
+  `gladiator` 43.0%, `reptilianne` 43.4%, `blackwing` 44.1%.
+- The divergence at the old decks' decisions in duels between two old decks, some 14,200
+  an update, 1,370 of them the seventy-one's in their duels with each other:
+  - From the start: 0.010 over the first 500 updates and 0.017 over the last 500, where
+    `pooled`'s went from 0.010 to 0.019.
+  - The seventy-one's from `seventy-one-champions`: 0.064 over the first ten updates,
+    0.067 over the first hundred, 0.071 from the 250th to the 1,000th and 0.073 over the
+    last 1,440, where `pooled`'s went from 0.061 to 0.067.
+- The new decks against the thirteen decks' pilots: 46.2% from 43.8%, +2.5 ± 0.1.
+- 502 duels of some 2.0 million failed (`tools/failed_duels.py`).
+  - 408 filled their arenas and ended there. 334 had `game-0484` in a seat, 56 of them
+    its mirror: a list of Cyber Dragon, DNA Surgery and Chimeratech, as `game-0195` is,
+    which had 24. They are 1.8% of `game-0484`'s games, at a steady rate over the run's
+    four quarters, 90, 83, 88 and 73, and lasted 31 turns and 876 decisions at the
+    median.
+  - Planet Pollutant Virus 48.
+  - Cards seen before: Fake Feather 10, at its two lines, Beast Rising 7, Neo Flamvell
+    Shaman 4, Mind Control and Rivalry of Warlords 3 each, Lord British Space Fighter
+    and The Lady in Wight 2 each, now in `game-0391` and `game-0384`, and one each of
+    Infestation Wave, Gozen Match, Gauntlet Warrior and a recursive event trigger.
+  - New: Spell Gear 11 (`game-0463`).
+
+The old decks hold and the new decks learn by the batch's mark. The mirrors are not
+decided. They stand where `pooled` left them (−0.2 ± 0.3), but against
+`seventy-one-champions` the batches since batch four read −0.9, −1.1, −1.3 and −1.5, and
+the seventy-one's divergence from it rose again, from 0.064 to 0.073. The new decks
+started at 50.1%, under batch six's 51.8%, and gained less in as many updates: +2.8
+points, where batch six's had +3.1 at 3,840. With batch seven the games' usable lists are
+all taken but the nine kept out until the fixes held for the experiment's end. The
+batch's 546 decks hold 3,269 of the pool's 4,065 cards (80.4%).
+
+**Current next step:** the seventy-one's copy twice as wide (above,
+`experiments/commands/seventy-one-wide.sh`) runs on the CUDA machine since 2026-11-14
+22:57 at `77765b6d`. Its first 37 updates imitated the very decisions, deck by deck, that
+`taught`'s did, at 3e-4 and 192 and 384 wide, 13.0 seconds an update against `taught`'s
+10.8 on the same updates and 3.9 GB of the card's memory at its peak: some 42 hours, to
+the evening of 2026-11-16 with its measure. What follows the batches is to be decided on
+batch seven's results and the wide copy's.
+
+The scripts that failed, the arenas filled by the Cyber Dragon and DNA Surgery lists and
+the selection with no answer wait for the experiment's end.

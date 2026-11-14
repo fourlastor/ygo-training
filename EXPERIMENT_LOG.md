@@ -103,7 +103,12 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   head against the teachers twice as wide wins 2.32 ± 0.19 points more of its deals,
   the lower rate 0.55 ± 0.17 more, and half as wide 3.37 ± 0.20 fewer. Batch seven,
   fixed on 2026-11-13, goes on from `pooled`: the 113 usable lists not yet taken, none
-  held out, at half batch six's length, the new decks' mark at 2 points. Fixed on
+  held out, at half batch six's length, the new decks' mark at 2 points. Read on
+  2026-11-14: the old decks hold, 50.08% ± 0.04%; the new decks learn, +2.77 ± 0.04
+  points from 50.1%; the mirrors not decided, −1.5 ± 0.4 points against
+  `seventy-one-champions` and −0.2 ± 0.3 against `pooled`. The games' usable lists are
+  all taken but the nine kept out until the fixes, and the decks trained on hold 80.4%
+  of the pool's cards. Fixed on
   2026-11-14, on the copy's width and rate: the seventy-one's copy made again twice as
   wide, with a third of the rate from halfway, and PPO from it only where it is stronger
   head to head than `seventy-one-champions`' copy.
