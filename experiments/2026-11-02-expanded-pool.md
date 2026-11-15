@@ -8,7 +8,9 @@
 [A network of the seventy-one decks](2026-10-28-seventy-one-champions.md) was read
 and closed. Its design and readings are to be fixed before anything is built.
 
-**Last updated:** 2026-11-14 (batch seven read: the old decks hold, the new decks learn
+**Last updated:** 2026-11-15 (the fixes held for the experiment's end made, to move the
+pins after the seventy-one's copy twice as wide: 5,020 of the 5,041 duels the logs lost
+play on with them; on 2026-11-14, batch seven read: the old decks hold, the new decks learn
 +2.8 points from 50.1%, the mirrors not decided at −1.5 points against
 `seventy-one-champions`, and the games' usable lists all taken but the nine kept out
 until the fixes; before it the same day, the seventy-one's copy twice as wide, with a
@@ -2014,13 +2016,52 @@ points, where batch six's had +3.1 at 3,840. With batch seven the games' usable 
 all taken but the nine kept out until the fixes held for the experiment's end. The
 batch's 546 decks hold 3,269 of the pool's 4,065 cards (80.4%).
 
+## The fixes held for the experiment's end (agreed on 2026-11-14 and 2026-11-15)
+
+It was agreed on 2026-11-14, on batch seven's results, to mend the failures collected
+through the batches while the seventy-one's copy twice as wide runs, and to move the pins
+when it ends. Two choices of the engine's were agreed on 2026-11-15: a script function
+called again while a call of it waits goes on, and a duel has 1 GB of the engine's
+memory. The fixes are on the policies' `pool-fixes` (`716a042`), the engine's
+`pool-fixes` (fourlastor/ygopro-core, `3de4f9d`) and this repository's branch
+`fixes`, none of them on `main` yet:
+
+- A tribute is paid by the cards' tribute values, as the engine takes it, so a card worth
+  two pays alone: `game-0379`'s Flame Ruler waited on it, and `game-0186`'s Double Coston
+  was the selection with no answer of `switched`'s 590th update.
+- A battle forced in the course of another gives it back its attacker and target (Last
+  Turn, `game-0233`).
+- A card is named only from the pool's cards, in the order of their codes, and a decision
+  that names one goes to the network apart: a sixth thing kept from the legal answers, in
+  AGENTS.md (`game-0037`, `game-0065`, `game-0093`, `game-0167`, `game-0171`, `game-0335`
+  and `game-0397`).
+- 34 of CardScripts' scripts are played mended, the union procedure among them, each held
+  line by line to the script it mends.
+- A Trap Monster the rules give back to a player with no Spell & Trap Zone left is
+  destroyed, as a monster that finds no Monster Zone is.
+- A script function called again while a call of it waits begins another, its coroutines
+  kept in a stack, where the engine refused the call as a recursive event trigger and
+  began the waiting one anew with no player.
+- A duel has 1 GB of the engine's memory, where it had 256 MB, and a thread keeps a block
+  for its next duel only where its duel used 256 MB or less.
+
+Played again from their records with all of them, 5,020 of the 5,041 duels the
+experiment's eleven logs lost play on: 3,795 of the 3,796 lost to a script or the guard,
+and 1,225 of the 1,245 lost to a full arena, 818 of them past 256 MB. The 21 left end at
+their full arena: 18 fusion searches past 1 GB (Overload Fusion's for Chimeratech
+Overdragon in `game-0195` and `game-0484`, Dragon's Mirror's in `game-0333`) and three
+loops of the rules (White Night Dragon's cost sending the Snatch Steal that took it,
+twice, and Fire Princess's gains of Life Points set off by each other). The tests of the
+engine, the policies and this repository pass at the new pins.
+
+When the pins move, a champion's recording that plays otherwise is made again before a
+copy from recordings, and the decisions that name a card are shown on the CUDA machine's
+card before a run seats the lists that hold them.
+
 **Current next step:** the seventy-one's copy twice as wide (above,
 `experiments/commands/seventy-one-wide.sh`) runs on the CUDA machine since 2026-11-14
 22:57 at `77765b6d`. Its first 37 updates imitated the very decisions, deck by deck, that
 `taught`'s did, at 3e-4 and 192 and 384 wide, 13.0 seconds an update against `taught`'s
 10.8 on the same updates and 3.9 GB of the card's memory at its peak: some 42 hours, to
-the evening of 2026-11-16 with its measure. What follows the batches is to be decided on
-batch seven's results and the wide copy's.
-
-The scripts that failed, the arenas filled by the Cyber Dragon and DNA Surgery lists and
-the selection with no answer wait for the experiment's end.
+the evening of 2026-11-16 with its measure. The fixes (above) move the pins when it ends.
+What follows the batches is to be decided on batch seven's results and the wide copy's.

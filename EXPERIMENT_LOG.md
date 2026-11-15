@@ -111,7 +111,12 @@ do not add routine progress, transient diagnostics, or unverified suspicions.
   of the pool's cards. Fixed on
   2026-11-14, on the copy's width and rate: the seventy-one's copy made again twice as
   wide, with a third of the rate from halfway, and PPO from it only where it is stronger
-  head to head than `seventy-one-champions`' copy.
+  head to head than `seventy-one-champions`' copy. The fixes held for the experiment's
+  end, agreed on 2026-11-14 and 2026-11-15, move the pins after that copy: tributes paid
+  by their values, the battle forced in another's course, names from the pool's cards,
+  34 scripts mended, the Trap Monster given back, a script function called again while
+  it waits, and 1 GB of the engine's memory a duel. Played again from their records,
+  5,020 of the 5,041 duels the experiment's logs lost play on.
 
   Beside
   the batches, what an unseen card's random key costs at play, read on 2026-11-03:
